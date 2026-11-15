@@ -26,7 +26,11 @@ export class RobotsClient {
 
   constructor(
     private readonly inner: Requester,
-    private readonly botNames: readonly string[] = BOT_NAMES,
+    private readonly options: {
+      readonly botNames?: readonly string[];
+      // Told each host's rules once they are read, e.g. to pace the host by its Crawl-delay.
+      readonly onRobots?: (host: string, robots: Robots) => void;
+    } = {},
   ) {}
 
   async request(
@@ -53,10 +57,12 @@ export class RobotsClient {
   private async fetchRobots(origin: string): Promise<Robots> {
     try {
       const response = await this.inner.request(`${origin}/robots.txt`);
-      return parseRobots(
+      const robots = parseRobots(
         response.body.slice(0, ROBOTS_MAX_CHARACTERS),
-        this.botNames,
+        this.options.botNames ?? BOT_NAMES,
       );
+      this.options.onRobots?.(new URL(origin).hostname, robots);
+      return robots;
     } catch (error) {
       if (error instanceof HttpFailure && error.kind === "client-error")
         return ALLOW_ALL;

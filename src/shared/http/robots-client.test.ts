@@ -118,3 +118,18 @@ describe("RobotsClient (FR-5)", () => {
     expect(robots.sitemaps).toEqual(["https://jobs.example.com/sitemap.xml"]);
   });
 });
+
+describe("RobotsClient onRobots", () => {
+  it("tells each host's rules once they are read", async () => {
+    const http = new FakeHttpClient({
+      [`${SITE}/robots.txt`]: "User-agent: *\nCrawl-delay: 7\n",
+      [`${SITE}/a`]: "a",
+    });
+    const told: [string, number][] = [];
+    const client = new RobotsClient(http, {
+      onRobots: (host, robots) => told.push([host, robots.crawlDelay]),
+    });
+    await client.request(`${SITE}/a`);
+    expect(told).toEqual([["jobs.example.com", 7]]);
+  });
+});

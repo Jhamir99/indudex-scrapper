@@ -32,6 +32,21 @@ export const CrawlConfig = z.strictObject({
     maxOpen: z.int().positive(),
     newPerSecond: z.number().positive(),
   }),
+  // Hosting providers that block an address on all their machines at once: their IPv4 networks,
+  // all paced as one server (`pace.perProvider`).
+  providers: z
+    .record(
+      z.string().min(1),
+      z.array(
+        z
+          .string()
+          .regex(
+            /^\d{1,3}(?:\.\d{1,3}){3}\/\d{1,2}$/,
+            "an IPv4 network (a.b.c.d/n)",
+          ),
+      ),
+    )
+    .default({}),
   // Per-source overrides, added by the source features.
   sources: z
     .record(SourceId, z.strictObject({ cadenceHours: Hours.optional() }))
