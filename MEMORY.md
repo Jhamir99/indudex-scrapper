@@ -1,6 +1,6 @@
 # MEMORY
 
-Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENTS.md`. Last updated: 2026-11-11.
+Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENTS.md`. Last updated: 2026-11-15.
 
 ## Current state
 
@@ -21,6 +21,7 @@ Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENT
 **Next**
 
 - Start with T001 of `specs/001-legacy-sources-scraper/tasks.md` (62 tasks over 5 waves; wave 1 = core + reference feed).
+- T001 proposal (2026-11-15, **pending approval**; versions and TS 7 compatibility not checked yet): `undici` (Agent with connection cap, `retry`/`dns` interceptors; `MockAgent` for offline tests), `p-queue` (pacing per host/server/group; hrmanager's 8 calls an hour as `intervalCap`), `robots-parser`, `fast-xml-parser` (feeds, sitemaps), `cheerio` (HTML, JSON-LD `JobPosting`), `yaml`. Later, in their tasks: `entities`, `tldts` (Public Suffix List), `write-file-atomic`, `pino`, `proper-lockfile`. Why: they replace the legacy's hand-written generic code (`http.mjs` in part, `dns-cache`, `entities`, `registrable`, regex XML/HTML parsing). Stays ours: pacing by server and provider, the new-connection brake, 429 holds per server, wall detection, `JobPosting` mapping and `repairJson`, the store. No library for windows-1252 (`TextDecoder`), CLI args (`util.parseArgs`) or time zones (`Intl`).
 
 ## Decisions
 
@@ -30,6 +31,7 @@ Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENT
 - Spec 001 (`specs/001-legacy-sources-scraper/spec.md`) is drafted, not approved: all legacy sources by waves, failures isolated with previous adverts kept, scraper stops at validated stored adverts, sources without credentials ported but disabled. Adverts without an expiry date last 2 years (from posted date, else first-seen date); broken legacy sources are ported disabled and flagged. Waves are by source type; cadence, rate limits and backoff start from the legacy `crawl.yml` values, configurable per source. No open questions left; ready to approve.
 - Tests use Vitest; the `node --test` line in the constitution was a copy-paste slip and was removed.
 - Plan 001 approved: ports and adapters (MVVM rejected: no view in a backend), YAML config validated with Zod, one parsing library, stop switch as a file flag, career sites as data lists, hourly external cron.
+- 2026-11-15: Crawlee rejected as the scraper's framework. Why: it covers only retries, timeouts and `robots.txt`; no cadence, backoff or parking between runs, no pacing by server or provider, and its `Dataset` does not fit the atomic per-source store. It also takes the run loop away from our runner, is hard to fake in offline tests, and imitates browsers by default, against polite crawling. Reconsider `PlaywrightCrawler` only for JS-only career sites in wave 5.
 - Linter is oxlint, not ESLint: typescript-eslint does not support TypeScript 7.
 - Routes use `createRoute` + `app.openapi(...)`; plain `app.get` is invisible to the frontend's generated client.
 - Package manager is pnpm only; `npm install` would create a stray `package-lock.json`.
