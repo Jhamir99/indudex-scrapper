@@ -8,6 +8,7 @@ Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENT
 
 - Hono 4 starter on Node (to move to `indudex-api`) (`src/app.ts`, entry `src/index.ts`, port `PORT` or 4000) as an `OpenAPIHono`; CORS limited to `GET` and the origins in `CORS_ORIGIN`.
 - Starter routes: `GET /health` and `GET /openapi.json`.
+- Shared Zod schemas (T002): `src/shared/schemas/advert.ts` (`Advert`, `Attribution`, `advertId`, `DESCRIPTION_LIMIT`) and `source.ts` (`SourceId`, `Licence`, `SourceKind`, `SourceDefinition`, `SourceState`).
 - Tooling: Vitest (`src/app.test.ts`), oxlint, Prettier, husky + lint-staged, GitHub Actions CI, Dependabot, Dockerfile and `docker-compose.yml` (API + web), licence, README.
 
 **Not built yet**
@@ -20,7 +21,7 @@ Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENT
 
 **Next**
 
-- Continue with T002 of `features/001-crawl-core/tasks.md` (T001 done), then follow the numbered order of `features/README.md` (002 public feeds, 003-011 processor, 012 operations, 013-017 the rest of the sources and discovery).
+- Continue with T003 of `features/001-crawl-core/tasks.md` (T001-T002 done), then follow the numbered order of `features/README.md` (002 public feeds, 003-011 processor, 012 operations, 013-017 the rest of the sources and discovery).
 - Open questions to answer before porting them: `netempregos`/`ttvic` (terms), Adzuna (switched off by the legacy on 2026-11-15), and the `[NEEDS CLARIFICATION]` items of the outline specs.
 - Still proposed, not approved (decide in their own tasks; check versions and TS 7 then): `undici` (T011, Agent with connection cap, `retry`/`dns` interceptors, `MockAgent` for offline tests), `p-queue` (T013, pacing per host/server/group; hrmanager's 8 calls an hour as `intervalCap`), `robots-parser` (T012), later `entities`, `tldts`, `write-file-atomic`, `pino`, `proper-lockfile`. Stays ours: pacing by server and provider, the new-connection brake, 429 holds per server, wall detection, `JobPosting` mapping and `repairJson`, the store. No library for windows-1252 (`TextDecoder`), CLI args (`util.parseArgs`) or time zones (`Intl`).
 
@@ -35,6 +36,7 @@ Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENT
 - Plan 001 (now split across the same five features) approved: ports and adapters (MVVM rejected: no view in a backend), YAML config validated with Zod, parsing libraries instead of hand-written extraction, stop switch as a file flag, career sites as data lists, hourly external cron.
 - 2026-11-15: Crawlee rejected as the scraper's framework. Why: it covers only retries, timeouts and `robots.txt`; no cadence, backoff or parking between runs, no pacing by server or provider, and its `Dataset` does not fit the atomic per-source store. It also takes the run loop away from our runner, is hard to fake in offline tests, and imitates browsers by default, against polite crawling. Reconsider `PlaywrightCrawler` only for JS-only sites in `career-sites` (wave 5).
 - 2026-11-15 (T001): parsing libraries `yaml` (config files; no dependencies), `cheerio` (HTML pages and JSON-LD `JobPosting` of careers sites) and `fast-xml-parser` (feeds and sitemaps as plain objects, CDATA included). Why: they replace the legacy's regex XML/HTML parsing; two parsers instead of the plan's one because picking feed fields from plain objects is simpler than walking a DOM. None depends on `typescript` (still one copy, 7.0.2).
+- 2026-11-15 (T002): schema choices. Advert and state objects are strict (an unknown key such as a contact e-mail is rejected). `credit: null` is the explicit "none required" of FR-2. `advertId` = `<source>-` + 16 hex of sha256(source, sourceId), stable across runs and locales. `SourceState` is a union on `status`; every status but `enabled` needs a `reason`, `parked` also `parkedUntil`. The source kinds are `feed`, `careers`, `portal` (legacy `board`) and `via`. Left for later tasks: `firstSeen` (store, T010) and the unchanged-pass count (T004).
 - Linter is oxlint, not ESLint: typescript-eslint does not support TypeScript 7.
 - Routes use `createRoute` + `app.openapi(...)`; plain `app.get` is invisible to the frontend's generated client.
 - Package manager is pnpm only; `npm install` would create a stray `package-lock.json`.

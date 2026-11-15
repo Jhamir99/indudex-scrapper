@@ -8,7 +8,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
 
 - [x] **T001 — Choose and install the YAML and HTML/XML libraries** · FR: — (enabler)
       Done when: the libraries (`yaml`, `cheerio`, `fast-xml-parser`) are named in `MEMORY.md` with the reason for each, you approved them, and `pnpm install && pnpm build` and `pnpm why typescript` (one version) are still green.
-- [ ] **T002 — Schemas: advert, source definition and source state** · FR: FR-1, FR-2, FR-9, FR-10 · Depends: T001
+- [x] **T002 — Schemas: advert, source definition and source state** · FR: FR-1, FR-2, FR-9, FR-10 · Depends: T001
       Done when: `src/shared/schemas/*.test.ts` pass: a complete advert is accepted; missing title, non-HTTPS url, bad date and missing licence/credit are rejected with a reason; the advert has no field for a contact person or e-mail; a source definition without licence data or credentials flag is rejected; the state accepts enabled, disabled, failed, disallowed and parked with last-run time, advert count, consecutive failures, next-due time and a reason.
 - [ ] **T003 — Ports: SourceAdapter, AdvertStore, HttpClient, Clock, StopSwitch** · FR: FR-12 · Depends: T002
       Done when: `src/features/crawl-core/ports.ts` compiles under `pnpm typecheck`, and an in-memory fake of each port exists under `test/fakes/` and type-checks.
