@@ -1,3 +1,7 @@
+import type {
+  HttpRequestOptions,
+  HttpResponse,
+} from "../../shared/http/fetch-client.js";
 import type { Advert, StoredAdvert } from "../../shared/schemas/advert.js";
 import type {
   SourceDefinition,
@@ -21,23 +25,10 @@ export interface SourceAdapter {
   fetchAdverts(context: AdapterContext): AsyncIterable<AdvertDraft>;
 }
 
-export interface HttpRequestOptions {
-  readonly method?: "GET" | "POST";
-  readonly headers?: Readonly<Record<string, string>>;
-  readonly body?: string;
-}
-
-export interface HttpResponse {
-  readonly status: number;
-  // The address after redirects.
-  readonly url: string;
-  // Header names in lower case.
-  readonly headers: Readonly<Record<string, string>>;
-  readonly body: string;
-}
+export type { HttpRequestOptions, HttpResponse };
 
 // The polite client: robots.txt, pacing, retries and timeouts live behind it.
-// It resolves only with a successful answer and rejects with a typed failure otherwise.
+// It resolves only with a successful answer and rejects with an `HttpFailure` otherwise.
 export interface HttpClient {
   request(url: string, options?: HttpRequestOptions): Promise<HttpResponse>;
 }
