@@ -32,12 +32,12 @@ All of it is a rewrite of the monolith [`JustJans/indudex`](https://github.com/J
 
 ## Memory
 
-`MEMORY.md` (repo root) is the project's working memory: current state, decisions taken and mistakes to avoid.
+`MEMORY.md` (repo root) is the project's working memory: current state, decisions taken and mistakes to avoid. It is local: ignored by git and never committed.
 
 - At the start of a task, read `MEMORY.md` to learn the state of the project and the decisions already taken.
-- At the end of a task, update it: current state, important decisions (with their why) and mistakes to avoid. Do it in the same commit as the change.
+- At the end of a task, update it: current state, important decisions (with their why) and mistakes to avoid.
 - Keep it short (about 50 lines at most): summarise or delete whatever no longer adds anything.
-- If something becomes a permanent rule, propose moving it to `AGENTS.md` instead of leaving it in the memory.
+- If something becomes a permanent rule, propose moving it to `AGENTS.md` instead of leaving it in the memory. Anything other contributors need must live in a committed file (`AGENTS.md`, `CLAUDE.md`, a feature's `plan.md`), not only here.
 - Never store sensitive data in it (keys, tokens, personal data).
 
 ## Rules

@@ -11,9 +11,22 @@
 # deps
 node_modules/
 
-# env
+# env and secrets: credentials live only in .env (AGENTS.md)
 .env
-.env.production
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# local working memory and personal tool settings
+MEMORY.md
+.claude/settings.local.json
+
+# collected and published data: advert text can hold third parties' names or contacts
+store/
+published/
 
 # logs
 logs/
