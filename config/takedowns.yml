@@ -1,0 +1,21 @@
+# What must be neither collected nor kept (FR-8): a whole source, every advert of an employer,
+# or one advert by the address of its page. The next run drops what is already stored too.
+# Validated by src/features/crawl-core/config/takedowns.ts.
+#
+# Each entry says why, without personal data ("employer's request, 2026-11-15"), e.g.
+#   sources:
+#     - id: brz
+#       reason: terms withdrawn, 2026-11-15
+#   companies:
+#     - name: Example GmbH
+#       reason: employer's request, 2026-11-15
+#   adverts:
+#     - url: https://www.example.com/jobs/4711
+#       reason: employer's request, 2026-11-15
+#
+# Carried over from builder/config/takedowns.yml of the legacy Indudex project
+# (https://github.com/JustJans/indudex, © 2026 JustJans): empty there on 15 November 2026.
+
+sources: []
+companies: []
+adverts: []

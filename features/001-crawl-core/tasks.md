@@ -20,7 +20,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: tests pass: a valid file loads; an unknown key or wrong type fails with the path of the error; no file is read outside `config/`.
 - [x] **T007 — Config: default cadence, backoff and limits from the legacy values** · FR: FR-3, FR-5, FR-6 · Depends: T006
       Done when: `config/crawl.yml` holds the legacy defaults (daily cadence, 24/72/168 h backoff, park after 6, 5 s per server, 3 s per provider, 16 connections, 2 new a second) with a header crediting the legacy project, and a test loads it successfully. Per-source cadences are added by the source features.
-- [ ] **T008 — Config: takedowns loader** · FR: FR-8 · Depends: T006
+- [x] **T008 — Config: takedowns loader** · FR: FR-8 · Depends: T006
       Done when: tests pass: takedowns for a source, a company and an advert are loaded and matched against sample adverts.
 - [ ] **T009 — Storage: atomic file writer** · FR: FR-4
       Done when: `src/shared/storage/atomic.test.ts` passes on a temporary folder: a write either completes or leaves the old file intact (simulated failure between temp write and rename).

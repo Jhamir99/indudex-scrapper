@@ -8,12 +8,12 @@ Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENT
 
 - Hono 4 starter on Node (to move to `indudex-api`) (`src/app.ts`, entry `src/index.ts`, port `PORT` or 4000) as an `OpenAPIHono`; CORS limited to `GET` and the origins in `CORS_ORIGIN`.
 - Starter routes: `GET /health` and `GET /openapi.json`.
-- Crawl-core T001-T007 (details in `CLAUDE.md`, "Intended structure"): Zod schemas (`src/shared/schemas/`), ports + fakes (`src/features/crawl-core/ports.ts`, `test/fakes/`), scheduling rules (`domain/schedule.ts`), parsing kit (`src/shared/kit/`), YAML config loader (`config/load-config.ts`), `config/crawl.yml` with its schema (`config/crawl-config.ts`).
+- Crawl-core T001-T008 (details in `CLAUDE.md`, "Intended structure"): Zod schemas (`src/shared/schemas/`), ports + fakes (`src/features/crawl-core/ports.ts`, `test/fakes/`), scheduling rules (`domain/schedule.ts`), parsing kit (`src/shared/kit/`), YAML config loader (`config/load-config.ts`), `config/crawl.yml` with its schema (`config/crawl-config.ts`), `config/takedowns.yml` with `TakedownList` (`config/takedowns.ts`).
 - Tooling: Vitest (`src/app.test.ts`), oxlint, Prettier, husky + lint-staged, GitHub Actions CI, Dependabot, Dockerfile and `docker-compose.yml` (API + web), licence, README.
 
 **Not built yet**
 
-- Scrapper: takedowns config, storage, HTTP client, runner, entry points, adapters. Processor (normalise, gate, dedupe, title translation, published dataset), catalogues, entry points. The API lives in its own future repo.
+- Scrapper: storage, HTTP client, runner, entry points, adapters. Processor (normalise, gate, dedupe, title translation, published dataset), catalogues, entry points. The API lives in its own future repo.
 
 **Pending (later)**
 
@@ -21,7 +21,7 @@ Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENT
 
 **Next**
 
-- Continue with T008 of `features/001-crawl-core/tasks.md` (T001-T007 done), then follow the numbered order of `features/README.md` (002 public feeds, 003-011 processor, 012 operations, 013-017 the rest of the sources and discovery).
+- Continue with T009 of `features/001-crawl-core/tasks.md` (T001-T008 done), then follow the numbered order of `features/README.md` (002 public feeds, 003-011 processor, 012 operations, 013-017 the rest of the sources and discovery).
 - Open questions to answer before porting them: `netempregos`/`ttvic` (terms), Adzuna (switched off by the legacy on 2026-11-15), and the `[NEEDS CLARIFICATION]` items of the outline specs.
 - Still proposed, not approved (decide in their own tasks; check versions and TS 7 then): `undici` (T011, Agent with connection cap, `retry`/`dns` interceptors, `MockAgent` for offline tests), `p-queue` (T013, pacing per host/server/group; hrmanager's 8 calls an hour as `intervalCap`), `robots-parser` (T012), later `entities`, `tldts`, `write-file-atomic`, `pino`, `proper-lockfile`. Stays ours: pacing by server and provider, the new-connection brake, 429 holds per server, wall detection, `JobPosting` mapping and `repairJson`, the store. No library for windows-1252 (`TextDecoder`), CLI args (`util.parseArgs`) or time zones (`Intl`).
 
@@ -42,6 +42,7 @@ Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENT
 - 2026-11-15 (T005): `parseDay` keeps the day as written (time and zone ignored), numeric dates day-first; RFC 822 months as the standard's fixed list (no library: `Date.parse` shifts the day across zones). XML values stay strings (`0123`). Epoch and `/Date(ms)/` stay in their adapters.
 - 2026-11-15 (T006): `loadConfig(file, schema)` reads only inside `config/` (relative escapes, absolute paths and links out are refused) and reports `file: path.to.key: message`. Config schemas must be strict objects. The Dockerfile does not copy `config/` yet: add it with the entry point (T023).
 - 2026-11-15 (T007): `config/crawl.yml` uses camelCase keys with the unit in the name (`cadenceHours`, `gapMs`), not the legacy's snake_case, so it maps to TypeScript without renaming. It also holds the per-host pace (legacy `cadence_h.gap_ms`, 3 s), needed by FR-5. Not ported yet, each in its own task: error budget (T014), walls and silent-server waits, run budgets, per-group `in_flight`.
+- 2026-11-15 (T008): takedowns have three lists (`sources`, `companies`, `adverts`), each entry with a required `reason` and no personal data. The legacy had only adverts and companies (a source was switched off in its own list). Companies match on a folded name (case, accents, punctuation; legal forms are not stripped: that is the processor's company normalisation). Adverts match on the address without `utm_*`, fragment (except `#/` routes) or trailing slash, as the legacy `normUrl`. Lives in crawl-core; moves to `shared/` when the processor applies takedowns.
 - Linter is oxlint, not ESLint: typescript-eslint does not support TypeScript 7.
 - Routes use `createRoute` + `app.openapi(...)`; plain `app.get` is invisible to the frontend's generated client.
 - Package manager is pnpm only; `npm install` would create a stray `package-lock.json`.
