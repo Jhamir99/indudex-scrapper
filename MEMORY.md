@@ -11,6 +11,7 @@ Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENT
 - Shared Zod schemas (T002): `src/shared/schemas/advert.ts` (`Advert`, `Attribution`, `advertId`, `DESCRIPTION_LIMIT`) and `source.ts` (`SourceId`, `Licence`, `SourceKind`, `SourceDefinition`, `SourceState`).
 - Crawl-core ports (T003): `src/features/crawl-core/ports.ts` (`SourceAdapter`, `AdvertDraft`, `AdapterContext`, `HttpClient`, `AdvertStore`, `Clock`, `StopSwitch`) and their fakes in `test/fakes/` (`FakeClock`, `FakeStopSwitch`, `InMemoryAdvertStore`, `FakeHttpClient`, `FakeSourceAdapter` with `fakeDefinition`/`fakeDraft`).
 - Scheduling rules (T004): `src/features/crawl-core/domain/schedule.ts` (`isDue`, `afterSuccess`, `afterFailure`, `waitAfterSuccessHours`, `ScheduleRules`), pure.
+- Parsing kit (T005): `src/shared/kit/` with `text.ts` (`pageText`, `plainText`, via cheerio), `dates.ts` (`parseDay`) and `pick.ts` (`parseXml`, `pickAll`, `pickText`, the same for XML and JSON).
 - Tooling: Vitest (`src/app.test.ts`), oxlint, Prettier, husky + lint-staged, GitHub Actions CI, Dependabot, Dockerfile and `docker-compose.yml` (API + web), licence, README.
 
 **Not built yet**
@@ -23,7 +24,7 @@ Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENT
 
 **Next**
 
-- Continue with T005 of `features/001-crawl-core/tasks.md` (T001-T004 done), then follow the numbered order of `features/README.md` (002 public feeds, 003-011 processor, 012 operations, 013-017 the rest of the sources and discovery).
+- Continue with T006 of `features/001-crawl-core/tasks.md` (T001-T005 done), then follow the numbered order of `features/README.md` (002 public feeds, 003-011 processor, 012 operations, 013-017 the rest of the sources and discovery).
 - Open questions to answer before porting them: `netempregos`/`ttvic` (terms), Adzuna (switched off by the legacy on 2026-11-15), and the `[NEEDS CLARIFICATION]` items of the outline specs.
 - Still proposed, not approved (decide in their own tasks; check versions and TS 7 then): `undici` (T011, Agent with connection cap, `retry`/`dns` interceptors, `MockAgent` for offline tests), `p-queue` (T013, pacing per host/server/group; hrmanager's 8 calls an hour as `intervalCap`), `robots-parser` (T012), later `entities`, `tldts`, `write-file-atomic`, `pino`, `proper-lockfile`. Stays ours: pacing by server and provider, the new-connection brake, 429 holds per server, wall detection, `JobPosting` mapping and `repairJson`, the store. No library for windows-1252 (`TextDecoder`), CLI args (`util.parseArgs`) or time zones (`Intl`).
 
@@ -41,6 +42,7 @@ Working memory of indudex-scrapper. Rules for keeping it: see "Memory" in `AGENT
 - 2026-11-15 (T002): schema choices. Advert and state objects are strict (an unknown key such as a contact e-mail is rejected). `credit: null` is the explicit "none required" of FR-2. `advertId` = `<source>-` + 16 hex of sha256(source, sourceId), stable across runs and locales. `SourceState` is a union on `status`; every status but `enabled` needs a `reason`, `parked` also `parkedUntil`. The source kinds are `feed`, `careers`, `portal` (legacy `board`) and `via`. Left for later: `firstSeen` (store, T010).
 - 2026-11-15 (T003): adapters yield an `AdvertDraft` (no `id`, no `attribution`); the runner adds both from the definition and validates (FR-12). `HttpClient.request` resolves only on success and rejects with a typed failure (types come in T011). `Clock` has `sleep` so pacing is testable with the fake clock. The legacy `ctx.previous` (earlier adverts for incremental reads) is left out until a source feature needs it.
 - 2026-11-15 (T004): scheduling follows the legacy `waitMs`/`nextPass`. Due = `nextDueAt` reached (never run = due). Each unchanged pass waits ×1.5 up to `unchangedMaxHours`, only for cadences of a day or more; a change resets it (`unchangedPasses` added to `SourceState`, default 0). Failures wait 24/72/168 h (last value repeats); the 6th parks for 720 h (`nextDueAt` = `parkedUntil`). A failure keeps the last advert count. No random spread (the legacy's `spread`/jitter): deterministic until bursts of sources failing together show it is needed.
+- 2026-11-15 (T005): `parseDay` keeps the day as the source writes it (time and zone ignored, as the legacy's `slice(0, 10)`), reads numeric dates day-first (`01/11/2026` is 1 November: European sources), and returns `undefined` for impossible days. Epoch numbers and HR-Manager's `/Date(ms)/` are left to their adapters. XML values stay strings (`parseTagValue: false`) so ids like `0123` keep their zeros; attributes are `@name`.
 - Linter is oxlint, not ESLint: typescript-eslint does not support TypeScript 7.
 - Routes use `createRoute` + `app.openapi(...)`; plain `app.get` is invisible to the frontend's generated client.
 - Package manager is pnpm only; `npm install` would create a stray `package-lock.json`.

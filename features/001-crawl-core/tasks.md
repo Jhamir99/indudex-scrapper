@@ -14,7 +14,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: `src/features/crawl-core/ports.ts` compiles under `pnpm typecheck`, and an in-memory fake of each port exists under `test/fakes/` and type-checks.
 - [x] **T004 — Domain rules: due, unchanged wait, backoff and parking** · FR: FR-3, FR-6 · Depends: T002
       Done when: pure-function tests with a fake clock pass for: never run or older than cadence → due, newer → not due; each unchanged pass lengthens the wait up to the limit and a change resets it; waits of 24, 72 and 168 h after consecutive failures; parked for about a month after 6 failures; a success resets the count.
-- [ ] **T005 — Kit: text cleanup, date parsing and XML/JSON picking** · FR: FR-12 · Depends: T001
+- [x] **T005 — Kit: text cleanup, date parsing and XML/JSON picking** · FR: FR-12 · Depends: T001
       Done when: `src/shared/kit/*.test.ts` pass: entities decoded, tags stripped, text capped at the description limit; the legacy date formats (ISO, `dd.mm.yyyy`, with time) parse and invalid input returns nothing; repeated elements and fields are picked from sample XML (with CDATA) and JSON, with missing fields handled.
 - [ ] **T006 — Config loader: YAML read and validated with Zod** · FR: FR-5, FR-6 · Depends: T001
       Done when: tests pass: a valid file loads; an unknown key or wrong type fails with the path of the error; no file is read outside `config/`.
