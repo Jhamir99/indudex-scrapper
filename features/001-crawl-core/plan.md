@@ -103,8 +103,8 @@ The core is verified with fake adapters, so it can be closed before any real sou
 
 ## 10. Decisions (confirmed)
 
-- **Config format:** YAML for the lists ported from the legacy repo (source lists, cadences, limits, takedowns), validated with Zod on load. Needs a small YAML dependency.
-- **Parsing approach:** one well-known HTML/XML parsing library instead of hand-written extraction, to avoid the repetition of the legacy adapters.
+- **Config format:** YAML for the lists ported from the legacy repo (source lists, cadences, limits, takedowns), validated with Zod on load. Library: `yaml` (T001).
+- **Parsing approach:** well-known parsing libraries instead of hand-written extraction, to avoid the repetition of the legacy adapters: `cheerio` for HTML (and JSON-LD inside it), `fast-xml-parser` for XML feeds and sitemaps (T001, 2026-11-15: two instead of one, because feed fields are simpler to pick from plain objects than from a DOM).
 - **Stop switch:** a file flag next to the stored state, so it works across processes without a restart.
 - **Entry points:** `pnpm crawl` (a run), `pnpm crawl:status`, and a way to run a single source for debugging.
 - **Scheduling:** same as the legacy: the process is started every hour by an external scheduler (host cron) and decides what is due.

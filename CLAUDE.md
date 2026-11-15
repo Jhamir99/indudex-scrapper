@@ -57,6 +57,7 @@ Planned, not created yet: separate entry points for the scrapper, the processor 
 - Node, **TypeScript 7** (strict, ESM / `NodeNext`, `verbatimModuleSyntax`), `tsx` for development. Only `tsc` (TypeScript 7.0.2, the single copy in the tree) checks types: `tsx` and Vitest strip types without checking them, so run `pnpm typecheck` to verify a change. Keep `typescript` on `^7`; dependencies must not pull in an older copy (`pnpm why typescript` shows one version).
 - Hono 4 served by `@hono/node-server` (starter leftover, see Status).
 - Vitest 5 for tests (`vitest.config.ts`, Node environment).
+- Parsing: `yaml` for config files, `cheerio` for HTML and JSON-LD, `fast-xml-parser` for XML feeds and sitemaps.
 - Zod 4 + `@hono/zod-openapi` 1 (the adverts' Zod schemas are the contract with the future API; the OpenAPI part is starter leftover). Import `z` from `@hono/zod-openapi` (it adds `.openapi()`), not from `zod`. `src/app.ts` is an `OpenAPIHono` app: routes are `createRoute` + `app.openapi(...)`, schemas are named with `.openapi('Name')` so they land in `components.schemas`, and `app.doc31('/openapi.json', ...)` serves the spec. Current routes: `GET /health`, `GET /openapi.json`.
 
 ## Intended structure
