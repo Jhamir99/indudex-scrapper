@@ -67,6 +67,7 @@ const fields = {
   lastRunAt: "2026-11-15T08:00:00Z",
   advertCount: 42,
   consecutiveFailures: 0,
+  unchangedPasses: 0,
   nextDueAt: "2026-11-16T08:00:00Z",
 };
 

@@ -50,6 +50,8 @@ const StateFields = {
   lastRunAt: Timestamp.nullable(),
   advertCount: z.int().nonnegative(),
   consecutiveFailures: z.int().nonnegative(),
+  // Successful runs in a row that brought nothing new: each one lengthens the wait (FR-6).
+  unchangedPasses: z.int().nonnegative().default(0),
   nextDueAt: Timestamp.nullable(),
 };
 
