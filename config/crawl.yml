@@ -1,0 +1,41 @@
+# How often sources are read and how hard the scrapper may work.
+# Validated by src/features/crawl-core/config/crawl-config.ts.
+#
+# Values taken from builder/config/crawl.yml of the legacy Indudex project
+# (https://github.com/JustJans/indudex, © 2026 JustJans), as of 15 November 2026.
+# They are the result of its operating experience (servers and firewalls that
+# turned the crawler away); change them only with a reason.
+
+cadence:
+  # One pass a day tells a closed vacancy from an open one and brings the new ones.
+  defaultHours: 24
+  # A source that comes back unchanged waits half as long again each pass, up to a week.
+  unchangedMaxHours: 168
+
+backoff:
+  # A failing source waits a day, three, then a week; after 6 failures it is parked for a month.
+  hours: [24, 72, 168]
+  parkAfterFailures: 6
+  parkedHours: 720
+
+pace:
+  perHost:
+    gapMs: 3000
+    inFlight: 1
+  # Nutch's five seconds, for every host on one machine together.
+  perServer:
+    gapMs: 5000
+    inFlight: 1
+  perProvider:
+    gapMs: 3000
+    inFlight: 1
+
+connections:
+  # At about 7 new connections a second the legacy's home router dropped them all.
+  maxOpen: 16
+  newPerSecond: 2
+
+# Per-source overrides, added by the source features, e.g.
+#   brz:
+#     cadenceHours: 12
+sources: {}
