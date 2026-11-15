@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { Advert, advertId, DESCRIPTION_LIMIT } from "./advert.js";
+import {
+  Advert,
+  advertId,
+  DESCRIPTION_LIMIT,
+  expiryDay,
+  isExpired,
+  StoredAdvert,
+} from "./advert.js";
 
 const completeAdvert = {
   id: advertId("brz", "4711"),
@@ -121,5 +128,37 @@ describe("advertId", () => {
     expect(advertId("brz", "4711")).not.toBe(advertId("brz", "4712"));
     expect(advertId("brz", "4711")).not.toBe(advertId("ams", "4711"));
     expect(advertId("brz", "4711")).toMatch(/^brz-[0-9a-f]{16}$/);
+  });
+});
+
+const stored = (fields: {
+  posted?: string;
+  expires?: string;
+  firstSeen: string;
+}) => {
+  const { posted: _posted, expires: _expires, ...rest } = completeAdvert;
+  return StoredAdvert.parse({ ...rest, ...fields });
+};
+
+describe("expiry (FR-4)", () => {
+  it("uses the advert's own expiry date", () => {
+    const advert = stored({ expires: "2026-12-01", firstSeen: "2026-11-02" });
+    expect(expiryDay(advert)).toBe("2026-12-01");
+    expect(isExpired(advert, "2026-12-01")).toBe(false);
+    expect(isExpired(advert, "2026-12-02")).toBe(true);
+  });
+
+  it("keeps an advert without expiry date 2 years after it was posted", () => {
+    const advert = stored({ posted: "2026-11-01", firstSeen: "2026-11-05" });
+    expect(expiryDay(advert)).toBe("2028-11-01");
+  });
+
+  it("counts from the day it was first seen when there is no posted date", () => {
+    const advert = stored({ firstSeen: "2026-11-05" });
+    expect(expiryDay(advert)).toBe("2028-11-05");
+  });
+
+  it("moves 29 February to 1 March", () => {
+    expect(expiryDay(stored({ firstSeen: "2028-02-29" }))).toBe("2030-03-01");
   });
 });

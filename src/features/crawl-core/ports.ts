@@ -1,4 +1,4 @@
-import type { Advert } from "../../shared/schemas/advert.js";
+import type { Advert, StoredAdvert } from "../../shared/schemas/advert.js";
 import type {
   SourceDefinition,
   SourceState,
@@ -44,8 +44,10 @@ export interface HttpClient {
 
 // The only way the scrapper touches stored adverts and source state.
 export interface AdvertStore {
-  readAdverts(source: string): Promise<Advert[]>;
-  // Replaces the source's set after a valid read; other sources are untouched.
+  // The source's adverts that have not expired.
+  readAdverts(source: string): Promise<StoredAdvert[]>;
+  // Replaces the source's set after a valid read; other sources are untouched. An empty set
+  // changes nothing, so a read that found nothing never deletes (FR-4).
   replaceAdverts(source: string, adverts: readonly Advert[]): Promise<void>;
   // Removes adverts by id, for takedowns.
   dropAdverts(source: string, advertIds: readonly string[]): Promise<void>;

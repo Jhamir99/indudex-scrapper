@@ -50,6 +50,26 @@ export const Advert = z.strictObject({
 });
 export type Advert = z.infer<typeof Advert>;
 
+// An advert as the store keeps it: with the day the store first saw it.
+export const StoredAdvert = Advert.extend({ firstSeen: Day });
+export type StoredAdvert = z.infer<typeof StoredAdvert>;
+
+const YEARS_WITHOUT_EXPIRY = 2;
+
+// The last day an advert is kept: its own expiry date, else 2 years after it was posted
+// (after it was first seen when the source gives no posted date).
+export function expiryDay(advert: StoredAdvert): string {
+  if (advert.expires) return advert.expires;
+  const from = new Date(`${advert.posted ?? advert.firstSeen}T00:00:00Z`);
+  from.setUTCFullYear(from.getUTCFullYear() + YEARS_WITHOUT_EXPIRY);
+  return from.toISOString().slice(0, 10);
+}
+
+// `today` as YYYY-MM-DD. An advert is still open on its expiry day.
+export function isExpired(advert: StoredAdvert, today: string): boolean {
+  return expiryDay(advert) < today;
+}
+
 // Stable across runs and locales: derived only from the source and the source's own id.
 export function advertId(source: string, sourceId: string): string {
   const hash = createHash("sha256")

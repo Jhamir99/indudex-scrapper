@@ -1,21 +1,52 @@
-import type { AdvertStore } from "../../src/features/crawl-core/ports.js";
-import type { Advert } from "../../src/shared/schemas/advert.js";
+import type {
+  AdvertStore,
+  Clock,
+} from "../../src/features/crawl-core/ports.js";
+import {
+  type Advert,
+  isExpired,
+  type StoredAdvert,
+} from "../../src/shared/schemas/advert.js";
 import type { SourceState } from "../../src/shared/schemas/source.js";
+import { FakeClock } from "./clock.js";
 
+// Behaves as the file store does (first-seen days, expiry, an empty set changes nothing), in memory.
 // Keeps copies, so a test can't change stored data by mutating what it passed in or read back.
 export class InMemoryAdvertStore implements AdvertStore {
-  readonly adverts = new Map<string, Advert[]>();
+  readonly adverts = new Map<string, StoredAdvert[]>();
   readonly states = new Map<string, SourceState>();
 
-  async readAdverts(source: string): Promise<Advert[]> {
-    return structuredClone(this.adverts.get(source) ?? []);
+  constructor(private readonly clock: Clock = new FakeClock()) {}
+
+  private today(): string {
+    return this.clock.now().toISOString().slice(0, 10);
+  }
+
+  async readAdverts(source: string): Promise<StoredAdvert[]> {
+    const today = this.today();
+    return structuredClone(
+      (this.adverts.get(source) ?? []).filter(
+        (advert) => !isExpired(advert, today),
+      ),
+    );
   }
 
   async replaceAdverts(
     source: string,
     adverts: readonly Advert[],
   ): Promise<void> {
-    this.adverts.set(source, structuredClone([...adverts]));
+    if (adverts.length === 0) return;
+    const today = this.today();
+    const firstSeen = new Map(
+      (this.adverts.get(source) ?? []).map((a) => [a.id, a.firstSeen]),
+    );
+    const stored = adverts
+      .map((advert) => ({
+        ...structuredClone(advert),
+        firstSeen: firstSeen.get(advert.id) ?? today,
+      }))
+      .filter((advert) => !isExpired(advert, today));
+    this.adverts.set(source, stored);
   }
 
   async dropAdverts(

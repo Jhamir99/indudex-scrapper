@@ -62,7 +62,7 @@ Planned, not created yet: separate entry points for the scrapper, the processor 
 
 ## Intended structure
 
-Feature-first (rules in `AGENTS.md`, "Features"). So far: `index.ts` and `app.ts` (the starter, to move out), `src/shared/schemas/` (advert, source definition and state), `src/shared/kit/` (text, dates, XML/JSON picking), `src/shared/storage/` (atomic writer), `src/features/crawl-core/` (`ports.ts`, `domain/schedule.ts`, `config/load-config.ts`, `config/crawl-config.ts`, `config/takedowns.ts`), `config/` (`crawl.yml`, `takedowns.yml`) and `test/fakes/` (one fake per port). Adjust here when it changes:
+Feature-first (rules in `AGENTS.md`, "Features"). So far: `index.ts` and `app.ts` (the starter, to move out), `src/shared/schemas/` (advert, source definition and state), `src/shared/kit/` (text, dates, XML/JSON picking), `src/shared/storage/` (atomic writer, `FileAdvertStore`; the store layout is documented at the top of `file-advert-store.ts`), `src/features/crawl-core/` (`ports.ts`, `domain/schedule.ts`, `config/load-config.ts`, `config/crawl-config.ts`, `config/takedowns.ts`), `config/` (`crawl.yml`, `takedowns.yml`) and `test/fakes/` (one fake per port). Adjust here when it changes:
 
 ```
 features/NNN-<feature>/   # spec.md, plan.md, tasks.md; features/README.md is the index
