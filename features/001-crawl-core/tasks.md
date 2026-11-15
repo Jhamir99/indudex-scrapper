@@ -22,7 +22,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: `config/crawl.yml` holds the legacy defaults (daily cadence, 24/72/168 h backoff, park after 6, 5 s per server, 3 s per provider, 16 connections, 2 new a second) with a header crediting the legacy project, and a test loads it successfully. Per-source cadences are added by the source features.
 - [x] **T008 — Config: takedowns loader** · FR: FR-8 · Depends: T006
       Done when: tests pass: takedowns for a source, a company and an advert are loaded and matched against sample adverts.
-- [ ] **T009 — Storage: atomic file writer** · FR: FR-4
+- [x] **T009 — Storage: atomic file writer** · FR: FR-4
       Done when: `src/shared/storage/atomic.test.ts` passes on a temporary folder: a write either completes or leaves the old file intact (simulated failure between temp write and rename).
 - [ ] **T010 — Storage: AdvertStore and source state persistence** · FR: FR-4, FR-10, FR-11 · Depends: T003, T009
       Done when: tests pass: saving replaces that source's set; an empty or failed read leaves it unchanged; other sources are untouched; an advert without expiry date is kept until 2 years after its posted date (first-seen date if none) and then dropped; an advert with an expiry date is dropped after it; a failed or empty read deletes nothing; state is written and read back for several sources; a corrupt file is reported, not silently reset.
