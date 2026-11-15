@@ -28,7 +28,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: tests pass: saving replaces that source's set; an empty or failed read leaves it unchanged; other sources are untouched; an advert without expiry date is kept until 2 years after its posted date (first-seen date if none) and then dropped; an advert with an expiry date is dropped after it; a failed or empty read deletes nothing; state is written and read back for several sources; a corrupt file is reported, not silently reset.
 - [x] **T011 — HTTP client: timeout, retries, error classification** · FR: FR-3 · Depends: T003
       Done when: tests with a fake server pass: a slow response times out, a 5xx is retried a limited number of times, a 4xx is not retried, each ends as a typed failure.
-- [ ] **T012 — HTTP client: robots.txt check with cache** · FR: FR-5 · Depends: T011
+- [x] **T012 — HTTP client: robots.txt check with cache** · FR: FR-5 · Depends: T011
       Done when: tests pass: a disallowed path is never requested and is reported as disallowed; robots.txt is fetched once per host per run.
 - [ ] **T013 — HTTP client: per-host, per-server and per-provider pacing** · FR: FR-5 · Depends: T011
       Done when: tests with a fake clock pass: consecutive requests to one host are at least the configured gap apart; different hosts do not wait for each other; hosts on one server share one gap and one request at a time; providers on the configured list are paced together.

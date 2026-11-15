@@ -4,7 +4,8 @@ export type HttpFailureKind =
   | "network" // DNS, refused or reset connection, TLS
   | "client-error" // a 4xx answer: the request itself is wrong or not allowed
   | "rate-limited" // 429: the server asks us to wait
-  | "server-error"; // a 5xx answer
+  | "server-error" // a 5xx answer
+  | "disallowed"; // robots.txt closes the address: it was never requested
 
 export class HttpFailure extends Error {
   override name = "HttpFailure";
@@ -19,7 +20,9 @@ export class HttpFailure extends Error {
     readonly retryAfterMs?: number,
   ) {
     super(
-      `${kind}${status ? ` (HTTP ${status})` : ""} for ${url} after ${attempts} attempt${attempts === 1 ? "" : "s"}`,
+      kind === "disallowed"
+        ? `robots.txt disallows ${url}`
+        : `${kind}${status ? ` (HTTP ${status})` : ""} for ${url} after ${attempts} attempt${attempts === 1 ? "" : "s"}`,
     );
   }
 
