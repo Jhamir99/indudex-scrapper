@@ -62,7 +62,7 @@ Planned, not created yet: separate entry points for the scrapper, the processor 
 
 ## Intended structure
 
-Feature-first (rules in `AGENTS.md`, "Features"). So far: `index.ts` and `app.ts` (the starter, to move out) and `src/shared/schemas/` (advert, source definition and state). Adjust here when it changes:
+Feature-first (rules in `AGENTS.md`, "Features"). So far: `index.ts` and `app.ts` (the starter, to move out) `src/shared/schemas/` (advert, source definition and state), `src/features/crawl-core/ports.ts` and `test/fakes/` (one fake per port). Adjust here when it changes:
 
 ```
 features/NNN-<feature>/   # spec.md, plan.md, tasks.md; features/README.md is the index
