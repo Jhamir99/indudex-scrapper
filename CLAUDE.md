@@ -61,22 +61,20 @@ Planned, not created yet: separate entry points for the scrapper, the processor 
 
 ## Intended structure
 
-Target layout; only `index.ts` and `app.ts` (the starter, to move out) exist so far. Adjust here when it changes:
+Feature-first (rules in `AGENTS.md`, "Features"). Only `index.ts` and `app.ts` (the starter, to move out) exist so far. Adjust here when it changes:
 
 ```
+features/NNN-<feature>/   # spec.md, plan.md, tasks.md; features/README.md is the index
 src/
-  schemas/          # shared Zod schemas: advert, source (with licence), source state
-  crawler/
-    adapters/       # one adapter per source: fetch + parse, nothing else
-    run.ts          # scrapper process entry: runs the sources that are due
-  processor/        # normalise → enrich → gate → dedupe → publish; run.ts is its entry
-  translation/      # title translation: engine, per-title caches; its own entry, its own cron
-  catalogues/       # ISCO/ESCO, countries, towns, languages, degrees (owned here, published for the API)
-  storage/          # the only module that touches files (future: DB): store, caches, published dataset
-  config/           # source lists, cadences, takedowns
+  features/<feature>/ # one folder per feature, e.g. crawl-core/, public-feeds/, gate/, publication/
+  shared/             # used by two or more features: schemas/, storage/, http/, kit/
+config/               # source lists, cadences, takedowns (data, not code)
 test/
-  fixtures/         # saved source responses for offline parser tests
+  fakes/              # in-memory fakes of the crawl-core ports
+  fixtures/<source>/  # saved source responses for offline parser tests
 ```
+
+The detailed layout of the first feature is in `features/001-crawl-core/plan.md` section 4.
 
 ## Legacy reference
 

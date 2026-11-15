@@ -9,7 +9,7 @@ It collects job adverts from public employment services, employers' own careers 
 
 This is a rewrite of [JustJans/indudex](https://github.com/JustJans/indudex), split into three components: this scrapper, a backend (`indudex-api`, not created yet) and a frontend.
 
-> Status: the code is still the Hono starter the repo began as (it used to be `indudex-api`); the scrapper itself is specified in [`specs/001-legacy-sources-scraper`](specs/001-legacy-sources-scraper) and not built yet.
+> Status: the code is still the Hono starter the repo began as (it used to be `indudex-api`); the scrapper and the processor are specified feature by feature in [`features/`](features/README.md) and not built yet.
 
 ## Stack
 

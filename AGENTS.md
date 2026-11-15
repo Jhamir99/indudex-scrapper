@@ -42,7 +42,13 @@ All of it is a rewrite of the monolith [`JustJans/indudex`](https://github.com/J
 
 ## Rules
 
-- Read `docs/constitution.md` and the active spec (`specs/NNN-*/`) before touching code.
+- Read `docs/constitution.md` and the feature's spec, plan and tasks (`features/NNN-<feature>/`) before touching code.
+
+## Features
+
+- Work is organised by feature. `features/NNN-<feature>/` holds `spec.md` (what and why, written with `/spec`), `plan.md` (how, generated from the spec) and `tasks.md` (generated from the plan). `NNN` is the order in which the features must be built (`001`, `002`, ...); `features/README.md` lists every feature with its status and explains the order. A feature starts when the ones before it are closed.
+- Code is **feature-first**: each feature's code lives in `src/features/<feature>/` (the name without the number). What two or more features use (advert schemas, storage, the polite HTTP client, parsing helpers) lives in `src/shared/`, and moves there only when a second feature needs it.
+- A feature never imports another feature's internals. Source features import only `crawl-core`'s ports and registry.
 
 ## Scope of this repo
 
