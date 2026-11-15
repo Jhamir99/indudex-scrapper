@@ -16,7 +16,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: pure-function tests with a fake clock pass for: never run or older than cadence → due, newer → not due; each unchanged pass lengthens the wait up to the limit and a change resets it; waits of 24, 72 and 168 h after consecutive failures; parked for about a month after 6 failures; a success resets the count.
 - [x] **T005 — Kit: text cleanup, date parsing and XML/JSON picking** · FR: FR-12 · Depends: T001
       Done when: `src/shared/kit/*.test.ts` pass: entities decoded, tags stripped, text capped at the description limit; the legacy date formats (ISO, `dd.mm.yyyy`, with time) parse and invalid input returns nothing; repeated elements and fields are picked from sample XML (with CDATA) and JSON, with missing fields handled.
-- [ ] **T006 — Config loader: YAML read and validated with Zod** · FR: FR-5, FR-6 · Depends: T001
+- [x] **T006 — Config loader: YAML read and validated with Zod** · FR: FR-5, FR-6 · Depends: T001
       Done when: tests pass: a valid file loads; an unknown key or wrong type fails with the path of the error; no file is read outside `config/`.
 - [ ] **T007 — Config: default cadence, backoff and limits from the legacy values** · FR: FR-3, FR-5, FR-6 · Depends: T006
       Done when: `config/crawl.yml` holds the legacy defaults (daily cadence, 24/72/168 h backoff, park after 6, 5 s per server, 3 s per provider, 16 connections, 2 new a second) with a header crediting the legacy project, and a test loads it successfully. Per-source cadences are added by the source features.
