@@ -1,5 +1,6 @@
 import { lookup } from "node:dns/promises";
 import type { HttpRequestOptions, HttpResponse } from "./fetch-client.js";
+import { type ErrorBudget, ServerHolds } from "./server-holds.js";
 
 interface Requester {
   request(url: string, options?: HttpRequestOptions): Promise<HttpResponse>;
@@ -26,6 +27,7 @@ export interface PacedClientOptions {
   readonly providers?: Readonly<Record<string, readonly string[]>>;
   // The address a host name resolves to; undefined when it does not resolve.
   readonly resolve?: (host: string) => Promise<string | undefined>;
+  readonly errorBudget: ErrorBudget;
 }
 
 // The longest Crawl-delay obeyed, as the legacy: a site asking for more is read at this pace.
@@ -95,12 +97,14 @@ export class PacedClient {
     readonly mask: number;
   }[];
   private readonly resolve: (host: string) => Promise<string | undefined>;
+  private readonly holds: ServerHolds;
 
   constructor(
     private readonly inner: Requester,
     private readonly options: PacedClientOptions,
   ) {
     this.resolve = options.resolve ?? defaultResolve;
+    this.holds = new ServerHolds(options.errorBudget);
     this.networks = Object.entries(options.providers ?? {}).flatMap(
       ([provider, networks]) =>
         networks.map((network) => {
@@ -115,7 +119,11 @@ export class PacedClient {
     url: string,
     options?: HttpRequestOptions,
   ): Promise<HttpResponse> {
-    const lanes = await this.lanesFor(new URL(url).hostname);
+    const host = new URL(url).hostname;
+    // A host that does not resolve is its own server.
+    const server = (await this.addressOf(host)) ?? host;
+    this.holds.check(server, url, this.now());
+    const lanes = await this.lanesFor(host);
     const held: Lane[] = [];
     try {
       // Always in the same order (provider, server, host), so two requests never wait on each other.
@@ -123,10 +131,21 @@ export class PacedClient {
         await lane.acquire();
         held.push(lane);
       }
-      return await this.inner.request(url, options);
+      // The server may have been held while this request waited for its turn.
+      this.holds.check(server, url, this.now());
+      try {
+        return await this.inner.request(url, options);
+      } catch (error) {
+        this.holds.record(server, url, error, this.now());
+        throw error;
+      }
     } finally {
       for (const lane of held.toReversed()) lane.release();
     }
+  }
+
+  private now(): number {
+    return this.options.clock.now().getTime();
   }
 
   // A host's robots.txt can ask for a longer gap (Crawl-delay, in seconds).

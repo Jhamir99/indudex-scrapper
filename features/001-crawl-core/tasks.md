@@ -32,7 +32,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: tests pass: a disallowed path is never requested and is reported as disallowed; robots.txt is fetched once per host per run.
 - [x] **T013 — HTTP client: per-host, per-server and per-provider pacing** · FR: FR-5 · Depends: T011
       Done when: tests with a fake clock pass: consecutive requests to one host are at least the configured gap apart; different hosts do not wait for each other; hosts on one server share one gap and one request at a time; providers on the configured list are paced together.
-- [ ] **T014 — HTTP client: connection caps and error budget** · FR: FR-5 · Depends: T013
+- [x] **T014 — HTTP client: connection caps and error budget** · FR: FR-5 · Depends: T013
       Done when: tests pass: never more than the configured simultaneous and new-per-second connections; a server that answers more 4xx than its budget in the window is asked nothing more until the window passes.
 - [ ] **T015 — Stop switch: file flag** · FR: FR-7 · Depends: T003
       Done when: tests pass on a temporary folder: creating the flag file makes the switch read as active, removing it releases; the flag is read without restarting anything.

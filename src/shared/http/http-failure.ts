@@ -5,7 +5,8 @@ export type HttpFailureKind =
   | "client-error" // a 4xx answer: the request itself is wrong or not allowed
   | "rate-limited" // 429: the server asks us to wait
   | "server-error" // a 5xx answer
-  | "disallowed"; // robots.txt closes the address: it was never requested
+  | "disallowed" // robots.txt closes the address: it was never requested
+  | "held"; // its server is left alone for a while (error budget, 429): it was never requested
 
 export class HttpFailure extends Error {
   override name = "HttpFailure";
@@ -16,13 +17,15 @@ export class HttpFailure extends Error {
     readonly url: string,
     readonly attempts: number,
     readonly status?: number,
-    // From a 429's Retry-After header.
+    // How long to wait: a 429's Retry-After, or what is left of a server's hold.
     readonly retryAfterMs?: number,
   ) {
     super(
       kind === "disallowed"
         ? `robots.txt disallows ${url}`
-        : `${kind}${status ? ` (HTTP ${status})` : ""} for ${url} after ${attempts} attempt${attempts === 1 ? "" : "s"}`,
+        : kind === "held"
+          ? `server held for ${url}, back in ${Math.ceil((retryAfterMs ?? 0) / 60_000)} min`
+          : `${kind}${status ? ` (HTTP ${status})` : ""} for ${url} after ${attempts} attempt${attempts === 1 ? "" : "s"}`,
     );
   }
 

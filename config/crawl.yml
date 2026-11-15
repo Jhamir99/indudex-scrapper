@@ -35,6 +35,13 @@ connections:
   maxOpen: 16
   newPerSecond: 2
 
+# A server that gives 3 error answers (4xx, robots.txt aside) within 10 minutes is asked nothing
+# more until the first of them is 10 minutes old: fail2ban bans at five in ten minutes, OSSEC's
+# rule 31151 at fourteen in 90 seconds.
+errorBudget:
+  errors: 3
+  windowMinutes: 10
+
 # Hosting providers that cut our address on all their machines at once, with their IPv4 networks:
 # every address in them is paced as one server (pace.perProvider). The legacy built this list
 # from the servers that went silent (builder/tools/providers.mjs); it starts empty here, e.g.

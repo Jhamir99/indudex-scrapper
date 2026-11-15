@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { HttpClient } from "../../features/crawl-core/ports.js";
 import { FakeClock } from "../../../test/fakes/clock.js";
 import type { HttpResponse } from "./fetch-client.js";
+import { HttpFailure } from "./http-failure.js";
 import { PacedClient, type PacedClientOptions } from "./paced-client.js";
 
 interface Call {
@@ -44,6 +45,7 @@ function paced(
     perHost: { gapMs: 3000, inFlight: 1 },
     perServer: { gapMs: 5000, inFlight: 1 },
     perProvider: { gapMs: 3000, inFlight: 1 },
+    errorBudget: { errors: 3, windowMs: 600_000 },
     providers: { combell: ["185.162.28.0/22"] },
     resolve: async (host) => ADDRESSES[host],
     ...options,
@@ -183,6 +185,7 @@ describe("PacedClient (FR-5)", () => {
         perHost: { gapMs: 3000, inFlight: 1 },
         perServer: { gapMs: 5000, inFlight: 1 },
         perProvider: { gapMs: 3000, inFlight: 1 },
+        errorBudget: { errors: 3, windowMs: 600_000 },
         resolve: async () => undefined,
       },
     );
@@ -192,6 +195,149 @@ describe("PacedClient (FR-5)", () => {
     );
     await expect(
       client.request("https://a.example.com/2"),
+    ).resolves.toMatchObject({
+      status: 200,
+    });
+  });
+});
+
+async function kindOf(promise: Promise<unknown>): Promise<string> {
+  const error = await promise.then(
+    () => undefined,
+    (reason: unknown) => reason,
+  );
+  expect(error).toBeInstanceOf(HttpFailure);
+  return (error as HttpFailure).kind;
+}
+
+describe("PacedClient error budget (FR-5)", () => {
+  const MINUTE = 60_000;
+
+  // Answers 404 for paths under /missing, 429 for /busy, 200 otherwise.
+  function answeringServer(clock: FakeClock) {
+    const requested: string[] = [];
+    return {
+      requested,
+      async request(url: string): Promise<HttpResponse> {
+        requested.push(new URL(url).pathname);
+        const { pathname } = new URL(url);
+        if (pathname.startsWith("/missing"))
+          throw new HttpFailure("client-error", url, 1, 404);
+        if (pathname === "/busy")
+          throw new HttpFailure("rate-limited", url, 1, 429, 30 * MINUTE);
+        await clock.sleep(0);
+        return { status: 200, url, headers: {}, body: "" };
+      },
+    };
+  }
+
+  function client(
+    clock: FakeClock,
+    server: ReturnType<typeof answeringServer>,
+  ) {
+    return new PacedClient(server, {
+      clock,
+      perHost: { gapMs: 0, inFlight: 1 },
+      perServer: { gapMs: 0, inFlight: 1 },
+      perProvider: { gapMs: 0, inFlight: 1 },
+      errorBudget: { errors: 3, windowMs: 10 * MINUTE },
+      resolve: async (host) => ADDRESSES[host],
+    });
+  }
+
+  it("asks a server nothing more once it spent its budget, until the window passes", async () => {
+    const clock = new FakeClock();
+    const server = answeringServer(clock);
+    const budgeted = client(clock, server);
+
+    for (const minute of [0, 2, 4]) {
+      clock.advance(minute === 0 ? 0 : 2 * MINUTE);
+      expect(
+        await kindOf(
+          budgeted.request(`https://shared-1.example.com/missing/${minute}`),
+        ),
+      ).toBe("client-error");
+    }
+    // The other host on the same server is held too, and no request leaves.
+    const before = server.requested.length;
+    expect(
+      await kindOf(budgeted.request("https://shared-2.example.com/jobs")),
+    ).toBe("held");
+    expect(server.requested).toHaveLength(before);
+
+    // The first error was at minute 0: the server is free again at minute 10.
+    clock.advance(6 * MINUTE - 1);
+    expect(
+      await kindOf(budgeted.request("https://shared-1.example.com/jobs")),
+    ).toBe("held");
+    clock.advance(1);
+    await expect(
+      budgeted.request("https://shared-1.example.com/jobs"),
+    ).resolves.toMatchObject({ status: 200 });
+  });
+
+  it("forgets errors older than the window", async () => {
+    const clock = new FakeClock();
+    const server = answeringServer(clock);
+    const budgeted = client(clock, server);
+
+    await kindOf(budgeted.request("https://a.example.com/missing/1"));
+    await kindOf(budgeted.request("https://a.example.com/missing/2"));
+    clock.advance(11 * MINUTE);
+    await kindOf(budgeted.request("https://a.example.com/missing/3"));
+    await expect(
+      budgeted.request("https://a.example.com/jobs"),
+    ).resolves.toMatchObject({
+      status: 200,
+    });
+  });
+
+  it("does not count robots.txt's answers, nor other servers' errors", async () => {
+    const clock = new FakeClock();
+    const server = answeringServer(clock);
+    const budgeted = client(clock, server);
+    const robotsMissing = {
+      request: async (url: string): Promise<HttpResponse> => {
+        throw new HttpFailure("client-error", url, 1, 404);
+      },
+    };
+    const robotsClient = new PacedClient(robotsMissing, {
+      clock,
+      perHost: { gapMs: 0, inFlight: 1 },
+      perServer: { gapMs: 0, inFlight: 1 },
+      perProvider: { gapMs: 0, inFlight: 1 },
+      errorBudget: { errors: 1, windowMs: 10 * MINUTE },
+      resolve: async () => undefined,
+    });
+    await kindOf(robotsClient.request("https://a.example.com/robots.txt"));
+    expect(
+      await kindOf(robotsClient.request("https://a.example.com/robots.txt")),
+    ).toBe("client-error");
+
+    for (const n of [1, 2, 3])
+      await kindOf(budgeted.request(`https://a.example.com/missing/${n}`));
+    await expect(
+      budgeted.request("https://b.example.com/jobs"),
+    ).resolves.toMatchObject({
+      status: 200,
+    });
+  });
+
+  it("holds a server that answers 429 for as long as it asks", async () => {
+    const clock = new FakeClock();
+    const server = answeringServer(clock);
+    const budgeted = client(clock, server);
+
+    expect(await kindOf(budgeted.request("https://a.example.com/busy"))).toBe(
+      "rate-limited",
+    );
+    clock.advance(29 * MINUTE);
+    expect(await kindOf(budgeted.request("https://a.example.com/jobs"))).toBe(
+      "held",
+    );
+    clock.advance(MINUTE);
+    await expect(
+      budgeted.request("https://a.example.com/jobs"),
     ).resolves.toMatchObject({
       status: 200,
     });

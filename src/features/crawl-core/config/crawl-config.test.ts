@@ -19,6 +19,7 @@ describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
     expect(config.pace.perProvider).toEqual({ gapMs: 3000, inFlight: 1 });
     expect(config.pace.perHost).toEqual({ gapMs: 3000, inFlight: 1 });
     expect(config.connections).toEqual({ maxOpen: 16, newPerSecond: 2 });
+    expect(config.errorBudget).toEqual({ errors: 3, windowMinutes: 10 });
   });
 
   it("takes per-source cadences", () => {
@@ -31,6 +32,7 @@ describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
         perProvider: { gapMs: 3000, inFlight: 1 },
       },
       connections: { maxOpen: 16, newPerSecond: 2 },
+      errorBudget: { errors: 3, windowMinutes: 10 },
       sources: { brz: { cadenceHours: 12 } },
     });
     expect(config.sources.brz?.cadenceHours).toBe(12);

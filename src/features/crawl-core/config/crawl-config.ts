@@ -32,6 +32,11 @@ export const CrawlConfig = z.strictObject({
     maxOpen: z.int().positive(),
     newPerSecond: z.number().positive(),
   }),
+  // 4xx answers a server may give within the window before it is asked nothing more.
+  errorBudget: z.strictObject({
+    errors: z.int().positive(),
+    windowMinutes: z.number().positive(),
+  }),
   // Hosting providers that block an address on all their machines at once: their IPv4 networks,
   // all paced as one server (`pace.perProvider`).
   providers: z
