@@ -101,3 +101,39 @@ export function selectDue<Source extends { readonly id: string }>(
       (a, b) => dueAt(a) - dueAt(b) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
     );
 }
+
+// A source that may not run (missing credentials, taken down): it keeps its history and is due
+// as soon as it is allowed again (FR-9).
+export function disabled(
+  previous: SourceState | undefined,
+  reason: string,
+): SourceState {
+  return {
+    status: "disabled",
+    reason,
+    lastRunAt: previous?.lastRunAt ?? null,
+    advertCount: previous?.advertCount ?? 0,
+    consecutiveFailures: previous?.consecutiveFailures ?? 0,
+    unchangedPasses: previous?.unchangedPasses ?? 0,
+    nextDueAt: null,
+  };
+}
+
+// robots.txt closed the source (FR-5): recorded as disallowed, and asked again after the same
+// waits as a failure, since a site may open again.
+export function afterDisallowed(
+  previous: SourceState | undefined,
+  run: { readonly at: Date; readonly reason: string },
+  rules: ScheduleRules,
+): SourceState {
+  const failure = afterFailure(previous, run, rules);
+  return {
+    status: "disallowed",
+    reason: run.reason,
+    lastRunAt: failure.lastRunAt,
+    advertCount: failure.advertCount,
+    consecutiveFailures: failure.consecutiveFailures,
+    unchangedPasses: failure.unchangedPasses,
+    nextDueAt: failure.nextDueAt,
+  };
+}

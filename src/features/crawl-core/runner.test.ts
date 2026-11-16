@@ -9,7 +9,10 @@ import {
 } from "../../../test/fakes/source-adapter.js";
 import { advertId, DESCRIPTION_LIMIT } from "../../shared/schemas/advert.js";
 import type { AdvertStore } from "./ports.js";
+import { FakeStopSwitch } from "../../../test/fakes/stop-switch.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
+import { TakedownList } from "./config/takedowns.js";
+import type { Environment } from "./credentials.js";
 import { runDue, runSource, runSources } from "./runner.js";
 
 function setup() {
@@ -34,6 +37,7 @@ describe("runSource (FR-1, FR-2, FR-11)", () => {
       outcome: "stored",
       stored: 2,
       rejected: [],
+      takenDown: 0,
       changed: true,
     });
     const stored = await store.readAdverts("brz");
@@ -196,6 +200,12 @@ describe("runSource (FR-1, FR-2, FR-11)", () => {
 
 const HOUR = 3_600_000;
 
+const noTakedowns = new TakedownList({
+  sources: [],
+  companies: [],
+  adverts: [],
+});
+
 const rules = {
   cadenceHours: 24,
   unchangedMaxHours: 168,
@@ -209,14 +219,18 @@ function runSetup() {
   const store = new InMemoryAdvertStore(clock);
   const http = new FakeHttpClient();
   const logs: string[] = [];
+  const stopSwitch = new FakeStopSwitch();
   const dependencies = {
     http,
     store,
     clock,
-    rulesFor: () => rules,
+    rulesFor: (_source: string) => rules,
+    takedowns: noTakedowns,
+    stopSwitch,
+    environment: {} as Environment,
     log: (line: string) => logs.push(line),
   };
-  return { clock, store, http, logs, dependencies };
+  return { clock, store, http, logs, stopSwitch, dependencies };
 }
 
 describe("runSources: failure isolation and previous adverts (FR-3, FR-4)", () => {
@@ -470,5 +484,237 @@ describe("runDue: scheduling (FR-3, FR-6)", () => {
       status: "enabled",
       consecutiveFailures: 0,
     });
+  });
+});
+
+describe("runDue: gates (FR-5, FR-7, FR-8, FR-9)", () => {
+  it("neither collects nor keeps adverts covered by a takedown, stored ones included", async () => {
+    const { clock, store, dependencies } = runSetup();
+    await runSources(
+      [
+        new FakeSourceAdapter(fakeDefinition("brz"), [
+          fakeDraft("brz", "1"),
+          fakeDraft("brz", "2", { company: "Takedown AG" }),
+          fakeDraft("brz", "3"),
+        ]),
+      ],
+      dependencies,
+    );
+    const takedowns = new TakedownList({
+      sources: [],
+      companies: [{ name: "TAKEDOWN ag", reason: "employer's request" }],
+      adverts: [
+        {
+          url: "https://brz.example/jobs/3/?utm_source=x",
+          reason: "employer's request",
+        },
+      ],
+    });
+
+    // Not due yet: the stored adverts still go at the start of the run.
+    clock.advance(HOUR);
+    await runDue([new FakeSourceAdapter(fakeDefinition("brz"))], {
+      ...dependencies,
+      takedowns,
+    });
+    expect((await store.readAdverts("brz")).map((a) => a.sourceId)).toEqual([
+      "1",
+    ]);
+
+    clock.advance(24 * HOUR);
+    const result = await runDue(
+      [
+        new FakeSourceAdapter(fakeDefinition("brz"), [
+          fakeDraft("brz", "1"),
+          fakeDraft("brz", "2", { company: "Takedown AG" }),
+          fakeDraft("brz", "3"),
+          fakeDraft("brz", "4"),
+        ]),
+      ],
+      { ...dependencies, takedowns },
+    );
+    expect(result.sources[0]).toMatchObject({
+      outcome: "stored",
+      stored: 2,
+      takenDown: 2,
+    });
+    expect((await store.readAdverts("brz")).map((a) => a.sourceId)).toEqual([
+      "1",
+      "4",
+    ]);
+  });
+
+  it("disables a taken-down source and removes its stored adverts", async () => {
+    const { store, http, dependencies } = runSetup();
+    await runSources(
+      [new FakeSourceAdapter(fakeDefinition("brz"), [fakeDraft("brz", "1")])],
+      dependencies,
+    );
+    http.route("https://brz.example/feed", "<rss/>");
+    const adapter = new FakeSourceAdapter(fakeDefinition("brz"), [], {
+      fetches: ["https://brz.example/feed"],
+    });
+    const takedowns = new TakedownList({
+      sources: [{ id: "brz", reason: "publisher's request" }],
+      companies: [],
+      adverts: [],
+    });
+
+    const result = await runDue([adapter], { ...dependencies, takedowns });
+
+    expect(result.sources[0]).toMatchObject({
+      outcome: "disabled",
+      reason: "taken down: publisher's request",
+    });
+    expect(http.requests).toEqual([]);
+    expect(await store.readAdverts("brz")).toEqual([]);
+    expect(await store.readState("brz")).toMatchObject({
+      status: "disabled",
+      reason: "taken down: publisher's request",
+    });
+  });
+
+  it("starts nothing and changes nothing while the stop switch is active", async () => {
+    const { store, http, stopSwitch, dependencies } = runSetup();
+    await runSources(
+      [new FakeSourceAdapter(fakeDefinition("brz"), [fakeDraft("brz", "1")])],
+      dependencies,
+    );
+    const adverts = structuredClone(store.adverts);
+    const states = structuredClone(store.states);
+    stopSwitch.active = true;
+    const adapter = new FakeSourceAdapter(fakeDefinition("other"), [], {
+      fetches: ["https://other.example/feed"],
+    });
+
+    const result = await runDue([adapter], {
+      ...dependencies,
+      takedowns: new TakedownList({
+        sources: [{ id: "brz", reason: "publisher's request" }],
+        companies: [],
+        adverts: [],
+      }),
+    });
+
+    expect(result).toEqual({ sources: [], stopped: true });
+    expect(adapter.runs).toBe(0);
+    expect(http.requests).toEqual([]);
+    expect(store.adverts).toEqual(adverts);
+    expect(store.states).toEqual(states);
+  });
+
+  it("sends no request and runs no source once the flag appears during a run, and stores nothing of the cut read", async () => {
+    const { store, http, stopSwitch, dependencies } = runSetup();
+    await runSources(
+      [
+        new FakeSourceAdapter(fakeDefinition("first"), [
+          fakeDraft("first", "1"),
+        ]),
+      ],
+      dependencies,
+    );
+    const adverts = structuredClone(store.adverts);
+    const states = structuredClone(store.states);
+    http.route("https://first.example/page-1", "<rss/>");
+    http.route("https://first.example/page-2", "<rss/>");
+    http.route("https://second.example/feed", "<rss/>");
+    const flagAfterFirstRequest = {
+      request: async (url: string) => {
+        const answer = await http.request(url);
+        stopSwitch.active = true;
+        return answer;
+      },
+    };
+    const first = new FakeSourceAdapter(
+      fakeDefinition("first"),
+      [fakeDraft("first", "2")],
+      {
+        fetches: [
+          "https://first.example/page-1",
+          "https://first.example/page-2",
+        ],
+      },
+    );
+    const second = new FakeSourceAdapter(fakeDefinition("second"), [], {
+      fetches: ["https://second.example/feed"],
+    });
+
+    const result = await runSources([first, second], {
+      ...dependencies,
+      http: flagAfterFirstRequest,
+    });
+
+    expect(result.stopped).toBe(true);
+    expect(result.sources.map((s) => s.outcome)).toEqual(["stopped"]);
+    expect(http.requests.map((r) => r.url)).toEqual([
+      "https://first.example/page-1",
+    ]);
+    expect(second.runs).toBe(0);
+    expect(store.adverts).toEqual(adverts);
+    expect(store.states).toEqual(states);
+  });
+
+  it("keeps a source without its credentials disabled, with zero requests, until they are set", async () => {
+    const { store, http, dependencies } = runSetup();
+    http.route("https://keyed.example/api", "{}");
+    const keyed = new FakeSourceAdapter(
+      fakeDefinition("keyed", {
+        needsCredentials: true,
+        credentialVariables: ["KEYED_APP_KEY"],
+      }),
+      [fakeDraft("keyed", "1")],
+      { fetches: ["https://keyed.example/api"] },
+    );
+
+    const result = await runDue([keyed], dependencies);
+
+    expect(result.sources[0]).toMatchObject({
+      outcome: "disabled",
+      reason: "missing credentials: KEYED_APP_KEY",
+    });
+    expect(keyed.runs).toBe(0);
+    expect(http.requests).toEqual([]);
+    expect(await store.readState("keyed")).toMatchObject({
+      status: "disabled",
+      reason: "missing credentials: KEYED_APP_KEY",
+      nextDueAt: null,
+    });
+
+    await runDue([keyed], {
+      ...dependencies,
+      environment: { KEYED_APP_KEY: "value" },
+    });
+
+    expect(keyed.runs).toBe(1);
+    expect(await store.readState("keyed")).toMatchObject({
+      status: "enabled",
+      advertCount: 1,
+    });
+  });
+
+  it("ends a source blocked by robots.txt as disallowed and keeps its adverts", async () => {
+    const { store, dependencies } = runSetup();
+    await runSources(
+      [new FakeSourceAdapter(fakeDefinition("brz"), [fakeDraft("brz", "1")])],
+      dependencies,
+    );
+    const before = await store.readAdverts("brz");
+    const blocked = new FakeSourceAdapter(fakeDefinition("brz"), [], {
+      failure: new HttpFailure("disallowed", "https://brz.example/feed", 0),
+    });
+
+    const result = await runSources([blocked], dependencies);
+
+    expect(result.sources[0]).toMatchObject({
+      outcome: "disallowed",
+      reason: "robots.txt disallows https://brz.example/feed",
+    });
+    expect(await store.readState("brz")).toMatchObject({
+      status: "disallowed",
+      reason: "robots.txt disallows https://brz.example/feed",
+      consecutiveFailures: 1,
+      nextDueAt: "2026-11-17T08:00:00.000Z",
+    });
+    expect(await store.readAdverts("brz")).toEqual(before);
   });
 });
