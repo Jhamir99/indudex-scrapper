@@ -12,6 +12,7 @@ import type { AdvertStore } from "./ports.js";
 import { FakeStopSwitch } from "../../../test/fakes/stop-switch.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
 import { TakedownList } from "./config/takedowns.js";
+import type { SourceState } from "../../shared/schemas/source.js";
 import type { Environment } from "./credentials.js";
 import { runDue, runSource, runSources } from "./runner.js";
 
@@ -716,5 +717,104 @@ describe("runDue: gates (FR-5, FR-7, FR-8, FR-9)", () => {
       nextDueAt: "2026-11-17T08:00:00.000Z",
     });
     expect(await store.readAdverts("brz")).toEqual(before);
+  });
+});
+
+// Fails the store's calls for the named sources, as a corrupt or unwritable file would.
+class BrokenStore extends InMemoryAdvertStore {
+  constructor(
+    clock: FakeClock,
+    private readonly unreadableState: string,
+    private readonly unwritableState: string,
+    private readonly unreadableAdverts: string,
+  ) {
+    super(clock);
+  }
+
+  override async readState(source: string) {
+    if (source === this.unreadableState)
+      throw new Error(`state/${source}.json: not valid JSON`);
+    return super.readState(source);
+  }
+
+  override async readStates(): Promise<Map<string, SourceState>> {
+    throw new Error("state/: a file is not valid JSON");
+  }
+
+  override async writeState(source: string, state: SourceState) {
+    if (source === this.unwritableState)
+      throw new Error(`state/${source}.json: disk full`);
+    return super.writeState(source, state);
+  }
+
+  override async readAdverts(source: string) {
+    if (source === this.unreadableAdverts)
+      throw new Error(`adverts/${source}.json: not valid JSON`);
+    return super.readAdverts(source);
+  }
+}
+
+describe("runDue: a run always finishes (FR-3)", () => {
+  it("ends with every source marked failed when each fails its own way, and returns normally", async () => {
+    const { clock, http, logs, dependencies } = runSetup();
+    const store = new BrokenStore(
+      clock,
+      "unreadable-state",
+      "unwritable-state",
+      "unreadable-adverts",
+    );
+    http.route(
+      "https://refused.example/feed",
+      new HttpFailure("client-error", "https://refused.example/feed", 1, 403),
+    );
+    const adapters = [
+      new FakeSourceAdapter(fakeDefinition("throws"), [], {
+        failure: new TypeError("Cannot read properties of undefined"),
+      }),
+      new FakeSourceAdapter(fakeDefinition("refused"), [], {
+        fetches: ["https://refused.example/feed"],
+      }),
+      new FakeSourceAdapter(fakeDefinition("invalid"), [
+        fakeDraft("invalid", "1", { url: "not an address" }),
+      ]),
+      new FakeSourceAdapter(fakeDefinition("unreadable-state"), [
+        fakeDraft("unreadable-state", "1"),
+      ]),
+      new FakeSourceAdapter(fakeDefinition("unwritable-state"), [], {
+        failure: new Error("down"),
+      }),
+      new FakeSourceAdapter(fakeDefinition("unreadable-adverts"), [
+        fakeDraft("unreadable-adverts", "1"),
+      ]),
+    ];
+
+    const result = await runDue(adapters, { ...dependencies, store });
+
+    expect(result.stopped).toBe(false);
+    expect(
+      Object.fromEntries(result.sources.map((s) => [s.source, s.outcome])),
+    ).toEqual({
+      throws: "failed",
+      refused: "failed",
+      invalid: "failed",
+      "unreadable-state": "failed",
+      "unwritable-state": "failed",
+      "unreadable-adverts": "failed",
+    });
+    for (const source of [
+      "throws",
+      "refused",
+      "invalid",
+      "unreadable-adverts",
+    ]) {
+      expect((await store.readState(source))?.status).toBe("failed");
+    }
+    expect(adapters[3]?.runs).toBe(0);
+    expect(logs).toContain(
+      "unreadable-state: failed: store: state/unreadable-state.json: not valid JSON",
+    );
+    expect(logs).toContain(
+      "unwritable-state: failed: store: state/unwritable-state.json: disk full",
+    );
   });
 });

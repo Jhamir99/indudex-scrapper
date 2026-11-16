@@ -133,8 +133,7 @@ export async function runSource(
   };
   const failed = (error: unknown): SourceRunResult => {
     if (http.stopped) return stopped();
-    const message = error instanceof Error ? error.message : String(error);
-    const reason = withoutValues(message, credentials);
+    const reason = withoutValues(messageOf(error), credentials);
     const outcome =
       error instanceof HttpFailure && error.kind === "disallowed"
         ? "disallowed"
@@ -229,7 +228,8 @@ function gate(adapter: SourceAdapter, dependencies: RunDependencies): Gate {
 
 // One scheduled run: only the sources due now, the others untouched and without a request
 // (FR-6). A failed or parked source is due again only when its wait has passed (FR-3).
-// Sources that may not run are recorded as disabled whether due or not.
+// Sources that may not run are recorded as disabled whether due or not. It always finishes:
+// store errors are recorded against their source (FR-3).
 export async function runDue(
   adapters: readonly SourceAdapter[],
   dependencies: RunDependencies,
@@ -240,20 +240,30 @@ export async function runDue(
     return { sources: [], stopped: true };
   }
   await sweepTakedowns(adapters, dependencies);
-  const states = await store.readStates();
-  const allowed = adapters.filter(
-    (adapter) => gate(adapter, dependencies).allowed,
-  );
-  const due = new Set(
-    selectDue(
-      allowed.map((adapter) => ({ id: adapter.definition.id, adapter })),
-      states,
-      clock.now(),
-    ).map((entry) => entry.adapter),
-  );
-  log(`${due.size} of ${adapters.length} sources due`);
-  const notAllowed = adapters.filter((adapter) => !allowed.includes(adapter));
-  return runSources([...notAllowed, ...due], dependencies);
+
+  const states = new Map<string, SourceState>();
+  // Not run here: `runSources` reports why its state cannot be read.
+  const unreadable: SourceAdapter[] = [];
+  const allowed: SourceAdapter[] = [];
+  const notAllowed: SourceAdapter[] = [];
+  for (const adapter of adapters) {
+    try {
+      const state = await store.readState(adapter.definition.id);
+      if (state) states.set(adapter.definition.id, state);
+    } catch {
+      unreadable.push(adapter);
+      continue;
+    }
+    if (gate(adapter, dependencies).allowed) allowed.push(adapter);
+    else notAllowed.push(adapter);
+  }
+  const due = selectDue(
+    allowed.map((adapter) => ({ id: adapter.definition.id, adapter })),
+    states,
+    clock.now(),
+  ).map((entry) => entry.adapter);
+  log(`${due.length} of ${adapters.length} sources due`);
+  return runSources([...unreadable, ...notAllowed, ...due], dependencies);
 }
 
 // Runs the given sources one after another, due or not. Each runs inside its own failure
@@ -263,7 +273,7 @@ export async function runSources(
   adapters: readonly SourceAdapter[],
   dependencies: RunDependencies,
 ): Promise<RunResult> {
-  const { store, clock, rulesFor, stopSwitch, log } = dependencies;
+  const { stopSwitch, log } = dependencies;
   const results: SourceRunResult[] = [];
   for (const adapter of adapters) {
     if (await stopSwitch.isActive()) {
@@ -271,42 +281,67 @@ export async function runSources(
       return { sources: results, stopped: true };
     }
     const source = adapter.definition.id;
-    const previous = await store.readState(source);
-    const access = gate(adapter, dependencies);
-    if (!access.allowed) {
-      if (
-        previous?.status !== "disabled" ||
-        previous.reason !== access.reason
-      ) {
-        await store.writeState(source, disabled(previous, access.reason));
-      }
-      log(`${source}: disabled: ${access.reason}`);
-      results.push({
+    let result: SourceRunResult;
+    try {
+      result = await runAndRecord(adapter, dependencies);
+    } catch (error) {
+      // The store could not read or write this source's state. The state is never reset, so
+      // the source keeps what it had and is reported until the store is repaired.
+      const reason = `store: ${messageOf(error)}`;
+      log(`${source}: failed: ${reason}`);
+      result = {
         source,
-        outcome: "disabled",
+        outcome: "failed",
         stored: 0,
         rejected: [],
         takenDown: 0,
         changed: false,
-        reason: access.reason,
-      });
-      continue;
+        reason,
+      };
     }
-
-    const at = clock.now();
-    const result = await runSource(adapter, {
-      ...dependencies,
-      credentials: access.credentials,
-    });
     results.push(result);
     if (result.outcome === "stopped")
       return { sources: results, stopped: true };
+  }
+  return { sources: results, stopped: false };
+}
+
+async function runAndRecord(
+  adapter: SourceAdapter,
+  dependencies: RunDependencies,
+): Promise<SourceRunResult> {
+  const { store, clock, rulesFor, log } = dependencies;
+  const source = adapter.definition.id;
+  const previous = await store.readState(source);
+  const access = gate(adapter, dependencies);
+  if (!access.allowed) {
+    if (previous?.status !== "disabled" || previous.reason !== access.reason) {
+      await store.writeState(source, disabled(previous, access.reason));
+    }
+    log(`${source}: disabled: ${access.reason}`);
+    return {
+      source,
+      outcome: "disabled",
+      stored: 0,
+      rejected: [],
+      takenDown: 0,
+      changed: false,
+      reason: access.reason,
+    };
+  }
+
+  const at = clock.now();
+  const result = await runSource(adapter, {
+    ...dependencies,
+    credentials: access.credentials,
+  });
+  if (result.outcome !== "stopped") {
     await store.writeState(
       source,
       nextState(previous, result, at, rulesFor(source)),
     );
   }
-  return { sources: results, stopped: false };
+  return result;
 }
 
 function nextState(
@@ -336,21 +371,33 @@ async function sweepTakedowns(
   dependencies: RunDependencies,
 ): Promise<void> {
   const { store, takedowns, log } = dependencies;
-  const sources = new Set([
-    ...adapters.map((adapter) => adapter.definition.id),
-    ...(await store.readStates()).keys(),
-  ]);
+  const sources = new Set(adapters.map((adapter) => adapter.definition.id));
+  try {
+    for (const source of (await store.readStates()).keys()) sources.add(source);
+  } catch (error) {
+    log(
+      `takedowns: not every stored source could be listed: ${messageOf(error)}`,
+    );
+  }
   for (const source of sources) {
-    const covered = (await store.readAdverts(source))
-      .filter((advert) => takedowns.reasonFor(advert))
-      .map((advert) => advert.id);
-    if (covered.length === 0) continue;
-    await store.dropAdverts(source, covered);
-    log(`${source}: ${covered.length} stored adverts taken down`);
+    try {
+      const covered = (await store.readAdverts(source))
+        .filter((advert) => takedowns.reasonFor(advert))
+        .map((advert) => advert.id);
+      if (covered.length === 0) continue;
+      await store.dropAdverts(source, covered);
+      log(`${source}: ${covered.length} stored adverts taken down`);
+    } catch (error) {
+      log(`${source}: takedowns not applied: ${messageOf(error)}`);
+    }
   }
 }
 
 // An adapter's error may quote a request that carried a key: no credential value leaves the run.
+function messageOf(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
 function withoutValues(
   text: string,
   credentials: Readonly<Record<string, string>>,

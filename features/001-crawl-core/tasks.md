@@ -46,7 +46,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: tests with a fake clock pass: only due sources run, in a stable order, the others without a request; a failed source gets the next wait; a parked source makes no request until its period ends.
 - [x] **T020 — Runner: gates (takedowns, stop switch, disabled and disallowed sources)** · FR: FR-5, FR-7, FR-8, FR-9 · Depends: T017, T008, T015, T012, T016
       Done when: tests pass: adverts covered by a takedown are neither collected nor kept, including stored ones; after the flag appears no new request or source run starts and stored data is unchanged; a disabled source makes zero requests; a source blocked by robots.txt ends as disallowed.
-- [ ] **T021 — Runner: a run always finishes** · FR: FR-3 · Depends: T019, T020
+- [x] **T021 — Runner: a run always finishes** · FR: FR-3 · Depends: T019, T020
       Done when: a test where every source fails ends with all of them marked failed and the run returning normally.
 - [ ] **T022 — Status command** · FR: FR-10 · Depends: T010, T019
       Done when: `pnpm crawl:status` prints, for each source, state, last run, advert count and reason, and a test covers the formatter with a mix of states.
