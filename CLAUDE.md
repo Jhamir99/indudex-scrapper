@@ -25,6 +25,7 @@ pnpm install
 pnpm dev        # tsx watch src/index.ts
 pnpm build      # tsc -p tsconfig.build.json → dist/ (src only, no tests)
 pnpm start      # node dist/index.js
+pnpm crawl:status   # state, last run, adverts, next run and reason of every source (node dist/bin/crawl-status.js once built)
 pnpm typecheck  # tsc --noEmit over src, test and config files
 pnpm test       # vitest in watch mode
 pnpm test:run   # vitest once (use this to verify a change)
@@ -62,7 +63,7 @@ Planned, not created yet: separate entry points for the scrapper, the processor 
 
 ## Intended structure
 
-Feature-first (rules in `AGENTS.md`, "Features"). So far: `index.ts` and `app.ts` (the starter, to move out), `src/shared/schemas/` (advert, source definition and state), `src/shared/kit/` (text, dates, XML/JSON picking), `src/shared/storage/` (atomic writer, `FileAdvertStore`, `FileStopSwitch` (the `STOP` flag in the store folder); the store layout is documented at the top of `file-advert-store.ts`), `src/shared/http/` (`FetchClient`, `HttpFailure`, robots.txt rules, `RobotsClient`, `PacedClient`, `ServerHolds`, `ConnectionGate`), `src/features/crawl-core/` (`ports.ts`, `domain/schedule.ts`, `credentials.ts`, `runner.ts`, `config/load-config.ts`, `config/crawl-config.ts`, `config/takedowns.ts`), `config/` (`crawl.yml`, `takedowns.yml`) and `test/fakes/` (one fake per port). Adjust here when it changes:
+Feature-first (rules in `AGENTS.md`, "Features"). So far: `index.ts` and `app.ts` (the starter, to move out), `src/shared/schemas/` (advert, source definition and state), `src/shared/kit/` (text, dates, XML/JSON picking), `src/shared/storage/` (atomic writer, `FileAdvertStore`, `FileStopSwitch` (the `STOP` flag in the store folder); the store layout is documented at the top of `file-advert-store.ts`), `src/shared/http/` (`FetchClient`, `HttpFailure`, robots.txt rules, `RobotsClient`, `PacedClient`, `ServerHolds`, `ConnectionGate`), `src/features/crawl-core/` (`ports.ts`, `domain/schedule.ts`, `credentials.ts`, `runner.ts`, `config/load-config.ts`, `config/crawl-config.ts`, `config/takedowns.ts`, `status.ts`), `src/bin/` (entry points: `crawl-status.ts`; `store-directory.ts`: `STORE_DIR`, default `store/` at the repo root), `config/` (`crawl.yml`, `takedowns.yml`) and `test/fakes/` (one fake per port). Adjust here when it changes:
 
 ```
 features/NNN-<feature>/   # spec.md, plan.md, tasks.md; features/README.md is the index

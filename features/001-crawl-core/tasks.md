@@ -48,7 +48,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: tests pass: adverts covered by a takedown are neither collected nor kept, including stored ones; after the flag appears no new request or source run starts and stored data is unchanged; a disabled source makes zero requests; a source blocked by robots.txt ends as disallowed.
 - [x] **T021 — Runner: a run always finishes** · FR: FR-3 · Depends: T019, T020
       Done when: a test where every source fails ends with all of them marked failed and the run returning normally.
-- [ ] **T022 — Status command** · FR: FR-10 · Depends: T010, T019
+- [x] **T022 — Status command** · FR: FR-10 · Depends: T010, T019
       Done when: `pnpm crawl:status` prints, for each source, state, last run, advert count and reason, and a test covers the formatter with a mix of states.
 - [ ] **T023 — Entry point `crawl` with single-source option** · FR: FR-6 · Depends: T021, T022
       Done when: `pnpm crawl -- --source <id>` runs only that source on fakes in an integration test, and `pnpm crawl` is wired in `package.json` (documented in `CLAUDE.md`).
