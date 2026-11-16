@@ -22,10 +22,11 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
       2026-11-16: `hungary` keeps its turn and each category's adverts in the per-source memory (T023).
 - [x] **T007 — Port adapters: hzz, anofm, cyprus** · FR: FR-1, FR-5, FR-7 · Depends: T002, T023, T024
       Done when: the standard adapter check passes for each adapter.
-- [ ] **T008 — Port adapters: iefp, netempregos, sef** · FR: FR-1, FR-5, FR-6 · Depends: T002, T021
+- [x] **T008 — Port adapters: iefp, netempregos, sef** · FR: FR-1, FR-5, FR-6 · Depends: T002, T021
       Done when: the standard adapter check passes for each adapter; `netempregos` is disabled and flagged (FR-6).
 - [ ] **T009 — Port adapters: sne, spin, ttvic** · FR: FR-1, FR-5, FR-6 · Depends: T002, T021
       Done when: the standard adapter check passes for each adapter; `ttvic` is disabled and flagged (FR-6).
+      2026-11-16: `spin` and `ttvic` done; `sne` waits for a decision (it reads PDFs: a new dependency and binary bodies).
 - [ ] **T010 — Port adapters: brandenburg, bund, karrierenrw** · FR: FR-1, FR-4, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter. `bund` waits 30 s between pages (its robots.txt asks for it).
 - [ ] **T011 — Port adapters: linz, ooe, ifgat** · FR: FR-1, FR-5 · Depends: T002
