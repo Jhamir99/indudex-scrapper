@@ -1,6 +1,6 @@
 # Plan: Crawl core
 
-Implements `spec.md` (FR-1 to FR-12). Status: approved, decisions confirmed (as plan 001). Amended on 2026-11-15: split into this feature and the four source features, and the layout moved to feature-first (section 4). Nothing here is implemented yet.
+Implements `spec.md` (FR-1 to FR-12). Status: approved, decisions confirmed (as plan 001). Amended on 2026-11-15: split into this feature and the four source features, and the layout moved to feature-first (section 4). Implemented by T001-T025 (closed 2026-11-16). Amended on 2026-11-16 after the spec was approved with the operator's answers (section 12, tasks T026-T030).
 
 ## 1. Constitution and spec check
 
@@ -61,23 +61,23 @@ Rules: a feature imports from `shared/` and from `features/001-crawl-core/ports.
 
 ## 5. Contracts
 
-**SourceAdapter** (port). Each source provides: an id; its kind; its licence data (name, short name, url, licence text, credit line); whether it needs credentials and which; and a way to produce adverts from its site through the injected `HttpClient`. Parsing is a pure function from a saved response to raw adverts, so tests need no network.
+**SourceAdapter** (port). Each source provides: an id; its kind; its licence data (name, short name, url, licence text, credit line); whether it needs credentials and which (each credential is one variable, or a list of alternatives of which one is enough); and a way to produce adverts from its site through the injected `HttpClient`. Parsing is a pure function from a saved response to raw adverts, so tests need no network.
 
 **Advert** (Zod, the single source of truth): source id, stable advert id derived from source and source-specific id, title, company, location, country, city, remote flag and mode, url, description (length-capped), posted date, expiry date (optional; when absent, 2 years after posted date applies), occupation codes, original language, and the licence and credit of its source. No person data. The schemas and the stored JSON layout are the contract with the processor and the future `indudex-api` (completion criteria); there is no OpenAPI here.
 
-**Source state**: enabled, disabled (missing credentials or flagged as broken), failed (with reason), disallowed (by `robots.txt`), parked (until a date); time of last run; adverts obtained; consecutive failures; next due time.
+**Source state**: enabled, disabled (missing credentials or flagged as broken), failed (with reason), disallowed (by `robots.txt`), parked (until a date); time of last run; adverts obtained; consecutive failures; reads held in a row as suspect drops; next due time.
 
 **Run result**: per source, the outcome, the counts, the rejected adverts with their reasons.
 
 ## 6. Behaviour of the runner
 
 - **Due selection (FR-6):** a source is due when its last pass is older than its cadence; unchanged sources wait longer, up to a limit, and go back to normal when they change. Cadence per source starts from the legacy `crawl.yml` values.
-- **Politeness (FR-5):** `robots.txt` is checked before the first request to a host and cached; pacing per host, per server and per hosting provider; caps on simultaneous and new connections; a small budget of error answers per server in a time window. Defaults and per-source overrides come from `config/`.
-- **Failure isolation (FR-3, FR-4):** every source runs inside its own failure boundary; a failure records the reason, schedules the next try with growing waits and parks the source after repeated failures. Stored adverts are only replaced after a source finished a valid read, so a failed or empty read never deletes anything.
+- **Politeness (FR-5):** `robots.txt` is checked before the first request to a host and cached; pacing per host, per server and per hosting provider; caps on simultaneous and new connections; a small budget of error answers per server in a time window. Defaults and per-source overrides come from `config/`. A source that ends disallowed loses its stored adverts. Every request carries the legacy's `User-Agent` and `From` header.
+- **Failure isolation (FR-3, FR-4):** every source runs inside its own failure boundary; a failure records the reason, schedules the next try with growing waits and parks the source after repeated failures. Stored adverts are only replaced after a source finished a valid read, so a failed or empty read never deletes anything. A suspect drop (none after some, or under a tenth of 50 or more) is a failure that keeps the stored set; a non-empty drop is accepted when the next read repeats it (legacy `suspectDrop` and `emptyPass`).
 - **Validation (FR-1):** every raw advert is parsed with the Zod schema; invalid ones are counted with a reason and not stored.
 - **Stop switch (FR-7):** checked between requests and between sources; activating it stops new work and leaves stored data untouched (file flag, see section 10).
 - **Takedowns (FR-8):** loaded from `config/`; applied when collecting and when keeping, so a takedown also removes what is already stored on the next run.
-- **Credentials (FR-9):** read from environment variables only; a source with missing keys is disabled and reported; keys are listed in `.env.example` and never logged.
+- **Credentials (FR-9):** read from environment variables only; a source with missing keys is disabled and reported; keys are listed in `.env.example` and never logged. A credential may be a list of alternative variables: it is present when any one is set, and the adapter receives the ones that are set.
 - **Status (FR-10):** a command prints state, last run and counts for every source.
 - **Boundary (FR-11):** the runner ends at "validated adverts stored"; no gate, dedupe, translation or publication.
 
@@ -117,3 +117,13 @@ The core is verified with fake adapters, so it can be closed before any real sou
 - `CLAUDE.md`: new commands (`crawl`, `crawl:status`), the real layout and the new dependencies.
 - `MEMORY.md`: state, the decisions of section 10 with their why, mistakes found.
 - `.env.example`: one entry per credentialed source.
+
+## 12. Amendment 2026-11-16 (operator's answers after T025)
+
+The spec was approved with these answers; each becomes one task (T026-T030).
+
+- **Suspect drops (FR-4, T026).** Ported from the legacy `suspectDrop`/`emptyPass`: a read is suspect when the source had adverts and now gives none, or had 50 or more and now gives fewer than a tenth. A read of none is held every time (all our sources are adapters, which the legacy never let empty a source). A non-empty drop is held the first time and accepted when the next read is also a drop. "Held" means a failure with the reason `read N adverts after M: kept`, with the usual backoff. The source state gains `heldDrops` (reads held in a row, default 0). It is an added field with a default, so stored state files of format version 1 still read; no version bump. Why: an empty answer or a maintenance page served as good took a source's adverts off the legacy site in two passes.
+- **Disallowed sources leave the output (FR-5, T027).** When a source ends `disallowed`, the runner removes all its stored adverts (`dropAdverts` with every stored id), as the legacy did ("robots.txt closes the whole site: its adverts leave the site"). The state keeps the failure waits, so the site is asked again later. Why: a site that closes itself to crawlers should not keep being shown from our copy.
+- **`From` header (FR-5, T028).** `FetchClient` gets a `from` option sent on every request, set by the entry point to the legacy's project contact `contact@indudex.com`, next to the existing `User-Agent`. Why: the legacy sent both, so a site's operator can reach us without searching.
+- **Alternative credentials (FR-9, T029).** `credentialVariables` entries are a variable name or a list of names, any one of which is enough (Jooble: `["JOOBLE_KEY", "JOOBLE_KEYS"]`). `checkCredentials` reports a missing list as `one of JOOBLE_KEY, JOOBLE_KEYS`; `variablesMissingFromExample` and the contract test check every name of every list. Lives in crawl-core for now (operator's choice), not in the credentialed-sources family.
+- **E-mail addresses in descriptions (no task).** Confirmed: the contract test rejects addresses in shown fields only; the description is stored, never published.

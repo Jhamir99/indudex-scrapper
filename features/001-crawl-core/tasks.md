@@ -1,6 +1,6 @@
 # Tasks: Crawl core
 
-Generated from `spec.md` and `plan.md` (as tasks 001, wave 1; split on 2026-11-15: the old T025-T026, the `public-feed` family and the `brz` reference adapter, moved to `features/002-public-feeds/`). Tasks are ordered by dependency, name the functional requirements (FR) they cover and have a verifiable "Done when". Tick the box only when the "Done when" is true. Small steps were merged to keep the list short, so some tasks take 40-60 minutes; split a task if it does not fit in one sitting.
+Generated from `spec.md` and `plan.md` (as tasks 001, wave 1; split on 2026-11-15: the old T025-T026, the `public-feed` family and the `brz` reference adapter, moved to `features/002-public-feeds/`; T026-T030 added on 2026-11-16 from plan section 12). Tasks are ordered by dependency, name the functional requirements (FR) they cover and have a verifiable "Done when". Tick the box only when the "Done when" is true. Small steps were merged to keep the list short, so some tasks take 40-60 minutes; split a task if it does not fit in one sitting.
 
 Paths are relative to the repo root; feature code lives in `src/features/crawl-core/`, shared code in `src/shared/` (plan section 4).
 
@@ -56,3 +56,16 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: `src/features/crawl-core/registry.ts` exists, and a test iterates over every registered adapter and checks valid licence data, valid adverts from its fixture and no e-mail or contact field in any advert (no adapter is registered yet; the test's own fake adapter proves it fails on a bad one).
 - [x] **T025 — Close crawl-core** · FR: FR-1 to FR-12 · Depends: T023, T024
       Done when: `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:run && pnpm build` is green; each of FR-1 to FR-12 has a test that names it; `MEMORY.md`, `CLAUDE.md` (commands, layout) and `.env.example` are updated; `features/README.md` marks this feature done.
+
+## Amendment 2026-11-16 (plan section 12)
+
+- [ ] **T026 — Runner: suspect drops held, repeated drops accepted** · FR: FR-4 · Depends: T018
+      Done when: tests pass: a read of none after some is held every time and keeps the stored set; a read of under a tenth of 50 or more is held once (failed, `read N adverts after M: kept`, set unchanged) and stored when the next read is also a drop; a drop followed by a normal read resets the count; a smaller drop (or one under 50 adverts) is stored at once; state files without `heldDrops` still read.
+- [ ] **T027 — Runner: a disallowed source's stored adverts are removed** · FR: FR-5 · Depends: T020
+      Done when: tests pass: a source whose read ends on a robots.txt refusal is recorded as disallowed with the failure waits and has no stored adverts left; a source that fails any other way still keeps its adverts.
+- [ ] **T028 — HTTP client: `From` header** · FR: FR-5 · Depends: T011, T023
+      Done when: a test with a fake `fetch` shows every request (retries and robots.txt included) carrying the configured `User-Agent` and `From`; the crawl entry point sets `From: contact@indudex.com`.
+- [ ] **T029 — Credentials: alternative variables** · FR: FR-9 · Depends: T016, T024
+      Done when: tests pass: a source declaring `["JOOBLE_KEY", "JOOBLE_KEYS"]` is ready with either set and receives only the ones set; with neither it is disabled with the reason `missing credentials: one of JOOBLE_KEY, JOOBLE_KEYS`; plain and alternative entries mix; `.env.example` coverage checks every alternative; the schema rejects an empty list.
+- [ ] **T030 — Close crawl-core again** · FR: FR-4, FR-5, FR-9 · Depends: T026, T027, T028, T029
+      Done when: the CI command is green; `MEMORY.md` and `CLAUDE.md` reflect the amendment; `features/README.md` marks this feature done.

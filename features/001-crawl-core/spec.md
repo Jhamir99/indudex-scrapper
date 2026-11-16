@@ -1,6 +1,6 @@
 # Spec: Crawl core
 
-Status: draft. Written from the initial idea and five clarifying answers (as spec 001, "Legacy sources scraper"); split on 2026-11-15 into this feature and the four source features (`public-feeds`, `credentialed-sources`, `job-portals`, `career-sites`).
+Status: approved (2026-11-16). Written from the initial idea and five clarifying answers (as spec 001, "Legacy sources scraper"); split on 2026-11-15 into this feature and the four source features (`public-feeds`, `credentialed-sources`, `job-portals`, `career-sites`). Amended on 2026-11-16 with the operator's answers after the first implementation: suspect drops (FR-4), disallowed sources leave the output (FR-5), the crawler's `From` header (FR-5) and alternative credentials (FR-9).
 
 ## 1. Context and goal
 
@@ -41,11 +41,12 @@ _Acceptance:_ A failing source never prevents another source from running, and t
 
 **FR-4 — Keep previous adverts on failure.**
 If a source fails, then the scraper shall keep the adverts already stored from it until each one expires (by its own date, or 2 years after it was posted when it has none).
-_Acceptance:_ After a failed run, adverts from before the failure are still present and unchanged.
+If a source that had adverts answers none, or answers under a tenth of what it had when it had 50 or more, then the scraper shall treat the read as a failure and keep what it had (as the legacy did: such a read is more likely an outage than an emptied source). A read of none is held every time; a smaller but non-empty read is accepted when the next run says the same.
+_Acceptance:_ After a failed run, adverts from before the failure are still present and unchanged. A sudden drop is held once and accepted on the next run if it repeats; a read of none never deletes anything.
 
 **FR-5 — Politeness.**
 The scraper shall obey each site's `robots.txt` and shall limit the request rate per host.
-_Acceptance:_ The per-host limits are configurable and start from the legacy project's values (about 5 seconds between requests to one server, one request at a time, and a slower pace for hosting providers that block in bulk). The limits also cap the total number of simultaneous connections and the rate of new connections. If `robots.txt` forbids a page, then the scraper shall not request it and shall record the source or page as disallowed. Requests to one host never exceed that host's configured rate.
+_Acceptance:_ The per-host limits are configurable and start from the legacy project's values (about 5 seconds between requests to one server, one request at a time, and a slower pace for hosting providers that block in bulk). The limits also cap the total number of simultaneous connections and the rate of new connections. If `robots.txt` forbids a page, then the scraper shall not request it and shall record the source or page as disallowed. When a source ends disallowed, its stored adverts are removed (as the legacy did: a site that closes itself to us leaves the output). Requests to one host never exceed that host's configured rate. Every request names the crawler in its `User-Agent` and gives the project's contact address in a `From` header.
 
 **FR-6 — Cadence.**
 Each source shall have its own run cadence.
@@ -61,7 +62,7 @@ While a takedown is registered for a source, company or advert, the scraper shal
 _Acceptance:_ Adverts covered by a takedown are absent from the output after the next run.
 
 **FR-9 — Credentials and disabled sources.**
-Where a source needs credentials that are missing, the scraper shall keep the source disabled and shall report in the status that its credentials are missing.
+Where a source needs credentials that are missing, the scraper shall keep the source disabled and shall report in the status that its credentials are missing. A source may accept one of several variables for the same credential (Jooble: one key, or one key per country); it is missing only when none of them is set.
 _Acceptance:_ A disabled source makes no request. When the credentials are provided, the source becomes enabled without any other change. No credential is ever stored in the repository or exposed in logs or output.
 
 **FR-10 — Source status.**
@@ -88,11 +89,12 @@ _Acceptance:_ Adding a new source requires describing only what is specific to t
 ## 6. Edge cases
 
 - A source changes its format without notice: its adverts fail validation, the source is marked failed, previous adverts are kept.
-- A source returns zero adverts: this is reported and does not delete previous adverts.
+- A source returns zero adverts: this is reported and does not delete previous adverts. A source that never had adverts and returns none is an empty pass, not a failure.
+- A source returns far fewer adverts than before (under a tenth of 50 or more): the read is held once as a failure; if the next run says the same, it is accepted.
 - A source is slow or never answers: the request ends after a limit and counts as a failure.
 - An advert has no expiry date: it is treated as expiring 2 years after its posted date (after the date it was first seen, if the source gives no posted date).
 - The same advert appears in two sources: both are stored; removing duplicates belongs to the processor (`dedupe`).
-- A site forbids scraping in `robots.txt` after we started collecting from it: the source becomes disallowed at the next run.
+- A site forbids scraping in `robots.txt` after we started collecting from it: the source becomes disallowed at the next run and its stored adverts are removed.
 - A required credential is revoked or expires: the source is marked failed (not silently disabled) and previous adverts are kept.
 - The stop switch is activated during a run: in-flight work finishes cleanly or is discarded without corrupting stored data.
 
