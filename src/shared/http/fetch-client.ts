@@ -115,7 +115,10 @@ export class FetchClient {
         );
       }
       // The time limit covers reading the body too.
-      const body = await response.text();
+      const body = decodeBody(
+        new Uint8Array(await response.arrayBuffer()),
+        response.headers.get("content-type"),
+      );
       return {
         status: response.status,
         url: response.url || url,
@@ -126,4 +129,26 @@ export class FetchClient {
       return fail(signal.aborted ? "timeout" : "network");
     }
   }
+}
+
+// A body as text: in the charset its Content-Type names, else the one an XML declaration names
+// (feeds in ISO-8859-2 or windows-1252 often say so only there), else UTF-8. An unknown charset
+// falls back to UTF-8.
+export function decodeBody(
+  bytes: Uint8Array,
+  contentType: string | null,
+): string {
+  const declared =
+    /charset\s*=\s*"?([\w.:-]+)/i.exec(contentType ?? "")?.[1] ??
+    /^\s*<\?xml[^>]*\bencoding\s*=\s*["']([\w.:-]+)["']/i.exec(
+      new TextDecoder("latin1").decode(bytes.subarray(0, 200)),
+    )?.[1] ??
+    "utf-8";
+  let decoder: TextDecoder;
+  try {
+    decoder = new TextDecoder(declared);
+  } catch {
+    decoder = new TextDecoder("utf-8");
+  }
+  return decoder.decode(bytes);
 }

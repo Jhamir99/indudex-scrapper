@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { HttpClient } from "../../features/crawl-core/ports.js";
 import { FakeClock } from "../../../test/fakes/clock.js";
-import { FetchClient, type FetchFunction } from "./fetch-client.js";
+import { decodeBody, FetchClient, type FetchFunction } from "./fetch-client.js";
 import { addressForLog, HttpFailure, parseRetryAfter } from "./http-failure.js";
 import { RobotsClient } from "./robots-client.js";
 
@@ -215,5 +215,39 @@ describe("FetchClient identity (FR-5)", () => {
     const server = fakeServer(new Response(""));
     await client(server.fetch).request(FEED);
     expect(server.calls[0]?.init.headers).not.toHaveProperty("from");
+  });
+});
+
+// Text in ISO-8859-2, where "š" is 0xB9.
+const latin2 = (text: string) =>
+  Uint8Array.from([...text].map((c) => (c === "š" ? 0xb9 : c.charCodeAt(0))));
+
+describe("FetchClient charsets (public-feeds T024)", () => {
+  it("decodes by the charset its Content-Type names", async () => {
+    const server = fakeServer(
+      new Response(latin2("zapošljavanje"), {
+        headers: { "content-type": "text/plain; charset=ISO-8859-2" },
+      }),
+    );
+    expect((await client(server.fetch).request(FEED)).body).toBe(
+      "zapošljavanje",
+    );
+  });
+
+  it("decodes by an XML declaration's encoding when the header names none", async () => {
+    const xml =
+      '<?xml version="1.0" encoding="iso-8859-2"?><title>zapošljavanje</title>';
+    const server = fakeServer(
+      new Response(latin2(xml), { headers: { "content-type": "text/xml" } }),
+    );
+    expect((await client(server.fetch).request(FEED)).body).toBe(xml);
+  });
+
+  it("reads UTF-8 when nothing names a charset, or an unknown one does", () => {
+    const bytes = new TextEncoder().encode("Ísland");
+    expect(decodeBody(bytes, null)).toBe("Ísland");
+    expect(decodeBody(bytes, "text/html; charset=no-such-charset")).toBe(
+      "Ísland",
+    );
   });
 });

@@ -20,7 +20,7 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
 - [x] **T006 — Port adapters: nva, upsvr, hungary** · FR: FR-1, FR-4, FR-5 · Depends: T002, T023
       Done when: the standard adapter check passes for each adapter. `hungary` reads one category per pass, about a dozen requests.
       2026-11-16: `hungary` keeps its turn and each category's adverts in the per-source memory (T023).
-- [ ] **T007 — Port adapters: hzz, anofm, cyprus** · FR: FR-1, FR-5 · Depends: T002
+- [ ] **T007 — Port adapters: hzz, anofm, cyprus** · FR: FR-1, FR-5, FR-7 · Depends: T002, T023, T024
       Done when: the standard adapter check passes for each adapter.
 - [ ] **T008 — Port adapters: iefp, netempregos, sef** · FR: FR-1, FR-5, FR-6 · Depends: T002, T021
       Done when: the standard adapter check passes for each adapter; `netempregos` is disabled and flagged (FR-6).
@@ -57,3 +57,5 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
       Done when: the file exists with its header (source, licence, date, how it was built), loads through `loadConfig` with a schema, and a test checks it is not empty and every entry is a JobTech concept id.
 - [x] **T023 — Per-source memory between passes** · FR: FR-4 · Depends: crawl-core T017, T010
       Done when: tests pass: the file store writes and reads a source's memory atomically and refuses a corrupt one; the runner hands the adapter the memory of the last good pass and saves what it remembers only after a stored or empty pass, never after a failed or stopped one.
+- [x] **T024 — Charset decoding in the HTTP client** · FR: FR-1 · Depends: crawl-core T011
+      Done when: tests with a fake `fetch` pass: an ISO-8859-2 body named by its `Content-Type`, one named only by its XML declaration, and one with neither (UTF-8) each come out as the right text.
