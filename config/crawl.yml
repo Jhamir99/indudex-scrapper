@@ -110,3 +110,6 @@ sources:
   # Portugal's IEFP: about 57 search pages of about 900 KB each, once a day.
   iefp:
     cadenceHours: 24
+  # Brandenburg's careers portal: one call, every offer.
+  brandenburg:
+    cadenceHours: 12

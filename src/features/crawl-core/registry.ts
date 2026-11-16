@@ -1,4 +1,5 @@
 import { anofm } from "../public-feeds/adapters/anofm/anofm.js";
+import { brandenburg } from "../public-feeds/adapters/brandenburg/brandenburg.js";
 import { brz } from "../public-feeds/adapters/brz/brz.js";
 import { cyprus } from "../public-feeds/adapters/cyprus/cyprus.js";
 import { hungary } from "../public-feeds/adapters/hungary/hungary.js";
@@ -25,6 +26,7 @@ import type { SourceAdapter } from "./ports.js";
 // (`registry.test.ts`) with its saved responses in `test/fixtures/<id>/` (FR-12).
 export const registeredAdapters: readonly SourceAdapter[] = [
   anofm,
+  brandenburg,
   brz,
   cyprus,
   hungary,
