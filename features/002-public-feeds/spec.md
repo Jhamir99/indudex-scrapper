@@ -1,6 +1,6 @@
 # Spec: Public feeds
 
-Status: draft. Split on 2026-11-15 from spec 001 ("Legacy sources scraper", waves 1 and 2).
+Status: approved (2026-11-16). Split on 2026-11-15 from spec 001 ("Legacy sources scraper", waves 1 and 2). Amended on 2026-11-16 with the operator's answers: sources whose terms do not allow us are ported disabled and flagged (FR-6), feeds that read each vacancy's page may be paced as the legacy did (FR-4), and `jobtech` asks by a fixed list of occupation groups (FR-7).
 
 ## 1. Context and goal
 
@@ -36,7 +36,15 @@ _Acceptance:_ `brz` passes its fixture test and the shared contract test before 
 
 **FR-4 — Per-source terms.**
 Where a feed's terms or `robots.txt` ask for a cadence or pace different from the default, the source shall use it.
-_Acceptance:_ Starting from the legacy values: NAV and Jobindex every hour; `bund` 30 s between pages; `hungary` one category per pass, about a dozen requests.
+_Acceptance:_ Starting from the legacy values: NAV and Jobindex every hour; `bund` 30 s between pages; `hungary` one category per pass, about a dozen requests; Kuntarekry and Valtiolle half a second between requests to their own sites (they read each new vacancy's page).
+
+**FR-6 — Sources without leave.**
+Where a feed's terms forbid commercial use or ask for express leave that has not been given (`netempregos`, `ttvic`), the source shall be ported but disabled and flagged with the reason, so it makes no request until the operator enables it.
+_Acceptance:_ The status shows each such source as disabled with its reason, and it makes zero requests.
+
+**FR-7 — Sources asked by occupation.**
+Where a feed is asked per occupation group (`jobtech`, Sweden's SSYK-2012 groups), the groups asked shall be a fixed list kept in `config/`, built from the legacy catalogue: the groups whose ISCO-08 codes fall in Indudex's scope.
+_Acceptance:_ The list states its source and licence; changing the scope means regenerating the list, not changing code.
 
 **FR-5 — Core rules.**
 Every feed shall run through `crawl-core`, so its stored adverts meet `crawl-core` FR-1 (common format) and FR-2 (licence and attribution).
@@ -64,4 +72,4 @@ _Acceptance:_ The shared contract test passes with every feed registered.
 
 ## 9. Open questions
 
-- [NEEDS CLARIFICATION] The legacy keeps `netempregos` and `ttvic` out of its source list (`builder/sources.mjs`): Net-Empregos' terms forbid commercial use and TT Vic's legal notice asks for express leave. Port them disabled and flagged until leave is given, or drop them?
+- None. (2026-11-16: `netempregos` and `ttvic` are ported disabled and flagged, FR-6.)

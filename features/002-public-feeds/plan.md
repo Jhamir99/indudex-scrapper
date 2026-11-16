@@ -1,6 +1,6 @@
 # Plan: Public feeds
 
-Implements `spec.md` (FR-1 to FR-5) on top of `features/001-crawl-core/plan.md` (architecture, contracts, runner, storage, decisions). Status: approved as part of plan 001 (wave 2, plus the reference feed of wave 1); split on 2026-11-15. Nothing here is implemented yet.
+Implements `spec.md` (FR-1 to FR-5) on top of `features/001-crawl-core/plan.md` (architecture, contracts, runner, storage, decisions). Status: approved as part of plan 001 (wave 2, plus the reference feed of wave 1); split on 2026-11-15. T001-T003 implemented; amended on 2026-11-16 (section 5, tasks T019-T022).
 
 ## 1. Layout
 
@@ -27,3 +27,11 @@ The batches are grouped by region as a starting point. When reading the legacy m
 ## 4. Per-source values (from the legacy `crawl.yml`)
 
 NAV 1 h (its terms retire inactive ads at once); Jobindex 1 h (only each category's first page is allowed); `bund` 6 h with 30 s between pages (its robots.txt); `hungary` 2 h, one category a pass; the rest between 6 and 24 h as in the legacy file.
+
+## 5. Amendment 2026-11-16 (operator's answers)
+
+- **Two forms of the family (T001-T003, done).** A feed is `pages` + `parse` (with `skipFailedPages`) or `read(context)` for feeds whose reading depends on their answers; both share one draft per source id, `keepUnlisted` and the empty-feed failure. The adapter context carries the stored adverts (`previous`) and the run's day (`today`).
+- **Per-host pace (FR-4, T019).** `crawl.yml` gains `pace.hosts`: a host's own gap between requests, overriding `pace.perHost` for that host (Kuntarekry and Valtiolle 500 ms, as the legacy). The per-server and per-provider lanes still apply. Lives in crawl-core's config and `PacedClient`.
+- **`JobPosting` mapping (T020).** `src/shared/kit/job-posting.ts`: the schema.org `JobPosting` blocks of a page (JSON-LD, read with cheerio, lenient on broken JSON as the legacy `repairJson`), as plain fields: title, description, posted, valid through, employment type, employer, locality, region, country. In `shared/` because `career-sites` will use it too.
+- **Disabled and flagged (FR-6, T021).** `SourceDefinition` gains `disabledReason` (optional): a source with one is recorded as disabled with `flagged: <reason>` and makes no request, like a missing key. Removing the field enables it.
+- **SSYK groups (FR-7, T022).** `config/ssyk-groups.yml`: the SSYK-2012 occupation groups `jobtech` asks for, generated once from the legacy catalogue (`catalogues/codes/ssyk-isco.json`, JobTech's SSYK→ISCO-08 correspondence) and the legacy gate's scope, with a header naming source, licence and date. Loaded with `loadConfig` and handed to the adapter at registration.
