@@ -39,7 +39,7 @@ Where a feed's terms or `robots.txt` ask for a cadence or pace different from th
 _Acceptance:_ Starting from the legacy values: NAV and Jobindex every hour; `bund` 30 s between pages; `hungary` one category per pass, about a dozen requests; Kuntarekry and Valtiolle half a second between requests to their own sites (they read each new vacancy's page).
 
 **FR-6 — Sources without leave.**
-Where a feed's terms forbid commercial use or ask for express leave that has not been given (`netempregos`, `ttvic`), the source shall be ported but disabled and flagged with the reason, so it makes no request until the operator enables it.
+Where a feed's terms forbid commercial use or ask for express leave or prior consent that has not been given (`netempregos`, `ttvic`; `bund`, switched off by the legacy on 15 November 2026), the source shall be ported but disabled and flagged with the reason, so it makes no request until the operator enables it.
 _Acceptance:_ The status shows each such source as disabled with its reason, and it makes zero requests.
 
 **FR-7 — Sources asked by occupation.**

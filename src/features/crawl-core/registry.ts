@@ -1,6 +1,7 @@
 import { anofm } from "../public-feeds/adapters/anofm/anofm.js";
 import { brandenburg } from "../public-feeds/adapters/brandenburg/brandenburg.js";
 import { brz } from "../public-feeds/adapters/brz/brz.js";
+import { bund } from "../public-feeds/adapters/bund/bund.js";
 import { cyprus } from "../public-feeds/adapters/cyprus/cyprus.js";
 import { hungary } from "../public-feeds/adapters/hungary/hungary.js";
 import { hzz } from "../public-feeds/adapters/hzz/hzz.js";
@@ -28,6 +29,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   anofm,
   brandenburg,
   brz,
+  bund,
   cyprus,
   hungary,
   hzz,

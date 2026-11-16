@@ -52,6 +52,8 @@ pace:
     iefponline.iefp.pt: 1000
     # Girona's SPIN: its list and the page of each offer.
     spin.girona.cat: 1500
+    # service.bund.de: its robots.txt asks 30 s between pages.
+    www.service.bund.de: 30000
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
@@ -113,3 +115,6 @@ sources:
   # Brandenburg's careers portal: one call, every offer.
   brandenburg:
     cadenceHours: 12
+  # service.bund.de: its feed and 20 pages of ours a pass, 30 s apart as its robots.txt asks.
+  bund:
+    cadenceHours: 6

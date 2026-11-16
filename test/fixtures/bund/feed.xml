@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-made on 2026-11-16 from the format the legacy adapter documents (builder/adapters/bund.ts):
+     service.bund.de is not read while its imprint asks consent (public-feeds FR-6). Not saved from the site. -->
+<rss version="2.0"><channel><title>service.bund.de - Stellenangebote</title>
+<item>
+<title>Ingenieurin / Ingenieur (m/w/d) Elektrotechnik</title>
+<link>https://www.service.bund.de/IMPORTE/Stellenangebote/editor/Bundesamt-Beispiel/2026/11/6661807.html</link>
+<description><![CDATA[Arbeitgeber: <strong>Bundesamt für Beispiele</strong><br/>Ort: <strong>49661 Cloppenburg</strong><br/>Veröffentlichungsende: <strong>30.11.2026</strong>]]></description>
+<pubDate>Mon, 16 Nov 2026 08:00:00 +0100</pubDate>
+</item>
+<item>
+<title>Technikerin / Techniker (m/w/d)</title>
+<link>https://www.service.bund.de/IMPORTE/Stellenangebote/editor/Bundeswehr/2026/11/B7506113A-2026-00005066-B.html</link>
+<description><![CDATA[Arbeitgeber: <strong>Bundeswehr</strong><br/>Ort: <strong>10115 Berlin</strong>]]></description>
+<pubDate>Sun, 15 Nov 2026 10:00:00 +0100</pubDate>
+</item>
+</channel></rss>
