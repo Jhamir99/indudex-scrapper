@@ -33,6 +33,9 @@ pace:
   hosts:
     # Arbetsförmedlingen's JobSearch API, made for programs: 69 groups and their pages.
     jobsearch.api.jobtechdev.se: 200
+    # Finland's public-sector platform: its list and the page of each new vacancy.
+    kuntarekry.fi: 500
+    valtiolle.fi: 500
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
@@ -65,3 +68,8 @@ sources:
   # Iceland's State and Directorate of Labour vacancies, two calls.
   island:
     cadenceHours: 12
+  # Finland's public sector: a list of about 29 pages and the pages of its new vacancies.
+  kuntarekry:
+    cadenceHours: 6
+  valtiolle:
+    cadenceHours: 6
