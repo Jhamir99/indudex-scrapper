@@ -5,6 +5,7 @@ import {
   afterFailure,
   afterSuccess,
   isDue,
+  selectDue,
   type ScheduleRules,
   waitAfterSuccessHours,
 } from "./schedule.js";
@@ -153,5 +154,34 @@ describe("backoff and parking (FR-3)", () => {
       rules,
     );
     expect(hoursBetween(clock.now(), failedAgain.nextDueAt)).toBe(24);
+  });
+});
+
+const enabledDueAt = (nextDueAt: string | null): SourceState => ({
+  status: "enabled",
+  lastRunAt: null,
+  advertCount: 0,
+  consecutiveFailures: 0,
+  unchangedPasses: 0,
+  nextDueAt,
+});
+
+describe("selectDue (FR-6)", () => {
+  it("keeps only due sources: never run first, then the longest overdue, ties by id", () => {
+    const now = new Date("2026-11-16T08:00:00Z");
+    const sources = ["e", "d", "c", "b", "a"].map((id) => ({ id }));
+    const states = new Map([
+      ["a", enabledDueAt("2026-11-16T07:00:00Z")],
+      ["b", enabledDueAt("2026-11-16T09:00:00Z")],
+      ["c", enabledDueAt("2026-11-15T07:00:00Z")],
+      ["d", enabledDueAt("2026-11-16T07:00:00Z")],
+    ]);
+
+    expect(selectDue(sources, states, now).map((s) => s.id)).toEqual([
+      "e",
+      "c",
+      "a",
+      "d",
+    ]);
   });
 });

@@ -10,7 +10,7 @@ import {
 import { advertId, DESCRIPTION_LIMIT } from "../../shared/schemas/advert.js";
 import type { AdvertStore } from "./ports.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
-import { runSource, runSources } from "./runner.js";
+import { runDue, runSource, runSources } from "./runner.js";
 
 function setup() {
   const store = new InMemoryAdvertStore();
@@ -373,5 +373,102 @@ describe("runSources: failure isolation and previous adverts (FR-3, FR-4)", () =
 
     expect(result.reason).toBe("refused https://api.example/?key=[credential]");
     expect(JSON.stringify(await store.readStates())).not.toContain("s3cr3t");
+  });
+});
+
+const feedSource = (id: string) =>
+  new FakeSourceAdapter(fakeDefinition(id), [fakeDraft(id, "1")], {
+    fetches: [`https://${id}.example/feed`],
+  });
+
+const slowerForSlow = (id: string) =>
+  id === "slow" ? { ...rules, cadenceHours: 72 } : rules;
+
+describe("runDue: scheduling (FR-3, FR-6)", () => {
+  it("runs only the due sources, in a stable order, and leaves the others without a request", async () => {
+    const { clock, store, http, dependencies } = runSetup();
+    for (const id of ["daily", "slow", "fresh"]) {
+      http.route(`https://${id}.example/feed`, "<rss/>");
+    }
+    const daily = feedSource("daily");
+    const slow = feedSource("slow");
+    const fresh = feedSource("fresh");
+    const deps = { ...dependencies, rulesFor: slowerForSlow };
+
+    await runDue([slow, daily], deps);
+    http.requests.length = 0;
+    clock.advance(25 * HOUR);
+
+    const result = await runDue([slow, fresh, daily], deps);
+
+    expect(result.sources.map((source) => source.source)).toEqual([
+      "fresh",
+      "daily",
+    ]);
+    expect(http.requests.map((request) => request.url)).toEqual([
+      "https://fresh.example/feed",
+      "https://daily.example/feed",
+    ]);
+    expect(slow.runs).toBe(1);
+    expect((await store.readState("slow"))?.lastRunAt).toBe(
+      "2026-11-16T08:00:00.000Z",
+    );
+  });
+
+  it("gives a failed source the next wait of the backoff", async () => {
+    const { clock, store, dependencies } = runSetup();
+    const broken = new FakeSourceAdapter(fakeDefinition("broken"), [], {
+      failure: new Error("down"),
+    });
+
+    await runDue([broken], dependencies);
+    expect((await store.readState("broken"))?.nextDueAt).toBe(
+      "2026-11-17T08:00:00.000Z",
+    );
+
+    clock.advance(23 * HOUR);
+    await runDue([broken], dependencies);
+    expect(broken.runs).toBe(1);
+
+    clock.advance(1 * HOUR);
+    await runDue([broken], dependencies);
+    expect(broken.runs).toBe(2);
+    expect(await store.readState("broken")).toMatchObject({
+      status: "failed",
+      consecutiveFailures: 2,
+      nextDueAt: "2026-11-20T08:00:00.000Z",
+    });
+  });
+
+  it("makes no request for a parked source until its period ends", async () => {
+    const { clock, store, http, dependencies } = runSetup();
+    await store.writeState("parked", {
+      status: "parked",
+      reason: "down",
+      parkedUntil: "2026-12-16T08:00:00.000Z",
+      lastRunAt: "2026-11-16T08:00:00.000Z",
+      advertCount: 3,
+      consecutiveFailures: 6,
+      unchangedPasses: 0,
+      nextDueAt: "2026-12-16T08:00:00.000Z",
+    });
+    http.route("https://parked.example/feed", "<rss/>");
+    const parked = new FakeSourceAdapter(
+      fakeDefinition("parked"),
+      [fakeDraft("parked", "1")],
+      { fetches: ["https://parked.example/feed"] },
+    );
+
+    clock.advance(29 * 24 * HOUR);
+    await runDue([parked], dependencies);
+    expect(http.requests).toEqual([]);
+
+    clock.advance(24 * HOUR);
+    await runDue([parked], dependencies);
+    expect(http.requests).toHaveLength(1);
+    expect(await store.readState("parked")).toMatchObject({
+      status: "enabled",
+      consecutiveFailures: 0,
+    });
   });
 });

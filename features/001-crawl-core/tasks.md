@@ -42,7 +42,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: tests with fakes pass: valid adverts are stored; an invalid one is counted with its reason and not stored; the runner calls nothing beyond store.
 - [x] **T018 — Runner: failure isolation and keeping previous adverts** · FR: FR-3, FR-4 · Depends: T017
       Done when: tests pass: a throwing source is marked failed with its reason; the next source still runs; previous adverts remain unchanged; a read of zero adverts is reported and deletes nothing.
-- [ ] **T019 — Runner: scheduling (due sources, backoff and parking)** · FR: FR-3, FR-6 · Depends: T018, T004
+- [x] **T019 — Runner: scheduling (due sources, backoff and parking)** · FR: FR-3, FR-6 · Depends: T018, T004
       Done when: tests with a fake clock pass: only due sources run, in a stable order, the others without a request; a failed source gets the next wait; a parked source makes no request until its period ends.
 - [ ] **T020 — Runner: gates (takedowns, stop switch, disabled and disallowed sources)** · FR: FR-5, FR-7, FR-8, FR-9 · Depends: T017, T008, T015, T012, T016
       Done when: tests pass: adverts covered by a takedown are neither collected nor kept, including stored ones; after the flag appears no new request or source run starts and stored data is unchanged; a disabled source makes zero requests; a source blocked by robots.txt ends as disallowed.

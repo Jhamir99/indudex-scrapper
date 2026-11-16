@@ -83,3 +83,21 @@ export function afterFailure(
     backoffHours[Math.min(consecutiveFailures, backoffHours.length) - 1] ?? 0;
   return { status: "failed", ...fields, nextDueAt: later(run.at, wait) };
 }
+
+// The sources due at `now`, in a stable order: never-run sources first, then the longest
+// overdue, ties by id.
+export function selectDue<Source extends { readonly id: string }>(
+  sources: readonly Source[],
+  states: ReadonlyMap<string, SourceState>,
+  now: Date,
+): Source[] {
+  const dueAt = (source: Source) => {
+    const nextDueAt = states.get(source.id)?.nextDueAt;
+    return nextDueAt ? new Date(nextDueAt).getTime() : -Infinity;
+  };
+  return sources
+    .filter((source) => isDue(states.get(source.id), now))
+    .toSorted(
+      (a, b) => dueAt(a) - dueAt(b) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+    );
+}

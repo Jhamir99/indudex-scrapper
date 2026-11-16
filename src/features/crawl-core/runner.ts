@@ -8,6 +8,7 @@ import {
   afterFailure,
   afterSuccess,
   type ScheduleRules,
+  selectDue,
 } from "./domain/schedule.js";
 import type {
   AdapterContext,
@@ -145,6 +146,23 @@ export interface RunDependencies {
 
 export interface RunResult {
   readonly sources: readonly SourceRunResult[];
+}
+
+// One scheduled run: only the sources due now, the others untouched and without a request
+// (FR-6). A failed or parked source is due again only when its wait has passed (FR-3).
+export async function runDue(
+  adapters: readonly SourceAdapter[],
+  dependencies: RunDependencies,
+): Promise<RunResult> {
+  const { store, clock, log } = dependencies;
+  const states = await store.readStates();
+  const due = selectDue(
+    adapters.map((adapter) => ({ id: adapter.definition.id, adapter })),
+    states,
+    clock.now(),
+  ).map((entry) => entry.adapter);
+  log(`${due.length} of ${adapters.length} sources due`);
+  return runSources(due, dependencies);
 }
 
 // Runs the given sources one after another. Each runs inside its own failure boundary, so a
