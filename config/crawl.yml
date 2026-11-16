@@ -50,6 +50,8 @@ pace:
     pescps.dl.mlsi.gov.cy: 1500
     # Portugal's IEFP: its search, a hundred a page, and the pages of new offers.
     iefponline.iefp.pt: 1000
+    # Girona's SPIN: its list and the page of each offer.
+    spin.girona.cat: 1500
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
