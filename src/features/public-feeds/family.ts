@@ -113,6 +113,8 @@ export interface DetailPages {
   readonly read: (draft: AdvertDraft, html: string) => AdvertDraft;
   // What an advert whose page was read in an earlier pass keeps from then.
   readonly keep: (draft: AdvertDraft, known: AdvertDraft) => AdvertDraft;
+  // Whether a stored advert's page was read; by default, whether it has a text.
+  readonly wasRead?: (known: AdvertDraft, listed: AdvertDraft) => boolean;
 }
 
 // For a feed whose list leaves out the text: each new advert's own page is read once, and an
@@ -134,7 +136,7 @@ export async function* withDetailPages(
   for (const draft of listed) {
     listedCount += 1;
     const seen = known.get(draft.sourceId);
-    if (seen) {
+    if (seen && (details.wasRead?.(seen, draft) ?? true)) {
       yield details.keep(draft, seen);
     } else if (read >= details.most) {
       yield draft;

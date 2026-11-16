@@ -56,6 +56,8 @@ pace:
     www.service.bund.de: 30000
     # Karriere.NRW's open API: about a hundred pages of ten.
     api.karriere.nrw: 300
+    # Brussels' Actiris: its list, a hundred a call, and the pages of new offers.
+    www.actiris.brussels: 1000
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
@@ -132,3 +134,6 @@ sources:
   # Austrian public bodies' vacancies as open data (IFG), one call.
   ifgat:
     cadenceHours: 12
+  # Brussels' Actiris: its own offers, about 19 calls, and the text of new ones.
+  actiris:
+    cadenceHours: 6

@@ -34,6 +34,7 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
       Done when: the standard adapter check passes for each adapter.
 - [ ] **T012 — Port adapters: actiris, forem, vdab** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
+      2026-11-16: `actiris` done; `forem` (its export sits under /api/, closed by robots.txt) and `vdab` (a whole pass takes most of an hour) wait for decisions.
 - [ ] **T013 — Port adapters: emilia, trento, brescia** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
 - [ ] **T014 — Port adapters: bolzano, uzt, lanbide** · FR: FR-1, FR-5 · Depends: T002
