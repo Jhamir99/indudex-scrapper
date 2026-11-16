@@ -12,7 +12,7 @@ A feature starts when the ones before it are closed. The order reaches a first p
 
 | #   | Feature                                           | Process   | Status  | What it covers                                                                           |
 | --- | ------------------------------------------------- | --------- | ------- | ---------------------------------------------------------------------------------------- |
-| 001 | [crawl-core](001-crawl-core/)                     | scrapper  | planned | Runner, cadence, backoff and parking, polite HTTP, store, status, stop switch, takedowns |
+| 001 | [crawl-core](001-crawl-core/)                     | scrapper  | done    | Runner, cadence, backoff and parking, polite HTTP, store, status, stop switch, takedowns |
 | 002 | [public-feeds](002-public-feeds/)                 | scrapper  | planned | Public employment services and open-data feeds (about 45), `brz` first as reference      |
 | 003 | [catalogues](003-catalogues/)                     | processor | outline | ISCO/ESCO families and titles, countries, towns, NUTS, languages, degrees, vetoes        |
 | 004 | [places](004-places/)                             | processor | outline | Country, town with coordinates, and region of each advert                                |
