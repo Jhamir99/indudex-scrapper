@@ -1,6 +1,7 @@
 import { brz } from "../public-feeds/adapters/brz/brz.js";
 import { island } from "../public-feeds/adapters/island/island.js";
 import { jobindex } from "../public-feeds/adapters/jobindex/jobindex.js";
+import { jobtech } from "../public-feeds/adapters/jobtech/jobtech.js";
 import type { SourceAdapter } from "./ports.js";
 
 // Every source the scrapper runs, in no particular order (the runner decides when each runs).
@@ -10,4 +11,5 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   brz,
   island,
   jobindex,
+  jobtech,
 ];

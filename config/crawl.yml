@@ -29,6 +29,10 @@ pace:
   perProvider:
     gapMs: 3000
     inFlight: 1
+  # Hosts with their own gap, from the legacy adapters' own pace (public-feeds FR-4).
+  hosts:
+    # Arbetsförmedlingen's JobSearch API, made for programs: 69 groups and their pages.
+    jobsearch.api.jobtechdev.se: 200
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.

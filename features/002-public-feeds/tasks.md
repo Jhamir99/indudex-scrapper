@@ -52,5 +52,5 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
       Done when: tests pass on saved pages: one or several JSON-LD blocks (an `@graph`, a list) give their postings as plain fields; a block with broken JSON that the legacy repaired is still read; a page without one gives none.
 - [x] **T021 — Disabled and flagged sources** · FR: FR-6 · Depends: crawl-core T020
       Done when: tests pass: a source whose definition has `disabledReason` is recorded as disabled with `flagged: <reason>` and makes zero requests; without it, it runs.
-- [ ] **T022 — `config/ssyk-groups.yml` for jobtech** · FR: FR-7 · Depends: T001
+- [x] **T022 — `config/ssyk-groups.yml` for jobtech** · FR: FR-7 · Depends: T001
       Done when: the file exists with its header (source, licence, date, how it was built), loads through `loadConfig` with a schema, and a test checks it is not empty and every entry is a JobTech concept id.

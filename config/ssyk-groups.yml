@@ -1,0 +1,287 @@
+# The SSYK-2012 occupation groups jobtech asks Arbetsförmedlingen's JobSearch API for (public-feeds FR-7).
+# Validated by src/features/public-feeds/adapters/jobtech/ssyk-groups.ts.
+#
+# Built on 2026-11-16 from the legacy Indudex project (https://github.com/JustJans/indudex, © 2026 JustJans):
+# every concept of catalogues/codes/ssyk-isco.json (JobTech's SSYK-2012 → ISCO-08 correspondence, taken
+# from https://taxonomy.api.jobtechdev.se on 2026-09-05; JobTech Taxonomy, Arbetsförmedlingen, CC0 1.0) whose
+# ISCO-08 unit groups include one of the 71 occupation families of catalogues/families.json (Indudex's
+# scope: ISCO minor groups 214-216, 251-252, 311-315 and 351-352, and the optional trades 712, 721-723,
+# 741-742), as the legacy gate's bySsyk did. To change the scope, regenerate this list; no code changes.
+
+groups:
+  - concept: xm5G_vGn_iyk
+    ssyk: "2141"
+    label: "Civilingenjörsyrken inom logistik och produktionsplanering"
+    isco: ["2141"]
+  - concept: XeBP_nMe_pXx
+    ssyk: "2142"
+    label: "Civilingenjörsyrken inom bygg och anläggning"
+    isco: ["2142"]
+  - concept: SPYW_7Z1_ShT
+    ssyk: "2143"
+    label: "Civilingenjörsyrken inom elektroteknik"
+    isco: ["2151", "2152", "2153"]
+  - concept: PRQn_9yw_NJA
+    ssyk: "2144"
+    label: "Civilingenjörsyrken inom maskinteknik"
+    isco: ["2144"]
+  - concept: qn2U_dB9_Cmh
+    ssyk: "2145"
+    label: "Civilingenjörsyrken inom kemi och kemiteknik"
+    isco: ["2145"]
+  - concept: rwpH_6RA_XTT
+    ssyk: "2146"
+    label: "Civilingenjörsyrken inom gruvteknik och metallurgi"
+    isco: ["2146"]
+  - concept: mp2Y_vyC_RFV
+    ssyk: "2149"
+    label: "Övriga civilingenjörsyrken"
+    isco: ["2149"]
+  - concept: 41KB_bfk_5jR
+    ssyk: "2161"
+    label: "Arkitekter m.fl."
+    isco: ["2161"]
+  - concept: ETAR_ggZ_Wuw
+    ssyk: "2162"
+    label: "Landskapsarkitekter"
+    isco: ["2162"]
+  - concept: Pd51_xnr_KCY
+    ssyk: "2163"
+    label: "Planeringsarkitekter m.fl."
+    isco: ["2164"]
+  - concept: GMDo_DVo_Yzh
+    ssyk: "2164"
+    label: "Lantmätare"
+    isco: ["2165"]
+  - concept: rE1E_m3d_cx1
+    ssyk: "2183"
+    label: "Specialister inom miljöskydd och miljöteknik"
+    isco: ["2143"]
+  - concept: UXKZ_3zZ_ipB
+    ssyk: "2511"
+    label: "Systemanalytiker och IT-arkitekter m.fl."
+    isco: ["2511"]
+  - concept: DJh5_yyF_hEM
+    ssyk: "2512"
+    label: "Mjukvaru- och systemutvecklare m.fl."
+    isco: ["2511", "2512", "2513", "2514", "2521"]
+  - concept: Q5DF_juj_8do
+    ssyk: "2513"
+    label: "Utvecklare inom spel och digitala media"
+    isco: ["2513"]
+  - concept: D9SL_mtn_vGM
+    ssyk: "2514"
+    label: "Systemtestare och testledare"
+    isco: ["2519"]
+  - concept: cBBa_ngH_fCx
+    ssyk: "2515"
+    label: "Systemförvaltare m.fl."
+    isco: ["2522"]
+  - concept: BAeH_eg8_T2d
+    ssyk: "2516"
+    label: "IT-säkerhetsspecialister"
+    isco: ["2529"]
+  - concept: UxT1_tPF_Kbg
+    ssyk: "2519"
+    label: "Övriga IT-specialister"
+    isco: ["2519"]
+  - concept: 33Nt_DSs_YYA
+    ssyk: "3111"
+    label: "Ingenjörer och tekniker inom industri, logistik och produktionsplanering"
+    isco: ["3115"]
+  - concept: thZP_oR7_WrY
+    ssyk: "3112"
+    label: "Ingenjörer och tekniker inom bygg och anläggning"
+    isco: ["3112"]
+  - concept: nDaB_vdy_eAy
+    ssyk: "3113"
+    label: "Ingenjörer och tekniker inom elektroteknik"
+    isco: ["3113", "3114", "3522"]
+  - concept: K8yg_U4C_gkY
+    ssyk: "3114"
+    label: "Ingenjörer och tekniker inom maskinteknik"
+    isco: ["3115"]
+  - concept: v9nU_6Fw_4Qg
+    ssyk: "3115"
+    label: "Ingenjörer och tekniker inom kemi och kemiteknik"
+    isco: ["3116", "3119"]
+  - concept: 3jEy_yuT_aVo
+    ssyk: "3116"
+    label: "Ingenjörer och tekniker inom gruvteknik och metallurgi"
+    isco: ["3117"]
+  - concept: ketV_G9W_GeR
+    ssyk: "3117"
+    label: "GIS- och kartingenjörer"
+    isco: ["3118"]
+  - concept: mis4_feV_uex
+    ssyk: "3119"
+    label: "Övriga ingenjörer och tekniker"
+    isco: ["3119"]
+  - concept: w6ud_quG_dgh
+    ssyk: "3121"
+    label: "Arbetsledare inom bygg, anläggning och gruva"
+    isco: ["3121", "3123"]
+  - concept: dMVD_VYy_kgg
+    ssyk: "3122"
+    label: "Arbetsledare inom tillverkning"
+    isco: ["3122"]
+  - concept: Rsoy_sS6_6c4
+    ssyk: "3151"
+    label: "Maskinbefäl"
+    isco: ["3151"]
+  - concept: kDnq_Q98_sD3
+    ssyk: "3152"
+    label: "Fartygsbefäl m.fl."
+    isco: ["3152"]
+  - concept: 7n3y_FTE_qSe
+    ssyk: "3153"
+    label: "Piloter m.fl."
+    isco: ["3153"]
+  - concept: yct8_Pun_DWd
+    ssyk: "3154"
+    label: "Flygledare"
+    isco: ["3154"]
+  - concept: eRkT_cTv_H9v
+    ssyk: "3155"
+    label: "Flygtekniker"
+    isco: ["3155"]
+  - concept: bExu_8gk_azk
+    ssyk: "3215"
+    label: "Laboratorieingenjörer"
+    isco: ["3111"]
+  - concept: nuXg_Wjc_JPd
+    ssyk: "3354"
+    label: "Säkerhetsinspektörer m.fl."
+    isco: ["3115"]
+  - concept: wCx8_rY3_XUT
+    ssyk: "3355"
+    label: "Brandingenjörer och byggnadsinspektörer m.fl."
+    isco: ["3112"]
+  - concept: 3J38_DNz_YKK
+    ssyk: "3431"
+    label: "Fotografer"
+    isco: ["3521"]
+  - concept: 13md_uyV_BNG
+    ssyk: "3511"
+    label: "Drifttekniker, IT"
+    isco: ["3511"]
+  - concept: hmaC_cfi_UKg
+    ssyk: "3512"
+    label: "Supporttekniker, IT"
+    isco: ["3512"]
+  - concept: MYAz_x9m_2LJ
+    ssyk: "3513"
+    label: "Systemadministratörer"
+    isco: ["2521", "2522"]
+  - concept: VCpu_5EN_bBt
+    ssyk: "3514"
+    label: "Nätverks- och systemtekniker m.fl."
+    isco: ["2523", "3513"]
+  - concept: Fv7d_YhP_YmS
+    ssyk: "3515"
+    label: "Webbmaster och webbadministratörer"
+    isco: ["3514"]
+  - concept: CkRH_4Qn_iX3
+    ssyk: "3521"
+    label: "Bild- och sändningstekniker"
+    isco: ["3521"]
+  - concept: 4BsK_q2C_sCL
+    ssyk: "3522"
+    label: "Ljus-, ljud- och scentekniker"
+    isco: ["3521"]
+  - concept: kZwz_D8K_bKs
+    ssyk: "5414"
+    label: "SOS-operatörer m.fl."
+    isco: ["3152"]
+  - concept: fLKb_bJ3_69p
+    ssyk: "7125"
+    label: "VVS-montörer m.fl."
+    isco: ["7126"]
+  - concept: 3UzE_P8A_9sS
+    ssyk: "7126"
+    label: "Kyl- och värmepumpstekniker m.fl."
+    isco: ["7127"]
+  - concept: J9Vz_JxJ_Bji
+    ssyk: "7211"
+    label: "Gjutare"
+    isco: ["7211"]
+  - concept: wQ1E_Bzk_ZyA
+    ssyk: "7212"
+    label: "Svetsare och gasskärare"
+    isco: ["7212"]
+  - concept: bXfo_4hb_SXx
+    ssyk: "7213"
+    label: "Byggnads- och ventilationsplåtslagare"
+    isco: ["7213"]
+  - concept: L4hA_SJP_SFi
+    ssyk: "7214"
+    label: "Tunnplåtslagare"
+    isco: ["7213"]
+  - concept: TrwQ_RXT_W8a
+    ssyk: "7215"
+    label: "Stålkonstruktionsmontörer och grovplåtsslagare"
+    isco: ["7214", "7215"]
+  - concept: q8Ho_3Xw_sHq
+    ssyk: "7221"
+    label: "Smeder"
+    isco: ["7221"]
+  - concept: MSnK_3Z8_4qA
+    ssyk: "7222"
+    label: "Verktygsmakare"
+    isco: ["7222"]
+  - concept: vaEp_iBS_c5h
+    ssyk: "7223"
+    label: "Maskinställare och maskinoperatörer, metallarbete"
+    isco: ["7223"]
+  - concept: 4bxV_58E_P9N
+    ssyk: "7224"
+    label: "Slipare m.fl."
+    isco: ["7224"]
+  - concept: Lzpv_ofL_3H5
+    ssyk: "7231"
+    label: "Motorfordonsmekaniker och fordonsreparatörer"
+    isco: ["7231"]
+  - concept: iGTu_bYL_2T7
+    ssyk: "7232"
+    label: "Flygmekaniker m.fl."
+    isco: ["7232"]
+  - concept: KttZ_Skc_bMR
+    ssyk: "7233"
+    label: "Underhållsmekaniker och maskinreparatörer"
+    isco: ["7233"]
+  - concept: e6nk_AGp_y28
+    ssyk: "7311"
+    label: "Finmekaniker"
+    isco: ["7222"]
+  - concept: yyF7_jsW_EeP
+    ssyk: "7411"
+    label: "Installations- och serviceelektriker"
+    isco: ["7411"]
+  - concept: a75S_eLg_JWH
+    ssyk: "7412"
+    label: "Industrielektriker"
+    isco: ["7412"]
+  - concept: MW1P_GNJ_4F9
+    ssyk: "7413"
+    label: "Distributionselektriker"
+    isco: ["7413"]
+  - concept: fWrt_sLg_koW
+    ssyk: "7420"
+    label: "Elektronikreparatörer och kommunikationselektriker m.fl."
+    isco: ["7421", "7422"]
+  - concept: Cppd_9P7_HeR
+    ssyk: "8191"
+    label: "Drifttekniker vid värme- och vattenverk"
+    isco: ["3131", "3132"]
+  - concept: QEBd_qHu_vGr
+    ssyk: "8192"
+    label: "Processövervakare, kemisk industri"
+    isco: ["3133", "3134"]
+  - concept: E87t_egE_pjA
+    ssyk: "8193"
+    label: "Processövervakare, metallproduktion"
+    isco: ["3135"]
+  - concept: 7Zqy_hSM_Fig
+    ssyk: "8199"
+    label: "Övriga drifttekniker och processövervakare"
+    isco: ["3139"]
