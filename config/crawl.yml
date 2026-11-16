@@ -46,6 +46,8 @@ pace:
     burzarada.hzz.hr: 500
     # Romania's ANOFM: its list, a hundred a call.
     mediere.anofm.ro: 1000
+    # Cyprus's PESCPS: one search per occupation of ours.
+    pescps.dl.mlsi.gov.cy: 1500
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
@@ -98,3 +100,6 @@ sources:
   # Romania's ANOFM: its job list, about 83 calls of a hundred offers.
   anofm:
     cadenceHours: 6
+  # Cyprus's public employment service: one search per ISCO unit group of ours.
+  cyprus:
+    cadenceHours: 12
