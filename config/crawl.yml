@@ -54,6 +54,8 @@ pace:
     spin.girona.cat: 1500
     # service.bund.de: its robots.txt asks 30 s between pages.
     www.service.bund.de: 30000
+    # Karriere.NRW's open API: about a hundred pages of ten.
+    api.karriere.nrw: 300
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
@@ -118,3 +120,6 @@ sources:
   # service.bund.de: its feed and 20 pages of ours a pass, 30 s apart as its robots.txt asks.
   bund:
     cadenceHours: 6
+  # Karriere.NRW: its open API, about a hundred pages of ten.
+  karrierenrw:
+    cadenceHours: 12

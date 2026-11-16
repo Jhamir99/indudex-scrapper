@@ -10,6 +10,7 @@ import { infopraca } from "../public-feeds/adapters/infopraca/infopraca.js";
 import { island } from "../public-feeds/adapters/island/island.js";
 import { jobindex } from "../public-feeds/adapters/jobindex/jobindex.js";
 import { jobtech } from "../public-feeds/adapters/jobtech/jobtech.js";
+import { karrierenrw } from "../public-feeds/adapters/karrierenrw/karrierenrw.js";
 import { kuntarekry } from "../public-feeds/adapters/kuntarekry/kuntarekry.js";
 import { mpsv } from "../public-feeds/adapters/mpsv/mpsv.js";
 import { netempregos } from "../public-feeds/adapters/netempregos/netempregos.js";
@@ -38,6 +39,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   island,
   jobindex,
   jobtech,
+  karrierenrw,
   kuntarekry,
   mpsv,
   netempregos,
