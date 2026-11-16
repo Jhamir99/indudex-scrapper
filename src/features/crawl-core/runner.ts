@@ -231,6 +231,8 @@ function gate(adapter: SourceAdapter, dependencies: RunDependencies): Gate {
   const { definition } = adapter;
   const takedown = dependencies.takedowns.sourceReason(definition.id);
   if (takedown) return { allowed: false, reason: `taken down: ${takedown}` };
+  if (definition.disabledReason)
+    return { allowed: false, reason: `flagged: ${definition.disabledReason}` };
   const check = checkCredentials(definition, dependencies.environment);
   if (!check.ready) return { allowed: false, reason: check.reason };
   return { allowed: true, credentials: check.credentials };

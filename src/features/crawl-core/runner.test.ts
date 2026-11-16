@@ -938,3 +938,41 @@ describe("runSources: what the adapter is given", () => {
     expect(seen).toEqual([{ previous: [draft], today: "2026-11-17" }]);
   });
 });
+
+describe("runDue: flagged sources (public-feeds FR-6)", () => {
+  it("records a flagged source as disabled and asks it nothing", async () => {
+    const { store, http, dependencies } = runSetup();
+    http.route("https://flagged.example/feed", "<rss/>");
+    const reason =
+      "its terms forbid commercial use; enable once leave is given";
+    const flagged = new FakeSourceAdapter(
+      fakeDefinition("flagged", { disabledReason: reason }),
+      [fakeDraft("flagged", "1")],
+      { fetches: ["https://flagged.example/feed"] },
+    );
+
+    const result = await runDue([flagged], dependencies);
+
+    expect(result.sources[0]).toMatchObject({
+      outcome: "disabled",
+      reason: `flagged: ${reason}`,
+    });
+    expect(flagged.runs).toBe(0);
+    expect(http.requests).toEqual([]);
+    expect(await store.readState("flagged")).toMatchObject({
+      status: "disabled",
+      reason: `flagged: ${reason}`,
+    });
+  });
+
+  it("runs the same source once the flag is removed", async () => {
+    const { dependencies } = runSetup();
+    const open = new FakeSourceAdapter(fakeDefinition("flagged"), [
+      fakeDraft("flagged", "1"),
+    ]);
+
+    const result = await runDue([open], dependencies);
+
+    expect(result.sources[0]?.outcome).toBe("stored");
+  });
+});

@@ -41,6 +41,9 @@ export const SourceDefinition = z
         ]),
       )
       .default([]),
+    // Ported but kept off: the source's terms do not allow us yet, or it no longer works. The
+    // runner records it as disabled with this reason and asks it nothing.
+    disabledReason: z.string().min(1).optional(),
   })
   .refine(
     (source) =>
