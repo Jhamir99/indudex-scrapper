@@ -34,7 +34,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: tests with a fake clock pass: consecutive requests to one host are at least the configured gap apart; different hosts do not wait for each other; hosts on one server share one gap and one request at a time; providers on the configured list are paced together.
 - [x] **T014 — HTTP client: connection caps and error budget** · FR: FR-5 · Depends: T013
       Done when: tests pass: never more than the configured simultaneous and new-per-second connections; a server that answers more 4xx than its budget in the window is asked nothing more until the window passes.
-- [ ] **T015 — Stop switch: file flag** · FR: FR-7 · Depends: T003
+- [x] **T015 — Stop switch: file flag** · FR: FR-7 · Depends: T003
       Done when: tests pass on a temporary folder: creating the flag file makes the switch read as active, removing it releases; the flag is read without restarting anything.
 - [ ] **T016 — Credentials from the environment; disabled state; .env.example** · FR: FR-9 · Depends: T002
       Done when: tests pass: a source with a missing variable reports disabled with the variable's name (never its value); `.env.example` lists every credentialed source's variable; a grep for key-like strings in the repo finds none.
