@@ -30,8 +30,17 @@ export const SourceDefinition = z
     kind: SourceKind,
     licence: Licence,
     needsCredentials: z.boolean(),
-    // Only the names of the variables: the values live in the environment (FR-9).
-    credentialVariables: z.array(EnvironmentVariableName).default([]),
+    // Only the names of the variables: the values live in the environment (FR-9). Each entry is
+    // one variable, or a list of alternatives of which one is enough (Jooble: one key, or one
+    // key per country).
+    credentialVariables: z
+      .array(
+        z.union([
+          EnvironmentVariableName,
+          z.array(EnvironmentVariableName).min(1),
+        ]),
+      )
+      .default([]),
   })
   .refine(
     (source) =>

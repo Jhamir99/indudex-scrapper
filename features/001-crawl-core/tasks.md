@@ -65,7 +65,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: tests pass: a source whose read ends on a robots.txt refusal is recorded as disallowed with the failure waits and has no stored adverts left; a source that fails any other way still keeps its adverts.
 - [x] **T028 — HTTP client: `From` header** · FR: FR-5 · Depends: T011, T023
       Done when: a test with a fake `fetch` shows every request (retries and robots.txt included) carrying the configured `User-Agent` and `From`; the crawl entry point sets `From: contact@indudex.com`.
-- [ ] **T029 — Credentials: alternative variables** · FR: FR-9 · Depends: T016, T024
+- [x] **T029 — Credentials: alternative variables** · FR: FR-9 · Depends: T016, T024
       Done when: tests pass: a source declaring `["JOOBLE_KEY", "JOOBLE_KEYS"]` is ready with either set and receives only the ones set; with neither it is disabled with the reason `missing credentials: one of JOOBLE_KEY, JOOBLE_KEYS`; plain and alternative entries mix; `.env.example` coverage checks every alternative; the schema rejects an empty list.
 - [ ] **T030 — Close crawl-core again** · FR: FR-4, FR-5, FR-9 · Depends: T026, T027, T028, T029
       Done when: the CI command is green; `MEMORY.md` and `CLAUDE.md` reflect the amendment; `features/README.md` marks this feature done.

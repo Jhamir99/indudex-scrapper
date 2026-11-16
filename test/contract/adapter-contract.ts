@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { credentialNames } from "../../src/features/crawl-core/credentials.js";
 import { runSource } from "../../src/features/crawl-core/runner.js";
 import type { SourceAdapter } from "../../src/features/crawl-core/ports.js";
 import { SourceDefinition } from "../../src/shared/schemas/source.js";
@@ -45,7 +46,7 @@ export async function checkAdapterContract(
 
   const store = new InMemoryAdvertStore();
   const credentials = Object.fromEntries(
-    definition.data.credentialVariables.map((name) => [name, `test-${name}`]),
+    credentialNames(definition.data).map((name) => [name, `test-${name}`]),
   );
   const result = await runSource(adapter, {
     http: new FakeHttpClient(routes),

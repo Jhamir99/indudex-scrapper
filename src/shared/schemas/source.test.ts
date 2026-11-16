@@ -72,6 +72,36 @@ const fields = {
   nextDueAt: "2026-11-16T08:00:00Z",
 };
 
+describe("SourceDefinition credentials (FR-9)", () => {
+  const base = {
+    id: "jooble",
+    kind: "via",
+    licence: {
+      name: "Jooble",
+      short: "Jooble",
+      url: "https://jooble.org/",
+      licence: "Jooble partner API terms",
+      credit: "Jobs by Jooble",
+    },
+    needsCredentials: true,
+  };
+
+  it("takes a list of alternatives as one entry", () => {
+    const parsed = SourceDefinition.parse({
+      ...base,
+      credentialVariables: [["JOOBLE_KEY", "JOOBLE_KEYS"]],
+    });
+    expect(parsed.credentialVariables).toEqual([["JOOBLE_KEY", "JOOBLE_KEYS"]]);
+  });
+
+  it("rejects an empty list of alternatives", () => {
+    expect(
+      SourceDefinition.safeParse({ ...base, credentialVariables: [[]] })
+        .success,
+    ).toBe(false);
+  });
+});
+
 describe("SourceState (FR-10)", () => {
   it.each([
     { status: "enabled", ...fields },

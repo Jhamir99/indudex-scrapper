@@ -52,7 +52,56 @@ describe("checkCredentials (FR-9)", () => {
   });
 });
 
+const jooble = fakeDefinition("jooble", {
+  needsCredentials: true,
+  credentialVariables: [["JOOBLE_KEY", "JOOBLE_KEYS"]],
+});
+
+describe("checkCredentials with alternatives (FR-9)", () => {
+  it("is ready with either alternative and hands over only the ones set", () => {
+    expect(checkCredentials(jooble, { JOOBLE_KEY: "one" })).toEqual({
+      ready: true,
+      credentials: { JOOBLE_KEY: "one" },
+    });
+    expect(checkCredentials(jooble, { JOOBLE_KEYS: "es=a,de=b" })).toEqual({
+      ready: true,
+      credentials: { JOOBLE_KEYS: "es=a,de=b" },
+    });
+  });
+
+  it("is disabled when none is set, naming them all", () => {
+    expect(checkCredentials(jooble, { JOOBLE_KEY: " " })).toEqual({
+      ready: false,
+      missing: ["one of JOOBLE_KEY, JOOBLE_KEYS"],
+      reason: "missing credentials: one of JOOBLE_KEY, JOOBLE_KEYS",
+    });
+  });
+
+  it("mixes plain and alternative entries", () => {
+    const mixed = fakeDefinition("mixed", {
+      needsCredentials: true,
+      credentialVariables: ["MIXED_ID", ["MIXED_KEY", "MIXED_TOKEN"]],
+    });
+    expect(checkCredentials(mixed, {})).toMatchObject({
+      ready: false,
+      reason: "missing credentials: MIXED_ID; one of MIXED_KEY, MIXED_TOKEN",
+    });
+    expect(
+      checkCredentials(mixed, { MIXED_ID: "i", MIXED_TOKEN: "t" }),
+    ).toEqual({
+      ready: true,
+      credentials: { MIXED_ID: "i", MIXED_TOKEN: "t" },
+    });
+  });
+});
+
 describe(".env.example (FR-9)", () => {
+  it("must list every alternative", () => {
+    expect(variablesMissingFromExample([jooble], "JOOBLE_KEY=\n")).toEqual([
+      "JOOBLE_KEYS",
+    ]);
+  });
+
   it("finds the declared variables an example does not list", () => {
     const example = "# Keyed\nKEYED_APP_ID=\n# KEYED_OPTIONAL=\n";
     expect(variablesMissingFromExample([keyed], example)).toEqual([
