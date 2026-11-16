@@ -18,7 +18,7 @@ export const brz = publicFeed({
     needsCredentials: false,
     credentialVariables: [],
   },
-  url: "https://www.brz-jobs.at/Syndication/Xml?referrer=BRZ%20Portal",
+  pages: ["https://www.brz-jobs.at/Syndication/Xml?referrer=BRZ%20Portal"],
   parse: (xml) =>
     parseSyndication(xml, {
       source: "brz",

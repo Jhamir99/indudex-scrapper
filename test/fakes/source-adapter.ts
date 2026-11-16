@@ -74,3 +74,25 @@ export class FakeSourceAdapter implements SourceAdapter {
     if (this.options.failure) throw this.options.failure;
   }
 }
+
+// An adapter's context for tests that call an adapter directly, without the runner.
+export function fakeContext(
+  overrides: Partial<AdapterContext> & Pick<AdapterContext, "http">,
+): AdapterContext {
+  return {
+    credentials: {},
+    log: () => {},
+    previous: [],
+    today: "2026-11-16",
+    ...overrides,
+  };
+}
+
+export async function readDrafts(
+  adapter: SourceAdapter,
+  context: AdapterContext,
+): Promise<AdvertDraft[]> {
+  const drafts: AdvertDraft[] = [];
+  for await (const draft of adapter.fetchAdverts(context)) drafts.push(draft);
+  return drafts;
+}

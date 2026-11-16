@@ -915,3 +915,26 @@ describe("runSources: suspect drops (FR-4)", () => {
     expect(await store.readAdverts("brz")).toHaveLength(1);
   });
 });
+
+describe("runSources: what the adapter is given", () => {
+  it("hands the adapter its stored adverts as drafts and the run's day", async () => {
+    const { clock, dependencies } = runSetup();
+    const draft = fakeDraft("brz", "1");
+    await runSources(
+      [new FakeSourceAdapter(fakeDefinition("brz"), [draft])],
+      dependencies,
+    );
+    clock.advance(26 * HOUR);
+    const seen: { previous: unknown; today: string }[] = [];
+    const adapter = new FakeSourceAdapter(fakeDefinition("brz"), [draft]);
+    const original = adapter.fetchAdverts.bind(adapter);
+    adapter.fetchAdverts = (context) => {
+      seen.push({ previous: context.previous, today: context.today });
+      return original(context);
+    };
+
+    await runSources([adapter], dependencies);
+
+    expect(seen).toEqual([{ previous: [draft], today: "2026-11-17" }]);
+  });
+});

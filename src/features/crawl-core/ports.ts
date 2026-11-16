@@ -17,6 +17,11 @@ export interface AdapterContext {
   // The values of the source's `credentialVariables`, read from the environment (FR-9).
   readonly credentials: Readonly<Record<string, string>>;
   readonly log: (message: string) => void;
+  // The source's stored adverts that have not expired, as drafts: for a source that only shows
+  // its newest adverts and keeps the earlier ones while they are open (legacy `ctx.previous`).
+  readonly previous: readonly AdvertDraft[];
+  // The run's day, YYYY-MM-DD.
+  readonly today: string;
 }
 
 // A source describes only what is specific to it; when and how fast it runs is the runner's job.

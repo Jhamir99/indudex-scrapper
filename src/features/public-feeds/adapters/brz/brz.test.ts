@@ -4,6 +4,11 @@ import {
   checkAdapterContract,
   loadFixtureRoutes,
 } from "../../../../../test/contract/adapter-contract.js";
+import { FakeHttpClient } from "../../../../../test/fakes/http-client.js";
+import {
+  fakeContext,
+  readDrafts,
+} from "../../../../../test/fakes/source-adapter.js";
 import { brz } from "./brz.js";
 
 const FEED = "https://www.brz-jobs.at/Syndication/Xml?referrer=BRZ%20Portal";
@@ -20,16 +25,8 @@ describe("brz (public-feeds FR-1, FR-3)", () => {
       new URL("../../../../../test/fixtures/brz/feed.xml", import.meta.url),
       "utf8",
     );
-    const http = {
-      request: async () => ({ status: 200, url: FEED, headers: {}, body: xml }),
-    };
-    const drafts = [];
-    for await (const draft of brz.fetchAdverts({
-      http,
-      credentials: {},
-      log: () => {},
-    }))
-      drafts.push(draft);
+    const http = new FakeHttpClient({ [FEED]: xml });
+    const drafts = await readDrafts(brz, fakeContext({ http }));
 
     expect(drafts).toHaveLength(3);
     expect(drafts[0]).toMatchObject({

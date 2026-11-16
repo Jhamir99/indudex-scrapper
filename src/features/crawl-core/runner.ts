@@ -3,6 +3,7 @@ import {
   Advert,
   advertId,
   DESCRIPTION_LIMIT,
+  type StoredAdvert,
 } from "../../shared/schemas/advert.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
 import type { SourceState } from "../../shared/schemas/source.js";
@@ -68,6 +69,8 @@ export interface SourceRunDependencies {
   readonly stopSwitch?: StopSwitch;
   // Reads held as suspect drops in a row before this one (the source state's `heldDrops`).
   readonly heldDropsBefore?: number;
+  // The run's day, YYYY-MM-DD; today by the system clock when not given.
+  readonly today?: string;
   readonly log: (message: string) => void;
 }
 
@@ -111,12 +114,6 @@ export async function runSource(
   const { store, takedowns, log } = dependencies;
   const credentials = dependencies.credentials ?? {};
   const http = new StopGuardClient(dependencies.http, dependencies.stopSwitch);
-  const context: AdapterContext = {
-    http,
-    credentials,
-    log: (message) => log(`${source}: ${message}`),
-  };
-
   const valid = new Map<string, Advert>();
   const rejected: RejectedAdvert[] = [];
   let takenDown = 0;
@@ -149,6 +146,13 @@ export async function runSource(
 
   try {
     const previous = await store.readAdverts(source);
+    const context: AdapterContext = {
+      http,
+      credentials,
+      log: (message) => log(`${source}: ${message}`),
+      previous: previous.map(asDraft),
+      today: dependencies.today ?? new Date().toISOString().slice(0, 10),
+    };
     for await (const draft of adapter.fetchAdverts(context)) {
       const conversion = toAdvert(adapter, draft);
       if (!conversion.success) {
@@ -355,6 +359,7 @@ async function runAndRecord(
     ...dependencies,
     credentials: access.credentials,
     heldDropsBefore: previous?.heldDrops ?? 0,
+    today: at.toISOString().slice(0, 10),
   });
   if (result.outcome === "disallowed") {
     // A site that closes itself to us leaves the output (FR-5), as in the legacy.
@@ -429,6 +434,17 @@ async function sweepTakedowns(
       log(`${source}: takedowns not applied: ${messageOf(error)}`);
     }
   }
+}
+
+// A stored advert as the adapter yielded it: without what the runner and the store added.
+function asDraft(advert: StoredAdvert): AdvertDraft {
+  const {
+    id: _id,
+    attribution: _attribution,
+    firstSeen: _firstSeen,
+    ...draft
+  } = advert;
+  return draft;
 }
 
 // An adapter's error may quote a request that carried a key: no credential value leaves the run.
