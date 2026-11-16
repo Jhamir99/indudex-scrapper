@@ -52,7 +52,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: `pnpm crawl:status` prints, for each source, state, last run, advert count and reason, and a test covers the formatter with a mix of states.
 - [ ] **T023 — Entry point `crawl` with single-source option** · FR: FR-6 · Depends: T021, T022
       Done when: `pnpm crawl -- --source <id>` runs only that source on fakes in an integration test, and `pnpm crawl` is wired in `package.json` (documented in `CLAUDE.md`).
-- [ ] **T024 — Adapter registry and shared contract test** · FR: FR-1, FR-2, FR-12 · Depends: T002, T003
+- [x] **T024 — Adapter registry and shared contract test** · FR: FR-1, FR-2, FR-12 · Depends: T002, T003
       Done when: `src/features/crawl-core/registry.ts` exists, and a test iterates over every registered adapter and checks valid licence data, valid adverts from its fixture and no e-mail or contact field in any advert (no adapter is registered yet; the test's own fake adapter proves it fails on a bad one).
 - [ ] **T025 — Close crawl-core** · FR: FR-1 to FR-12 · Depends: T023, T024
       Done when: `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:run && pnpm build` is green; each of FR-1 to FR-12 has a test that names it; `MEMORY.md`, `CLAUDE.md` (commands, layout) and `.env.example` are updated; `features/README.md` marks this feature done.
