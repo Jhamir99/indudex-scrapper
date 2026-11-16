@@ -38,6 +38,8 @@ pace:
     valtiolle.fi: 500
     # Poland's Infopraca: forty searches, every page, and the pages of new offers.
     www.infopraca.pl: 1000
+    # Slovakia's ÚPSVaR: its list, a hundred a call, and the pages of new offers.
+    www.sluzbyzamestnanosti.gov.sk: 1000
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
@@ -80,4 +82,7 @@ sources:
     cadenceHours: 6
   # Poland's Infopraca: forty searches, every page, about five minutes.
   infopraca:
+    cadenceHours: 6
+  # Slovakia's ÚPSVaR: its own offers, about 125 calls of a hundred.
+  upsvr:
     cadenceHours: 6

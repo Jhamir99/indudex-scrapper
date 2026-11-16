@@ -152,3 +152,19 @@ export async function* withDetailPages(
     `${listedCount} listed, ${read} own pages read${failed > 0 ? `, ${failed} failed` : ""}`,
   );
 }
+
+// A pass must read at least this share of what its source counts (legacy `wholePass`).
+export const WHOLE_PASS = 0.9;
+
+// A pass that read far fewer adverts than its source counts is not a whole pass: it fails, and
+// the store keeps what the last whole pass read. One rule for every reader.
+export function checkWholePass(
+  read: number,
+  total: number,
+  what = "adverts",
+): void {
+  if (!(total > 0))
+    throw new Error(`the source no longer says how many ${what} it holds`);
+  if (read < total * WHOLE_PASS)
+    throw new Error(`${read} ${what} read of the ${total} it counts`);
+}

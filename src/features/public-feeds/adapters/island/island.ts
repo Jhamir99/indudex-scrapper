@@ -1,7 +1,7 @@
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { plainText } from "../../../../shared/kit/text.js";
-import { publicFeed } from "../../family.js";
+import { checkWholePass, publicFeed } from "../../family.js";
 
 // Iceland: the State's vacancies (Starfatorg, from the data its page carries) and the
 // Directorate of Labour's (Vinnumálastofnun, from the list its page asks island.is's API for).
@@ -164,10 +164,8 @@ async function* readIsland(
     if (listed.size === before || listed.size >= Number(total)) break;
   }
   // Part of a list is not the list: the store keeps the last whole one.
-  if (total !== 0 && listed.size < Number(total))
-    throw new Error(
-      `the Directorate's list gave ${listed.size} of its ${String(total)} vacancies`,
-    );
+  if (total !== 0)
+    checkWholePass(listed.size, Number(total), "Directorate vacancies");
   context.log(
     `${state.length} state vacancies, ${directorate.length} of the Directorate of Labour`,
   );

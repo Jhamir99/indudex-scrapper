@@ -129,7 +129,7 @@ describe("island (public-feeds FR-1)", () => {
     };
     await expect(
       readDrafts(island, fakeContext({ http: shortServer })),
-    ).rejects.toThrow("the Directorate's list gave 200 of its 250 vacancies");
+    ).rejects.toThrow("200 Directorate vacancies read of the 250 it counts");
   });
 
   it("reports answers that hold nothing as a failure", async () => {
