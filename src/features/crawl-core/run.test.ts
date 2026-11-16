@@ -9,7 +9,7 @@ import {
 } from "../../../test/fakes/source-adapter.js";
 import { FakeStopSwitch } from "../../../test/fakes/stop-switch.js";
 import { CrawlConfig, scheduleRules } from "./config/crawl-config.js";
-import { loadConfig } from "./config/load-config.js";
+import { loadConfig } from "../../shared/config/load-config.js";
 import { TakedownList } from "./config/takedowns.js";
 import { crawl, parseCrawlArguments, UsageError } from "./run.js";
 

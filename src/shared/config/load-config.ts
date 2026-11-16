@@ -4,9 +4,9 @@ import { isAbsolute, relative, resolve } from "node:path";
 import { parse } from "yaml";
 import type { z } from "@hono/zod-openapi";
 
-// The repo's config/ folder: four levels up from this file in src/ and in dist/ alike.
+// The repo's config/ folder: three levels up from this file in src/ and in dist/ alike.
 export const CONFIG_DIRECTORY = fileURLToPath(
-  new URL("../../../../config/", import.meta.url),
+  new URL("../../../config/", import.meta.url),
 );
 
 export class ConfigError extends Error {

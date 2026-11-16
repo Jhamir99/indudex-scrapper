@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { CrawlConfig, scheduleRules } from "./crawl-config.js";
-import { loadConfig } from "./load-config.js";
+import { loadConfig } from "../../../shared/config/load-config.js";
 
 describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
   it("loads with the legacy defaults", async () => {

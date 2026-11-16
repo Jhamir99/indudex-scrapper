@@ -1,6 +1,6 @@
 import { z } from "@hono/zod-openapi";
 import { SourceId } from "../../../shared/schemas/source.js";
-import { loadConfig } from "./load-config.js";
+import { loadConfig } from "../../../shared/config/load-config.js";
 
 // Why the takedown was done ("employer's request, 2026-11-15"). Never a person's name or address.
 const Reason = z.string().min(1);

@@ -8,7 +8,7 @@ import {
   CrawlConfig,
   scheduleRules,
 } from "../features/crawl-core/config/crawl-config.js";
-import { loadConfig } from "../features/crawl-core/config/load-config.js";
+import { loadConfig } from "../shared/config/load-config.js";
 import { loadTakedowns } from "../features/crawl-core/config/takedowns.js";
 import type { Clock } from "../features/crawl-core/ports.js";
 import { registeredAdapters } from "../features/crawl-core/registry.js";
