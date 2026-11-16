@@ -86,7 +86,10 @@ export function politeHttpClient(
   const unwatch = watchFetchConnections(gate);
   const paced = new PacedClient(gate, {
     clock,
-    ...config.pace,
+    perHost: config.pace.perHost,
+    perServer: config.pace.perServer,
+    perProvider: config.pace.perProvider,
+    hostGaps: config.pace.hosts,
     providers: config.providers,
     errorBudget: {
       errors: config.errorBudget.errors,

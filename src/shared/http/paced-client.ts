@@ -21,6 +21,9 @@ export interface Pace {
 export interface PacedClientOptions {
   readonly clock: Clock;
   readonly perHost: Pace;
+  // Hosts with their own gap between requests instead of `perHost.gapMs` (a source whose terms or
+  // size ask for another pace). Keyed by host name.
+  readonly hostGaps?: Readonly<Record<string, number>>;
   readonly perServer: Pace;
   readonly perProvider: Pace;
   // Provider name → IPv4 networks ("185.162.28.0/22").
@@ -192,7 +195,12 @@ export class PacedClient {
   }
 
   private hostLane(host: string): Lane {
-    return this.lane(this.hosts, host, this.options.perHost);
+    const gapMs = this.options.hostGaps?.[host];
+    const pace =
+      gapMs === undefined
+        ? this.options.perHost
+        : { ...this.options.perHost, gapMs };
+    return this.lane(this.hosts, host, pace);
   }
 
   private lane(lanes: Map<string, Lane>, key: string, pace: Pace): Lane {

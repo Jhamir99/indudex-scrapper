@@ -343,3 +343,37 @@ describe("PacedClient error budget (FR-5)", () => {
     });
   });
 });
+
+describe("PacedClient per-host gaps (public-feeds FR-4)", () => {
+  it("paces a listed host by its own gap and the others by the default", async () => {
+    const clock = new FakeClock();
+    const server = fakeServer(clock);
+    const client = paced(clock, server, { hostGaps: { "a.example.com": 500 } });
+
+    await Promise.all(
+      [1, 2, 3].flatMap((n) => [
+        client.request(`https://a.example.com/${n}`),
+        client.request(`https://b.example.com/${n}`),
+      ]),
+    );
+
+    expect(startsOf(server.calls, "a.example.com")).toEqual([0, 500, 1000]);
+    expect(startsOf(server.calls, "b.example.com")).toEqual([0, 3000, 6000]);
+  });
+
+  it("still paces a listed host with the others on its shared server", async () => {
+    const clock = new FakeClock();
+    const server = fakeServer(clock);
+    const client = paced(clock, server, {
+      hostGaps: { "shared-1.example.com": 500 },
+    });
+
+    await client.request("https://shared-1.example.com/1");
+    await client.request("https://shared-2.example.com/1");
+    await client.request("https://shared-1.example.com/2");
+
+    // The server counts as shared from its second host on.
+    const starts = server.calls.map((call) => call.start);
+    expect(starts[2]! - starts[1]!).toBeGreaterThanOrEqual(5000);
+  });
+});

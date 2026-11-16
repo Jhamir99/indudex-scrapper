@@ -28,6 +28,8 @@ export const CrawlConfig = z.strictObject({
     perServer: Pace,
     // A hosting provider that blocks an address on all its machines at once.
     perProvider: Pace,
+    // Hosts paced by their own gap instead of `perHost.gapMs`, with the reason in a comment.
+    hosts: z.record(z.string().min(1), z.int().nonnegative()).default({}),
   }),
   connections: z.strictObject({
     maxOpen: z.int().positive(),

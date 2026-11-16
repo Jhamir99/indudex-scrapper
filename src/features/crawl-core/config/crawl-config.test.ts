@@ -54,3 +54,19 @@ describe("scheduleRules (FR-6)", () => {
     expect(scheduleRules(config, "other").cadenceHours).toBe(24);
   });
 });
+
+describe("pace.hosts (public-feeds FR-4)", () => {
+  it("defaults to none and rejects a negative gap", async () => {
+    const loaded = await loadConfig("crawl.yml", CrawlConfig);
+    expect(
+      CrawlConfig.safeParse({
+        ...loaded,
+        pace: { ...loaded.pace, hosts: { "kuntarekry.fi": -1 } },
+      }).success,
+    ).toBe(false);
+    const { hosts: _hosts, ...withoutHosts } = loaded.pace;
+    expect(
+      CrawlConfig.parse({ ...loaded, pace: withoutHosts }).pace.hosts,
+    ).toEqual({});
+  });
+});
