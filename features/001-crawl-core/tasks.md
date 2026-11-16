@@ -50,7 +50,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: a test where every source fails ends with all of them marked failed and the run returning normally.
 - [x] **T022 — Status command** · FR: FR-10 · Depends: T010, T019
       Done when: `pnpm crawl:status` prints, for each source, state, last run, advert count and reason, and a test covers the formatter with a mix of states.
-- [ ] **T023 — Entry point `crawl` with single-source option** · FR: FR-6 · Depends: T021, T022
+- [x] **T023 — Entry point `crawl` with single-source option** · FR: FR-6 · Depends: T021, T022
       Done when: `pnpm crawl -- --source <id>` runs only that source on fakes in an integration test, and `pnpm crawl` is wired in `package.json` (documented in `CLAUDE.md`).
 - [x] **T024 — Adapter registry and shared contract test** · FR: FR-1, FR-2, FR-12 · Depends: T002, T003
       Done when: `src/features/crawl-core/registry.ts` exists, and a test iterates over every registered adapter and checks valid licence data, valid adverts from its fixture and no e-mail or contact field in any advert (no adapter is registered yet; the test's own fake adapter proves it fails on a bad one).

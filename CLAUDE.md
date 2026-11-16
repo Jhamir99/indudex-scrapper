@@ -25,6 +25,9 @@ pnpm install
 pnpm dev        # tsx watch src/index.ts
 pnpm build      # tsc -p tsconfig.build.json → dist/ (src only, no tests)
 pnpm start      # node dist/index.js
+pnpm crawl          # one run: the due sources (node dist/bin/crawl.js once built; host cron, hourly)
+pnpm crawl -- --source <id>   # run only that source now, due or not (stop switch, takedowns and credentials still apply)
+touch store/STOP    # stop switch: no new request or source run until the file is removed (in $STORE_DIR when set)
 pnpm crawl:status   # state, last run, adverts, next run and reason of every source (node dist/bin/crawl-status.js once built)
 pnpm typecheck  # tsc --noEmit over src, test and config files
 pnpm test       # vitest in watch mode
@@ -51,7 +54,7 @@ Tooling:
 - **CI** (`.github/workflows/ci.yml`): lint, format check, typecheck, tests and build on every push to `main` and every PR. Node version from `.nvmrc`, pnpm from `packageManager`.
 - **Docker**: `Dockerfile` builds `dist/` and runs it with production dependencies only. `docker-compose.yml` still runs the starter together with indudex-web; it lives here only until `indudex-api` exists, then it moves there. Env vars: see `.env.example` (`PORT`, `CORS_ORIGIN`).
 
-Planned, not created yet: separate entry points for the scrapper, the processor and the title translator, each started by the host's cron. Add them here when they exist.
+The scrapper's entry points are `pnpm crawl` and `pnpm crawl:status` (above). Planned, not created yet: the processor's and the title translator's, each started by the host's cron. Add them here when they exist.
 
 ## Stack
 
@@ -63,7 +66,7 @@ Planned, not created yet: separate entry points for the scrapper, the processor 
 
 ## Intended structure
 
-Feature-first (rules in `AGENTS.md`, "Features"). So far: `index.ts` and `app.ts` (the starter, to move out), `src/shared/schemas/` (advert, source definition and state), `src/shared/kit/` (text, dates, XML/JSON picking), `src/shared/storage/` (atomic writer, `FileAdvertStore`, `FileStopSwitch` (the `STOP` flag in the store folder); the store layout is documented at the top of `file-advert-store.ts`), `src/shared/http/` (`FetchClient`, `HttpFailure`, robots.txt rules, `RobotsClient`, `PacedClient`, `ServerHolds`, `ConnectionGate`), `src/features/crawl-core/` (`ports.ts`, `domain/schedule.ts`, `credentials.ts`, `runner.ts`, `registry.ts`, `config/load-config.ts`, `config/crawl-config.ts`, `config/takedowns.ts`, `status.ts`), `src/bin/` (entry points: `crawl-status.ts`; `store-directory.ts`: `STORE_DIR`, default `store/` at the repo root), `config/` (`crawl.yml`, `takedowns.yml`) `test/fakes/` (one fake per port) and `test/contract/` (the adapter contract every registered adapter passes, with its saved answers mapped in `test/fixtures/<id>/routes.json`). Adjust here when it changes:
+Feature-first (rules in `AGENTS.md`, "Features"). So far: `index.ts` and `app.ts` (the starter, to move out), `src/shared/schemas/` (advert, source definition and state), `src/shared/kit/` (text, dates, XML/JSON picking), `src/shared/storage/` (atomic writer, `FileAdvertStore`, `FileStopSwitch` (the `STOP` flag in the store folder); the store layout is documented at the top of `file-advert-store.ts`), `src/shared/http/` (`FetchClient`, `HttpFailure`, robots.txt rules, `RobotsClient`, `PacedClient`, `ServerHolds`, `ConnectionGate`), `src/features/crawl-core/` (`ports.ts`, `domain/schedule.ts`, `credentials.ts`, `runner.ts`, `run.ts` (arguments, the polite HTTP client wiring, `USER_AGENT`), `registry.ts`, `config/load-config.ts`, `config/crawl-config.ts`, `config/takedowns.ts`, `status.ts`), `src/bin/` (entry points: `crawl.ts`, `crawl-status.ts`; `.env` at the repo root is read by `crawl.ts`, a variable already set wins; `store-directory.ts`: `STORE_DIR`, default `store/` at the repo root), `config/` (`crawl.yml`, `takedowns.yml`) `test/fakes/` (one fake per port) and `test/contract/` (the adapter contract every registered adapter passes, with its saved answers mapped in `test/fixtures/<id>/routes.json`). Adjust here when it changes:
 
 ```
 features/NNN-<feature>/   # spec.md, plan.md, tasks.md; features/README.md is the index

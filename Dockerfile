@@ -23,6 +23,8 @@ ENV NODE_ENV=production \
 COPY --from=prod-deps --chown=node:node /app/node_modules ./node_modules
 COPY --from=build --chown=node:node /app/package.json ./
 COPY --from=build --chown=node:node /app/dist ./dist
+# Read by the scrapper's entry points (dist/bin/crawl.js): cadences, limits, takedowns.
+COPY --from=build --chown=node:node /app/config ./config
 USER node
 EXPOSE 4000
 CMD ["node", "dist/index.js"]

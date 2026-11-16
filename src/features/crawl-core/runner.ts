@@ -266,6 +266,20 @@ export async function runDue(
   return runSources([...unreadable, ...notAllowed, ...due], dependencies);
 }
 
+// Runs one source now, due or not, for debugging (FR-6). The stop switch, takedowns and
+// credentials still apply.
+export async function runOnly(
+  adapter: SourceAdapter,
+  dependencies: RunDependencies,
+): Promise<RunResult> {
+  if (await dependencies.stopSwitch.isActive()) {
+    dependencies.log("the stop switch is active: nothing runs");
+    return { sources: [], stopped: true };
+  }
+  await sweepTakedowns([adapter], dependencies);
+  return runSources([adapter], dependencies);
+}
+
 // Runs the given sources one after another, due or not. Each runs inside its own failure
 // boundary, so a failing source is recorded with its reason and the next one still runs
 // (FR-3, FR-4). The stop switch is read before each source (FR-7).
