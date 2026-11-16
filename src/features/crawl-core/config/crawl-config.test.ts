@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CrawlConfig } from "./crawl-config.js";
+import { CrawlConfig, scheduleRules } from "./crawl-config.js";
 import { loadConfig } from "./load-config.js";
 
 describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
@@ -36,5 +36,21 @@ describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
       sources: { brz: { cadenceHours: 12 } },
     });
     expect(config.sources.brz?.cadenceHours).toBe(12);
+  });
+});
+
+describe("scheduleRules (FR-6)", () => {
+  it("gives a source its own cadence, or the default", async () => {
+    const loaded = await loadConfig("crawl.yml", CrawlConfig);
+    const config = { ...loaded, sources: { brz: { cadenceHours: 12 } } };
+
+    expect(scheduleRules(config, "brz")).toEqual({
+      cadenceHours: 12,
+      unchangedMaxHours: 168,
+      backoffHours: [24, 72, 168],
+      parkAfterFailures: 6,
+      parkedHours: 720,
+    });
+    expect(scheduleRules(config, "other").cadenceHours).toBe(24);
   });
 });

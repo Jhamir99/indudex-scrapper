@@ -1,5 +1,6 @@
 import { z } from "@hono/zod-openapi";
 import { SourceId } from "../../../shared/schemas/source.js";
+import type { ScheduleRules } from "../domain/schedule.js";
 
 const Hours = z.number().positive();
 
@@ -58,3 +59,18 @@ export const CrawlConfig = z.strictObject({
     .default({}),
 });
 export type CrawlConfig = z.infer<typeof CrawlConfig>;
+
+// The schedule of one source: its own cadence when `sources` gives one, the default otherwise.
+export function scheduleRules(
+  config: CrawlConfig,
+  source: string,
+): ScheduleRules {
+  return {
+    cadenceHours:
+      config.sources[source]?.cadenceHours ?? config.cadence.defaultHours,
+    unchangedMaxHours: config.cadence.unchangedMaxHours,
+    backoffHours: config.backoff.hours,
+    parkAfterFailures: config.backoff.parkAfterFailures,
+    parkedHours: config.backoff.parkedHours,
+  };
+}

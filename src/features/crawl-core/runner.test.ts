@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { InMemoryAdvertStore } from "../../../test/fakes/advert-store.js";
+import { FakeClock } from "../../../test/fakes/clock.js";
 import { FakeHttpClient } from "../../../test/fakes/http-client.js";
 import {
   fakeDefinition,
@@ -8,7 +9,8 @@ import {
 } from "../../../test/fakes/source-adapter.js";
 import { advertId, DESCRIPTION_LIMIT } from "../../shared/schemas/advert.js";
 import type { AdvertStore } from "./ports.js";
-import { runSource } from "./runner.js";
+import { HttpFailure } from "../../shared/http/http-failure.js";
+import { runSource, runSources } from "./runner.js";
 
 function setup() {
   const store = new InMemoryAdvertStore();
@@ -27,7 +29,13 @@ describe("runSource (FR-1, FR-2, FR-11)", () => {
 
     const result = await runSource(adapter, { http, store, log });
 
-    expect(result).toEqual({ source: "brz", stored: 2, rejected: [] });
+    expect(result).toEqual({
+      source: "brz",
+      outcome: "stored",
+      stored: 2,
+      rejected: [],
+      changed: true,
+    });
     const stored = await store.readAdverts("brz");
     expect(stored.map((advert) => advert.id)).toEqual([
       advertId("brz", "1"),
@@ -156,7 +164,7 @@ describe("runSource (FR-1, FR-2, FR-11)", () => {
     expect(logs).toContain("brz: read the feed");
   });
 
-  it("calls nothing beyond the store's replace: the adverts are stored as validated (FR-11)", async () => {
+  it("calls nothing beyond the store: the adverts are stored as validated (FR-11)", async () => {
     const { http, log } = setup();
     const calls: string[] = [];
     const inner = new InMemoryAdvertStore();
@@ -175,7 +183,7 @@ describe("runSource (FR-1, FR-2, FR-11)", () => {
 
     await runSource(adapter, { http, store, log });
 
-    expect(calls).toEqual(["replaceAdverts"]);
+    expect(calls).toEqual(["readAdverts", "replaceAdverts"]);
     const [stored] = await inner.readAdverts("brz");
     expect(stored).toEqual({
       ...draft,
@@ -183,5 +191,187 @@ describe("runSource (FR-1, FR-2, FR-11)", () => {
       attribution: { licence: "CC BY 4.0", credit: "brz, CC BY 4.0" },
       firstSeen: "2026-11-15",
     });
+  });
+});
+
+const HOUR = 3_600_000;
+
+const rules = {
+  cadenceHours: 24,
+  unchangedMaxHours: 168,
+  backoffHours: [24, 72, 168],
+  parkAfterFailures: 6,
+  parkedHours: 720,
+};
+
+function runSetup() {
+  const clock = new FakeClock("2026-11-16T08:00:00Z");
+  const store = new InMemoryAdvertStore(clock);
+  const http = new FakeHttpClient();
+  const logs: string[] = [];
+  const dependencies = {
+    http,
+    store,
+    clock,
+    rulesFor: () => rules,
+    log: (line: string) => logs.push(line),
+  };
+  return { clock, store, http, logs, dependencies };
+}
+
+describe("runSources: failure isolation and previous adverts (FR-3, FR-4)", () => {
+  it("marks a throwing source failed with its reason and still runs the next one", async () => {
+    const { store, dependencies } = runSetup();
+    const broken = new FakeSourceAdapter(fakeDefinition("broken"), [], {
+      failure: new Error("feed answered HTML"),
+    });
+    const healthy = new FakeSourceAdapter(fakeDefinition("healthy"), [
+      fakeDraft("healthy", "1"),
+    ]);
+
+    const result = await runSources([broken, healthy], dependencies);
+
+    expect(result.sources.map((source) => source.outcome)).toEqual([
+      "failed",
+      "stored",
+    ]);
+    expect(await store.readState("broken")).toMatchObject({
+      status: "failed",
+      reason: "feed answered HTML",
+      consecutiveFailures: 1,
+      nextDueAt: new Date(
+        Date.parse("2026-11-16T08:00:00Z") + 24 * HOUR,
+      ).toISOString(),
+    });
+    expect(await store.readState("healthy")).toMatchObject({
+      status: "enabled",
+      advertCount: 1,
+    });
+  });
+
+  it("keeps the previous adverts unchanged when a source fails part way through its read", async () => {
+    const { store, dependencies } = runSetup();
+    await runSources(
+      [new FakeSourceAdapter(fakeDefinition("brz"), [fakeDraft("brz", "1")])],
+      dependencies,
+    );
+    const before = await store.readAdverts("brz");
+
+    const failing = new FakeSourceAdapter(
+      fakeDefinition("brz"),
+      [fakeDraft("brz", "2"), fakeDraft("brz", "3")],
+      {
+        failure: new HttpFailure(
+          "server-error",
+          "https://brz.example/feed",
+          3,
+          503,
+        ),
+      },
+    );
+    const result = await runSources([failing], dependencies);
+
+    expect(result.sources[0]).toMatchObject({
+      outcome: "failed",
+      reason:
+        "server-error (HTTP 503) for https://brz.example/feed after 3 attempts",
+    });
+    expect(await store.readAdverts("brz")).toEqual(before);
+    expect(await store.readState("brz")).toMatchObject({
+      status: "failed",
+      advertCount: 1,
+    });
+  });
+
+  it("reports a read of zero adverts after some as a failure and deletes nothing", async () => {
+    const { store, logs, dependencies } = runSetup();
+    await runSources(
+      [new FakeSourceAdapter(fakeDefinition("brz"), [fakeDraft("brz", "1")])],
+      dependencies,
+    );
+    const before = await store.readAdverts("brz");
+
+    const result = await runSources(
+      [new FakeSourceAdapter(fakeDefinition("brz"), [])],
+      dependencies,
+    );
+
+    expect(result.sources[0]).toMatchObject({
+      outcome: "failed",
+      reason: "read no adverts after 1: kept",
+    });
+    expect(logs).toContain("brz: failed: read no adverts after 1: kept");
+    expect(await store.readAdverts("brz")).toEqual(before);
+  });
+
+  it("reports a read of zero adverts from a source that had none as an empty pass", async () => {
+    const { store, logs, dependencies } = runSetup();
+
+    const result = await runSources(
+      [new FakeSourceAdapter(fakeDefinition("brz"), [])],
+      dependencies,
+    );
+
+    expect(result.sources[0]?.outcome).toBe("empty");
+    expect(logs).toContain("brz: read no adverts");
+    expect(await store.readState("brz")).toMatchObject({
+      status: "enabled",
+      advertCount: 0,
+    });
+  });
+
+  it("marks a source whose every advert fails validation as failed and keeps what it had", async () => {
+    const { store, dependencies } = runSetup();
+    await runSources(
+      [new FakeSourceAdapter(fakeDefinition("brz"), [fakeDraft("brz", "1")])],
+      dependencies,
+    );
+    const before = await store.readAdverts("brz");
+
+    const changedFormat = new FakeSourceAdapter(fakeDefinition("brz"), [
+      fakeDraft("brz", "1", { country: "Austria" }),
+      fakeDraft("brz", "2", { country: "Austria" }),
+    ]);
+    const result = await runSources([changedFormat], dependencies);
+
+    expect(result.sources[0]).toMatchObject({
+      outcome: "failed",
+      reason: "no valid advert: 2 rejected",
+    });
+    expect(await store.readAdverts("brz")).toEqual(before);
+  });
+
+  it("tells whether the set of adverts changed since the last read", async () => {
+    const { dependencies } = runSetup();
+    const read = (ids: string[]) =>
+      runSources(
+        [
+          new FakeSourceAdapter(
+            fakeDefinition("brz"),
+            ids.map((id) => fakeDraft("brz", id)),
+          ),
+        ],
+        dependencies,
+      );
+
+    expect((await read(["1", "2"])).sources[0]?.changed).toBe(true);
+    expect((await read(["2", "1"])).sources[0]?.changed).toBe(false);
+    expect((await read(["1", "3"])).sources[0]?.changed).toBe(true);
+    expect((await read(["1"])).sources[0]?.changed).toBe(true);
+  });
+
+  it("never writes a credential's value into the reason", async () => {
+    const { store, dependencies } = runSetup();
+    const leaky = new FakeSourceAdapter(fakeDefinition("keyed"), [], {
+      failure: new Error("refused https://api.example/?key=s3cr3t-value"),
+    });
+
+    const result = await runSource(leaky, {
+      ...dependencies,
+      credentials: { KEYED_KEY: "s3cr3t-value" },
+    });
+
+    expect(result.reason).toBe("refused https://api.example/?key=[credential]");
+    expect(JSON.stringify(await store.readStates())).not.toContain("s3cr3t");
   });
 });
