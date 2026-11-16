@@ -48,7 +48,7 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
 
 - [x] **T019 — Per-host pace in `crawl.yml`** · FR: FR-4 · Depends: crawl-core T013
       Done when: tests with a fake clock pass: a host listed in `pace.hosts` is paced by its own gap, other hosts by `pace.perHost`, and a shared server still paces its hosts together; the config schema rejects a negative gap.
-- [ ] **T020 — Shared `JobPosting` mapping** · FR: FR-1 · Depends: crawl-core T005
+- [x] **T020 — Shared `JobPosting` mapping** · FR: FR-1 · Depends: crawl-core T005
       Done when: tests pass on saved pages: one or several JSON-LD blocks (an `@graph`, a list) give their postings as plain fields; a block with broken JSON that the legacy repaired is still read; a page without one gives none.
 - [ ] **T021 — Disabled and flagged sources** · FR: FR-6 · Depends: crawl-core T020
       Done when: tests pass: a source whose definition has `disabledReason` is recorded as disabled with `flagged: <reason>` and makes zero requests; without it, it runs.
