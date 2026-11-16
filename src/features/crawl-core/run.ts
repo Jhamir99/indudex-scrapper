@@ -19,6 +19,9 @@ import {
 export const USER_AGENT =
   "Mozilla/5.0 (compatible; IndudexBot/1.0; +https://indudex.com/about/our-bot)";
 
+// The project's contact address, sent as the `From` header (legacy CONTACT).
+export const CONTACT_ADDRESS = "contact@indudex.com";
+
 export class UsageError extends Error {
   override name = "UsageError";
 }
@@ -71,7 +74,11 @@ export function politeHttpClient(
   config: CrawlConfig,
   clock: Clock,
 ): { readonly http: HttpClient; readonly close: () => void } {
-  const fetchClient = new FetchClient({ clock, userAgent: USER_AGENT });
+  const fetchClient = new FetchClient({
+    clock,
+    userAgent: USER_AGENT,
+    from: CONTACT_ADDRESS,
+  });
   const gate = new ConnectionGate(fetchClient, {
     clock,
     ...config.connections,

@@ -33,6 +33,8 @@ export interface FetchClientOptions {
   readonly clock: Clock;
   // Says who we are, with a way to reach us (polite crawling).
   readonly userAgent: string;
+  // An address a site's operator can write to, sent as the `From` header (RFC 9110, 10.1.2).
+  readonly from?: string;
   readonly timeoutMs?: number;
   readonly maxAttempts?: number;
   // The wait before the 2nd attempt; it grows by this much each time (1 s, 2 s...).
@@ -46,11 +48,18 @@ const DEFAULTS = { timeoutMs: 20_000, maxAttempts: 3, retryDelayMs: 1000 };
 // One request at a time with a time limit, retries for what may pass (timeouts, network errors,
 // 5xx) and a typed failure for everything else. Pacing and robots.txt wrap around it.
 export class FetchClient {
-  private readonly settings: Required<Omit<FetchClientOptions, "fetch">>;
+  private readonly settings: Required<
+    Omit<FetchClientOptions, "fetch" | "from">
+  >;
+  private readonly identity: Readonly<Record<string, string>>;
   private readonly fetch: FetchFunction;
 
   constructor(options: FetchClientOptions) {
     this.settings = { ...DEFAULTS, ...options };
+    this.identity = {
+      "user-agent": options.userAgent,
+      ...(options.from ? { from: options.from } : {}),
+    };
     this.fetch = options.fetch ?? ((url, init) => globalThis.fetch(url, init));
   }
 
@@ -75,7 +84,7 @@ export class FetchClient {
     options: HttpRequestOptions,
     attempt: number,
   ): Promise<HttpResponse | HttpFailure> {
-    const { timeoutMs, userAgent, clock } = this.settings;
+    const { timeoutMs, clock } = this.settings;
     const fail = (
       kind: HttpFailureKind,
       status?: number,
@@ -86,7 +95,7 @@ export class FetchClient {
     try {
       const response = await this.fetch(url, {
         method: options.method ?? "GET",
-        headers: { "user-agent": userAgent, ...options.headers },
+        headers: { ...this.identity, ...options.headers },
         body: options.body,
         redirect: "follow",
         signal,

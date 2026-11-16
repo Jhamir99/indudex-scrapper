@@ -3,6 +3,7 @@ import type { HttpClient } from "../../features/crawl-core/ports.js";
 import { FakeClock } from "../../../test/fakes/clock.js";
 import { FetchClient, type FetchFunction } from "./fetch-client.js";
 import { addressForLog, HttpFailure, parseRetryAfter } from "./http-failure.js";
+import { RobotsClient } from "./robots-client.js";
 
 const FEED = "https://jobs.example.com/feed.xml";
 
@@ -178,5 +179,41 @@ describe("parseRetryAfter", () => {
     expect(parseRetryAfter("Sun, 15 Nov 2026 08:01:00 GMT", now)).toBe(60_000);
     expect(parseRetryAfter(null, now)).toBeUndefined();
     expect(parseRetryAfter("soon", now)).toBeUndefined();
+  });
+});
+
+describe("FetchClient identity (FR-5)", () => {
+  it("sends the User-Agent and From on every request, retries and robots.txt included", async () => {
+    const server = fakeServer(
+      new Response("User-agent: *\nAllow: /"),
+      new Response("", { status: 503 }),
+      new Response("<jobs/>"),
+    );
+    const fetchClient = new FetchClient({
+      clock: new FakeClock(),
+      fetch: server.fetch,
+      userAgent: "IndudexBot/test",
+      from: "contact@indudex.example",
+    });
+
+    await new RobotsClient(fetchClient).request(FEED);
+
+    expect(server.calls.map((call) => call.url)).toEqual([
+      "https://jobs.example.com/robots.txt",
+      FEED,
+      FEED,
+    ]);
+    for (const call of server.calls) {
+      expect(call.init.headers).toMatchObject({
+        "user-agent": "IndudexBot/test",
+        from: "contact@indudex.example",
+      });
+    }
+  });
+
+  it("sends no From header when none is set", async () => {
+    const server = fakeServer(new Response(""));
+    await client(server.fetch).request(FEED);
+    expect(server.calls[0]?.init.headers).not.toHaveProperty("from");
   });
 });
