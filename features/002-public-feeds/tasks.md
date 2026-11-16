@@ -10,8 +10,9 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
       Done when: the family offers robots check, fetch, empty-feed failure and field mapping once, and a source using it only provides its url, licence and field mapping.
 - [x] **T002 — Reference adapter: brz (open-data feed)** · FR: FR-1, FR-3, FR-5 · Depends: T001
       Done when: the standard adapter check passes for it.
-- [ ] **T003 — Port adapters: nav, jobindex, island** · FR: FR-1, FR-4, FR-5 · Depends: T002
+- [x] **T003 — Port adapters: nav, jobindex, island** · FR: FR-1, FR-4, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter. NAV cadence is 1 h in its config entry (its terms retire inactive ads at once). `jobindex` cadence is 1 h.
+      2026-11-16: `nav` needs a token (`NAV_TOKEN`), so it moved to `credentialed-sources` (its T003), as FR-1 says.
 - [ ] **T004 — Port adapters: kuntarekry, valtiolle, jobtech** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
 - [ ] **T005 — Port adapters: infopraca, solidjobs, mpsv** · FR: FR-1, FR-5 · Depends: T002

@@ -1,2 +1,5 @@
 dist
 pnpm-lock.yaml
+# Saved source answers: kept byte for byte as the source sent them.
+test/fixtures/**/*
+!test/fixtures/**/routes.json

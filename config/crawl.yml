@@ -54,3 +54,10 @@ sources:
   # Austria's Bundesrechenzentrum: its vacancy feed (CC BY 4.0), one call.
   brz:
     cadenceHours: 12
+  # Jobindex: robots.txt lets in only each category's first page, so it is read every hour and
+  # each advert is kept until its own last day.
+  jobindex:
+    cadenceHours: 1
+  # Iceland's State and Directorate of Labour vacancies, two calls.
+  island:
+    cadenceHours: 12
