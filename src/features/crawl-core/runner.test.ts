@@ -694,8 +694,8 @@ describe("runDue: gates (FR-5, FR-7, FR-8, FR-9)", () => {
     });
   });
 
-  it("ends a source blocked by robots.txt as disallowed and keeps its adverts", async () => {
-    const { store, dependencies } = runSetup();
+  it("ends a source blocked by robots.txt as disallowed and removes its adverts", async () => {
+    const { store, logs, dependencies } = runSetup();
     await runSources(
       [new FakeSourceAdapter(fakeDefinition("brz"), [fakeDraft("brz", "1")])],
       dependencies,
@@ -714,10 +714,35 @@ describe("runDue: gates (FR-5, FR-7, FR-8, FR-9)", () => {
     expect(await store.readState("brz")).toMatchObject({
       status: "disallowed",
       reason: "robots.txt disallows https://brz.example/feed",
+      advertCount: 0,
       consecutiveFailures: 1,
       nextDueAt: "2026-11-17T08:00:00.000Z",
     });
-    expect(await store.readAdverts("brz")).toEqual(before);
+    expect(before).toHaveLength(1);
+    expect(await store.readAdverts("brz")).toEqual([]);
+    expect(logs).toContain(
+      "brz: robots.txt closes it: its 1 adverts leave the store",
+    );
+  });
+
+  it("keeps the adverts of a source that fails any other way (FR-4)", async () => {
+    const { store, dependencies } = runSetup();
+    await runSources(
+      [new FakeSourceAdapter(fakeDefinition("brz"), [fakeDraft("brz", "1")])],
+      dependencies,
+    );
+    const refused = new FakeSourceAdapter(fakeDefinition("brz"), [], {
+      failure: new HttpFailure(
+        "client-error",
+        "https://brz.example/feed",
+        1,
+        403,
+      ),
+    });
+
+    await runSources([refused], dependencies);
+
+    expect(await store.readAdverts("brz")).toHaveLength(1);
   });
 });
 

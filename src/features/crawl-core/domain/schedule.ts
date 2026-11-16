@@ -128,7 +128,7 @@ export function disabled(
 }
 
 // robots.txt closed the source (FR-5): recorded as disallowed, and asked again after the same
-// waits as a failure, since a site may open again.
+// waits as a failure, since a site may open again. Its adverts leave the store, so none is left.
 export function afterDisallowed(
   previous: SourceState | undefined,
   run: { readonly at: Date; readonly reason: string },
@@ -139,7 +139,7 @@ export function afterDisallowed(
     status: "disallowed",
     reason: run.reason,
     lastRunAt: failure.lastRunAt,
-    advertCount: failure.advertCount,
+    advertCount: 0,
     consecutiveFailures: failure.consecutiveFailures,
     unchangedPasses: failure.unchangedPasses,
     heldDrops: failure.heldDrops,

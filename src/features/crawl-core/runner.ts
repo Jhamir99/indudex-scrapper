@@ -356,6 +356,19 @@ async function runAndRecord(
     credentials: access.credentials,
     heldDropsBefore: previous?.heldDrops ?? 0,
   });
+  if (result.outcome === "disallowed") {
+    // A site that closes itself to us leaves the output (FR-5), as in the legacy.
+    const stored = await store.readAdverts(source);
+    if (stored.length > 0) {
+      await store.dropAdverts(
+        source,
+        stored.map((advert) => advert.id),
+      );
+      log(
+        `${source}: robots.txt closes it: its ${stored.length} adverts leave the store`,
+      );
+    }
+  }
   if (result.outcome !== "stopped") {
     await store.writeState(
       source,

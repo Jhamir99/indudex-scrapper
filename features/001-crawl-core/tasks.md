@@ -61,7 +61,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
 
 - [x] **T026 — Runner: suspect drops held, repeated drops accepted** · FR: FR-4 · Depends: T018
       Done when: tests pass: a read of none after some is held every time and keeps the stored set; a read of under a tenth of 50 or more is held once (failed, `read N adverts after M: kept`, set unchanged) and stored when the next read is also a drop; a drop followed by a normal read resets the count; a smaller drop (or one under 50 adverts) is stored at once; state files without `heldDrops` still read.
-- [ ] **T027 — Runner: a disallowed source's stored adverts are removed** · FR: FR-5 · Depends: T020
+- [x] **T027 — Runner: a disallowed source's stored adverts are removed** · FR: FR-5 · Depends: T020
       Done when: tests pass: a source whose read ends on a robots.txt refusal is recorded as disallowed with the failure waits and has no stored adverts left; a source that fails any other way still keeps its adverts.
 - [ ] **T028 — HTTP client: `From` header** · FR: FR-5 · Depends: T011, T023
       Done when: a test with a fake `fetch` shows every request (retries and robots.txt included) carrying the configured `User-Agent` and `From`; the crawl entry point sets `From: contact@indudex.com`.
