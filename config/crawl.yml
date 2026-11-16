@@ -129,3 +129,6 @@ sources:
   # Upper Austria's own vacancies (CC BY 4.0), one call.
   ooe:
     cadenceHours: 12
+  # Austrian public bodies' vacancies as open data (IFG), one call.
+  ifgat:
+    cadenceHours: 12

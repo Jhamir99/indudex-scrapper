@@ -30,7 +30,7 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
 - [x] **T010 — Port adapters: brandenburg, bund, karrierenrw** · FR: FR-1, FR-4, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter. `bund` waits 30 s between pages (its robots.txt asks for it).
       2026-11-16: `bund` is ported disabled and flagged (FR-6): its imprint asks prior consent, as the legacy found on 15 November 2026.
-- [ ] **T011 — Port adapters: linz, ooe, ifgat** · FR: FR-1, FR-5 · Depends: T002
+- [x] **T011 — Port adapters: linz, ooe, ifgat** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
 - [ ] **T012 — Port adapters: actiris, forem, vdab** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.

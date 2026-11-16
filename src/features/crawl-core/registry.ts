@@ -6,6 +6,7 @@ import { cyprus } from "../public-feeds/adapters/cyprus/cyprus.js";
 import { hungary } from "../public-feeds/adapters/hungary/hungary.js";
 import { hzz } from "../public-feeds/adapters/hzz/hzz.js";
 import { iefp } from "../public-feeds/adapters/iefp/iefp.js";
+import { ifgat } from "../public-feeds/adapters/ifgat/ifgat.js";
 import { infopraca } from "../public-feeds/adapters/infopraca/infopraca.js";
 import { island } from "../public-feeds/adapters/island/island.js";
 import { jobindex } from "../public-feeds/adapters/jobindex/jobindex.js";
@@ -37,6 +38,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   hungary,
   hzz,
   iefp,
+  ifgat,
   infopraca,
   island,
   jobindex,

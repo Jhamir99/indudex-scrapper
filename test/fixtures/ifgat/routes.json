@@ -1,0 +1,3 @@
+{
+  "https://www.data.gv.at/api/hub/search/search?filter=dataset&limit=100&facets=%7B%22keywords%22%3A%5B%22ifg-stellenausschreibungen%22%5D%7D": "search.json"
+}
