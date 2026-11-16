@@ -1,3 +1,4 @@
+import { anofm } from "../public-feeds/adapters/anofm/anofm.js";
 import { brz } from "../public-feeds/adapters/brz/brz.js";
 import { hungary } from "../public-feeds/adapters/hungary/hungary.js";
 import { hzz } from "../public-feeds/adapters/hzz/hzz.js";
@@ -17,6 +18,7 @@ import type { SourceAdapter } from "./ports.js";
 // The source features add their adapters here; each one must pass the shared contract test
 // (`registry.test.ts`) with its saved responses in `test/fixtures/<id>/` (FR-12).
 export const registeredAdapters: readonly SourceAdapter[] = [
+  anofm,
   brz,
   hungary,
   hzz,

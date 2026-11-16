@@ -44,6 +44,8 @@ pace:
     vmp.munka.hu: 60000
     # Croatia's HZZ: one RSS feed per county, 21 calls.
     burzarada.hzz.hr: 500
+    # Romania's ANOFM: its list, a hundred a call.
+    mediere.anofm.ro: 1000
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
@@ -93,3 +95,6 @@ sources:
   # Hungary's public job portal: one category a pass.
   hungary:
     cadenceHours: 2
+  # Romania's ANOFM: its job list, about 83 calls of a hundred offers.
+  anofm:
+    cadenceHours: 6
