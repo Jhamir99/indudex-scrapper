@@ -148,16 +148,21 @@ async function* readUpsvr(context: AdapterContext): AsyncIterable<AdvertDraft> {
   let total = 0;
   const pageOf = async (page: number): Promise<ListPage> => {
     for (let tries = 0; tries < SAME_SERVER_TRIES; tries++) {
-      const answer = parseList(
-        (
-          await context.http.request(listUrl(page), {
-            headers: { accept: "application/json" },
-          })
-        ).body,
-      );
+      const { body } = await context.http.request(listUrl(page), {
+        headers: { accept: "application/json" },
+      });
+      // Its servers sometimes answer an empty or cut body: asked again, as a wrong server is.
+      let answer: ListPage;
+      try {
+        answer = parseList(body);
+      } catch {
+        continue;
+      }
       if (!total || Math.abs(answer.count - total) < SAME_SERVER) return answer;
     }
-    throw new Error(`page ${page} kept coming from the other server`);
+    throw new Error(
+      `page ${page} kept coming unreadable or from the other server`,
+    );
   };
   const listed = new Map<string, AdvertDraft>();
   const rowsSeen = new Set<string>();

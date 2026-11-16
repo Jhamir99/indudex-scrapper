@@ -63,7 +63,7 @@ describe("upsvr (public-feeds FR-1)", () => {
     );
   });
 
-  it("asks a page again when it comes from the other server", async () => {
+  it("asks a page again when it comes from the other server or unreadable", async () => {
     let asked = 0;
     const http: HttpClient = {
       async request(url) {
@@ -72,14 +72,18 @@ describe("upsvr (public-feeds FR-1)", () => {
         if (url === listUrl(2)) {
           asked += 1;
           const body =
-            asked === 1 ? list(25_000, 100, 100) : list(150, 100, 50);
+            asked === 1
+              ? list(25_000, 100, 100)
+              : asked === 2
+                ? ""
+                : list(150, 100, 50);
           return { status: 200, url, headers: {}, body };
         }
         throw new Error("no own page");
       },
     };
     const drafts = await readDrafts(upsvr, fakeContext({ http }));
-    expect(asked).toBe(2);
+    expect(asked).toBe(3);
     expect(drafts).toHaveLength(150);
   });
 
