@@ -49,7 +49,8 @@ errorBudget:
 #     - 185.162.28.0/22
 providers: {}
 
-# Per-source overrides, added by the source features, e.g.
-#   brz:
-#     cadenceHours: 12
-sources: {}
+# Per-source overrides, added by the source features (legacy cadence_h).
+sources:
+  # Austria's Bundesrechenzentrum: its vacancy feed (CC BY 4.0), one call.
+  brz:
+    cadenceHours: 12
