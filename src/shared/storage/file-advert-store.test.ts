@@ -166,6 +166,7 @@ const state = (advertCount: number): SourceState => ({
   advertCount,
   consecutiveFailures: 0,
   unchangedPasses: 0,
+  heldDrops: 0,
   nextDueAt: "2026-11-16T08:00:00.000Z",
 });
 

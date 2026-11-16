@@ -56,6 +56,7 @@ export function afterSuccess(
     advertCount: run.advertCount,
     consecutiveFailures: 0,
     unchangedPasses,
+    heldDrops: 0,
     nextDueAt: later(run.at, waitAfterSuccessHours(rules, unchangedPasses)),
   };
 }
@@ -63,7 +64,12 @@ export function afterSuccess(
 // The stored adverts are kept on a failure (FR-4), so the advert count stays as it was.
 export function afterFailure(
   previous: SourceState | undefined,
-  run: { readonly at: Date; readonly reason: string },
+  run: {
+    readonly at: Date;
+    readonly reason: string;
+    // The read was held as a suspect drop: counted, so the next drop can be accepted.
+    readonly heldDrop?: boolean;
+  },
   rules: ScheduleRules,
 ): SourceState {
   const consecutiveFailures = (previous?.consecutiveFailures ?? 0) + 1;
@@ -73,6 +79,7 @@ export function afterFailure(
     advertCount: previous?.advertCount ?? 0,
     consecutiveFailures,
     unchangedPasses: 0,
+    heldDrops: run.heldDrop ? (previous?.heldDrops ?? 0) + 1 : 0,
   };
   if (consecutiveFailures >= rules.parkAfterFailures) {
     const parkedUntil = later(run.at, rules.parkedHours);
@@ -115,6 +122,7 @@ export function disabled(
     advertCount: previous?.advertCount ?? 0,
     consecutiveFailures: previous?.consecutiveFailures ?? 0,
     unchangedPasses: previous?.unchangedPasses ?? 0,
+    heldDrops: previous?.heldDrops ?? 0,
     nextDueAt: null,
   };
 }
@@ -134,6 +142,23 @@ export function afterDisallowed(
     advertCount: failure.advertCount,
     consecutiveFailures: failure.consecutiveFailures,
     unchangedPasses: failure.unchangedPasses,
+    heldDrops: failure.heldDrops,
     nextDueAt: failure.nextDueAt,
   };
+}
+
+// A read more likely to be an outage than an emptied source (legacy `suspectDrop`): none after
+// some, or under a tenth of 50 or more.
+export function isSuspectDrop(had: number, has: number): boolean {
+  return had > 0 && (has === 0 || (had >= 50 && has < had / 10));
+}
+
+// A suspect read of none is always held. A smaller drop is held once and accepted when the next
+// read repeats it (legacy `emptyPass`).
+export function holdsDrop(
+  had: number,
+  has: number,
+  heldDropsBefore: number,
+): boolean {
+  return isSuspectDrop(had, has) && (has === 0 || heldDropsBefore === 0);
 }

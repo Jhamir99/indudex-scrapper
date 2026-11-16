@@ -313,9 +313,9 @@ describe("runSources: failure isolation and previous adverts (FR-3, FR-4)", () =
 
     expect(result.sources[0]).toMatchObject({
       outcome: "failed",
-      reason: "read no adverts after 1: kept",
+      reason: "read 0 adverts after 1: kept",
     });
-    expect(logs).toContain("brz: failed: read no adverts after 1: kept");
+    expect(logs).toContain("brz: failed: read 0 adverts after 1: kept");
     expect(await store.readAdverts("brz")).toEqual(before);
   });
 
@@ -465,6 +465,7 @@ describe("runDue: scheduling (FR-3, FR-6)", () => {
       advertCount: 3,
       consecutiveFailures: 6,
       unchangedPasses: 0,
+      heldDrops: 0,
       nextDueAt: "2026-12-16T08:00:00.000Z",
     });
     http.route("https://parked.example/feed", "<rss/>");
@@ -816,5 +817,76 @@ describe("runDue: a run always finishes (FR-3)", () => {
     expect(logs).toContain(
       "unwritable-state: failed: store: state/unwritable-state.json: disk full",
     );
+  });
+});
+
+function readOf(count: number) {
+  return new FakeSourceAdapter(
+    fakeDefinition("brz"),
+    Array.from({ length: count }, (_, index) =>
+      fakeDraft("brz", String(index + 1)),
+    ),
+  );
+}
+
+describe("runSources: suspect drops (FR-4)", () => {
+  it("holds a read of none after some every time, keeping the stored set", async () => {
+    const { store, dependencies } = runSetup();
+    await runSources([readOf(3)], dependencies);
+    const before = await store.readAdverts("brz");
+
+    for (const held of [1, 2]) {
+      const result = await runSources([readOf(0)], dependencies);
+      expect(result.sources[0]).toMatchObject({
+        outcome: "failed",
+        reason: "read 0 adverts after 3: kept",
+        heldDrop: true,
+      });
+      expect(await store.readAdverts("brz")).toEqual(before);
+      expect((await store.readState("brz"))?.heldDrops).toBe(held);
+    }
+  });
+
+  it("holds a drop to under a tenth once and stores it when the next read repeats it", async () => {
+    const { store, dependencies } = runSetup();
+    await runSources([readOf(60)], dependencies);
+
+    const first = await runSources([readOf(5)], dependencies);
+    expect(first.sources[0]).toMatchObject({
+      outcome: "failed",
+      reason: "read 5 adverts after 60: kept",
+    });
+    expect(await store.readAdverts("brz")).toHaveLength(60);
+
+    const second = await runSources([readOf(5)], dependencies);
+    expect(second.sources[0]).toMatchObject({ outcome: "stored", stored: 5 });
+    expect(await store.readAdverts("brz")).toHaveLength(5);
+    expect((await store.readState("brz"))?.heldDrops).toBe(0);
+  });
+
+  it("resets the count when a drop is followed by a normal read", async () => {
+    const { store, dependencies } = runSetup();
+    await runSources([readOf(60)], dependencies);
+    await runSources([readOf(5)], dependencies);
+
+    await runSources([readOf(58)], dependencies);
+    expect((await store.readState("brz"))?.heldDrops).toBe(0);
+
+    const again = await runSources([readOf(5)], dependencies);
+    expect(again.sources[0]?.outcome).toBe("failed");
+  });
+
+  it("stores a smaller drop, or one from under 50 adverts, at once", async () => {
+    const { store, dependencies } = runSetup();
+    await runSources([readOf(60)], dependencies);
+    expect(
+      (await runSources([readOf(6)], dependencies)).sources[0]?.outcome,
+    ).toBe("stored");
+
+    await runSources([readOf(40)], dependencies);
+    expect(
+      (await runSources([readOf(1)], dependencies)).sources[0]?.outcome,
+    ).toBe("stored");
+    expect(await store.readAdverts("brz")).toHaveLength(1);
   });
 });

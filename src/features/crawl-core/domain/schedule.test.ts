@@ -4,7 +4,9 @@ import type { SourceState } from "../../../shared/schemas/source.js";
 import {
   afterFailure,
   afterSuccess,
+  holdsDrop,
   isDue,
+  isSuspectDrop,
   selectDue,
   type ScheduleRules,
   waitAfterSuccessHours,
@@ -163,6 +165,7 @@ const enabledDueAt = (nextDueAt: string | null): SourceState => ({
   advertCount: 0,
   consecutiveFailures: 0,
   unchangedPasses: 0,
+  heldDrops: 0,
   nextDueAt,
 });
 
@@ -183,5 +186,44 @@ describe("selectDue (FR-6)", () => {
       "a",
       "d",
     ]);
+  });
+});
+
+describe("suspect drops (FR-4)", () => {
+  it("are none after some, or under a tenth of 50 or more", () => {
+    expect(isSuspectDrop(1, 0)).toBe(true);
+    expect(isSuspectDrop(60, 5)).toBe(true);
+    expect(isSuspectDrop(60, 6)).toBe(false);
+    expect(isSuspectDrop(49, 1)).toBe(false);
+    expect(isSuspectDrop(0, 0)).toBe(false);
+  });
+
+  it("hold a read of none every time and a smaller drop only once", () => {
+    expect(holdsDrop(10, 0, 0)).toBe(true);
+    expect(holdsDrop(10, 0, 3)).toBe(true);
+    expect(holdsDrop(60, 5, 0)).toBe(true);
+    expect(holdsDrop(60, 5, 1)).toBe(false);
+  });
+
+  it("are counted by afterFailure and reset by a success", () => {
+    const at = new Date("2026-11-16T08:00:00Z");
+    const once = afterFailure(
+      undefined,
+      { at, reason: "drop", heldDrop: true },
+      rules,
+    );
+    const twice = afterFailure(
+      once,
+      { at, reason: "drop", heldDrop: true },
+      rules,
+    );
+    expect(twice.heldDrops).toBe(2);
+    expect(afterFailure(twice, { at, reason: "down" }, rules).heldDrops).toBe(
+      0,
+    );
+    expect(
+      afterSuccess(twice, { at, advertCount: 1, changed: true }, rules)
+        .heldDrops,
+    ).toBe(0);
   });
 });

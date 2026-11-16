@@ -68,6 +68,7 @@ const fields = {
   advertCount: 42,
   consecutiveFailures: 0,
   unchangedPasses: 0,
+  heldDrops: 0,
   nextDueAt: "2026-11-16T08:00:00Z",
 };
 
@@ -91,6 +92,14 @@ describe("SourceState (FR-10)", () => {
     },
   ])("accepts the $status state", (state) => {
     expect(SourceState.parse(state)).toEqual(state);
+  });
+
+  it("reads a state written before heldDrops existed as none held (FR-4)", () => {
+    const { heldDrops: _heldDrops, ...older } = fields;
+    expect(SourceState.parse({ status: "enabled", ...older })).toEqual({
+      status: "enabled",
+      ...fields,
+    });
   });
 
   it("accepts a source that never ran", () => {

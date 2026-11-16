@@ -7,6 +7,7 @@ const base = {
   advertCount: 120,
   consecutiveFailures: 0,
   unchangedPasses: 0,
+  heldDrops: 0,
   nextDueAt: "2026-11-17T08:00:12.000Z",
 };
 

@@ -12,6 +12,7 @@ import {
   afterDisallowed,
   afterFailure,
   afterSuccess,
+  holdsDrop,
   disabled,
   type ScheduleRules,
   selectDue,
@@ -55,6 +56,8 @@ export interface SourceRunResult {
   // Whether the set of advert ids differs from the one stored before.
   readonly changed: boolean;
   readonly reason?: string;
+  // The read was a suspect drop, held as a failure (FR-4).
+  readonly heldDrop?: true;
 }
 
 export interface SourceRunDependencies {
@@ -63,6 +66,8 @@ export interface SourceRunDependencies {
   readonly credentials?: Readonly<Record<string, string>>;
   readonly takedowns?: Takedowns;
   readonly stopSwitch?: StopSwitch;
+  // Reads held as suspect drops in a row before this one (the source state's `heldDrops`).
+  readonly heldDropsBefore?: number;
   readonly log: (message: string) => void;
 }
 
@@ -168,12 +173,13 @@ export async function runSource(
     if (valid.size === 0 && rejected.length > 0) {
       return failed(new Error(`no valid advert: ${rejected.length} rejected`));
     }
-    // A source that had adverts and now answers none is more likely down than emptied
-    // (legacy `suspectDrop`): it keeps what it had.
-    if (valid.size === 0 && takenDown === 0 && previous.length > 0) {
-      return failed(
-        new Error(`read no adverts after ${previous.length}: kept`),
-      );
+    // A sudden drop is more likely an outage than an emptied source: it keeps what it had.
+    // Taken-down adverts were read, so they do not count as missing.
+    const read = valid.size + takenDown;
+    if (holdsDrop(previous.length, read, dependencies.heldDropsBefore ?? 0)) {
+      const reason = `read ${read} adverts after ${previous.length}: kept`;
+      log(`${source}: failed: ${reason}`);
+      return { ...result("failed", { reason }), heldDrop: true };
     }
     if (valid.size === 0) {
       log(`${source}: read no adverts`);
@@ -348,6 +354,7 @@ async function runAndRecord(
   const result = await runSource(adapter, {
     ...dependencies,
     credentials: access.credentials,
+    heldDropsBefore: previous?.heldDrops ?? 0,
   });
   if (result.outcome !== "stopped") {
     await store.writeState(
@@ -369,7 +376,11 @@ function nextState(
     return afterDisallowed(previous, { at, reason }, rules);
   }
   if (result.outcome === "failed") {
-    return afterFailure(previous, { at, reason }, rules);
+    return afterFailure(
+      previous,
+      { at, reason, heldDrop: result.heldDrop === true },
+      rules,
+    );
   }
   return afterSuccess(
     previous,
