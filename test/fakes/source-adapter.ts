@@ -84,6 +84,8 @@ export function fakeContext(
     log: () => {},
     previous: [],
     today: "2026-11-16",
+    memory: undefined,
+    remember: () => {},
     ...overrides,
   };
 }

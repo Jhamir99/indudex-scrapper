@@ -5,6 +5,7 @@ import type {
 import type { Advert, StoredAdvert } from "../../shared/schemas/advert.js";
 import type {
   SourceDefinition,
+  SourceMemory,
   SourceState,
 } from "../../shared/schemas/source.js";
 
@@ -22,7 +23,13 @@ export interface AdapterContext {
   readonly previous: readonly AdvertDraft[];
   // The run's day, YYYY-MM-DD.
   readonly today: string;
+  // What the source remembered at the end of its last stored or empty pass (undefined at first).
+  readonly memory: SourceMemory | undefined;
+  // What to remember for the next pass; kept only if this pass is stored or empty.
+  remember(memory: SourceMemory): void;
 }
+
+export type { SourceMemory };
 
 // A source describes only what is specific to it; when and how fast it runs is the runner's job.
 export interface SourceAdapter {
@@ -50,6 +57,9 @@ export interface AdvertStore {
   readState(source: string): Promise<SourceState | undefined>;
   writeState(source: string, state: SourceState): Promise<void>;
   readStates(): Promise<Map<string, SourceState>>;
+  // A source's own memory between passes.
+  readMemory(source: string): Promise<SourceMemory | undefined>;
+  writeMemory(source: string, memory: SourceMemory): Promise<void>;
 }
 
 export interface Clock {

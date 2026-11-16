@@ -8,7 +8,7 @@ import {
   FakeSourceAdapter,
 } from "../../../test/fakes/source-adapter.js";
 import { advertId, DESCRIPTION_LIMIT } from "../../shared/schemas/advert.js";
-import type { AdvertStore } from "./ports.js";
+import type { AdapterContext, AdvertStore, SourceAdapter } from "./ports.js";
 import { FakeStopSwitch } from "../../../test/fakes/stop-switch.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
 import { TakedownList } from "./config/takedowns.js";
@@ -188,7 +188,7 @@ describe("runSource (FR-1, FR-2, FR-11)", () => {
 
     await runSource(adapter, { http, store, log });
 
-    expect(calls).toEqual(["readAdverts", "replaceAdverts"]);
+    expect(calls).toEqual(["readAdverts", "readMemory", "replaceAdverts"]);
     const [stored] = await inner.readAdverts("brz");
     expect(stored).toEqual({
       ...draft,
@@ -974,5 +974,80 @@ describe("runDue: flagged sources (public-feeds FR-6)", () => {
     const result = await runDue([open], dependencies);
 
     expect(result.sources[0]?.outcome).toBe("stored");
+  });
+});
+
+// Remembers how many passes it has seen and fails or stops when told to.
+class CountingAdapter extends FakeSourceAdapter {
+  seen: unknown[] = [];
+  failNext = false;
+
+  constructor() {
+    super(fakeDefinition("counting"), []);
+  }
+
+  override async *fetchAdverts(context: AdapterContext) {
+    this.seen.push(context.memory);
+    const passes = typeof context.memory === "number" ? context.memory : 0;
+    context.remember(passes + 1);
+    if (this.failNext) throw new Error("down");
+    yield fakeDraft("counting", String(passes + 1));
+  }
+}
+
+describe("runSources: per-source memory (public-feeds FR-4)", () => {
+  it("hands the adapter what its last good pass remembered", async () => {
+    const { store, dependencies } = runSetup();
+    const adapter = new CountingAdapter();
+
+    await runSources([adapter], dependencies);
+    await runSources([adapter], dependencies);
+
+    expect(adapter.seen).toEqual([undefined, 1]);
+    expect(await store.readMemory("counting")).toBe(2);
+  });
+
+  it("keeps the memory of the last good pass when a pass fails", async () => {
+    const { store, dependencies } = runSetup();
+    const adapter = new CountingAdapter();
+    await runSources([adapter], dependencies);
+
+    adapter.failNext = true;
+    await runSources([adapter], dependencies);
+
+    expect(await store.readMemory("counting")).toBe(1);
+  });
+
+  it("keeps the memory when the stop switch cuts the pass", async () => {
+    const { store, stopSwitch, dependencies } = runSetup();
+    await store.writeMemory("stopped", 7);
+    const adapter: SourceAdapter = {
+      definition: fakeDefinition("stopped"),
+      async *fetchAdverts(context) {
+        context.remember(8);
+        stopSwitch.active = true;
+        await context.http.request("https://stopped.example/feed");
+        yield fakeDraft("stopped", "1");
+      },
+    };
+
+    await runSources([adapter], dependencies);
+
+    expect(await store.readMemory("stopped")).toBe(7);
+  });
+
+  it("saves the memory of an empty pass", async () => {
+    const { store, dependencies } = runSetup();
+    const adapter: SourceAdapter = {
+      definition: fakeDefinition("quiet"),
+      async *fetchAdverts(context) {
+        context.remember({ turn: 2 });
+        yield* [];
+      },
+    };
+
+    await runSources([adapter], dependencies);
+
+    expect(await store.readMemory("quiet")).toEqual({ turn: 2 });
   });
 });

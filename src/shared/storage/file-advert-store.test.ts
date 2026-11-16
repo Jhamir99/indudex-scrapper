@@ -247,3 +247,31 @@ describe("FileAdvertStore corrupt files", () => {
     );
   });
 });
+
+describe("FileAdvertStore source memory (public-feeds FR-4)", () => {
+  it("reads nothing before a source remembered anything", async () => {
+    expect(await store.readMemory("hungary")).toBeUndefined();
+  });
+
+  it("writes and reads back a source's memory in its own file", async () => {
+    const memory = { last: "19", categories: { "19": ["1", "2"] } };
+    await store.writeMemory("hungary", memory);
+
+    expect(await store.readMemory("hungary")).toEqual(memory);
+    expect(
+      JSON.parse(
+        await readFile(join(directory, "memory", "hungary.json"), "utf8"),
+      ),
+    ).toEqual({ version: 1, source: "hungary", memory });
+  });
+
+  it("refuses a corrupt memory file and never resets it", async () => {
+    await mkdir(join(directory, "memory"), { recursive: true });
+    await writeFile(join(directory, "memory", "hungary.json"), "{ broken");
+
+    await expect(store.readMemory("hungary")).rejects.toThrow(StoreError);
+    expect(
+      await readFile(join(directory, "memory", "hungary.json"), "utf8"),
+    ).toBe("{ broken");
+  });
+});

@@ -2,13 +2,14 @@ import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { z } from "@hono/zod-openapi";
 import { type Advert, isExpired, StoredAdvert } from "../schemas/advert.js";
-import { SourceId, SourceState } from "../schemas/source.js";
+import { SourceId, SourceMemory, SourceState } from "../schemas/source.js";
 import { writeFileAtomic } from "./atomic.js";
 
 // The store's layout, the contract with the processor (FR-11):
 //   <directory>/adverts/<source>.json   { version, source, savedAt, adverts: StoredAdvert[] }
 //   <directory>/state/<source>.json     { version, source, state: SourceState }
-// A change to either shape needs a new FORMAT_VERSION.
+//   <directory>/memory/<source>.json    { version, source, memory: JSON }  (the source's own, between passes)
+// A change to any of these shapes needs a new FORMAT_VERSION.
 export const FORMAT_VERSION = 1;
 
 const AdvertsFile = z.strictObject({
@@ -22,6 +23,12 @@ const StateFile = z.strictObject({
   version: z.literal(FORMAT_VERSION),
   source: SourceId,
   state: SourceState,
+});
+
+const MemoryFile = z.strictObject({
+  version: z.literal(FORMAT_VERSION),
+  source: SourceId,
+  memory: SourceMemory,
 });
 
 // A stored file that cannot be read as the store wrote it. It is reported, never reset:
@@ -108,11 +115,27 @@ export class FileAdvertStore {
     return states;
   }
 
+  async readMemory(source: string): Promise<SourceMemory | undefined> {
+    const path = this.path("memory", source);
+    const file = await this.readJson(path, MemoryFile);
+    if (file && file.source !== source)
+      throw new StoreError(`${path}: holds the memory of ${file.source}`);
+    return file?.memory;
+  }
+
+  async writeMemory(source: string, memory: SourceMemory): Promise<void> {
+    const file = MemoryFile.parse({ version: FORMAT_VERSION, source, memory });
+    await writeFileAtomic(
+      this.path("memory", source),
+      `${JSON.stringify(file, null, 2)}\n`,
+    );
+  }
+
   private today(): string {
     return this.clock.now().toISOString().slice(0, 10);
   }
 
-  private path(kind: "adverts" | "state", source: string): string {
+  private path(kind: "adverts" | "state" | "memory", source: string): string {
     // The id names the file, so it must be a valid id, never a path.
     if (!SourceId.safeParse(source).success)
       throw new StoreError(`not a source id: ${JSON.stringify(source)}`);

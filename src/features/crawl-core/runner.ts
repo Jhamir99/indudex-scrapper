@@ -18,6 +18,7 @@ import {
   type ScheduleRules,
   selectDue,
 } from "./domain/schedule.js";
+import type { SourceMemory } from "../../shared/schemas/source.js";
 import type {
   AdapterContext,
   AdvertDraft,
@@ -146,12 +147,21 @@ export async function runSource(
 
   try {
     const previous = await store.readAdverts(source);
+    let remembered: { readonly memory: SourceMemory } | undefined;
     const context: AdapterContext = {
       http,
       credentials,
       log: (message) => log(`${source}: ${message}`),
       previous: previous.map(asDraft),
       today: dependencies.today ?? new Date().toISOString().slice(0, 10),
+      memory: await store.readMemory(source),
+      remember: (memory) => {
+        remembered = { memory };
+      },
+    };
+    // Only a pass that stored or found nothing to store is the source's word for next time.
+    const keepMemory = async () => {
+      if (remembered) await store.writeMemory(source, remembered.memory);
     };
     for await (const draft of adapter.fetchAdverts(context)) {
       const conversion = toAdvert(adapter, draft);
@@ -187,10 +197,12 @@ export async function runSource(
     }
     if (valid.size === 0) {
       log(`${source}: read no adverts`);
+      await keepMemory();
       return result("empty");
     }
 
     await store.replaceAdverts(source, [...valid.values()]);
+    await keepMemory();
     const before = new Set(previous.map((advert) => advert.id));
     const changed =
       before.size !== valid.size ||

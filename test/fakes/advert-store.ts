@@ -7,7 +7,10 @@ import {
   isExpired,
   type StoredAdvert,
 } from "../../src/shared/schemas/advert.js";
-import type { SourceState } from "../../src/shared/schemas/source.js";
+import type {
+  SourceMemory,
+  SourceState,
+} from "../../src/shared/schemas/source.js";
 import { FakeClock } from "./clock.js";
 
 // Behaves as the file store does (first-seen days, expiry, an empty set changes nothing), in memory.
@@ -15,6 +18,7 @@ import { FakeClock } from "./clock.js";
 export class InMemoryAdvertStore implements AdvertStore {
   readonly adverts = new Map<string, StoredAdvert[]>();
   readonly states = new Map<string, SourceState>();
+  readonly memories = new Map<string, SourceMemory>();
 
   constructor(private readonly clock: Clock = new FakeClock()) {}
 
@@ -67,6 +71,15 @@ export class InMemoryAdvertStore implements AdvertStore {
 
   async writeState(source: string, state: SourceState): Promise<void> {
     this.states.set(source, structuredClone(state));
+  }
+
+  async readMemory(source: string): Promise<SourceMemory | undefined> {
+    const memory = this.memories.get(source);
+    return memory === undefined ? undefined : structuredClone(memory);
+  }
+
+  async writeMemory(source: string, memory: SourceMemory): Promise<void> {
+    this.memories.set(source, structuredClone(memory));
   }
 
   async readStates(): Promise<Map<string, SourceState>> {

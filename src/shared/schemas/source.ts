@@ -98,3 +98,7 @@ export const SourceState = z.discriminatedUnion("status", [
 ]);
 export type SourceState = z.infer<typeof SourceState>;
 export type SourceStatus = SourceState["status"];
+
+// What a source keeps between passes: any JSON value, its shape the adapter's own business.
+export const SourceMemory = z.json();
+export type SourceMemory = z.infer<typeof SourceMemory>;
