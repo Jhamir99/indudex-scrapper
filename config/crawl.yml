@@ -42,6 +42,8 @@ pace:
     www.sluzbyzamestnanosti.gov.sk: 1000
     # Hungary's VMP: its firewall refuses a line after about a dozen requests, even a minute apart.
     vmp.munka.hu: 60000
+    # Croatia's HZZ: one RSS feed per county, 21 calls.
+    burzarada.hzz.hr: 500
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.

@@ -1,5 +1,6 @@
 import { brz } from "../public-feeds/adapters/brz/brz.js";
 import { hungary } from "../public-feeds/adapters/hungary/hungary.js";
+import { hzz } from "../public-feeds/adapters/hzz/hzz.js";
 import { infopraca } from "../public-feeds/adapters/infopraca/infopraca.js";
 import { island } from "../public-feeds/adapters/island/island.js";
 import { jobindex } from "../public-feeds/adapters/jobindex/jobindex.js";
@@ -18,6 +19,7 @@ import type { SourceAdapter } from "./ports.js";
 export const registeredAdapters: readonly SourceAdapter[] = [
   brz,
   hungary,
+  hzz,
   infopraca,
   island,
   jobindex,
