@@ -1,4 +1,5 @@
 import { brz } from "../public-feeds/adapters/brz/brz.js";
+import { hungary } from "../public-feeds/adapters/hungary/hungary.js";
 import { infopraca } from "../public-feeds/adapters/infopraca/infopraca.js";
 import { island } from "../public-feeds/adapters/island/island.js";
 import { jobindex } from "../public-feeds/adapters/jobindex/jobindex.js";
@@ -16,6 +17,7 @@ import type { SourceAdapter } from "./ports.js";
 // (`registry.test.ts`) with its saved responses in `test/fixtures/<id>/` (FR-12).
 export const registeredAdapters: readonly SourceAdapter[] = [
   brz,
+  hungary,
   infopraca,
   island,
   jobindex,

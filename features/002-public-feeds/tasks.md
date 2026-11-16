@@ -17,9 +17,9 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
       Done when: the standard adapter check passes for each adapter.
 - [x] **T005 — Port adapters: infopraca, solidjobs, mpsv** · FR: FR-1, FR-5, FR-7 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
-- [ ] **T006 — Port adapters: nva, upsvr, hungary** · FR: FR-1, FR-4, FR-5 · Depends: T002, T023
+- [x] **T006 — Port adapters: nva, upsvr, hungary** · FR: FR-1, FR-4, FR-5 · Depends: T002, T023
       Done when: the standard adapter check passes for each adapter. `hungary` reads one category per pass, about a dozen requests.
-      2026-11-16: `nva` and `upsvr` done; `hungary` uses the per-source memory (T023).
+      2026-11-16: `hungary` keeps its turn and each category's adverts in the per-source memory (T023).
 - [ ] **T007 — Port adapters: hzz, anofm, cyprus** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
 - [ ] **T008 — Port adapters: iefp, netempregos, sef** · FR: FR-1, FR-5, FR-6 · Depends: T002, T021

@@ -40,6 +40,8 @@ pace:
     www.infopraca.pl: 1000
     # Slovakia's ÚPSVaR: its list, a hundred a call, and the pages of new offers.
     www.sluzbyzamestnanosti.gov.sk: 1000
+    # Hungary's VMP: its firewall refuses a line after about a dozen requests, even a minute apart.
+    vmp.munka.hu: 60000
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
@@ -86,3 +88,6 @@ sources:
   # Slovakia's ÚPSVaR: its own offers, about 125 calls of a hundred.
   upsvr:
     cadenceHours: 6
+  # Hungary's public job portal: one category a pass.
+  hungary:
+    cadenceHours: 2
