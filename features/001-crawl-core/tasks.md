@@ -38,7 +38,7 @@ Paths are relative to the repo root; feature code lives in `src/features/crawl-c
       Done when: tests pass on a temporary folder: creating the flag file makes the switch read as active, removing it releases; the flag is read without restarting anything.
 - [x] **T016 — Credentials from the environment; disabled state; .env.example** · FR: FR-9 · Depends: T002
       Done when: tests pass: a source with a missing variable reports disabled with the variable's name (never its value); `.env.example` lists every credentialed source's variable; a grep for key-like strings in the repo finds none.
-- [ ] **T017 — Runner: run one source, validate, store** · FR: FR-1, FR-11 · Depends: T003, T002, T010
+- [x] **T017 — Runner: run one source, validate, store** · FR: FR-1, FR-11 · Depends: T003, T002, T010
       Done when: tests with fakes pass: valid adverts are stored; an invalid one is counted with its reason and not stored; the runner calls nothing beyond store.
 - [ ] **T018 — Runner: failure isolation and keeping previous adverts** · FR: FR-3, FR-4 · Depends: T017
       Done when: tests pass: a throwing source is marked failed with its reason; the next source still runs; previous adverts remain unchanged; a read of zero adverts is reported and deletes nothing.

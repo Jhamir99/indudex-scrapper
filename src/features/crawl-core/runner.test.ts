@@ -1,0 +1,187 @@
+import { describe, expect, it } from "vitest";
+import { InMemoryAdvertStore } from "../../../test/fakes/advert-store.js";
+import { FakeHttpClient } from "../../../test/fakes/http-client.js";
+import {
+  fakeDefinition,
+  fakeDraft,
+  FakeSourceAdapter,
+} from "../../../test/fakes/source-adapter.js";
+import { advertId, DESCRIPTION_LIMIT } from "../../shared/schemas/advert.js";
+import type { AdvertStore } from "./ports.js";
+import { runSource } from "./runner.js";
+
+function setup() {
+  const store = new InMemoryAdvertStore();
+  const http = new FakeHttpClient();
+  const logs: string[] = [];
+  return { store, http, logs, log: (line: string) => logs.push(line) };
+}
+
+describe("runSource (FR-1, FR-2, FR-11)", () => {
+  it("stores valid adverts with their stable id and their source's attribution", async () => {
+    const { store, http, log } = setup();
+    const adapter = new FakeSourceAdapter(fakeDefinition("brz"), [
+      fakeDraft("brz", "1"),
+      fakeDraft("brz", "2"),
+    ]);
+
+    const result = await runSource(adapter, { http, store, log });
+
+    expect(result).toEqual({ source: "brz", stored: 2, rejected: [] });
+    const stored = await store.readAdverts("brz");
+    expect(stored.map((advert) => advert.id)).toEqual([
+      advertId("brz", "1"),
+      advertId("brz", "2"),
+    ]);
+    for (const advert of stored) {
+      expect(advert.attribution).toEqual({
+        licence: "CC BY 4.0",
+        credit: "brz, CC BY 4.0",
+      });
+    }
+  });
+
+  it("stores an explicit null credit for a source that requires none", async () => {
+    const { store, http, log } = setup();
+    const definition = fakeDefinition("brz");
+    const adapter = new FakeSourceAdapter(
+      { ...definition, licence: { ...definition.licence, credit: null } },
+      [fakeDraft("brz", "1")],
+    );
+
+    await runSource(adapter, { http, store, log });
+
+    const [advert] = await store.readAdverts("brz");
+    expect(advert?.attribution.credit).toBeNull();
+  });
+
+  it("counts an invalid advert with its reason, logs it and does not store it", async () => {
+    const { store, http, logs, log } = setup();
+    const adapter = new FakeSourceAdapter(fakeDefinition("brz"), [
+      fakeDraft("brz", "1"),
+      fakeDraft("brz", "2", { url: "http://brz.example/jobs/2" }),
+      fakeDraft("brz", "3", { title: "  " }),
+    ]);
+
+    const result = await runSource(adapter, { http, store, log });
+
+    expect(result.stored).toBe(1);
+    expect(result.rejected).toEqual([
+      { sourceId: "2", reason: "url: an https:// address" },
+      { sourceId: "3", reason: expect.stringMatching(/^title: /) },
+    ]);
+    expect(await store.readAdverts("brz")).toHaveLength(1);
+    expect(logs).toContain("brz: rejected 2: url: an https:// address");
+  });
+
+  it("rejects a contact field, so no person data reaches the store", async () => {
+    const { store, http, log } = setup();
+    const draft = { ...fakeDraft("brz", "1"), email: "someone@brz.example" };
+    const adapter = new FakeSourceAdapter(fakeDefinition("brz"), [draft]);
+
+    const result = await runSource(adapter, { http, store, log });
+
+    expect(result.rejected).toHaveLength(1);
+    expect(result.rejected[0]?.reason).toContain("email");
+    expect(await store.readAdverts("brz")).toEqual([]);
+  });
+
+  it("rejects an advert that claims another source", async () => {
+    const { store, http, log } = setup();
+    const adapter = new FakeSourceAdapter(fakeDefinition("brz"), [
+      fakeDraft("other", "1"),
+    ]);
+
+    const result = await runSource(adapter, { http, store, log });
+
+    expect(result.rejected).toEqual([
+      { sourceId: "1", reason: 'source: "other" is not "brz"' },
+    ]);
+  });
+
+  it("keeps the first of two adverts with the same source id", async () => {
+    const { store, http, log } = setup();
+    const adapter = new FakeSourceAdapter(fakeDefinition("brz"), [
+      fakeDraft("brz", "1", { title: "First" }),
+      fakeDraft("brz", "1", { title: "Second" }),
+    ]);
+
+    const result = await runSource(adapter, { http, store, log });
+
+    expect(result.stored).toBe(1);
+    expect(result.rejected).toEqual([
+      { sourceId: "1", reason: "sourceId: repeated in the same read" },
+    ]);
+    const [advert] = await store.readAdverts("brz");
+    expect(advert?.title).toBe("First");
+  });
+
+  it("caps a long description instead of rejecting the advert", async () => {
+    const { store, http, log } = setup();
+    const adapter = new FakeSourceAdapter(fakeDefinition("brz"), [
+      fakeDraft("brz", "1", { description: "x".repeat(DESCRIPTION_LIMIT + 5) }),
+    ]);
+
+    await runSource(adapter, { http, store, log });
+
+    const [advert] = await store.readAdverts("brz");
+    expect(advert?.description).toHaveLength(DESCRIPTION_LIMIT);
+  });
+
+  it("hands the adapter its HTTP client, credentials and a log with the source's name", async () => {
+    const { store, logs, log } = setup();
+    const http = new FakeHttpClient({ "https://brz.example/feed": "<rss/>" });
+    let seen: Readonly<Record<string, string>> = {};
+    const adapter = new FakeSourceAdapter(fakeDefinition("brz"), [], {
+      fetches: ["https://brz.example/feed"],
+    });
+    const original = adapter.fetchAdverts.bind(adapter);
+    adapter.fetchAdverts = (context) => {
+      seen = context.credentials;
+      context.log("read the feed");
+      return original(context);
+    };
+
+    await runSource(adapter, {
+      http,
+      store,
+      log,
+      credentials: { BRZ_KEY: "k" },
+    });
+
+    expect(http.requests.map((request) => request.url)).toEqual([
+      "https://brz.example/feed",
+    ]);
+    expect(seen).toEqual({ BRZ_KEY: "k" });
+    expect(logs).toContain("brz: read the feed");
+  });
+
+  it("calls nothing beyond the store's replace: the adverts are stored as validated (FR-11)", async () => {
+    const { http, log } = setup();
+    const calls: string[] = [];
+    const inner = new InMemoryAdvertStore();
+    const store = new Proxy(inner, {
+      get(target, property, receiver) {
+        const value: unknown = Reflect.get(target, property, receiver);
+        if (typeof value !== "function") return value;
+        return (...args: unknown[]) => {
+          calls.push(String(property));
+          return (value as (...a: unknown[]) => unknown).apply(target, args);
+        };
+      },
+    }) satisfies AdvertStore;
+    const draft = fakeDraft("brz", "1", { title: "ELECTRICAL ENGINEER" });
+    const adapter = new FakeSourceAdapter(fakeDefinition("brz"), [draft]);
+
+    await runSource(adapter, { http, store, log });
+
+    expect(calls).toEqual(["replaceAdverts"]);
+    const [stored] = await inner.readAdverts("brz");
+    expect(stored).toEqual({
+      ...draft,
+      id: advertId("brz", "1"),
+      attribution: { licence: "CC BY 4.0", credit: "brz, CC BY 4.0" },
+      firstSeen: "2026-11-15",
+    });
+  });
+});
