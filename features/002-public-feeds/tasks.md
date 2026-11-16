@@ -15,7 +15,7 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
       2026-11-16: `nav` needs a token (`NAV_TOKEN`), so it moved to `credentialed-sources` (its T003), as FR-1 says.
 - [x] **T004 — Port adapters: kuntarekry, valtiolle, jobtech** · FR: FR-1, FR-4, FR-5, FR-7 · Depends: T002, T019, T020, T022
       Done when: the standard adapter check passes for each adapter.
-- [ ] **T005 — Port adapters: infopraca, solidjobs, mpsv** · FR: FR-1, FR-5 · Depends: T002
+- [x] **T005 — Port adapters: infopraca, solidjobs, mpsv** · FR: FR-1, FR-5, FR-7 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
 - [ ] **T006 — Port adapters: nva, upsvr, hungary** · FR: FR-1, FR-4, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter. `hungary` reads one category per pass, about a dozen requests.

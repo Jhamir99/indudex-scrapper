@@ -1,0 +1,4 @@
+{
+  "https://solid.jobs/public-api/offers/IT?campaign=indudex&pageSize=500&pageIndex=0": "it-page-0.json",
+  "https://solid.jobs/public-api/offers/Engineering?campaign=indudex&pageSize=500&pageIndex=0": "engineering-page-0.json"
+}

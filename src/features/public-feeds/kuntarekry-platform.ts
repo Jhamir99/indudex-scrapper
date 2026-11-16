@@ -7,7 +7,7 @@ import type { Licence } from "../../shared/schemas/source.js";
 import { parseDay } from "../../shared/kit/dates.js";
 import { jobPostings } from "../../shared/kit/job-posting.js";
 import { plainText } from "../../shared/kit/text.js";
-import { publicFeed } from "./family.js";
+import { publicFeed, withDetailPages } from "./family.js";
 
 // Finland's public-sector job platform, run for the municipalities and wellbeing services
 // counties (Kuntarekry) and for the State (Valtiolle.fi). Its list answers in JSON when asked
@@ -128,33 +128,11 @@ export function platformSite(site: PlatformSite): SourceAdapter {
       for (const draft of drafts) listed.set(draft.sourceId, draft);
       if (items < PAGE || listed.size === before) break;
     }
-    // A vacancy whose page was read before keeps its text: only new ones are read.
-    const known = new Map(
-      context.previous
-        .filter((draft) => draft.description)
-        .map((draft) => [draft.sourceId, draft]),
-    );
-    let pagesRead = 0;
-    let pagesFailed = 0;
-    for (const draft of listed.values()) {
-      const seen = known.get(draft.sourceId);
-      if (seen) {
-        yield withKnown(draft, seen);
-      } else if (pagesRead >= PAGES_A_PASS) {
-        yield draft;
-      } else {
-        pagesRead += 1;
-        try {
-          yield withPage(draft, (await context.http.request(draft.url)).body);
-        } catch {
-          pagesFailed += 1;
-          yield draft;
-        }
-      }
-    }
-    context.log(
-      `${listed.size} vacancies listed, ${pagesRead} pages read${pagesFailed > 0 ? `, ${pagesFailed} failed` : ""}`,
-    );
+    yield* withDetailPages(listed.values(), context, {
+      most: PAGES_A_PASS,
+      read: withPage,
+      keep: withKnown,
+    });
   }
   return publicFeed({
     definition: {

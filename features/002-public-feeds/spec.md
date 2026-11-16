@@ -43,7 +43,7 @@ Where a feed's terms forbid commercial use or ask for express leave that has not
 _Acceptance:_ The status shows each such source as disabled with its reason, and it makes zero requests.
 
 **FR-7 — Sources asked by occupation.**
-Where a feed is asked per occupation group (`jobtech`, Sweden's SSYK-2012 groups), the groups asked shall be a fixed list kept in `config/`, built from the legacy catalogue: the groups whose ISCO-08 codes fall in Indudex's scope.
+Where a feed is asked or filtered per occupation group (`jobtech`, Sweden's SSYK-2012 groups; `mpsv` and `cyprus`, ISCO-08 unit groups), the groups shall be a fixed list kept in `config/`, built from the legacy catalogue: Indudex's ISCO-08 unit groups, and the SSYK groups whose ISCO-08 codes fall among them.
 _Acceptance:_ The list states its source and licence; changing the scope means regenerating the list, not changing code.
 
 **FR-5 — Core rules.**

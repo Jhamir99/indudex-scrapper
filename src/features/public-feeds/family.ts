@@ -104,3 +104,51 @@ export function stillOpen(
         : (draft.posted ?? "") >= oldestDay),
   );
 }
+
+export interface DetailPages {
+  // Pages read in one pass at most; the others are read in the next passes and show meanwhile
+  // with what the list says.
+  readonly most: number;
+  // What a listed advert's own page adds.
+  readonly read: (draft: AdvertDraft, html: string) => AdvertDraft;
+  // What an advert whose page was read in an earlier pass keeps from then.
+  readonly keep: (draft: AdvertDraft, known: AdvertDraft) => AdvertDraft;
+}
+
+// For a feed whose list leaves out the text: each new advert's own page is read once, and an
+// advert read before keeps what its page gave (an advert with a text was read). A page that
+// fails leaves the advert as listed.
+export async function* withDetailPages(
+  listed: Iterable<AdvertDraft>,
+  context: AdapterContext,
+  details: DetailPages,
+): AsyncIterable<AdvertDraft> {
+  const known = new Map(
+    context.previous
+      .filter((draft) => draft.description)
+      .map((draft) => [draft.sourceId, draft]),
+  );
+  let read = 0;
+  let failed = 0;
+  let listedCount = 0;
+  for (const draft of listed) {
+    listedCount += 1;
+    const seen = known.get(draft.sourceId);
+    if (seen) {
+      yield details.keep(draft, seen);
+    } else if (read >= details.most) {
+      yield draft;
+    } else {
+      read += 1;
+      try {
+        yield details.read(draft, (await context.http.request(draft.url)).body);
+      } catch {
+        failed += 1;
+        yield draft;
+      }
+    }
+  }
+  context.log(
+    `${listedCount} listed, ${read} own pages read${failed > 0 ? `, ${failed} failed` : ""}`,
+  );
+}

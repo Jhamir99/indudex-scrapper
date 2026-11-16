@@ -36,6 +36,8 @@ pace:
     # Finland's public-sector platform: its list and the page of each new vacancy.
     kuntarekry.fi: 500
     valtiolle.fi: 500
+    # Poland's Infopraca: forty searches, every page, and the pages of new offers.
+    www.infopraca.pl: 1000
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
@@ -72,4 +74,10 @@ sources:
   kuntarekry:
     cadenceHours: 6
   valtiolle:
+    cadenceHours: 6
+  # Poland's Solid.Jobs: its public API, two divisions, a few calls.
+  solidjobs:
+    cadenceHours: 6
+  # Poland's Infopraca: forty searches, every page, about five minutes.
+  infopraca:
     cadenceHours: 6
