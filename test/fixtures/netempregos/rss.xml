@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-made on 2026-11-16 from the format the legacy adapter documents (builder/adapters/netempregos.ts):
+     Net-Empregos is never read while its terms forbid commercial use (public-feeds FR-6). Not saved from the site. -->
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+<title>Net-Empregos</title>
+<item>
+<title>Técnico de Manutenção Industrial</title>
+<link>https://www.net-empregos.com/9100001/tecnico-de-manutencao-industrial/</link>
+<dc:creator>Exemplo Indústria, Lda</dc:creator>
+<description><![CDATA[<b>Empresa: </b>Exemplo Indústria, Lda<br><b>Categoria: </b>Engenharia ( Mecânica )<br><b>Zona: </b>Porto<br><b>Data: </b>9-11-2026<br><br><b>Descrição: </b>Manutenção preventiva e corretiva de equipamentos.<br>Experiência com PLC. <a href="https://www.net-empregos.com/9100001/">Ver oferta</a>]]></description>
+</item>
+<item>
+<title>Engenheiro Civil</title>
+<link>https://www.net-empregos.com/9100002/engenheiro-civil/</link>
+<dc:creator>Construções Exemplo, SA</dc:creator>
+<description><![CDATA[<b>Empresa: </b>Construções Exemplo, SA<br><b>Categoria: </b>Engenharia ( Civil )<br><b>Zona: </b>( Todas as Zonas )<br><b>Data: </b>10-11-2026<br><br><b>Descrição: </b>Direção de obra.]]></description>
+</item>
+<item>
+<title>Eletricista</title>
+<link>https://www.net-empregos.com/9100003/eletricista/</link>
+<dc:creator>Exemplo Angola</dc:creator>
+<description><![CDATA[<b>Empresa: </b>Exemplo Angola<br><b>Categoria: </b>Construção Civil<br><b>Zona: </b>Estrangeiro - Angola<br><b>Data: </b>11-11-2026<br><br><b>Descrição: </b>Instalações elétricas.]]></description>
+</item>
+</channel>
+</rss>

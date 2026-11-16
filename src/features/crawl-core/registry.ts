@@ -3,12 +3,14 @@ import { brz } from "../public-feeds/adapters/brz/brz.js";
 import { cyprus } from "../public-feeds/adapters/cyprus/cyprus.js";
 import { hungary } from "../public-feeds/adapters/hungary/hungary.js";
 import { hzz } from "../public-feeds/adapters/hzz/hzz.js";
+import { iefp } from "../public-feeds/adapters/iefp/iefp.js";
 import { infopraca } from "../public-feeds/adapters/infopraca/infopraca.js";
 import { island } from "../public-feeds/adapters/island/island.js";
 import { jobindex } from "../public-feeds/adapters/jobindex/jobindex.js";
 import { jobtech } from "../public-feeds/adapters/jobtech/jobtech.js";
 import { kuntarekry } from "../public-feeds/adapters/kuntarekry/kuntarekry.js";
 import { mpsv } from "../public-feeds/adapters/mpsv/mpsv.js";
+import { netempregos } from "../public-feeds/adapters/netempregos/netempregos.js";
 import { nva } from "../public-feeds/adapters/nva/nva.js";
 import { solidjobs } from "../public-feeds/adapters/solidjobs/solidjobs.js";
 import { upsvr } from "../public-feeds/adapters/upsvr/upsvr.js";
@@ -24,12 +26,14 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   cyprus,
   hungary,
   hzz,
+  iefp,
   infopraca,
   island,
   jobindex,
   jobtech,
   kuntarekry,
   mpsv,
+  netempregos,
   nva,
   solidjobs,
   upsvr,
