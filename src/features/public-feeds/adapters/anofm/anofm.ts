@@ -1,6 +1,7 @@
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
+import { withoutContacts } from "../../contacts.js";
 import { checkWholePass, publicFeed } from "../../family.js";
 
 // Romania: ANOFM, the public employment service, through the list its own job search draws
@@ -55,17 +56,6 @@ const titled = (text: string) =>
       /(^|[\s-])(\p{L})/gu,
       (_, gap: string, letter: string) => gap + letter.toUpperCase(),
     );
-
-// Links, e-mail addresses (a space at the «@» included) and Romanian phone numbers left in a text.
-export function withoutContacts(text: string): string {
-  return text
-    .replace(/(?:https?:\/\/|www\.)\S+/gi, "")
-    .replace(/[\w.+-]+\s?@\s?[\w-]+(?:\.[\w-]+)+/g, "")
-    .replace(/(?:\+40|\b0)[\s.-]?[237]\d{1,2}(?:[\s.-]?\d{2,4}){2,3}\b/g, "")
-    .replace(/[ \t]+/g, " ")
-    .replace(/ ?\n ?/g, "\n")
-    .trim();
-}
 
 export function parseAnofm(json: string): {
   readonly total: number;

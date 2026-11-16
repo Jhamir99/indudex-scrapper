@@ -12,6 +12,7 @@ import { kuntarekry } from "../public-feeds/adapters/kuntarekry/kuntarekry.js";
 import { mpsv } from "../public-feeds/adapters/mpsv/mpsv.js";
 import { netempregos } from "../public-feeds/adapters/netempregos/netempregos.js";
 import { nva } from "../public-feeds/adapters/nva/nva.js";
+import { sef } from "../public-feeds/adapters/sef/sef.js";
 import { solidjobs } from "../public-feeds/adapters/solidjobs/solidjobs.js";
 import { upsvr } from "../public-feeds/adapters/upsvr/upsvr.js";
 import { valtiolle } from "../public-feeds/adapters/valtiolle/valtiolle.js";
@@ -35,6 +36,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   mpsv,
   netempregos,
   nva,
+  sef,
   solidjobs,
   upsvr,
   valtiolle,

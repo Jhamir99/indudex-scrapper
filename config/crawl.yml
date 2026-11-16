@@ -48,6 +48,8 @@ pace:
     mediere.anofm.ro: 1000
     # Cyprus's PESCPS: one search per occupation of ours.
     pescps.dl.mlsi.gov.cy: 1500
+    # Portugal's IEFP: its search, a hundred a page, and the pages of new offers.
+    iefponline.iefp.pt: 1000
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
@@ -103,3 +105,6 @@ sources:
   # Cyprus's public employment service: one search per ISCO unit group of ours.
   cyprus:
     cadenceHours: 12
+  # Portugal's IEFP: about 57 search pages of about 900 KB each, once a day.
+  iefp:
+    cadenceHours: 24

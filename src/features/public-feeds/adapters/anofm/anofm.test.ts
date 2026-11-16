@@ -8,7 +8,7 @@ import {
   readDrafts,
 } from "../../../../../test/fakes/source-adapter.js";
 import type { HttpClient } from "../../../crawl-core/ports.js";
-import { anofm, parseAnofm, withoutContacts } from "./anofm.js";
+import { anofm, parseAnofm } from "./anofm.js";
 
 const rows = (from: number, count: number) =>
   Array.from({ length: count }, (_, k) => ({
@@ -81,12 +81,6 @@ describe("anofm (public-feeds FR-1)", () => {
       expires: "2026-12-10",
     });
     expect(draft?.description).toBe("Scrieți la sau . Detalii:\nInginerie");
-  });
-
-  it("cuts out contacts but keeps dates", () => {
-    expect(
-      withoutContacts("Contract 01/12/2026 - 28/02/2027, tel +40 21 312 3456"),
-    ).toBe("Contract 01/12/2026 - 28/02/2027, tel");
   });
 
   it("pages up to the total and fails a pass well short of it", async () => {
