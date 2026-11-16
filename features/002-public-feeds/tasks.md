@@ -6,7 +6,7 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
 
 ## Tasks
 
-- [ ] **T001 — Family `public-feed` extracted from the reference feed** · FR: FR-2 · Depends: crawl-core T025
+- [x] **T001 — Family `public-feed` extracted from the reference feed** · FR: FR-2 · Depends: crawl-core T025
       Done when: the family offers robots check, fetch, empty-feed failure and field mapping once, and a source using it only provides its url, licence and field mapping.
 - [ ] **T002 — Reference adapter: brz (open-data feed)** · FR: FR-1, FR-3, FR-5 · Depends: T001
       Done when: the standard adapter check passes for it.
