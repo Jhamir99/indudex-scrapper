@@ -16,6 +16,7 @@ import { linz } from "../public-feeds/adapters/linz/linz.js";
 import { mpsv } from "../public-feeds/adapters/mpsv/mpsv.js";
 import { netempregos } from "../public-feeds/adapters/netempregos/netempregos.js";
 import { nva } from "../public-feeds/adapters/nva/nva.js";
+import { ooe } from "../public-feeds/adapters/ooe/ooe.js";
 import { sef } from "../public-feeds/adapters/sef/sef.js";
 import { solidjobs } from "../public-feeds/adapters/solidjobs/solidjobs.js";
 import { spin } from "../public-feeds/adapters/spin/spin.js";
@@ -46,6 +47,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   mpsv,
   netempregos,
   nva,
+  ooe,
   sef,
   solidjobs,
   spin,

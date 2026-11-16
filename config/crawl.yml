@@ -126,3 +126,6 @@ sources:
   # The City of Linz and its companies: the same platform's feed (CC BY 4.0), one call.
   linz:
     cadenceHours: 12
+  # Upper Austria's own vacancies (CC BY 4.0), one call.
+  ooe:
+    cadenceHours: 12
