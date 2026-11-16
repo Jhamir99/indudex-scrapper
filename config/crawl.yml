@@ -123,3 +123,6 @@ sources:
   # Karriere.NRW: its open API, about a hundred pages of ten.
   karrierenrw:
     cadenceHours: 12
+  # The City of Linz and its companies: the same platform's feed (CC BY 4.0), one call.
+  linz:
+    cadenceHours: 12
