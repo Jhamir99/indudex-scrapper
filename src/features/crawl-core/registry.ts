@@ -24,6 +24,7 @@ import { mpsv } from "../public-feeds/adapters/mpsv/mpsv.js";
 import { netempregos } from "../public-feeds/adapters/netempregos/netempregos.js";
 import { nva } from "../public-feeds/adapters/nva/nva.js";
 import { ooe } from "../public-feeds/adapters/ooe/ooe.js";
+import { sae } from "../public-feeds/adapters/sae/sae.js";
 import { sef } from "../public-feeds/adapters/sef/sef.js";
 import { sne } from "../public-feeds/adapters/sne/sne.js";
 import { solidjobs } from "../public-feeds/adapters/solidjobs/solidjobs.js";
@@ -66,6 +67,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   netempregos,
   nva,
   ooe,
+  sae,
   sef,
   sne,
   solidjobs,

@@ -70,6 +70,8 @@ pace:
     ejob.civis.bz.it: 2000
     # Lithuania's open-data API: one query per minor group of ours (robots.txt asks 5 s).
     get.data.gov.lt: 1000
+    # Andalusia's SAE: its whole list in one call.
+    saempleo.es: 1000
 
 run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.
@@ -172,4 +174,7 @@ sources:
     cadenceHours: 12
   # South Tyrol's eJob: three procedures, about twelve pages of a hundred.
   bolzano:
+    cadenceHours: 12
+  # Andalusia's SAE: every published offer in one call.
+  sae:
     cadenceHours: 12
