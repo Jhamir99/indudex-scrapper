@@ -7,6 +7,7 @@ import { brz } from "../public-feeds/adapters/brz/brz.js";
 import { bund } from "../public-feeds/adapters/bund/bund.js";
 import { clm } from "../public-feeds/adapters/clm/clm.js";
 import { cyprus } from "../public-feeds/adapters/cyprus/cyprus.js";
+import { emcan } from "../public-feeds/adapters/emcan/emcan.js";
 import { emilia } from "../public-feeds/adapters/emilia/emilia.js";
 import { forem } from "../public-feeds/adapters/forem/forem.js";
 import { gencat } from "../public-feeds/adapters/gencat/gencat.js";
@@ -54,6 +55,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   bund,
   clm,
   cyprus,
+  emcan,
   emilia,
   forem,
   gencat,

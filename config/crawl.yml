@@ -74,6 +74,8 @@ pace:
     saempleo.es: 1000
     # Castilla-La Mancha's employment API: pages of a hundred.
     empleabilidad-public.jccm.es: 1500
+    # Cantabria's EMCAN: its robots.txt asks ten seconds between calls.
+    empleacantabria.es: 10000
 
 run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.
@@ -179,4 +181,7 @@ sources:
     cadenceHours: 12
   # Andalusia's SAE: every published offer in one call.
   sae:
+    cadenceHours: 12
+  # Cantabria's EMCAN: its list, and the pages of 60 new offers.
+  emcan:
     cadenceHours: 12

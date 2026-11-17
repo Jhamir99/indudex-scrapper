@@ -48,8 +48,9 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
 - [x] **T015 — Port adapters: sae, madrid, jcyl** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
       2026-11-17: `jcyl` is ported disabled and flagged (FR-6): the dataset's address redirects to the Junta's analysis portal, whose robots.txt closes `/api/` where the export now sits, in a different, flat format (the adapter keeps the legacy's attribute-list format and must be updated before it is enabled). `sae` and `madrid` done (live passes: 569 and 208 offers).
-- [ ] **T016 — Port adapters: clm, emcan, gencat** · FR: FR-1, FR-5 · Depends: T002
+- [x] **T016 — Port adapters: clm, emcan, gencat** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
+      2026-11-17: live passes stored 323 (`clm`), 345 (`gencat`) and 88 (`emcan`, 60 offer pages read in the pass) offers. `emcan` reads each new offer's own page without the legacy's gate (the processor's), 60 a pass at the 10 s its robots.txt asks.
 - [ ] **T017 — Port adapters: feinaactiva, escoladeltreball** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
 - [ ] **T018 — Close public-feeds** · FR: FR-1 to FR-5 · Depends: T003-T017
