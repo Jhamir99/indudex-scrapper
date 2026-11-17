@@ -64,6 +64,8 @@ pace:
     lavoro.provincia.brescia.it: 1000
     # Flanders' VDAB: its search, about 2,000 calls a whole pass, and the records of its vacancies.
     www.vdab.be: 600
+    # Spain's SNE: one PDF per region, ten seconds apart.
+    www.sistemanacionalempleo.es: 10000
 
 run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.
@@ -161,3 +163,6 @@ sources:
   # the records of up to 3,000 vacancies.
   vdab:
     cadenceHours: 6
+  # Spain's SNE: twelve regional PDFs.
+  sne:
+    cadenceHours: 12

@@ -58,7 +58,7 @@ describe("netempregos (public-feeds FR-1, FR-6)", () => {
   });
 
   it("maps an item: employer, district, day, text and category; anywhere and abroad", async () => {
-    const xml = (await loadFixtureRoutes("netempregos"))[NEWEST]!;
+    const xml = (await loadFixtureRoutes("netempregos"))[NEWEST] as string;
     const [porto, anywhere, abroad] = parseFeed(xml);
     expect(porto).toMatchObject({
       sourceId: "9100001",

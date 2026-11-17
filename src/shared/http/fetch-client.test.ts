@@ -72,6 +72,21 @@ describe("FetchClient (FR-3)", () => {
     });
   });
 
+  it("answers a file's bytes untouched when asked for binary, and text otherwise", async () => {
+    const pdf = new Uint8Array([
+      0x25, 0x50, 0x44, 0x46, 0xff, 0xfe, 0x00, 0x80,
+    ]);
+    const reply = () =>
+      new Response(pdf, { headers: { "Content-Type": "application/pdf" } });
+    const file = await client(fakeServer(reply()).fetch).request(FEED, {
+      binary: true,
+    });
+    expect(file.bytes).toEqual(pdf);
+    expect(file.body).toBe("");
+    const text = await client(fakeServer(reply()).fetch).request(FEED);
+    expect(text.bytes).toBeUndefined();
+  });
+
   it("answers every cookie the server sets", async () => {
     const headers = new Headers();
     headers.append("Set-Cookie", "JSESSIONID=a1; Path=/jobs; HttpOnly");

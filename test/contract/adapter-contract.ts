@@ -6,27 +6,51 @@ import { runSource } from "../../src/features/crawl-core/runner.js";
 import type { SourceAdapter } from "../../src/features/crawl-core/ports.js";
 import { SourceDefinition } from "../../src/shared/schemas/source.js";
 import { InMemoryAdvertStore } from "../fakes/advert-store.js";
-import { FakeHttpClient } from "../fakes/http-client.js";
+import { FakeHttpClient, type Route } from "../fakes/http-client.js";
 
 export const FIXTURES_DIRECTORY = fileURLToPath(
   new URL("../fixtures/", import.meta.url),
 );
 
 // `test/fixtures/<id>/routes.json` maps each address the adapter asks for to the saved file
-// that answers it, e.g. { "https://brz.example/feed.xml": "feed.xml" }.
+// that answers it, e.g. { "https://brz.example/feed.xml": "feed.xml" }. A `.pdf` file answers
+// as a PDF's bytes (for a request that asks for `binary`), any other as text; an entry may also
+// be { "file": "x.json", "binary": true, "contentType": "application/json" } for bytes of any kind
+// (a file in windows-1252, say).
 export async function loadFixtureRoutes(
   source: string,
-): Promise<Record<string, string>> {
+): Promise<Record<string, Route>> {
   const folder = join(FIXTURES_DIRECTORY, source);
   const routes = JSON.parse(
     await readFile(join(folder, "routes.json"), "utf8"),
-  ) as Record<string, string>;
-  const answers: Record<string, string> = {};
+  ) as Record<
+    string,
+    string | { file: string; binary: true; contentType?: string }
+  >;
+  const answers: Record<string, Route> = {};
   for (const [url, file] of Object.entries(routes)) {
-    answers[url] = await readFile(join(folder, file), "utf8");
+    if (typeof file === "object") {
+      answers[url] = {
+        headers: {
+          "content-type": file.contentType ?? "application/octet-stream",
+        },
+        bytes: new Uint8Array(await readFile(join(folder, file.file))),
+      };
+    } else if (file.endsWith(".pdf")) {
+      answers[url] = {
+        headers: { "content-type": "application/pdf" },
+        bytes: new Uint8Array(await readFile(join(folder, file))),
+      };
+    } else {
+      answers[url] = await readFile(join(folder, file), "utf8");
+    }
   }
   return answers;
 }
+
+// The day the adapters see in the contract check, so a source whose address carries the day
+// (a filter on open vacancies) has one fixture that always matches.
+export const CONTRACT_DAY = "2026-11-17";
 
 const CONTACT_KEY = /mail|phone|contact|tel|fax|person|recruiter/i;
 const EMAIL_ADDRESS = /[\w.+-]+@[\w-]+(?:\.[\w-]+)+/;
@@ -35,7 +59,7 @@ const EMAIL_ADDRESS = /[\w.+-]+@[\w-]+(?:\.[\w-]+)+/;
 // adverts from its saved responses, and no person data. Returns the problems found.
 export async function checkAdapterContract(
   adapter: SourceAdapter,
-  routes: Readonly<Record<string, string>>,
+  routes: Readonly<Record<string, Route>>,
 ): Promise<string[]> {
   const problems: string[] = [];
   const definition = SourceDefinition.safeParse(adapter.definition);
@@ -53,6 +77,7 @@ export async function checkAdapterContract(
     store,
     credentials,
     log: () => {},
+    today: CONTRACT_DAY,
   });
   if (result.outcome !== "stored") {
     problems.push(

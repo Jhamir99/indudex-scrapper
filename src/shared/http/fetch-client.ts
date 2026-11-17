@@ -15,6 +15,8 @@ export interface HttpRequestOptions {
   readonly method?: "GET" | "POST";
   readonly headers?: Readonly<Record<string, string>>;
   readonly body?: string;
+  // The answer is a file (a PDF), not text: it comes back as `bytes`, with an empty `body`.
+  readonly binary?: boolean;
 }
 
 export interface HttpResponse {
@@ -25,6 +27,8 @@ export interface HttpResponse {
   // a source whose server needs its session sends them back itself.
   readonly cookies?: readonly string[];
   readonly body: string;
+  // The answer's bytes, only when the request asked for `binary`.
+  readonly bytes?: Uint8Array;
 }
 
 export type FetchFunction = (
@@ -118,16 +122,15 @@ export class FetchClient {
         );
       }
       // The time limit covers reading the body too.
-      const body = decodeBody(
-        new Uint8Array(await response.arrayBuffer()),
-        response.headers.get("content-type"),
-      );
+      const bytes = new Uint8Array(await response.arrayBuffer());
       return {
         status: response.status,
         url: response.url || url,
         headers: Object.fromEntries(response.headers),
         cookies: response.headers.getSetCookie(),
-        body,
+        ...(options.binary
+          ? { body: "", bytes }
+          : { body: decodeBody(bytes, response.headers.get("content-type")) }),
       };
     } catch {
       return fail(signal.aborted ? "timeout" : "network");

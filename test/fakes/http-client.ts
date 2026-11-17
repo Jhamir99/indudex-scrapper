@@ -9,7 +9,7 @@ export interface RecordedRequest {
   readonly options: HttpRequestOptions;
 }
 
-type Route = string | Partial<HttpResponse> | Error;
+export type Route = string | Partial<HttpResponse> | Error;
 
 // Answers from a table of addresses; an address not in it fails, so no test reaches the network.
 export class FakeHttpClient implements HttpClient {
