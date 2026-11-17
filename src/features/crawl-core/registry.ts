@@ -1,5 +1,6 @@
 import { actiris } from "../public-feeds/adapters/actiris/actiris.js";
 import { anofm } from "../public-feeds/adapters/anofm/anofm.js";
+import { bolzano } from "../public-feeds/adapters/bolzano/bolzano.js";
 import { brandenburg } from "../public-feeds/adapters/brandenburg/brandenburg.js";
 import { brescia } from "../public-feeds/adapters/brescia/brescia.js";
 import { brz } from "../public-feeds/adapters/brz/brz.js";
@@ -39,6 +40,7 @@ import type { SourceAdapter } from "./ports.js";
 export const registeredAdapters: readonly SourceAdapter[] = [
   actiris,
   anofm,
+  bolzano,
   brandenburg,
   brescia,
   brz,

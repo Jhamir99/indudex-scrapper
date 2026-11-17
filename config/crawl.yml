@@ -66,6 +66,8 @@ pace:
     www.vdab.be: 600
     # Spain's SNE: one PDF per region, ten seconds apart.
     www.sistemanacionalempleo.es: 10000
+    # South Tyrol's eJob: its search, a hundred a call.
+    ejob.civis.bz.it: 2000
 
 run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.
@@ -165,4 +167,7 @@ sources:
     cadenceHours: 6
   # Spain's SNE: twelve regional PDFs.
   sne:
+    cadenceHours: 12
+  # South Tyrol's eJob: three procedures, about twelve pages of a hundred.
+  bolzano:
     cadenceHours: 12
