@@ -1,0 +1,4 @@
+{
+  "https://get.data.gov.lt/datasets/gov/uzt/ldv/Vieta?galioja_iki>=\"2026-11-17\"&profesijos_kodas.startswith(\"251\")&limit(2000)&select(darbo_vietos_id,profesijos_kodas,profesijos_pareigybes_pav,darbdavys,darbo_vietos_adresas,darbo_aprasymas_lt,reik_darbo_patirtis,reik_kompetencijos_lt,reik_gebejimai,reik_issilavinimo_pav,ikelimo_data,galioja_nuo,galioja_iki,vid_darbo_uzmokestis,prelim_darbo_uzmokestis,maks_darbo_uzmokestis,valiuta)": "group-251.json",
+  "https://get.data.gov.lt/datasets/gov/uzt/ldv/Vieta?galioja_iki>=\"2026-11-17\"&profesijos_kodas.startswith(\"741\")&limit(2000)&select(darbo_vietos_id,profesijos_kodas,profesijos_pareigybes_pav,darbdavys,darbo_vietos_adresas,darbo_aprasymas_lt,reik_darbo_patirtis,reik_kompetencijos_lt,reik_gebejimai,reik_issilavinimo_pav,ikelimo_data,galioja_nuo,galioja_iki,vid_darbo_uzmokestis,prelim_darbo_uzmokestis,maks_darbo_uzmokestis,valiuta)": "group-empty.json"
+}

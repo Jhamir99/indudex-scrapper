@@ -30,6 +30,7 @@ import { spin } from "../public-feeds/adapters/spin/spin.js";
 import { trento } from "../public-feeds/adapters/trento/trento.js";
 import { ttvic } from "../public-feeds/adapters/ttvic/ttvic.js";
 import { upsvr } from "../public-feeds/adapters/upsvr/upsvr.js";
+import { uzt } from "../public-feeds/adapters/uzt/uzt.js";
 import { valtiolle } from "../public-feeds/adapters/valtiolle/valtiolle.js";
 import { vdab } from "../public-feeds/adapters/vdab/vdab.js";
 import type { SourceAdapter } from "./ports.js";
@@ -70,6 +71,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   trento,
   ttvic,
   upsvr,
+  uzt,
   valtiolle,
   vdab,
 ];
