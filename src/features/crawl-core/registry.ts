@@ -9,6 +9,7 @@ import { clm } from "../public-feeds/adapters/clm/clm.js";
 import { cyprus } from "../public-feeds/adapters/cyprus/cyprus.js";
 import { emilia } from "../public-feeds/adapters/emilia/emilia.js";
 import { forem } from "../public-feeds/adapters/forem/forem.js";
+import { gencat } from "../public-feeds/adapters/gencat/gencat.js";
 import { hungary } from "../public-feeds/adapters/hungary/hungary.js";
 import { hzz } from "../public-feeds/adapters/hzz/hzz.js";
 import { iefp } from "../public-feeds/adapters/iefp/iefp.js";
@@ -55,6 +56,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   cyprus,
   emilia,
   forem,
+  gencat,
   hungary,
   hzz,
   iefp,
