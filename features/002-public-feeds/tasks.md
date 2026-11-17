@@ -51,8 +51,9 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
 - [x] **T016 — Port adapters: clm, emcan, gencat** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
       2026-11-17: live passes stored 323 (`clm`), 345 (`gencat`) and 88 (`emcan`, 60 offer pages read in the pass) offers. `emcan` reads each new offer's own page without the legacy's gate (the processor's), 60 a pass at the 10 s its robots.txt asks.
-- [ ] **T017 — Port adapters: feinaactiva, escoladeltreball** · FR: FR-1, FR-5 · Depends: T002
+- [x] **T017 — Port adapters: feinaactiva, escoladeltreball** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
+      2026-11-17: live passes stored 4,171 (`feinaactiva`) and 45 (`escoladeltreball`) offers. The offers of `escoladeltreball` marked restricted (they ask for an ID number and a birth date) are left out; an offer read before is not asked for again while open.
 - [ ] **T018 — Close public-feeds** · FR: FR-1 to FR-5 · Depends: T003-T017
       Done when: every feed passes the contract test and `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:run && pnpm build` is green; the list of ported sources in `MEMORY.md` is up to date; `features/README.md` marks this feature done.
 

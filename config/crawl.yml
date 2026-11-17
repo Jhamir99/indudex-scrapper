@@ -76,6 +76,8 @@ pace:
     empleabilidad-public.jccm.es: 1500
     # Cantabria's EMCAN: its robots.txt asks ten seconds between calls.
     empleacantabria.es: 10000
+    # Barcelona's Escola del Treball: its department lists and the page of each new offer.
+    apps.escoladeltreball.org: 1500
 
 run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.

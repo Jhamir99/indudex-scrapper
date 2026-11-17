@@ -1,0 +1,62 @@
+{
+  "https://apps.escoladeltreball.org/borsatreball/consultar?departament=ELI": {
+    "file": "list.html",
+    "binary": true,
+    "contentType": "text/html; charset=utf-8"
+  },
+  "https://apps.escoladeltreball.org/borsatreball/consultar?departament=ELO": {
+    "file": "list.html",
+    "binary": true,
+    "contentType": "text/html; charset=utf-8"
+  },
+  "https://apps.escoladeltreball.org/borsatreball/consultar?departament=MET": {
+    "file": "list.html",
+    "binary": true,
+    "contentType": "text/html; charset=utf-8"
+  },
+  "https://apps.escoladeltreball.org/borsatreball/consultar?departament=MAN": {
+    "file": "list.html",
+    "binary": true,
+    "contentType": "text/html; charset=utf-8"
+  },
+  "https://apps.escoladeltreball.org/borsatreball/consultar?departament=CON": {
+    "file": "list.html",
+    "binary": true,
+    "contentType": "text/html; charset=utf-8"
+  },
+  "https://apps.escoladeltreball.org/borsatreball/consultar?departament=INF": {
+    "file": "list.html",
+    "binary": true,
+    "contentType": "text/html; charset=utf-8"
+  },
+  "https://apps.escoladeltreball.org/borsatreball/consultar?departament=FUS": {
+    "file": "list.html",
+    "binary": true,
+    "contentType": "text/html; charset=utf-8"
+  },
+  "https://apps.escoladeltreball.org/borsatreball/consultar?departament=QUI": {
+    "file": "list.html",
+    "binary": true,
+    "contentType": "text/html; charset=utf-8"
+  },
+  "https://apps.escoladeltreball.org/borsatreball/consultar?departament=alt": {
+    "file": "list.html",
+    "binary": true,
+    "contentType": "text/html; charset=utf-8"
+  },
+  "https://apps.escoladeltreball.org/borsatreball/ofertes/900001": {
+    "file": "offer-900001.html",
+    "binary": true,
+    "contentType": "text/html; charset=utf-8"
+  },
+  "https://apps.escoladeltreball.org/borsatreball/ofertes/900002": {
+    "file": "offer-900002.html",
+    "binary": true,
+    "contentType": "text/html; charset=utf-8"
+  },
+  "https://apps.escoladeltreball.org/borsatreball/ofertes/900003": {
+    "file": "offer-900003.html",
+    "binary": true,
+    "contentType": "text/html; charset=utf-8"
+  }
+}
