@@ -20,6 +20,7 @@ import { karrierenrw } from "../public-feeds/adapters/karrierenrw/karrierenrw.js
 import { kuntarekry } from "../public-feeds/adapters/kuntarekry/kuntarekry.js";
 import { lanbide } from "../public-feeds/adapters/lanbide/lanbide.js";
 import { linz } from "../public-feeds/adapters/linz/linz.js";
+import { madrid } from "../public-feeds/adapters/madrid/madrid.js";
 import { mpsv } from "../public-feeds/adapters/mpsv/mpsv.js";
 import { netempregos } from "../public-feeds/adapters/netempregos/netempregos.js";
 import { nva } from "../public-feeds/adapters/nva/nva.js";
@@ -63,6 +64,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   kuntarekry,
   lanbide,
   linz,
+  madrid,
   mpsv,
   netempregos,
   nva,
