@@ -35,6 +35,13 @@ export const CrawlConfig = z.strictObject({
     maxOpen: z.int().positive(),
     newPerSecond: z.number().positive(),
   }),
+  run: z
+    .strictObject({
+      // Sources read at once. Each site keeps its own pace (`pace`, `connections`) however many
+      // run; this only keeps one slow source (an hour's pass) from holding up the others.
+      concurrency: z.int().positive(),
+    })
+    .default({ concurrency: 4 }),
   // 4xx answers a server may give within the window before it is asked nothing more.
   errorBudget: z.strictObject({
     errors: z.int().positive(),

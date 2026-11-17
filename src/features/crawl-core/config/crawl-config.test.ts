@@ -20,6 +20,7 @@ describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
     expect(config.pace.perHost).toEqual({ gapMs: 3000, inFlight: 1 });
     expect(config.connections).toEqual({ maxOpen: 16, newPerSecond: 2 });
     expect(config.errorBudget).toEqual({ errors: 3, windowMinutes: 10 });
+    expect(config.run).toEqual({ concurrency: 4 });
   });
 
   it("takes per-source cadences", () => {
@@ -68,5 +69,23 @@ describe("pace.hosts (public-feeds FR-4)", () => {
     expect(
       CrawlConfig.parse({ ...loaded, pace: withoutHosts }).pace.hosts,
     ).toEqual({});
+  });
+
+  it("reads four sources at once when the file says nothing, and rejects none", () => {
+    const base = {
+      cadence: { defaultHours: 24, unchangedMaxHours: 168 },
+      backoff: { hours: [24], parkAfterFailures: 6, parkedHours: 720 },
+      pace: {
+        perHost: { gapMs: 3000, inFlight: 1 },
+        perServer: { gapMs: 5000, inFlight: 1 },
+        perProvider: { gapMs: 3000, inFlight: 1 },
+      },
+      connections: { maxOpen: 16, newPerSecond: 2 },
+      errorBudget: { errors: 3, windowMinutes: 10 },
+    };
+    expect(CrawlConfig.parse(base).run.concurrency).toBe(4);
+    expect(
+      CrawlConfig.safeParse({ ...base, run: { concurrency: 0 } }).success,
+    ).toBe(false);
   });
 });

@@ -226,6 +226,9 @@ export interface RunDependencies {
   // Where credentials are read from: process.env in a real run (FR-9).
   readonly environment: Environment;
   readonly log: (message: string) => void;
+  // Sources read at once (default 1). The polite client behind `http` is shared, so the pace of
+  // each host, server and provider and the connection caps hold however many run.
+  readonly concurrency?: number;
 }
 
 export interface RunResult {
@@ -304,44 +307,64 @@ export async function runOnly(
   return runSources([adapter], dependencies);
 }
 
-// Runs the given sources one after another, due or not. Each runs inside its own failure
-// boundary, so a failing source is recorded with its reason and the next one still runs
-// (FR-3, FR-4). The stop switch is read before each source (FR-7).
+// Runs the given sources, due or not, `concurrency` at a time (one after another by default),
+// each taken in the order given. Each runs inside its own failure boundary, so a failing source
+// is recorded with its reason and the others still run (FR-3, FR-4). The stop switch is read
+// before each source starts (FR-7): once it is set, or a source was cut by it, no further source
+// starts and those already reading finish on their own (their requests stop at the switch).
+// Results come back in the order the sources were given.
 export async function runSources(
   adapters: readonly SourceAdapter[],
   dependencies: RunDependencies,
 ): Promise<RunResult> {
   const { stopSwitch, log } = dependencies;
-  const results: SourceRunResult[] = [];
-  for (const adapter of adapters) {
-    if (await stopSwitch.isActive()) {
-      log("the stop switch is active: no further source runs");
-      return { sources: results, stopped: true };
+  const workers = Math.max(1, dependencies.concurrency ?? 1);
+  const results: (SourceRunResult | undefined)[] = adapters.map(
+    () => undefined,
+  );
+  let next = 0;
+  let stopped = false;
+
+  async function work(): Promise<void> {
+    while (!stopped && next < adapters.length) {
+      if (await stopSwitch.isActive()) {
+        if (!stopped) log("the stop switch is active: no further source runs");
+        stopped = true;
+        return;
+      }
+      // The switch is read asynchronously: another worker may have taken the turn meanwhile.
+      if (stopped || next >= adapters.length) return;
+      const index = next++;
+      const adapter = adapters[index]!;
+      const source = adapter.definition.id;
+      let result: SourceRunResult;
+      try {
+        result = await runAndRecord(adapter, dependencies);
+      } catch (error) {
+        // The store could not read or write this source's state. The state is never reset, so
+        // the source keeps what it had and is reported until the store is repaired.
+        const reason = `store: ${messageOf(error)}`;
+        log(`${source}: failed: ${reason}`);
+        result = {
+          source,
+          outcome: "failed",
+          stored: 0,
+          rejected: [],
+          takenDown: 0,
+          changed: false,
+          reason,
+        };
+      }
+      results[index] = result;
+      if (result.outcome === "stopped") stopped = true;
     }
-    const source = adapter.definition.id;
-    let result: SourceRunResult;
-    try {
-      result = await runAndRecord(adapter, dependencies);
-    } catch (error) {
-      // The store could not read or write this source's state. The state is never reset, so
-      // the source keeps what it had and is reported until the store is repaired.
-      const reason = `store: ${messageOf(error)}`;
-      log(`${source}: failed: ${reason}`);
-      result = {
-        source,
-        outcome: "failed",
-        stored: 0,
-        rejected: [],
-        takenDown: 0,
-        changed: false,
-        reason,
-      };
-    }
-    results.push(result);
-    if (result.outcome === "stopped")
-      return { sources: results, stopped: true };
   }
-  return { sources: results, stopped: false };
+
+  await Promise.all(Array.from({ length: workers }, work));
+  return {
+    sources: results.filter((result) => result !== undefined),
+    stopped,
+  };
 }
 
 async function runAndRecord(

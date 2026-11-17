@@ -36,7 +36,7 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
 - [ ] **T012 — Port adapters: actiris, forem, vdab** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
       2026-11-16: `actiris` done; `forem` (its export sits under /api/, closed by robots.txt) and `vdab` (a whole pass takes most of an hour) wait for decisions.
-      2026-11-17 (operator): `forem` is ported disabled and flagged (robots.txt is obeyed, no exception); `vdab` waits for sources to run in parallel (a crawl-core change, per-site pacing kept).
+      2026-11-17 (operator): `forem` is ported disabled and flagged (robots.txt is obeyed, no exception); `vdab` waits for sources to run in parallel (a crawl-core change, per-site pacing kept); done the same day (`run.concurrency`, 4), `vdab` still to port.
 - [x] **T013 — Port adapters: emilia, trento, brescia** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
       2026-11-17: `emilia` and `trento` share `myportal.ts` (MyPortal's search in a server session; the cookies its search page sets are sent back, so `HttpResponse` gains `cookies`); `brescia` reads both its day forms.

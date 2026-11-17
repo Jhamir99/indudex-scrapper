@@ -234,6 +234,105 @@ function runSetup() {
   return { clock, store, http, logs, stopSwitch, dependencies };
 }
 
+// A source that holds its read open until told to finish, noting how many are open at once.
+function slowAdapter(id: string, gate: { open: number; peak: number }) {
+  const { promise: finished, resolve: finish } = Promise.withResolvers<void>();
+  const adapter: SourceAdapter = {
+    definition: fakeDefinition(id),
+    async *fetchAdverts() {
+      gate.open += 1;
+      gate.peak = Math.max(gate.peak, gate.open);
+      await finished;
+      gate.open -= 1;
+      yield fakeDraft(id, "1");
+    },
+  };
+  return { adapter, finish };
+}
+
+const settle = () => new Promise((resolve) => setTimeout(resolve, 5));
+
+describe("runSources: concurrency", () => {
+  it("reads sources at once up to the limit, so a slow one does not hold up the rest", async () => {
+    const { store, dependencies } = runSetup();
+    const gate = { open: 0, peak: 0 };
+    const slow = slowAdapter("slow", gate);
+    const quick = ["a", "b", "c"].map((id) => slowAdapter(id, gate));
+    quick.forEach(({ finish }) => finish());
+
+    const running = runSources(
+      [slow.adapter, ...quick.map(({ adapter }) => adapter)],
+      { ...dependencies, concurrency: 2 },
+    );
+    await settle();
+
+    // The slow source is still open; the others have all been read beside it.
+    expect(gate.open).toBe(1);
+    expect(gate.peak).toBe(2);
+    expect(await store.readAdverts("a")).toHaveLength(1);
+    expect(await store.readAdverts("c")).toHaveLength(1);
+    slow.finish();
+    const result = await running;
+    expect(result.sources.map((source) => source.source)).toEqual([
+      "slow",
+      "a",
+      "b",
+      "c",
+    ]);
+    expect(result.stopped).toBe(false);
+  });
+
+  it("reads one source at a time by default", async () => {
+    const { dependencies } = runSetup();
+    const gate = { open: 0, peak: 0 };
+    const all = ["a", "b", "c"].map((id) => slowAdapter(id, gate));
+    all.forEach(({ finish }) => finish());
+    await runSources(
+      all.map(({ adapter }) => adapter),
+      dependencies,
+    );
+    expect(gate.peak).toBe(1);
+  });
+
+  it("isolates a failing source from the ones reading beside it", async () => {
+    const { store, dependencies } = runSetup();
+    const gate = { open: 0, peak: 0 };
+    const healthy = slowAdapter("healthy", gate);
+    healthy.finish();
+    const broken = new FakeSourceAdapter(fakeDefinition("broken"), [], {
+      failure: new Error("feed answered HTML"),
+    });
+    const result = await runSources([broken, healthy.adapter], {
+      ...dependencies,
+      concurrency: 2,
+    });
+    expect(result.sources.map((source) => source.outcome)).toEqual([
+      "failed",
+      "stored",
+    ]);
+    expect(await store.readAdverts("healthy")).toHaveLength(1);
+  });
+
+  it("starts no further source once the stop switch is set", async () => {
+    const { stopSwitch, dependencies } = runSetup();
+    const gate = { open: 0, peak: 0 };
+    const all = ["a", "b", "c", "d"].map((id) => slowAdapter(id, gate));
+    const running = runSources(
+      all.map(({ adapter }) => adapter),
+      { ...dependencies, concurrency: 2 },
+    );
+    await settle();
+    stopSwitch.active = true;
+    all.forEach(({ finish }) => finish());
+    const result = await running;
+
+    // The two already reading finished; the other two never started.
+    expect(result.stopped).toBe(true);
+    expect(result.sources.map((source) => source.source)).toEqual(["a", "b"]);
+    expect(gate.peak).toBe(2);
+  });
+});
+
 describe("runSources: failure isolation and previous adverts (FR-3, FR-4)", () => {
   it("marks a throwing source failed with its reason and still runs the next one", async () => {
     const { store, dependencies } = runSetup();

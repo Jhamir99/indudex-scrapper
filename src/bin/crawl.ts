@@ -53,6 +53,7 @@ try {
       stopSwitch: new FileStopSwitch(directory),
       environment,
       log,
+      concurrency: config.run.concurrency,
     });
     const counts = new Map<string, number>();
     for (const { outcome } of result.sources) {

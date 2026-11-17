@@ -63,6 +63,11 @@ pace:
     www.sil.provincia.tn.it: 1000
     lavoro.provincia.brescia.it: 1000
 
+run:
+  # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.
+  # Each site keeps its own pace whatever this is; mpsv alone peaks near 1.1 GB.
+  concurrency: 4
+
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
   maxOpen: 16
