@@ -54,8 +54,9 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
 - [x] **T017 — Port adapters: feinaactiva, escoladeltreball** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
       2026-11-17: live passes stored 4,171 (`feinaactiva`) and 45 (`escoladeltreball`) offers. The offers of `escoladeltreball` marked restricted (they ask for an ID number and a birth date) are left out; an offer read before is not asked for again while open.
-- [ ] **T018 — Close public-feeds** · FR: FR-1 to FR-5 · Depends: T003-T017
+- [x] **T018 — Close public-feeds** · FR: FR-1 to FR-5 · Depends: T003-T017
       Done when: every feed passes the contract test and `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:run && pnpm build` is green; the list of ported sources in `MEMORY.md` is up to date; `features/README.md` marks this feature done.
+      2026-11-17: 44 adapters registered (38 enabled, 6 disabled and flagged), every one through the contract test and a live run; `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:run && pnpm build` green (527 tests).
 
 ## Amendment 2026-11-16 (plan section 5)
 
