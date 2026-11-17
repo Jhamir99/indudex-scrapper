@@ -14,6 +14,7 @@ import { iefp } from "../public-feeds/adapters/iefp/iefp.js";
 import { ifgat } from "../public-feeds/adapters/ifgat/ifgat.js";
 import { infopraca } from "../public-feeds/adapters/infopraca/infopraca.js";
 import { island } from "../public-feeds/adapters/island/island.js";
+import { jcyl } from "../public-feeds/adapters/jcyl/jcyl.js";
 import { jobindex } from "../public-feeds/adapters/jobindex/jobindex.js";
 import { jobtech } from "../public-feeds/adapters/jobtech/jobtech.js";
 import { karrierenrw } from "../public-feeds/adapters/karrierenrw/karrierenrw.js";
@@ -58,6 +59,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   ifgat,
   infopraca,
   island,
+  jcyl,
   jobindex,
   jobtech,
   karrierenrw,

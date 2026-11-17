@@ -45,8 +45,9 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
 - [x] **T014 — Port adapters: bolzano, uzt, lanbide** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
       2026-11-17: `lanbide` is ported disabled and flagged (FR-6): its host's robots.txt is `Disallow: /` (the legacy switched it off); its fixture is built from the format the legacy documents. `bolzano` and `uzt` done (live passes: 967 offers and 5).
-- [ ] **T015 — Port adapters: sae, madrid, jcyl** · FR: FR-1, FR-5 · Depends: T002
+- [x] **T015 — Port adapters: sae, madrid, jcyl** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
+      2026-11-17: `jcyl` is ported disabled and flagged (FR-6): the dataset's address redirects to the Junta's analysis portal, whose robots.txt closes `/api/` where the export now sits, in a different, flat format (the adapter keeps the legacy's attribute-list format and must be updated before it is enabled). `sae` and `madrid` done (live passes: 569 and 208 offers).
 - [ ] **T016 — Port adapters: clm, emcan, gencat** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
 - [ ] **T017 — Port adapters: feinaactiva, escoladeltreball** · FR: FR-1, FR-5 · Depends: T002
