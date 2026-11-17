@@ -62,6 +62,8 @@ pace:
     lavoroperte.regione.emilia-romagna.it: 1000
     www.sil.provincia.tn.it: 1000
     lavoro.provincia.brescia.it: 1000
+    # Flanders' VDAB: its search, about 2,000 calls a whole pass, and the records of its vacancies.
+    www.vdab.be: 600
 
 run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.
@@ -155,3 +157,7 @@ sources:
   # The Province of Brescia's job centres: every offer on one page.
   brescia:
     cadenceHours: 12
+  # Flanders' VDAB: its whole search once a day (the first pass of the day), and in every pass
+  # the records of up to 3,000 vacancies.
+  vdab:
+    cadenceHours: 6

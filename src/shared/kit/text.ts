@@ -37,10 +37,43 @@ export function plainText(html: string, limit = DESCRIPTION_LIMIT): string {
   return pageText(html, limit).replace(/\n/g, " ");
 }
 
-// A line some sources write all in capitals ("ADDETTO ALLA CONTABILITÀ"), as a sentence; a line
+// Words the trades write in capitals whatever the sentence, besides any word with no vowel
+// (PLC, CNC, PRL).
+const ACRONYMS = new Set(
+  "SAP ERP HVAC BIM CAD CAM TIC IT IOT PLC CNC SCADA MES QA QC I+D R+D UX UI TIG MIG MAG".split(
+    " ",
+  ),
+);
+
+// A text a source writes all in capitals ("TECNICO PLC SIEMENS") as a sentence, its acronyms kept
+// ("Tecnico PLC siemens").
+export function sentenceCase(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[\p{L}+]+/gu, (word, at: number) => {
+      const original = text.slice(at, at + word.length);
+      return original.length > 1 &&
+        original === original.toUpperCase() &&
+        (ACRONYMS.has(original) || !/[AEIOUYÁÉÍÓÚÀÈÒÏÜ]/.test(original))
+        ? original
+        : word;
+    })
+    .replace(/^\p{L}/u, (letter) => letter.toUpperCase());
+}
+
+// A line some sources write all in capitals ("ADDETTO ALLA CONTABILITÀ") as a sentence; a line
 // with any small letter is kept as written.
 export function fromCapitals(line: string): string {
-  return line === line.toUpperCase()
-    ? line.charAt(0) + line.slice(1).toLowerCase()
-    : line;
+  return line === line.toUpperCase() ? sentenceCase(line) : line;
+}
+
+// Names some sources write in capitals ("SINT-NIKLAAS", "mons") with a capital at the start of
+// each word.
+export function titleCase(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(
+      /(^|[\s'-])(\p{L})/gu,
+      (_, before: string, letter: string) => before + letter.toUpperCase(),
+    );
 }

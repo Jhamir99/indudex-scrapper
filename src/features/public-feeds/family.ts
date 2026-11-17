@@ -109,6 +109,10 @@ export interface DetailPages {
   // Pages read in one pass at most; the others are read in the next passes and show meanwhile
   // with what the list says.
   readonly most: number;
+  // Where an advert's own page is asked for; by default its address.
+  readonly address?: (draft: AdvertDraft) => string;
+  // How it is asked for (a JSON record may want its own headers).
+  readonly request?: HttpRequestOptions;
   // What a listed advert's own page adds.
   readonly read: (draft: AdvertDraft, html: string) => AdvertDraft;
   // What an advert whose page was read in an earlier pass keeps from then.
@@ -143,7 +147,11 @@ export async function* withDetailPages(
     } else {
       read += 1;
       try {
-        yield details.read(draft, (await context.http.request(draft.url)).body);
+        const page = await context.http.request(
+          details.address?.(draft) ?? draft.url,
+          details.request,
+        );
+        yield details.read(draft, page.body);
       } catch {
         failed += 1;
         yield draft;

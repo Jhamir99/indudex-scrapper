@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { fromCapitals, pageText, plainText } from "./text.js";
+import {
+  fromCapitals,
+  pageText,
+  plainText,
+  sentenceCase,
+  titleCase,
+} from "./text.js";
 import { DESCRIPTION_LIMIT } from "../schemas/advert.js";
 
 describe("pageText", () => {
@@ -56,5 +62,30 @@ describe("fromCapitals", () => {
     expect(fromCapitals("Receptionist per Camping")).toBe(
       "Receptionist per Camping",
     );
+  });
+});
+
+describe("titleCase", () => {
+  it("gives each word, also after a hyphen or an apostrophe, a capital", () => {
+    expect(titleCase("SINT-NIKLAAS")).toBe("Sint-Niklaas");
+    expect(titleCase("mons")).toBe("Mons");
+    expect(titleCase("LA LOUVIÈRE")).toBe("La Louvière");
+    expect(titleCase("")).toBe("");
+  });
+});
+
+describe("sentenceCase", () => {
+  it("writes capitals as a sentence and keeps acronyms and words with no vowel", () => {
+    expect(sentenceCase("TECNICO PLC SIEMENS")).toBe("Tecnico PLC siemens");
+    expect(sentenceCase("OPERARIO CNC I+D")).toBe("Operario CNC I+D");
+    expect(sentenceCase("TÉCNICOS EN FRÍO INDUSTRIAL")).toBe(
+      "Técnicos en frío industrial",
+    );
+    expect(sentenceCase("")).toBe("");
+  });
+
+  it("keeps the acronyms when a line in capitals is turned into a sentence", () => {
+    expect(fromCapitals("INGENIERO SCADA")).toBe("Ingeniero SCADA");
+    expect(fromCapitals("Ingeniero de MES")).toBe("Ingeniero de MES");
   });
 });
