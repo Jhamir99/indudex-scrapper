@@ -1,9 +1,11 @@
 import { actiris } from "../public-feeds/adapters/actiris/actiris.js";
 import { anofm } from "../public-feeds/adapters/anofm/anofm.js";
+import { brescia } from "../public-feeds/adapters/brescia/brescia.js";
 import { brandenburg } from "../public-feeds/adapters/brandenburg/brandenburg.js";
 import { brz } from "../public-feeds/adapters/brz/brz.js";
 import { bund } from "../public-feeds/adapters/bund/bund.js";
 import { cyprus } from "../public-feeds/adapters/cyprus/cyprus.js";
+import { emilia } from "../public-feeds/adapters/emilia/emilia.js";
 import { hungary } from "../public-feeds/adapters/hungary/hungary.js";
 import { hzz } from "../public-feeds/adapters/hzz/hzz.js";
 import { iefp } from "../public-feeds/adapters/iefp/iefp.js";
@@ -22,6 +24,7 @@ import { ooe } from "../public-feeds/adapters/ooe/ooe.js";
 import { sef } from "../public-feeds/adapters/sef/sef.js";
 import { solidjobs } from "../public-feeds/adapters/solidjobs/solidjobs.js";
 import { spin } from "../public-feeds/adapters/spin/spin.js";
+import { trento } from "../public-feeds/adapters/trento/trento.js";
 import { ttvic } from "../public-feeds/adapters/ttvic/ttvic.js";
 import { upsvr } from "../public-feeds/adapters/upsvr/upsvr.js";
 import { valtiolle } from "../public-feeds/adapters/valtiolle/valtiolle.js";
@@ -34,9 +37,11 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   actiris,
   anofm,
   brandenburg,
+  brescia,
   brz,
   bund,
   cyprus,
+  emilia,
   hungary,
   hzz,
   iefp,
@@ -55,6 +60,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   sef,
   solidjobs,
   spin,
+  trento,
   ttvic,
   upsvr,
   valtiolle,

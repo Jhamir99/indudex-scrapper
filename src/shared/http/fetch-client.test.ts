@@ -72,6 +72,19 @@ describe("FetchClient (FR-3)", () => {
     });
   });
 
+  it("answers every cookie the server sets", async () => {
+    const headers = new Headers();
+    headers.append("Set-Cookie", "JSESSIONID=a1; Path=/jobs; HttpOnly");
+    headers.append("Set-Cookie", "ROUTE=n2; Path=/");
+    const response = await client(
+      fakeServer(new Response("", { headers })).fetch,
+    ).request(FEED);
+    expect(response.cookies).toEqual([
+      "JSESSIONID=a1; Path=/jobs; HttpOnly",
+      "ROUTE=n2; Path=/",
+    ]);
+  });
+
   it("sends a POST with its body and headers", async () => {
     const server = fakeServer(new Response("{}"));
     await client(server.fetch).request(FEED, {

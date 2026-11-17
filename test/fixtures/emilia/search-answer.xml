@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<partial-response><changes><update id="vacancyResultsForm:vacancyResultsGroup"><![CDATA[<span id="vacancyResultsForm:vacancyResultsGroup">
+			<div id="risultati" class="col-md-9"><span id="vacancyResultsForm:selectedFiltersGroup"></span>
+				<div class="col-md-12 search-results-header m-t-20">
+					<div class="search-header">
+						<h2 class="description">3 risultati</h2>
+					</div>
+						<div class="pull-right"><span id="vacancyResultsForm:ordinaPerGroup">
+								<label for="vacancyResultsForm:sort"><a id="vacancyResultsForm:j_idt156" href="#" class="ui-commandlink ui-widget" onclick="PrimeFaces.ab({s:&quot;vacancyResultsForm:j_idt156&quot;,p:&quot;vacancyResultsForm:j_idt156&quot;,u:&quot;vacancyResultsForm:ordinaPerGroup&quot;,onco:function(xhr,status,args){Jobs.VacancySearch.search();}});return false;">
+											<i class="fa fa-caret-down" aria-hidden="true"></i>
+                                    Ordina per
+                                    </a>
+								</label></span><select id="vacancyResultsForm:sort" name="vacancyResultsForm:sort" class="m-l-5 m-r-10" size="1" onchange="PrimeFaces.ab({s:this,e:&quot;valueChange&quot;,p:&quot;vacancyResultsForm:sort&quot;,onco:function(xhr,status,args){Jobs.VacancySearch.search();}});">	<option value="" selected="selected"></option>
+	<option value="DATA_PUBBLICAZIONE">Data pubblicazione</option>
+	<option value="DATA_MODIFICA">Data di aggiornamento</option>
+</select>
+
+							<div class="btn-group pull-right uk-margin-small-right" data-toggle="tooltip" data-placement="right" title="" data-original-title="Opzioni">
+								<a class="btn ui-button btn-primary btn-export uk-margin-small-top btn-xs dropdown-toggle" data-toggle="dropdown" href="#" aria-label="Configurazione">
+									<span class="fa fa-cogs"></span>
+								</a>
+
+								<ul class="dropdown-menu">
+									<li>
+									</li>
+									<li><a id="vacancyResultsForm:j_idt169" href="#" class="ui-commandlink ui-widget" onclick="PrimeFaces.ab({s:&quot;vacancyResultsForm:j_idt169&quot;,e:&quot;click&quot;,p:&quot;vacancyResultsForm:j_idt169&quot;,onco:function(xhr,status,args){Jobs.VacancySearch.search();}});;PrimeFaces.ab({s:&quot;vacancyResultsForm:j_idt169&quot;});return false;">
+											<i class="fa fa-clock-o" aria-hidden="true"></i>
+                                            Offerte in scadenza
+                                            </a>
+									</li>
+									<li><a id="vacancyResultsForm:j_idt172" href="#" class="ui-commandlink ui-widget" onclick="PrimeFaces.ab({s:&quot;vacancyResultsForm:j_idt172&quot;,p:&quot;vacancyResultsForm:j_idt172&quot;,u:&quot;salvaRicercaForm:salvaRicercaGroup&quot;,onco:function(xhr,status,args){Jobs.VacancySearch.salvaRicercaRequest();}});return false;">
+											<i class="fa fa-floppy-o" aria-hidden="true"></i> Salva Ricerca
+                                        </a>
+									</li>
+								</ul>
+							</div>
+
+						</div>
+				</div>
+				<div class="col-md-12 search-results jobs-items"><div id="vacancyResultsForm:vacancyResultsDataGrid" class="ui-datagrid ui-widget" style="display: none;"><div id="vacancyResultsForm:vacancyResultsDataGrid_paginator_top" class="ui-paginator ui-paginator-top ui-widget-header ui-corner-top" role="navigation" aria-label="Pagination"><a href="#" class="ui-paginator-first ui-state-default ui-corner-all ui-state-disabled" aria-label="First Page" tabindex="-1"><span class="ui-icon ui-icon-seek-first">F</span></a><a href="#" class="ui-paginator-prev ui-state-default ui-corner-all ui-state-disabled" aria-label="Previous Page" tabindex="-1"><span class="ui-icon ui-icon-seek-prev">P</span></a><span class="ui-paginator-pages"><a class="ui-paginator-page ui-state-default ui-state-active ui-corner-all" tabindex="0" href="#">1</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">2</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">3</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">4</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">5</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">6</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">7</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">8</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">9</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">10</a></span><a href="#" class="ui-paginator-next ui-state-default ui-corner-all" aria-label="Next Page" tabindex="0"><span class="ui-icon ui-icon-seek-next">N</span></a><a href="#" class="ui-paginator-last ui-state-default ui-corner-all" aria-label="Last Page" tabindex="0"><span class="ui-icon ui-icon-seek-end">E</span></a></div><div id="vacancyResultsForm:vacancyResultsDataGrid_content" class="ui-datagrid-content ui-widget-content"><table class="ui-datagrid-data"><tbody><tr class="ui-datagrid-row"><td class="ui-datagrid-column">
+						<div id="job-527959" class="job-item">
+							<div class="job-summary">
+								<div class="job-title">
+									<h3><a href="/offerte-lavoro/roma/sviluppatore-software-roma/527959" id="vacancyResultsForm:vacancyResultsDataGrid:0:j_idt177" class="job-link uppercase">
+                                           SENIOR FLUTTER EXPERT
+                                        </a>
+									</h3>
+									<p class="job-posted-date pull-right">
+										Aggiornata
+										<time class="timeago" datetime="2026-11-17T16:37:43+01:00"></time>
+									</p>
+								</div>
+								<div class="job-description">MF Consultant – Azienda specializzata in Head Hunting &amp; Executive Search, Coaching &amp; Mentoring, Training &amp; Development e HR Solution (Temporary Management, Outplacement e Performance Management) per importante azienda cliente leader del settore gaming e betting su Roma è alla ricerca di una figura di Senior Flutter Expert.
+
+
+
+Siamo alla ricerca di un/una Senior Flutter Expert che guidi la progettazione e l'evoluzione di applicazioni mobile cross-platform di elevata qualità. La figura sarà il riferimento tecnico per Flutter e per l'ecosistema mobile, contribuendo ad architetture, standard di sviluppo, processi di pubblicazione e crescita del team attraverso mentoring, code review e knowledge sharing.
+
+
+
+Responsabilità:
+
+Progettare, sviluppare e mantenere applicazioni mobile cross-platform con Flutter e Dart
+Definire architetture modulari, scalabili e testabili, applicando Clean Architecture, feature-first, MVVM o pattern equivalenti quando appropriati
+Tradurre requisiti funzionali e design UI/UX in interfacce responsive, accessibili, fluide e coerenti su iOS e Android
+Definire strategie di state management mediante BLoC/Cubit, Riverpod, Provider o Redux
+Integrare API REST, autenticazione, notifiche push, deep linking, analytics e servizi di terze parti
+Progettare componenti e package riutilizzabili e contribuire all'evoluzione del design system mobile
+Gestire lifecycle, navigazione, concorrenza asincrona, persistenza locale, caching e comportamento offline
+Ottimizzare startup time, rendering, consumo di memoria, rete, batteria e dimensione dell'applicazione
+Definire strategie di unit test, widget test, golden test e integration test
+Gestire code signing, certificati, provisioning profile, build flavor e pubblicazione su App Store e Google Play
+Collaborare con backend, frontend web, UX/UI, QA, DevOps, Security e stakeholder di prodotto
+Contribuire a pipeline CI/CD mobile, automazione delle build e distribuzione verso canali interni e store
+Promuovere clean code, code review, documentazione, quality gate e gestione del debito tecnico
+Valutare e introdurre strumenti di AI-assisted development nel workflow mobile
+Far crescere il team attraverso mentoring, coaching, pairing, workshop e knowledge sharing
+
+
+Requisiti:
+
+Almeno 7 anni di esperienza nello sviluppo mobile, con significativa seniority su Flutter e Dart
+Ottima conoscenza di Flutter, Dart, widget lifecycle, rendering e gestione dei dati asincroni
+Esperienza con BLoC/Cubit, Riverpod, Provider o altri pattern strutturati di state management
+Conoscenza di Clean Architecture, SOLID, dependency injection, modularizzazione e separazione delle responsabilità
+Esperienza nell'integrazione di API REST, OAuth 2.0, OpenID Connect, JWT e secure storage
+Esperienza con navigazione, deep linking, app link e universal link
+Esperienza con persistenza locale, caching e supporto offline tramite SQLite, Hive, Isar o soluzioni equivalenti
+Conoscenza di Firebase Authentication, Cloud Messaging, Crashlytics, Analytics o Remote Config
+Esperienza con unit test, widget test e integration test in Flutter
+Esperienza nella gestione degli errori, logging, crash reporting, profiling e debugging
+Conoscenza dei processi di build, code signing, certificazione e pubblicazione per iOS e Android
+Ottima conoscenza di Git, merge request, code review e strategie di branching
+Conoscenza di Material Design e Human Interface Guidelines
+Buona conoscenza della lingua inglese scritta e parlata
+
+
+Preferenziali:
+
+Conoscenza di Kotlin e sviluppo nativo Android
+Conoscenza di Swift e sviluppo nativo iOS
+Esperienza con platform channel, plugin Flutter e integrazione di SDK nativi
+Conoscenza di strumenti di distribuzione e beta testing quali TestFlight, Firebase App Distribution o Google Play testing tracks
+Conoscenza di strumenti di sicurezza mobile, certificate pinning, code obfuscation e protezione dei dati locali
+Esperienza con feature flag, A/B test, remote configuration e analytics di prodotto
+Conoscenza di Figma e collaborazione con designer su componenti, token e prototipi
+Esperienza con integrazione di pagamenti, WebView, biometria o notifiche avanzate
+Esperienza in contesti ad alta criticità o con ampia base utenti, quali Gaming, Betting o Financial Services
+
+
+Soft Skills:
+
+Leadership tecnica e capacità di influenzare positivamente le decisioni progettuali e architetturali
+Forte senso di ownership, accountability e orientamento al risultato
+Ottime capacità comunicative, di confronto tecnico e di collaborazione con stakeholder tecnici e business
+Capacità di mentoring, coaching, code review e trasferimento strutturato delle conoscenze
+Problem solving, pensiero critico e approccio pragmatico e data-driven
+Capacità di stimare effort, rischi, impatti tecnici e dipendenze
+Attitudine al continuous learning e all'aggiornamento tecnologico
+Capacità di lavorare efficacemente in contesti Agile/Scrum e team cross-funzionali
+Cosa offriamo:
+
+Contratto a tempo indeterminato
+Formula di lavoro: ibrida
+Buoni pasto da 9 €
+Welfare aziendale
+Range di RAL a partire da 50k
+
+
+MF Consultant sostiene da sempre il talento delle persone; si impegna, pertanto, a promuovere un ambiente di lavoro inclusivo.
+
+Il presente annuncio è rivolto ad entrambi i sessi, ai sensi delle leggi 903/77 e 125/91, e a persone di tutte le età e tutte le nazionalità, ai sensi dei decreti legislativi 215/03 e 216/03. Saranno, inoltre, valutate positivamente candidature appartenenti alle Categorie Protette, ai sensi della legge 68/99.</div>
+									<div class="job-istat">
+											<span>Qualifica ISTAT:</span>
+											<span style="color: #242424;">ANALISTI E PROGETTISTI DI SOFTWARE</span>
+									</div>
+
+								<div class="job-company">
+									<div class="company-name">MF Consultant Sas di Marisa Ferrara &amp; C.</div>
+									<div class="job-location">
+										-
+										<i class="fa fa-map-marker" aria-hidden="true"></i>
+										Roma (RM)
+									</div>
+								</div>
+
+
+								<div class="job-tags">
+									<p>
+												<span class="job-tag" href="#" title="TITOLO DI STUDIO POST-LAUREA">TITOLO DI STUDIO POST-LAUREA</span>
+									</p>
+								</div>
+
+								<div class="job-controls">
+									<a href="javascript:void(0);" class="save-vacancy pull-right hidden m-r-20" style="font-size: 16px;" onclick="Jobs.saveVacancy(527959, Jobs.VacancySearch.updateSavedVacancies);">
+										<i class="fa fa-star-o" aria-hidden="true"></i>
+										Aggiungi alle offerte di interesse
+									</a>
+									<a href="javascript:void(0);" class="remove-vacancy pull-right hidden m-r-20" style="font-size: 16px;" onclick="Jobs.removeVacancy(527959, Jobs.VacancySearch.updateSavedVacancies);">
+										<i class="fa fa-star" aria-hidden="true"></i>
+										Rimuovi dalle offerte di interesse
+									</a>
+								</div>
+							</div>
+						</div></td></tr><tr class="ui-datagrid-row"><td class="ui-datagrid-column">
+						<div id="job-527981" class="job-item">
+							<div class="job-summary">
+								<div class="job-title">
+									<h3><a href="/offerte-lavoro/ravenna/impiegato-contabile-ravenna/527981" id="vacancyResultsForm:vacancyResultsDataGrid:1:j_idt177" class="job-link uppercase">
+                                           ATTIVITA' AMMINISTRATIVA E CONTABILE
+                                        </a>
+									</h3>
+									<p class="job-posted-date pull-right">
+										Aggiornata
+										<time class="timeago" datetime="2026-11-17T10:20:33+01:00"></time>
+									</p>
+								</div>
+								<div class="job-description">ATTIVITA' AMMINISTRATIVA E CONTABILE</div>
+									<div class="job-istat">
+											<span>Qualifica ISTAT:</span>
+											<span style="color: #242424;">ADDETTI ALLA CONTABILITÀ</span>
+									</div>
+
+								<div class="job-company">
+									<div class="company-name">Gaia Srl</div>
+									<div class="job-location">
+										-
+										<i class="fa fa-map-marker" aria-hidden="true"></i>
+										Ravenna (RA)
+									</div>
+								</div>
+
+
+								<div class="job-tags">
+									<p>
+												<span class="job-tag" href="#" title="Tempo pieno">
+													 Tempo pieno</span>
+												<span class="job-tag" href="#" title="DIPLOMA DI ISTRUZIONE SECONDARIA SUPERIORE  CHE PERMETTE L'ACCESSO ALL'UNIVERSITA'">DIPLOMA DI ISTRUZIONE SECONDARIA SUPERIORE  CHE PERMETTE L'ACCESSO ALL'UNIVERSITA'</span>
+									</p>
+								</div>
+
+								<div class="job-controls">
+									<a href="javascript:void(0);" class="save-vacancy pull-right hidden m-r-20" style="font-size: 16px;" onclick="Jobs.saveVacancy(527981, Jobs.VacancySearch.updateSavedVacancies);">
+										<i class="fa fa-star-o" aria-hidden="true"></i>
+										Aggiungi alle offerte di interesse
+									</a>
+									<a href="javascript:void(0);" class="remove-vacancy pull-right hidden m-r-20" style="font-size: 16px;" onclick="Jobs.removeVacancy(527981, Jobs.VacancySearch.updateSavedVacancies);">
+										<i class="fa fa-star" aria-hidden="true"></i>
+										Rimuovi dalle offerte di interesse
+									</a>
+								</div>
+							</div>
+						</div></td></tr><tr class="ui-datagrid-row"><td class="ui-datagrid-column">
+						<div id="job-528032" class="job-item">
+							<div class="job-summary">
+								<div class="job-title">
+									<h3><a href="/offerte-lavoro/roma/sviluppatore-software-roma/528032" id="vacancyResultsForm:vacancyResultsDataGrid:2:j_idt177" class="job-link uppercase">
+                                           SOLUTION ARCHITECT
+                                        </a>
+									</h3>
+									<p class="job-posted-date pull-right">
+										Aggiornata
+										<time class="timeago" datetime="2026-11-17T16:39:03+01:00"></time>
+									</p>
+								</div>
+								<div class="job-description">MF Consultant – Azienda specializzata in Head Hunting &amp; Executive Search, Coaching &amp; Mentoring, Training &amp; Development e HR Solution (Temporary Management, Outplacement e Performance Management) per importante azienda cliente leader del settore gaming e betting su Roma è alla ricerca di una figura di Solution Software.
+
+Cerchiamo una figura senior che guidi le scelte tecnologiche e governi l'evoluzione architetturale dei progetti digitali, assicurando coerenza tra i sistemi di backend e frontend. La persona tradurrà obiettivi di business e requisiti non funzionali in soluzioni sostenibili, sicure, scalabili e manutenibili, accompagnando i team dalla progettazione alla messa in produzione.
+
+
+
+Responsabilità:
+
+Guidare la definizione dell'architettura end-to-end delle soluzioni, assicurando coerenza tra backend .NET, frontend web Angular e applicazioni mobili Flutter
+Definire principi, standard, reference architecture, pattern e linee guida tecnologiche riutilizzabili nei diversi progetti
+Valutare e selezionare tecnologie, framework, piattaforme e servizi attraverso analisi strutturate di trade-off, costi, rischi, time-to-market, scalabilità e sostenibilità operativa
+Tradurre requisiti funzionali e non funzionali in architetture applicative, di integrazione e deployment chiare, documentate e verificabili
+Progettare sistemi distribuiti, API RESTful e integrazioni sincrone o event-driven, definendo contratti, responsabilità dei componenti e criteri di versionamento
+Governare le scelte architetturali tramite Architecture Decision Record, revisioni progettuali, quality gate e verifiche di aderenza durante l'intero ciclo di delivery
+Assicurare che sicurezza, privacy, performance, resilienza, osservabilità, accessibilità e manutenibilità siano incorporate nella progettazione fin dalle prime fasi
+Collaborare con Product, Business, Engineering, DevOps, Security e partner esterni per allineare obiettivi, vincoli e roadmap tecnologiche
+Individuare dipendenze, rischi architetturali e debito tecnico, definendo priorità e piani di evoluzione progressivi
+Supportare i team nell'adozione delle soluzioni definite attraverso mentoring, design review, code review mirate, workshop e knowledge sharing
+Promuovere riuso, modularità e standardizzazione di componenti, librerie, design system, package e capability condivise
+Contribuire alla pianificazione tecnica dei progetti, stimando complessità, impatti, prerequisiti e attività di modernizzazione o migrazione
+
+
+Requisiti:
+
+Almeno 10 anni di esperienza nello sviluppo software, con esperienza significativa come Software Architect, Solution Architect, Technical Architect o Tech Lead su soluzioni enterprise
+Solida conoscenza di C# e dell'ecosistema .NET moderno, incluse progettazione di API, servizi distribuiti, microservizi e applicazioni ad alta disponibilità
+Esperienza nell'applicazione di SOLID, Clean Architecture, Domain-Driven Design e pattern architetturali per sistemi distribuiti, quali CQRS, Dependency Injection ed event-driven architecture
+Conoscenza approfondita delle architetture frontend moderne e comprovata capacità di indirizzare soluzioni Angular, TypeScript, RxJS, state management, modularizzazione, performance e sicurezza web
+Conoscenza delle architetture mobile cross-platform con Flutter e Dart, inclusi gestione dello stato, integrazione con API, sicurezza, performance e processi di distribuzione delle app
+Conoscenza di database relazionali (SQL Server) e NoSQL, con capacità di scegliere modelli dati e tecnologie in funzione dei requisiti applicativi, uso di Entity Framework e micro-ORM come Dapper
+Esperienza con sistemi di messaggistica, comunicazione asincrona e pattern di resilienza, consistenza e gestione degli errori (Apache Kafka, RabbitMQ e framework di messaging o event orchestration)
+Esperienza con Docker, Kubernetes, pipeline CI/CD, automazione di build, test, release e deployment
+Conoscenza dei principi di cloud architecture, cybersecurity applicativa, observability e Site Reliability applicati alla progettazione software
+Padronanza di Git, strategie di branching, versionamento semantico e pratiche di release management
+Capacità di produrre diagrammi, documentazione architetturale, decision log, roadmap tecniche e presentazioni efficaci per interlocutori tecnici e non tecnici
+Utilizzo di strumenti di AI generativa e AI-assisted development, valutandone benefici, rischi e modalità di adozione nel ciclo di sviluppo
+Esperienza nella modernizzazione di piattaforme legacy e nella definizione di percorsi incrementali di migrazione.
+
+
+Preferenziali:
+
+Esperienza con architetture Cloud Native
+Conoscenza di OpenTelemetry, Grafana, Prometheus, Graylog, ELK o piattaforme equivalenti per logging, metriche, tracing e alerting
+Esperienza con SonarQube, strumenti SAST/DAST, dependency scanning e quality gate automatizzati
+Esperienza nella definizione o evoluzione di design system, microfrontend, Backend for Frontend, API Gateway e strategie di modularizzazione multicanale
+Esperienza in contesti ad alta criticità o ad elevato volume transazionale, ad esempio Gaming, Betting o Financial Services
+
+
+Soft Skill:
+
+Leadership tecnica autorevole e inclusiva, con capacità di orientare le decisioni
+Pensiero sistemico e capacità di mantenere una visione end-to-end, bilanciando esigenze di breve periodo ed evoluzione della piattaforma
+Forte senso di ownership, pragmatismo e orientamento al risultato
+Ottime capacità comunicative, di ascolto e di sintesi, adattando linguaggio e livello di dettaglio agli interlocutori
+Capacità di facilitare discussioni complesse, gestire divergenze tecniche e costruire consenso tra stakeholder tecnici e business
+Problem solving, pensiero critico e approccio basato su dati ed evidenze
+Capacità di rendere espliciti trade-off, assunzioni, rischi e conseguenze delle decisioni architetturali
+Attitudine al mentoring, alla condivisione della conoscenza e alla crescita delle competenze del team
+Curiosità, continuous learning e capacità di valutare con equilibrio nuove tecnologie e trend
+Capacità di lavorare efficacemente in contesti Agile/Scrum, multidisciplinari e in continua evoluzione
+
+
+Cosa offriamo:
+
+Contratto a tempo indeterminato
+Formula lavoro Ibrida
+Range di RAL a partire da 50K
+
+
+MF Consultant sostiene da sempre il talento delle persone; si impegna, pertanto, a promuovere un ambiente di lavoro inclusivo.
+
+Il presente annuncio è rivolto ad entrambi i sessi, ai sensi delle leggi 903/77 e 125/91, e a persone di tutte le età e tutte le nazionalità, ai sensi dei decreti legislativi 215/03 e 216/03. Saranno, inoltre, valutate positivamente candidature appartenenti alle Categorie Protette, ai sensi della legge 68/99.</div>
+									<div class="job-istat">
+											<span>Qualifica ISTAT:</span>
+											<span style="color: #242424;">ANALISTI E PROGETTISTI DI SOFTWARE</span>
+									</div>
+
+								<div class="job-company">
+									<div class="company-name">MF Consultant Sas di Marisa Ferrara &amp; C.</div>
+									<div class="job-location">
+										-
+										<i class="fa fa-map-marker" aria-hidden="true"></i>
+										Roma (RM)
+									</div>
+								</div>
+
+
+								<div class="job-tags">
+									<p>
+													<span class="job-tag" href="#" title="INGLESE">INGLESE</span>
+												<span class="job-tag" href="#" title="DIPLOMA UNIVERSITARIO">DIPLOMA UNIVERSITARIO</span>
+									</p>
+								</div>
+
+								<div class="job-controls">
+									<a href="javascript:void(0);" class="save-vacancy pull-right hidden m-r-20" style="font-size: 16px;" onclick="Jobs.saveVacancy(528032, Jobs.VacancySearch.updateSavedVacancies);">
+										<i class="fa fa-star-o" aria-hidden="true"></i>
+										Aggiungi alle offerte di interesse
+									</a>
+									<a href="javascript:void(0);" class="remove-vacancy pull-right hidden m-r-20" style="font-size: 16px;" onclick="Jobs.removeVacancy(528032, Jobs.VacancySearch.updateSavedVacancies);">
+										<i class="fa fa-star" aria-hidden="true"></i>
+										Rimuovi dalle offerte di interesse
+									</a>
+								</div>
+							</div>
+						</div></td></tr></tbody></table></div><div id="vacancyResultsForm:vacancyResultsDataGrid_paginator_bottom" class="ui-paginator ui-paginator-bottom ui-widget-header ui-corner-bottom" role="navigation" aria-label="Pagination"><a href="#" class="ui-paginator-first ui-state-default ui-corner-all ui-state-disabled" aria-label="First Page" tabindex="-1"><span class="ui-icon ui-icon-seek-first">F</span></a><a href="#" class="ui-paginator-prev ui-state-default ui-corner-all ui-state-disabled" aria-label="Previous Page" tabindex="-1"><span class="ui-icon ui-icon-seek-prev">P</span></a><span class="ui-paginator-pages"><a class="ui-paginator-page ui-state-default ui-state-active ui-corner-all" tabindex="0" href="#">1</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">2</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">3</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">4</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">5</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">6</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">7</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">8</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">9</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">10</a></span><a href="#" class="ui-paginator-next ui-state-default ui-corner-all" aria-label="Next Page" tabindex="0"><span class="ui-icon ui-icon-seek-next">N</span></a><a href="#" class="ui-paginator-last ui-state-default ui-corner-all" aria-label="Last Page" tabindex="0"><span class="ui-icon ui-icon-seek-end">E</span></a></div></div><script id="vacancyResultsForm:vacancyResultsDataGrid_s" type="text/javascript">PrimeFaces.cw("DataGrid","vacancyResultsGridWV",{id:"vacancyResultsForm:vacancyResultsDataGrid",paginator:{id:['vacancyResultsForm:vacancyResultsDataGrid_paginator_top','vacancyResultsForm:vacancyResultsDataGrid_paginator_bottom'],rows:5,rowCount:3,page:0,currentPageTemplate:'({currentPage} of {totalPages})'},behaviors:{page:function(ext,event) {PrimeFaces.ab({s:"vacancyResultsForm:vacancyResultsDataGrid",e:"page",p:"vacancyResultsForm:vacancyResultsDataGrid",onco:function(xhr,status,args){Jobs.VacancySearch.pageChangeEvent();;}},ext);}}});</script>
+				</div>
+			</div></span>]]></update><update id="j_id1:javax.faces.ViewState:0"><![CDATA[615379743868430828:5568157266131969015]]></update><extension ln="primefaces" type="args">{"decretoFlussiFilter":false,"resetGridPagination":true,"lavStagionaleFilter":false,"agricolturaFilter":false}</extension></changes></partial-response>

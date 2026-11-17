@@ -21,6 +21,9 @@ export interface HttpResponse {
   readonly status: number;
   readonly url: string;
   readonly headers: Readonly<Record<string, string>>;
+  // Every Set-Cookie the answer sent (`headers` keeps only one): the client keeps no cookies, so
+  // a source whose server needs its session sends them back itself.
+  readonly cookies?: readonly string[];
   readonly body: string;
 }
 
@@ -123,6 +126,7 @@ export class FetchClient {
         status: response.status,
         url: response.url || url,
         headers: Object.fromEntries(response.headers),
+        cookies: response.headers.getSetCookie(),
         body,
       };
     } catch {

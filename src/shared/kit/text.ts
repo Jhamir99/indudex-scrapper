@@ -36,3 +36,11 @@ export function pageText(html: string, limit = DESCRIPTION_LIMIT): string {
 export function plainText(html: string, limit = DESCRIPTION_LIMIT): string {
   return pageText(html, limit).replace(/\n/g, " ");
 }
+
+// A line some sources write all in capitals ("ADDETTO ALLA CONTABILITÀ"), as a sentence; a line
+// with any small letter is kept as written.
+export function fromCapitals(line: string): string {
+  return line === line.toUpperCase()
+    ? line.charAt(0) + line.slice(1).toLowerCase()
+    : line;
+}

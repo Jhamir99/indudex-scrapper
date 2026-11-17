@@ -58,6 +58,10 @@ pace:
     api.karriere.nrw: 300
     # Brussels' Actiris: its list, a hundred a call, and the pages of new offers.
     www.actiris.brussels: 1000
+    # Italy: Emilia-Romagna's and Trento's job portals (MyPortal) and Brescia's job site.
+    lavoroperte.regione.emilia-romagna.it: 1000
+    www.sil.provincia.tn.it: 1000
+    lavoro.provincia.brescia.it: 1000
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.
@@ -137,3 +141,12 @@ sources:
   # Brussels' Actiris: its own offers, about 19 calls, and the text of new ones.
   actiris:
     cadenceHours: 6
+  # Emilia-Romagna's Lavoro per Te: its public search, about seven pages of a hundred.
+  emilia:
+    cadenceHours: 12
+  # Trentino's job portal, the same platform: about eight pages of a hundred.
+  trento:
+    cadenceHours: 12
+  # The Province of Brescia's job centres: every offer on one page.
+  brescia:
+    cadenceHours: 12

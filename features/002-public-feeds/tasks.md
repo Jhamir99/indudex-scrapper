@@ -27,6 +27,7 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
 - [ ] **T009 — Port adapters: sne, spin, ttvic** · FR: FR-1, FR-5, FR-6 · Depends: T002, T021
       Done when: the standard adapter check passes for each adapter; `ttvic` is disabled and flagged (FR-6).
       2026-11-16: `spin` and `ttvic` done; `sne` waits for a decision (it reads PDFs: a new dependency and binary bodies).
+      2026-11-17 (operator): add `pdfjs-dist` (after checking its version and TypeScript 7) and binary bodies in the HTTP client, then port `sne` in full.
 - [x] **T010 — Port adapters: brandenburg, bund, karrierenrw** · FR: FR-1, FR-4, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter. `bund` waits 30 s between pages (its robots.txt asks for it).
       2026-11-16: `bund` is ported disabled and flagged (FR-6): its imprint asks prior consent, as the legacy found on 15 November 2026.
@@ -35,8 +36,10 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
 - [ ] **T012 — Port adapters: actiris, forem, vdab** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
       2026-11-16: `actiris` done; `forem` (its export sits under /api/, closed by robots.txt) and `vdab` (a whole pass takes most of an hour) wait for decisions.
-- [ ] **T013 — Port adapters: emilia, trento, brescia** · FR: FR-1, FR-5 · Depends: T002
+      2026-11-17 (operator): `forem` is ported disabled and flagged (robots.txt is obeyed, no exception); `vdab` waits for sources to run in parallel (a crawl-core change, per-site pacing kept).
+- [x] **T013 — Port adapters: emilia, trento, brescia** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
+      2026-11-17: `emilia` and `trento` share `myportal.ts` (MyPortal's search in a server session; the cookies its search page sets are sent back, so `HttpResponse` gains `cookies`); `brescia` reads both its day forms.
 - [ ] **T014 — Port adapters: bolzano, uzt, lanbide** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
 - [ ] **T015 — Port adapters: sae, madrid, jcyl** · FR: FR-1, FR-5 · Depends: T002

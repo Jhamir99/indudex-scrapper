@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { pageText, plainText } from "./text.js";
+import { fromCapitals, pageText, plainText } from "./text.js";
 import { DESCRIPTION_LIMIT } from "../schemas/advert.js";
 
 describe("pageText", () => {
@@ -44,6 +44,17 @@ describe("plainText", () => {
   it("puts the text on one line", () => {
     expect(plainText("<p>Systemtechniker</p><p>(m/w/d)</p>")).toBe(
       "Systemtechniker (m/w/d)",
+    );
+  });
+});
+
+describe("fromCapitals", () => {
+  it("writes a line in capitals as a sentence and keeps any other", () => {
+    expect(fromCapitals("ADDETTO ALLA CONTABILITÀ")).toBe(
+      "Addetto alla contabilità",
+    );
+    expect(fromCapitals("Receptionist per Camping")).toBe(
+      "Receptionist per Camping",
     );
   });
 });

@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<partial-response><changes><update id="vacancyResultsForm:vacancyResultsGroup"><![CDATA[<span id="vacancyResultsForm:vacancyResultsGroup">
+			<div class="visible-xs col-md-12 text-center m-t-20">
+				<h4 class="description">3 risultati</h4>
+			</div>
+			<div class="col-md-9"><span id="vacancyResultsForm:selectedFiltersGroup"></span>
+				<div class="col-md-12 search-results-header m-t-20">
+					<div class="search-header hidden-xs">
+						<span class="description">730 risultati</span>
+					</div>
+						<div class="pull-right"><span id="vacancyResultsForm:ordinaPerGroup"><a id="vacancyResultsForm:j_idt188" href="#" class="ui-commandlink ui-widget" onclick="PrimeFaces.ab({s:&quot;vacancyResultsForm:j_idt188&quot;,p:&quot;vacancyResultsForm:j_idt188&quot;,u:&quot;vacancyResultsForm:ordinaPerGroup&quot;,onco:function(xhr,status,args){Jobs.VacancySearch.search();}});return false;">
+										<i class="fa fa-caret-down" aria-hidden="true"></i>
+                                    Ordina per
+                                    </a></span><select id="vacancyResultsForm:sort" name="vacancyResultsForm:sort" class="m-l-5 m-r-10" size="1" onchange="PrimeFaces.ab({s:this,e:&quot;valueChange&quot;,p:&quot;vacancyResultsForm:sort&quot;,onco:function(xhr,status,args){Jobs.VacancySearch.search();}});">	<option value="DATA_PUBBLICAZIONE">Data pubblicazione</option>
+	<option value="DATA_MODIFICA">Data di aggiornamento</option>
+</select>
+
+							<div class="btn-group pull-right uk-margin-small-right opzioni" data-toggle="tooltip" data-placement="top" title="" data-original-title="Opzioni">
+								<a class="btn ui-button btn-primary btn-export uk-margin-small-top btn-xs dropdown-toggle" data-toggle="dropdown" href="#">
+									<span class="fa fa-cogs"></span>
+								</a>
+
+								<ul class="dropdown-menu">
+									<li class="hidden-xs"><a id="vacancyResultsForm:j_idt196" href="#" class="ui-commandlink ui-widget" onclick="PrimeFaces.addSubmitParam('vacancyResultsForm',{'vacancyResultsForm:j_idt196':'vacancyResultsForm:j_idt196'}).submit('vacancyResultsForm');return false;PrimeFaces.onPost();">
+											<i class="fa fa-file-pdf-o"></i> Stampa Bacheca
+                                        </a>
+									</li>
+									<li class="hidden-xs"><a id="vacancyResultsForm:j_idt199" href="#" class="ui-commandlink ui-widget" onclick="PrimeFaces.ab({s:&quot;vacancyResultsForm:j_idt199&quot;,e:&quot;click&quot;,p:&quot;vacancyResultsForm:j_idt199&quot;,onco:function(xhr,status,args){Jobs.VacancySearch.search();}});;PrimeFaces.ab({s:&quot;vacancyResultsForm:j_idt199&quot;});return false;">
+											<i class="fa fa-clock-o" aria-hidden="true"></i>
+                                            Offerte in scadenza
+                                            </a>
+									</li>
+									<li><a id="vacancyResultsForm:j_idt202" href="#" class="ui-commandlink ui-widget" onclick="PrimeFaces.ab({s:&quot;vacancyResultsForm:j_idt202&quot;,p:&quot;vacancyResultsForm:j_idt202&quot;,u:&quot;salvaRicercaForm:salvaRicercaGroup&quot;,onco:function(xhr,status,args){Jobs.VacancySearch.salvaRicercaRequest();}});return false;">
+											<i class="fa fa-floppy-o" aria-hidden="true"></i> Salva Ricerca
+                                        </a>
+									</li>
+								</ul>
+							</div>
+
+						</div>
+				</div>
+				<div class="col-md-12 search-results jobs-items"><div id="vacancyResultsForm:vacancyResultsDataGrid" class="ui-datagrid ui-widget" style="display: none;"><div id="vacancyResultsForm:vacancyResultsDataGrid_paginator_top" class="ui-paginator ui-paginator-top ui-widget-header ui-corner-top" role="navigation" aria-label="Pagination"><span class="ui-paginator-current">1 di 146</span> <a href="#" class="ui-paginator-first ui-state-default ui-corner-all ui-state-disabled" aria-label="First Page" tabindex="-1"><span class="ui-icon ui-icon-seek-first">F</span></a><a href="#" class="ui-paginator-prev ui-state-default ui-corner-all ui-state-disabled" aria-label="Previous Page" tabindex="-1"><span class="ui-icon ui-icon-seek-prev">P</span></a><span class="ui-paginator-pages"><a class="ui-paginator-page ui-state-default ui-state-active ui-corner-all" tabindex="0" href="#">1</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">2</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">3</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">4</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">5</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">6</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">7</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">8</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">9</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">10</a></span><a href="#" class="ui-paginator-next ui-state-default ui-corner-all" aria-label="Next Page" tabindex="0"><span class="ui-icon ui-icon-seek-next">N</span></a><a href="#" class="ui-paginator-last ui-state-default ui-corner-all" aria-label="Last Page" tabindex="0"><span class="ui-icon ui-icon-seek-end">E</span></a><label id="vacancyResultsForm:vacancyResultsDataGrid:j_id11_rppLabel" for="vacancyResultsForm:vacancyResultsDataGrid:j_id11" class="ui-paginator-rpp-label ui-helper-hidden">Rows Per Page</label><select id="vacancyResultsForm:vacancyResultsDataGrid:j_id11" name="vacancyResultsForm:vacancyResultsDataGrid_rppDD" aria-labelledby="vacancyResultsForm:vacancyResultsDataGrid:j_id11_rppLabel" class="ui-paginator-rpp-options ui-widget ui-state-default ui-corner-left" value="5" autocomplete="off"><option value="5" selected="selected">5</option><option value="10">10</option><option value="15">15</option></select></div><div id="vacancyResultsForm:vacancyResultsDataGrid_content" class="ui-datagrid-content ui-widget-content"><table class="ui-datagrid-data"><tbody><tr class="ui-datagrid-row"><td class="ui-datagrid-column">
+						<div id="job-246481" class="job-item">
+							<div class="job-summary">
+								<div class="job-title">
+									<h2><a href="/offerte-lavoro/trento/operaio-metalmeccanico-mezzolombardo/246481;jsessionid=J9LIbWlJAF4LMIk5sVyEkCzoWiBMMYvFSsuOGnze.mwjbpr117" id="vacancyResultsForm:vacancyResultsDataGrid:0:j_idt207" class="job-link uppercase">
+										FONDITORE TURNISTA
+									</a>
+									</h2>
+									<p class="job-posted-date pull-right">
+										Pubblicata
+										<time class="timeago" datetime="2026-11-17T01:00:00+01:00"></time>
+									</p>
+								</div>
+								<div class="job-description hidden-xs">Orienta, Società Benefit, filiale di Rovereto, ricerca per importante azienda cliente specializzata nella trasformazione di imballaggi di vetro un FONDITORE TURNISTA.
+
+
+MANSIONI:
+- Prelevare e acce...</div>
+									<div class="job-istat">
+											<span>Qualifica ISTAT:</span>
+											<span style="color: #242424;">FONDITORI E ANIMISTI DI FONDERIA</span>
+									</div>
+								
+
+								<div class="job-company">
+									<div class="company-name">Orienta S.p.A</div>
+									<div class="job-location">
+										-
+										<i class="fa fa-map-marker" aria-hidden="true"></i>
+										Mezzolombardo (TN)
+									</div>
+								</div>
+
+								
+								<div class="job-tags hidden-xs">
+									<p>
+											<span class="job-tag" href="#" title="ALTRO">ALTRO</span>
+												<span class="job-tag" href="#" title="Lavoro dipendente TD">Lavoro dipendente TD</span>
+											<span class="job-tag" href="#" title="Mezzolombardo (TN)">Mezzolombardo
+												(TN)</span>
+									</p>
+								</div>
+								<div class="job-controls">
+										<a href="https://www.sil.provincia.tn.it/BorsaProfessioni/professioni?jobsMansione=6.2.1.1" class="pull-right hidden-sm hidden-xs" style="font-size: 13px;">
+											<i class="fa fa-suitcase" aria-hidden="true"></i>
+											Consulta Professione
+										</a>
+									<a href="javascript:void(0);" class="save-vacancy pull-right hidden m-r-20" style="font-size: 13px;" onclick="Jobs.saveVacancy(246481, Jobs.VacancySearch.updateSavedVacancies);">
+										<i class="fa fa-star-o" aria-hidden="true"></i>
+										Aggiungi alle offerte di interesse
+									</a>
+									<a href="javascript:void(0);" class="remove-vacancy pull-right hidden m-r-20" style="font-size: 13px;" onclick="Jobs.removeVacancy(246481, Jobs.VacancySearch.updateSavedVacancies);">
+										<i class="fa fa-star" aria-hidden="true"></i>
+										Rimuovi dalle offerte di interesse
+									</a>
+								</div>
+							</div>
+						</div></td></tr><tr class="ui-datagrid-row"><td class="ui-datagrid-column">
+						<div id="job-246482" class="job-item">
+							<div class="job-summary">
+								<div class="job-title">
+									<h2><a href="/offerte-lavoro/trento/meccanico-industriale-rovereto/246482;jsessionid=J9LIbWlJAF4LMIk5sVyEkCzoWiBMMYvFSsuOGnze.mwjbpr117" id="vacancyResultsForm:vacancyResultsDataGrid:1:j_idt207" class="job-link uppercase">
+										 ADDETTO ALLA MANUTENZIONE CNC
+									</a>
+									</h2>
+									<p class="job-posted-date pull-right">
+										Pubblicata
+										<time class="timeago" datetime="2026-11-17T01:00:00+01:00"></time>
+									</p>
+								</div>
+								<div class="job-description hidden-xs">ORIENTA S.p.A.,Società Benefit, filiale di Rovereto, ricerca per importante azienda clienti un ADDETTO ALLA MANUTENZIONE CNC
+
+Mansioni:
+Manutenzione ordinaria e straordinaria di macchine CNC e torn...</div>
+									<div class="job-istat">
+											<span>Qualifica ISTAT:</span>
+											<span style="color: #242424;">MECCANICI E MONTATORI DI MACCHINARI INDUSTRIALI ED ASSIMILATI</span>
+									</div>
+								
+
+								<div class="job-company">
+									<div class="company-name">Orienta S.p.A</div>
+									<div class="job-location">
+										-
+										<i class="fa fa-map-marker" aria-hidden="true"></i>
+										Rovereto (TN)
+									</div>
+								</div>
+
+								
+								<div class="job-tags hidden-xs">
+									<p>
+											<span class="job-tag" href="#" title="ALTRO">ALTRO</span>
+												<span class="job-tag" href="#" title="Lavoro dipendente TD">Lavoro dipendente TD</span>
+											<span class="job-tag" href="#" title="Rovereto (TN)">Rovereto
+												(TN)</span>
+									</p>
+								</div>
+								<div class="job-controls">
+										<a href="https://www.sil.provincia.tn.it/BorsaProfessioni/professioni?jobsMansione=6.2.3.3" class="pull-right hidden-sm hidden-xs" style="font-size: 13px;">
+											<i class="fa fa-suitcase" aria-hidden="true"></i>
+											Consulta Professione
+										</a>
+									<a href="javascript:void(0);" class="save-vacancy pull-right hidden m-r-20" style="font-size: 13px;" onclick="Jobs.saveVacancy(246482, Jobs.VacancySearch.updateSavedVacancies);">
+										<i class="fa fa-star-o" aria-hidden="true"></i>
+										Aggiungi alle offerte di interesse
+									</a>
+									<a href="javascript:void(0);" class="remove-vacancy pull-right hidden m-r-20" style="font-size: 13px;" onclick="Jobs.removeVacancy(246482, Jobs.VacancySearch.updateSavedVacancies);">
+										<i class="fa fa-star" aria-hidden="true"></i>
+										Rimuovi dalle offerte di interesse
+									</a>
+								</div>
+							</div>
+						</div></td></tr><tr class="ui-datagrid-row"><td class="ui-datagrid-column">
+						<div id="job-246529" class="job-item">
+							<div class="job-summary">
+								<div class="job-title">
+									<h2><a href="/offerte-lavoro/trento/assemblatore-industriale-arco/246529;jsessionid=J9LIbWlJAF4LMIk5sVyEkCzoWiBMMYvFSsuOGnze.mwjbpr117" id="vacancyResultsForm:vacancyResultsDataGrid:2:j_idt207" class="job-link uppercase">
+										OPERAIO METALMECCANICO
+									</a>
+									</h2>
+									<p class="job-posted-date pull-right">
+										Pubblicata
+										<time class="timeago" datetime="2026-11-17T01:00:00+01:00"></time>
+									</p>
+								</div>
+								<div class="job-description hidden-xs">Manpower, Divisione Onsite, per azienda cliente leader nel settore metalmeccanico, seleziona Operai Metalmeccanici.
+
+Le risorse selezionate saranno inserite all'interno del reparto di montaggio mec...</div>
+									<div class="job-istat">
+											<span>Qualifica ISTAT:</span>
+											<span style="color: #242424;">ALTRI OPERAI ADDETTI ALL’ASSEMBLAGGIO ED ALLA PRODUZIONE IN SERIE DI ARTICOLI INDUSTRIALI</span>
+									</div>
+								
+
+								<div class="job-company">
+									<div class="company-name">Manpower S.r.l.</div>
+									<div class="job-location">
+										-
+										<i class="fa fa-map-marker" aria-hidden="true"></i>
+										Arco (TN)
+									</div>
+								</div>
+
+								
+								<div class="job-tags hidden-xs">
+									<p>
+											<span class="job-tag" href="#" title="ALTRO">ALTRO</span>
+												<span class="job-tag" href="#" title="Lavoro Intermittente">Lavoro Intermittente</span>
+											<span class="job-tag" href="#" title="Arco (TN)">Arco
+												(TN)</span>
+									</p>
+								</div>
+								<div class="job-controls">
+										<a href="https://www.sil.provincia.tn.it/BorsaProfessioni/professioni?jobsMansione=7.2.7.9" class="pull-right hidden-sm hidden-xs" style="font-size: 13px;">
+											<i class="fa fa-suitcase" aria-hidden="true"></i>
+											Consulta Professione
+										</a>
+									<a href="javascript:void(0);" class="save-vacancy pull-right hidden m-r-20" style="font-size: 13px;" onclick="Jobs.saveVacancy(246529, Jobs.VacancySearch.updateSavedVacancies);">
+										<i class="fa fa-star-o" aria-hidden="true"></i>
+										Aggiungi alle offerte di interesse
+									</a>
+									<a href="javascript:void(0);" class="remove-vacancy pull-right hidden m-r-20" style="font-size: 13px;" onclick="Jobs.removeVacancy(246529, Jobs.VacancySearch.updateSavedVacancies);">
+										<i class="fa fa-star" aria-hidden="true"></i>
+										Rimuovi dalle offerte di interesse
+									</a>
+								</div>
+							</div>
+						</div></td></tr></tbody></table></div><div id="vacancyResultsForm:vacancyResultsDataGrid_paginator_bottom" class="ui-paginator ui-paginator-bottom ui-widget-header ui-corner-bottom" role="navigation" aria-label="Pagination"><span class="ui-paginator-current">1 di 146</span> <a href="#" class="ui-paginator-first ui-state-default ui-corner-all ui-state-disabled" aria-label="First Page" tabindex="-1"><span class="ui-icon ui-icon-seek-first">F</span></a><a href="#" class="ui-paginator-prev ui-state-default ui-corner-all ui-state-disabled" aria-label="Previous Page" tabindex="-1"><span class="ui-icon ui-icon-seek-prev">P</span></a><span class="ui-paginator-pages"><a class="ui-paginator-page ui-state-default ui-state-active ui-corner-all" tabindex="0" href="#">1</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">2</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">3</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">4</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">5</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">6</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">7</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">8</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">9</a><a class="ui-paginator-page ui-state-default ui-corner-all" tabindex="0" href="#">10</a></span><a href="#" class="ui-paginator-next ui-state-default ui-corner-all" aria-label="Next Page" tabindex="0"><span class="ui-icon ui-icon-seek-next">N</span></a><a href="#" class="ui-paginator-last ui-state-default ui-corner-all" aria-label="Last Page" tabindex="0"><span class="ui-icon ui-icon-seek-end">E</span></a><label id="vacancyResultsForm:vacancyResultsDataGrid:j_id12_rppLabel" for="vacancyResultsForm:vacancyResultsDataGrid:j_id12" class="ui-paginator-rpp-label ui-helper-hidden">Rows Per Page</label><select id="vacancyResultsForm:vacancyResultsDataGrid:j_id12" name="vacancyResultsForm:vacancyResultsDataGrid_rppDD" aria-labelledby="vacancyResultsForm:vacancyResultsDataGrid:j_id12_rppLabel" class="ui-paginator-rpp-options ui-widget ui-state-default ui-corner-left" value="5" autocomplete="off"><option value="5" selected="selected">5</option><option value="10">10</option><option value="15">15</option></select></div></div><script id="vacancyResultsForm:vacancyResultsDataGrid_s" type="text/javascript">PrimeFaces.cw("DataGrid","vacancyResultsGridWV",{id:"vacancyResultsForm:vacancyResultsDataGrid",paginator:{id:['vacancyResultsForm:vacancyResultsDataGrid_paginator_top','vacancyResultsForm:vacancyResultsDataGrid_paginator_bottom'],rows:5,rowCount:3,page:0,currentPageTemplate:'{currentPage} di {totalPages}'},behaviors:{page:function(ext,event) {PrimeFaces.ab({s:"vacancyResultsForm:vacancyResultsDataGrid",e:"page",p:"vacancyResultsForm:vacancyResultsDataGrid",onco:function(xhr,status,args){Jobs.VacancySearch.pageChangeEvent();;}},ext);}}});</script>
+				</div>
+			</div></span>]]></update><update id="j_id1:javax.faces.ViewState:0"><![CDATA[6920575722615289097:6550176626193848744]]></update><extension ln="primefaces" type="args">{"resetGridPagination":true}</extension></changes></partial-response>
