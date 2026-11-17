@@ -1,11 +1,12 @@
 import { actiris } from "../public-feeds/adapters/actiris/actiris.js";
 import { anofm } from "../public-feeds/adapters/anofm/anofm.js";
-import { brescia } from "../public-feeds/adapters/brescia/brescia.js";
 import { brandenburg } from "../public-feeds/adapters/brandenburg/brandenburg.js";
+import { brescia } from "../public-feeds/adapters/brescia/brescia.js";
 import { brz } from "../public-feeds/adapters/brz/brz.js";
 import { bund } from "../public-feeds/adapters/bund/bund.js";
 import { cyprus } from "../public-feeds/adapters/cyprus/cyprus.js";
 import { emilia } from "../public-feeds/adapters/emilia/emilia.js";
+import { forem } from "../public-feeds/adapters/forem/forem.js";
 import { hungary } from "../public-feeds/adapters/hungary/hungary.js";
 import { hzz } from "../public-feeds/adapters/hzz/hzz.js";
 import { iefp } from "../public-feeds/adapters/iefp/iefp.js";
@@ -43,6 +44,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   bund,
   cyprus,
   emilia,
+  forem,
   hungary,
   hzz,
   iefp,

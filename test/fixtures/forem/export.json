@@ -1,0 +1,40 @@
+[
+  {
+    "numerooffreforem": "9123456",
+    "titreoffre": "ELECTRICIEN INDUSTRIEL (H/F/X)",
+    "nomemployeur": "Entreprise Exemple SA",
+    "lieuxtravaillocalite": ["CHARLEROI", "MONS"],
+    "datedebutdiffusion": "2026-11-10T00:00:00+00:00",
+    "datefindiffusion": "2040-12-31T00:00:00+00:00",
+    "url": "https://www.leforem.be/particuliers/offre-emploi-9123456.html",
+    "metier": "Electricien industriel",
+    "typecontrat": "CDI",
+    "regimetravail": "Temps plein",
+    "languescodeiso2": ["FR", "NL", "XX"]
+  },
+  {
+    "numerooffreforem": 9123457,
+    "titreoffre": "Technicien de maintenance",
+    "nomemployeur": "",
+    "lieuxtravaillocalite": "LIÈGE",
+    "datedebutdiffusion": "2026-11-12T00:00:00+00:00",
+    "datefindiffusion": "2040-12-31T00:00:00+00:00",
+    "url": "https://www.leforem.be/particuliers/offre-emploi-9123457.html",
+    "metier": "Technicien de maintenance",
+    "typecontrat": "Intérim",
+    "regimetravail": "Temps partiel"
+  },
+  {
+    "numerooffreforem": "9100001",
+    "titreoffre": "Offre déjà fermée",
+    "lieuxtravaillocalite": "NAMUR",
+    "datedebutdiffusion": "2026-01-10T00:00:00+00:00",
+    "datefindiffusion": "2026-02-01T00:00:00+00:00",
+    "url": "https://www.leforem.be/particuliers/offre-emploi-9100001.html"
+  },
+  {
+    "numerooffreforem": "9123458",
+    "titreoffre": "Sans adresse",
+    "url": ""
+  }
+]

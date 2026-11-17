@@ -1,0 +1,3 @@
+{
+  "https://www.odwb.be/api/explore/v2.1/catalog/datasets/offres-d-emploi-forem/exports/json?select=numerooffreforem,titreoffre,nomemployeur,lieuxtravaillocalite,datedebutdiffusion,datefindiffusion,url,metier,typecontrat,regimetravail,languescodeiso2": "export.json"
+}

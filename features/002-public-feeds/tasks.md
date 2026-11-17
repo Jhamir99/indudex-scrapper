@@ -33,11 +33,11 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
       2026-11-16: `bund` is ported disabled and flagged (FR-6): its imprint asks prior consent, as the legacy found on 15 November 2026.
 - [x] **T011 — Port adapters: linz, ooe, ifgat** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
-- [ ] **T012 — Port adapters: actiris, forem, vdab** · FR: FR-1, FR-5 · Depends: T002
+- [x] **T012 — Port adapters: actiris, forem, vdab** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
       2026-11-16: `actiris` done; `forem` (its export sits under /api/, closed by robots.txt) and `vdab` (a whole pass takes most of an hour) wait for decisions.
       2026-11-17 (operator): `forem` is ported disabled and flagged (robots.txt is obeyed, no exception); `vdab` waits for sources to run in parallel (a crawl-core change, per-site pacing kept); done the same day (`run.concurrency`, 4).
-      2026-11-17: `vdab` done: the whole search once a day (first pass of the day, kept in the source's memory), every pass asks the records of up to 3,000 vacancies; `withDetailPages` gains `address` and `request` for records that are JSON at another address. `forem` still to port (disabled and flagged).
+      2026-11-17: `vdab` done: the whole search once a day (first pass of the day, kept in the source's memory), every pass asks the records of up to 3,000 vacancies; `withDetailPages` gains `address` and `request` for records that are JSON at another address. `forem` done the same day, disabled and flagged (FR-6): ODWB's robots.txt closes `/api/` and every download route of the dataset (read 17 November 2026); its fixture is built from the format the legacy documents.
 - [x] **T013 — Port adapters: emilia, trento, brescia** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
       2026-11-17: `emilia` and `trento` share `myportal.ts` (MyPortal's search in a server session; the cookies its search page sets are sent back, so `HttpResponse` gains `cookies`); `brescia` reads both its day forms.
