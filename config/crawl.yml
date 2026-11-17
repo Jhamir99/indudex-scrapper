@@ -72,6 +72,8 @@ pace:
     get.data.gov.lt: 1000
     # Andalusia's SAE: its whole list in one call.
     saempleo.es: 1000
+    # Castilla-La Mancha's employment API: pages of a hundred.
+    empleabilidad-public.jccm.es: 1500
 
 run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.

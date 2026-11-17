@@ -5,6 +5,7 @@ import { brandenburg } from "../public-feeds/adapters/brandenburg/brandenburg.js
 import { brescia } from "../public-feeds/adapters/brescia/brescia.js";
 import { brz } from "../public-feeds/adapters/brz/brz.js";
 import { bund } from "../public-feeds/adapters/bund/bund.js";
+import { clm } from "../public-feeds/adapters/clm/clm.js";
 import { cyprus } from "../public-feeds/adapters/cyprus/cyprus.js";
 import { emilia } from "../public-feeds/adapters/emilia/emilia.js";
 import { forem } from "../public-feeds/adapters/forem/forem.js";
@@ -50,6 +51,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   brescia,
   brz,
   bund,
+  clm,
   cyprus,
   emilia,
   forem,
