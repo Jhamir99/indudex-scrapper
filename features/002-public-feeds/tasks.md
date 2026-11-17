@@ -42,8 +42,9 @@ Generated from `spec.md` and `plan.md` (as tasks 001, T025-T026 and wave 2). Tas
 - [x] **T013 — Port adapters: emilia, trento, brescia** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
       2026-11-17: `emilia` and `trento` share `myportal.ts` (MyPortal's search in a server session; the cookies its search page sets are sent back, so `HttpResponse` gains `cookies`); `brescia` reads both its day forms.
-- [ ] **T014 — Port adapters: bolzano, uzt, lanbide** · FR: FR-1, FR-5 · Depends: T002
+- [x] **T014 — Port adapters: bolzano, uzt, lanbide** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
+      2026-11-17: `lanbide` is ported disabled and flagged (FR-6): its host's robots.txt is `Disallow: /` (the legacy switched it off); its fixture is built from the format the legacy documents. `bolzano` and `uzt` done (live passes: 967 offers and 5).
 - [ ] **T015 — Port adapters: sae, madrid, jcyl** · FR: FR-1, FR-5 · Depends: T002
       Done when: the standard adapter check passes for each adapter.
 - [ ] **T016 — Port adapters: clm, emcan, gencat** · FR: FR-1, FR-5 · Depends: T002

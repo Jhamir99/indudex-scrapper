@@ -1,0 +1,7 @@
+{
+  "https://apps.lanbide.euskadi.net/apps/OF_OFERTAS_ODE_JSON": {
+    "file": "offers.json",
+    "binary": true,
+    "contentType": "application/json"
+  }
+}

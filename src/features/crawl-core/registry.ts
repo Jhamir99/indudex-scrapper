@@ -18,6 +18,7 @@ import { jobindex } from "../public-feeds/adapters/jobindex/jobindex.js";
 import { jobtech } from "../public-feeds/adapters/jobtech/jobtech.js";
 import { karrierenrw } from "../public-feeds/adapters/karrierenrw/karrierenrw.js";
 import { kuntarekry } from "../public-feeds/adapters/kuntarekry/kuntarekry.js";
+import { lanbide } from "../public-feeds/adapters/lanbide/lanbide.js";
 import { linz } from "../public-feeds/adapters/linz/linz.js";
 import { mpsv } from "../public-feeds/adapters/mpsv/mpsv.js";
 import { netempregos } from "../public-feeds/adapters/netempregos/netempregos.js";
@@ -59,6 +60,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   jobtech,
   karrierenrw,
   kuntarekry,
+  lanbide,
   linz,
   mpsv,
   netempregos,
