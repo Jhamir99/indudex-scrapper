@@ -143,7 +143,7 @@ export function companyOfAdvert(raw: CompanyAdvert): string {
 // address ran together («Landschaften und Gärten»); a short name's capitals («TSMG»); a capital the label lacked
 // («dekimo»). Never a name in capitals throughout nor one that starts small («HEIDELBERG», «mikrolab»). Of 223,893
 // published offers named so, the text wrote 24,374 another way, more than half of them only in capitals (7 November 2026).
-const letters = (s: unknown): string =>
+export const letters = (s: unknown): string =>
   String(s || "")
     .toLowerCase()
     .replace(/ä/g, "ae")

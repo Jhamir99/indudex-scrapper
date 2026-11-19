@@ -18,8 +18,10 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T004 — Agencies** · FR: FR-4 · Depends: gate T011
       Done when: `agencies.ts` holds the legacy's words and brands (extracted), and tests pass on legacy examples in each language and on the golden set; «Siemens» is none.
       2026-11-19: done. The legacy's `agencies.mjs` copied whole (its tests too). Its rule is built with `new RegExp` without the `u` flag, so `\p{L}` there is the characters p, {, L and }: kept as it read, with a comment.
-- [ ] **T005 — The employer reader** · FR: FR-1 to FR-4, FR-9 · Depends: T002, T003, T004
+- [x] **T005 — The employer reader** · FR: FR-1 to FR-4, FR-9 · Depends: T002, T003, T004
       Done when: `createEmployerReader(adverts)` gives each advert's `{ name, key, agency }` as the legacy's build did (the source's written names first, then `companyOfAdvert` and `spelledCompany`, then the town rule), tested on legacy examples, the same answer twice.
+
+      2026-11-19: done. `employer.ts`: the reader is made per source's adverts (the legacy's `writtenNames` ran per source file), and takes the town the advert is placed in for the town rule, so companies needs nothing from places but that value. It reads the stored description as is (no `withoutContacts`/`asLines`, as pay decided). The legacy mended broken letters in the name first (`mendedText`): not ported, `010` decides, as for the gate.
 
 ## Part B — The directory
 
