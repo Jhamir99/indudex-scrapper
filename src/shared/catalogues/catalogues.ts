@@ -1,6 +1,9 @@
 import type { z } from "@hono/zod-openapi";
 import {
   Activities,
+  Elsewhere,
+  Nuts,
+  Places,
   ConfirmedTitles,
   IscoTable,
   NationalTitles,
@@ -61,6 +64,13 @@ export const CATALOGUES = {
   wikidataCountries: {
     file: "codes/wikidata-countries.json",
     schema: WikidataCountries,
+    published: false,
+  },
+  places: { file: "codes/places.json", schema: Places, published: false },
+  nuts: { file: "codes/nuts.json", schema: Nuts, published: false },
+  elsewhere: {
+    file: "codes/elsewhere.json",
+    schema: Elsewhere,
     published: false,
   },
 } as const satisfies Record<string, CatalogueEntry>;

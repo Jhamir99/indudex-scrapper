@@ -294,3 +294,65 @@ export const WikidataCountries = z
         });
   });
 export type WikidataCountries = z.output<typeof WikidataCountries>;
+
+// A GeoNames place as the file stores it, a tuple to keep 84,000 of them small: id, name,
+// country, region (admin1, empty when GeoNames gives none), latitude, longitude, population,
+// other names, and its names in the languages visitors write in, when it has any. Steps read
+// them as `Place` (places.ts).
+const PlaceRow = z.tuple(
+  [
+    z.int().positive(),
+    Name,
+    CountryCode,
+    z.string(),
+    z.number().min(-90).max(90),
+    z.number().min(-180).max(180),
+    z.int().nonnegative(),
+    z.array(Name),
+  ],
+  z.array(Name),
+);
+export type PlaceRow = z.output<typeof PlaceRow>;
+
+export const Places = catalogueFile({
+  places: z.array(PlaceRow).superRefine((rows, context) => {
+    if (new Set(rows.map((row) => row[0])).size !== rows.length)
+      context.addIssue({
+        code: "custom",
+        message: "a GeoNames id appears twice",
+      });
+  }),
+});
+export type Places = z.output<typeof Places>;
+
+export const NutsCode = z
+  .string()
+  .regex(/^[A-Z]{2}[A-Z0-9]{0,3}$/, "a NUTS code");
+
+// NUTS codes and names by country: the Latin name, then the region's own when it differs.
+const NutsNames = z.record(
+  CountryCode,
+  z.record(NutsCode, z.array(Name).min(1).max(2)),
+);
+const NutsByName = z.record(CountryCode, z.record(Name, NutsCode));
+
+// Each town of `places` (by GeoNames id) in its NUTS 3 unit, and the regions and provinces.
+export const Nuts = catalogueFile({
+  regions: NutsNames,
+  provinces: NutsNames,
+  // The names a source may give for an area instead of a town, by country.
+  areas: NutsByName,
+  otherNames: NutsByName,
+  towns: z.record(z.string().regex(/^\d+$/), NutsCode),
+});
+export type Nuts = z.output<typeof Nuts>;
+
+// For each name our towns go by, the biggest town outside the site's countries with that name,
+// as [country, population].
+export const Elsewhere = catalogueFile({
+  elsewhere: z.record(
+    Name,
+    z.tuple([CountryCode, z.int().nonnegative()]),
+  ),
+});
+export type Elsewhere = z.output<typeof Elsewhere>;

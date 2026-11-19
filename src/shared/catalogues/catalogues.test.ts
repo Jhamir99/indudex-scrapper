@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { CATALOGUES } from "./catalogues.js";
+import { placeOf, readPlaces } from "./places.js";
 import { CATALOGUE_DIRECTORY, readCatalogue } from "./read-catalogue.js";
 
 const raw = async (file: string) =>
@@ -63,8 +64,57 @@ describe("the catalogues (FR-1, FR-3, FR-5)", () => {
       "titles",
       "confirmedTitles",
       "wikidataCountries",
+      "places",
+      "nuts",
+      "elsewhere",
     ] as const;
     expect(internal.filter((name) => CATALOGUES[name].published)).toEqual([]);
+  });
+
+  it("hold the legacy's towns and their NUTS units", async () => {
+    const places = await readPlaces();
+    expect(places).toHaveLength(84_176);
+    const { places: rows } = await readCatalogue("places");
+    expect(new Set(rows.map((row) => row.length))).toEqual(new Set([8, 9]));
+    const ids = new Set(places.map((place) => place.geonameId));
+    const { towns } = await readCatalogue("nuts");
+    expect(Object.keys(towns)).toHaveLength(79_826);
+    expect(Object.keys(towns).filter((id) => !ids.has(Number(id)))).toEqual(
+      [],
+    );
+    expect(
+      Object.keys((await readCatalogue("elsewhere")).elsewhere),
+    ).toHaveLength(3_559);
+  });
+
+  it("hand out a town by name, with its local names or none", () => {
+    expect(
+      placeOf([
+        18918,
+        "Protaras",
+        "cy",
+        "Ammochostos",
+        35.0125,
+        34.0583,
+        20230,
+        ["Fig Tree Bay"],
+        ["Πρωταράς"],
+      ]),
+    ).toEqual({
+      geonameId: 18918,
+      name: "Protaras",
+      country: "cy",
+      region: "Ammochostos",
+      latitude: 35.0125,
+      longitude: 34.0583,
+      population: 20230,
+      otherNames: ["Fig Tree Bay"],
+      localNames: ["Πρωταράς"],
+    });
+    expect(
+      placeOf([146033, "Trachóni", "cy", "", 34.6576, 32.9653, 4113, []])
+        .localNames,
+    ).toEqual([]);
   });
 
   it("name every family and occupation in English, Spanish, French, German and Polish", async () => {
