@@ -52,6 +52,8 @@ describe("clm (public-feeds FR-1)", () => {
       url: offerUrl("17703"),
       description:
         "Jornada: completa\nContrato: indefinido\nSalario: 25.103,23 € / Anual Bruto",
+      contract: "INDEFINIDO",
+      hours: "Jornada completa",
     });
     // A title in mixed case is kept as written.
     expect(drafts[1]?.title).toBe("Soldador");

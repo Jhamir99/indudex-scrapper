@@ -2,6 +2,7 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { plainText, titleCase } from "../../../../shared/kit/text.js";
 import { publicFeed } from "../../family.js";
+import { stated } from "../../stated.js";
 
 // Wallonia: every offer Le Forem publishes, its own and its partners' (temporary-work agencies,
 // Jobat), as open data on the Walloon portal ODWB (CC BY-SA 4.0, no key), updated every day: one
@@ -94,6 +95,10 @@ export function parseForem(json: string): AdvertDraft[] {
         // The offers are Le Forem's: French unless the title says otherwise (the processor reads
         // both languages).
         language: "fr",
+        ...stated({
+          contract: plainText(offer?.typecontrat ?? ""),
+          hours: plainText(offer?.regimetravail ?? ""),
+        }),
       };
       const posted = parseDay(offer?.datedebutdiffusion);
       const expires = parseDay(offer?.datefindiffusion);

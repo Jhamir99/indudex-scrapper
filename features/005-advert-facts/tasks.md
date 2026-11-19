@@ -11,8 +11,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T002 — Adapters fill the fields (1/2)** · FR: FR-1 · Depends: T001
       Done when: `actiris`, `bolzano`, `escoladeltreball`, `feinaactiva`, `gencat`, `infopraca`, `jobtech` and `kuntarekry` with `valtiolle` fill the fields their source has (as their legacy adapters did), and each fixture test asserts them on at least one advert.
       2026-11-19: adapters set the fields through `stated()` (`src/features/public-feeds/stated.ts`: only what the source gives, tidied, capped). `jobtech`'s saved answer was trimmed without those fields, so its test builds a hit in the API's documented form; the others assert them on their fixtures.
-- [ ] **T003 — Adapters fill the fields (2/2)** · FR: FR-1 · Depends: T001
+- [x] **T003 — Adapters fill the fields (2/2)** · FR: FR-1 · Depends: T001
       Done when: `mpsv`, `iefp`, `upsvr`, `vdab` (with `years`), `sae`, `clm` and `forem` fill the fields, `sae`, `clm`, `vdab` and `forem` from the same values the legacy read from their text, and each fixture test asserts them.
+      2026-11-19: `upsvr` also states the years its «Prax» field gives, as the legacy did. `sae` and `clm` state their working day with its word («Jornada completa»), so «Completa» alone is not read without context. `mpsv`'s saved answer lacks the hours fields, so its test builds a vacancy. Adverts read before (between whole passes, from earlier stores) keep what their known copy has; an old page is not read again only to get the fields. Not ported: the languages `mpsv` and `upsvr` state in fields of their own (the legacy's `languages`); they stay in the text for the language reader (T009).
 - [ ] **T004 — Words and sentences** · FR: FR-3, FR-5 to FR-7 · Depends: places T011
       Done when: the legacy's word lists (`builder/words/*.mjs`, with `anyOf`, `words`, `numbers`) and sentence splitter are in `src/features/advert-facts/words/` and `sentences.ts`, with tests on the legacy's examples (a list with no full stops split by lines, a short heading kept with the line after it).
 - [ ] **T005 — Contract and working time** · FR: FR-2 · Depends: T001, T004

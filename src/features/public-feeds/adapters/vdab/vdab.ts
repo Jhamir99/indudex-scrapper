@@ -4,6 +4,7 @@ import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText, titleCase } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
 import { type DetailPages, publicFeed, withDetailPages } from "../../family.js";
+import { stated } from "../../stated.js";
 
 // Flanders: every vacancy VDAB, its public employment service, shows (its own, the agencies' and
 // its partners'), read through the search its own site makes (/rest/vindeenjob/v4, with the key
@@ -74,6 +75,12 @@ interface Record_ {
   };
 }
 
+// The experience a vacancy asks, in its own field: «Minstens 2 jaar ervaring». «Beperkte ervaring
+// ( < 2 jaar )» is less than two years and «Geen ervaring» none: no years (read as two in 35,375 of
+// 122,188 vacancies by an earlier reader, 1 November 2026).
+export const yearsOf = (experience: string | undefined): number =>
+  Number(/\bminstens\s+(\d{1,2})\s+jaar/i.exec(experience ?? "")?.[1]) || 0;
+
 // A page of the search's results. `hours` is the working time of the search that brought it.
 // The first line of the text holds what the list says (kind of job, working time, experience);
 // the record's text follows after a line break.
@@ -116,6 +123,15 @@ export function parseVdab(
       description: facts.join(" · "),
       occupationCodes: {},
       language: "nl",
+      // The kind of job («Vast», «Interim», «Tijdelijk»), the search's working time and the
+      // experience the vacancy's own field asks.
+      ...stated({
+        contract: plainText(vacancy.vacaturefunctie?.arbeidscircuitLijn ?? ""),
+        hours,
+        ...(yearsOf(vacancy.ervaring) > 0
+          ? { years: yearsOf(vacancy.ervaring) }
+          : {}),
+      }),
     };
     const posted = parseDay(vacancy.eerstePublicatieDatum);
     if (posted) draft.posted = posted;

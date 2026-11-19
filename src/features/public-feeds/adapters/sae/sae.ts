@@ -7,6 +7,7 @@ import {
 } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
 import { publicFeed } from "../../family.js";
+import { stated } from "../../stated.js";
 import { townName } from "../../spanish.js";
 
 // Andalusia: the Servicio Andaluz de Empleo's published offers, through the list its own portal
@@ -88,6 +89,14 @@ export function parseSae(json: string): AdvertDraft[] {
           .join("\n"),
         occupationCodes: {},
         language: "es",
+        // Its contract and working-day fields («Laboral temporal», «Completa»); the day's kind
+        // with its word, so «Completa» reads as a full working day.
+        ...stated({
+          contract: offer.tipoContrato?.nombre,
+          hours: offer.jornadaLaboral?.nombre
+            ? `Jornada ${offer.jornadaLaboral.nombre.toLowerCase()}`
+            : undefined,
+        }),
       };
       // Its days read "30-09-2026 10:26".
       const posted = parseDay(offer.fechaInicio);

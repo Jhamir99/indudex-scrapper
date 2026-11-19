@@ -41,6 +41,10 @@ describe("sae (public-feeds FR-1)", () => {
     expect(drafts[0]?.description).toMatch(
       /\nOcupación: Técnicos medios en organización y administración de empresas, en general · Contrato: Interinidad · Jornada: Completa · Puestos: 2$/,
     );
+    expect(drafts[0]).toMatchObject({
+      contract: "INTERINIDAD",
+      hours: "Jornada completa",
+    });
     // A mixed-case title is kept as written; a town's article after a comma comes first.
     expect(drafts[1]?.title).toBe("Soldador - montador");
     expect(drafts[2]?.city).toBe("El Coronil");

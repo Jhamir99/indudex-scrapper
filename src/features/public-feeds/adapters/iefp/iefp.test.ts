@@ -73,6 +73,8 @@ describe("iefp (public-feeds FR-1)", () => {
       /^EMPRESA COMERCIALIZA MATERIAIS DE CONSTRUÇÃO/,
     );
     expect(drafts[0]?.description).toContain("Sem termo");
+    expect(drafts[0]).toMatchObject({ contract: "Sem termo" });
+    expect(drafts[0]?.hours).toBeTruthy();
   });
 
   it("turns the pages through the form's address and fails a pass well short of the count", async () => {

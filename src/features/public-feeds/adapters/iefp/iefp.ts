@@ -1,6 +1,7 @@
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
 import { checkWholePass, publicFeed, withDetailPages } from "../../family.js";
+import { stated } from "../../stated.js";
 
 // Portugal: IEFP, the public employment service, read through its own search on IEFPonline. Its
 // robots.txt is absent and its terms name no bots and ask no leave. The search answers a hundred
@@ -129,7 +130,17 @@ export function parseCards(html: string): AdvertDraft[] {
   });
 }
 
-// An offer's own page: its profile and the conditions written after it (contract, hours, pay).
+// A field of the offer's page («Tipo de contrato: Termo incerto», «Regime de trabalho: A tempo
+// completo»), which all 1,352 published IEFP cards of the legacy lacked (1 November 2026).
+const fieldOf = (html: string, label: string): string =>
+  plainText(
+    new RegExp(
+      `text-uppercase">${label}</div>\\s*<div><strong>\\s*([^<]*)`,
+    ).exec(html)?.[1] ?? "",
+  );
+
+// An offer's own page: its profile and the conditions written after it (contract, hours, pay),
+// and the contract and working time in fields of their own.
 export function withPage(draft: AdvertDraft, html: string): AdvertDraft {
   const page = html.replace(
     /<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi,
@@ -141,12 +152,22 @@ export function withPage(draft: AdvertDraft, html: string): AdvertDraft {
   const text = pageText(
     page.slice(from, to > from ? to : from + 20_000),
   ).replace(/^Descri\S*\s+do\s+Perfil\s*/, "");
-  return text ? { ...draft, description: text } : draft;
+  if (!text) return draft;
+  return {
+    ...draft,
+    description: text,
+    ...stated({
+      contract: fieldOf(html, "Tipo de contrato"),
+      hours: fieldOf(html, "Regime de trabalho"),
+    }),
+  };
 }
 
 const withKnown = (draft: AdvertDraft, known: AdvertDraft): AdvertDraft => ({
   ...draft,
   description: known.description,
+  ...(known.contract ? { contract: known.contract } : {}),
+  ...(known.hours ? { hours: known.hours } : {}),
 });
 
 async function* readIefp(context: AdapterContext): AsyncIterable<AdvertDraft> {

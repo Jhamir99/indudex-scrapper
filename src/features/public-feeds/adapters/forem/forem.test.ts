@@ -46,6 +46,8 @@ describe("forem (public-feeds FR-1, FR-6)", () => {
       url: "https://www.leforem.be/particuliers/offre-emploi-9123456.html",
       description:
         "Electricien industriel · CDI · Temps plein · Langues: fr, nl",
+      contract: "CDI",
+      hours: "Temps plein",
     });
     expect(drafts[1]).toMatchObject({
       sourceId: "9123457",

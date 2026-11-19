@@ -61,6 +61,33 @@ describe("mpsv (public-feeds FR-1, FR-7)", () => {
     ).toMatchObject({ city: "", location: "Česko" });
   });
 
+  it("states its hours from the kind of employment and the weekly hours (advert-facts FR-1)", () => {
+    const vacancy = {
+      portalId: 2,
+      profeseCzIsco: { id: "CzIsco/72140" },
+      pozadovanaProfese: { cs: "Montér" },
+    };
+    const hours = (fields: object) =>
+      toDraft({ ...vacancy, ...fields }, new Map(), units)?.hours;
+    expect(
+      hours({ pracovnePravniVztahy: [{ id: "PracovnePravniVztah/plny" }] }),
+    ).toBe("full time");
+    expect(
+      hours({
+        pracovnePravniVztahy: [{ id: "PracovnePravniVztah/zkraceny" }],
+        pocetHodinTydne: 20,
+      }),
+    ).toBe("part time 20 hours");
+    expect(
+      hours({
+        pracovnePravniVztahy: [
+          { id: "PracovnePravniVztah/plny" },
+          { id: "PracovnePravniVztah/zkraceny" },
+        ],
+      }),
+    ).toBeUndefined();
+  });
+
   it("still sends its adverts when the municipality list fails", async () => {
     const routes = await loadFixtureRoutes("mpsv");
     const http = new FakeHttpClient({

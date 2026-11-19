@@ -2,6 +2,7 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { fromCapitals, plainText } from "../../../../shared/kit/text.js";
 import { checkWholePass, publicFeed } from "../../family.js";
+import { stated } from "../../stated.js";
 
 // Castilla-La Mancha: the regional employment service's public offers, a JSON API read whole (pages
 // of a hundred, with Accept: application/json); its legal notice allows reproducing and spreading
@@ -76,6 +77,13 @@ export function parseClm(json: string): {
         .join("\n"),
       occupationCodes: {},
       language: "es",
+      // Its working-day and contract fields («completa», «indefinido»).
+      ...stated({
+        contract: offer.tipoContrato,
+        hours: offer.jornada
+          ? `Jornada ${offer.jornada.toLowerCase()}`
+          : undefined,
+      }),
     };
     const expires = parseDay(offer.fechaPostulacionHasta ?? undefined);
     if (expires) draft.expires = expires;

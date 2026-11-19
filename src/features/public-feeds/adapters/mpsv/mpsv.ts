@@ -2,6 +2,7 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
 import { publicFeed } from "../../family.js";
+import { stated } from "../../stated.js";
 import { loadIscoUnits } from "../../isco-units.js";
 
 // Czechia: every vacancy the Labour Office holds, as the Ministry of Labour publishes it (open
@@ -37,6 +38,8 @@ interface Vacancy {
   readonly upresnujiciInformace?: Words;
   readonly datumVlozeni?: string | null;
   readonly expirace?: string | null;
+  readonly pracovnePravniVztahy?: readonly Coded[] | null;
+  readonly pocetHodinTydne?: number | string | null;
 }
 
 // "CzIsco/31152" → "31152".
@@ -58,6 +61,29 @@ export function parseMunicipalities(json: string): Map<string, string> {
       (town.nazev?.cs ?? "").trim(),
     ]),
   );
+}
+
+const WORKING: Readonly<Record<string, string>> = {
+  plny: "full time",
+  zkraceny: "part time",
+};
+
+// The hours from the kind of employment (plný / zkrácený úvazek) and the weekly hours, fields
+// every vacancy or many carry (1 November 2026).
+function hoursOf(vacancy: Vacancy): string {
+  const kinds = [
+    ...new Set(
+      (vacancy.pracovnePravniVztahy ?? [])
+        .map((kind) => WORKING[codeOf(kind)])
+        .filter(Boolean),
+    ),
+  ];
+  const week = Number(vacancy.pocetHodinTydne) || 0;
+  if (kinds.length === 1)
+    return week && kinds[0] === "part time"
+      ? `part time ${week} hours`
+      : (kinds[0] ?? "");
+  return week ? String(week) : "";
 }
 
 export function toDraft(
@@ -88,6 +114,7 @@ export function toDraft(
     description: pageText(vacancy.upresnujiciInformace?.cs ?? ""),
     occupationCodes: { isco: isco.slice(0, 4) },
     language: "cs",
+    ...stated({ hours: hoursOf(vacancy) }),
   };
   const posted = parseDay(vacancy.datumVlozeni);
   const expires = parseDay(vacancy.expirace);

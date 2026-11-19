@@ -50,7 +50,12 @@ describe("vdab (public-feeds FR-1)", () => {
       url: "https://www.vdab.be/vindeenjob/vacatures/74346415",
       description:
         "Vaste job · Dagwerk · voltijds · Beperkte ervaring ( < 2 jaar )",
+      contract: "Vaste job",
+      hours: "voltijds",
     });
+    // «Beperkte ervaring ( < 2 jaar )» states no years; «Minstens 5 jaar ervaring» five.
+    expect(drafts[0]?.years).toBeUndefined();
+    expect(drafts.map((draft) => draft.years)).toContain(5);
   });
 
   it("leaves closed vacancies out but counts them in the page's size", () => {

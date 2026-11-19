@@ -6,10 +6,11 @@ import {
 import { FakeHttpClient } from "../../../../../test/fakes/http-client.js";
 import {
   fakeContext,
+  fakeDraft,
   readDrafts,
 } from "../../../../../test/fakes/source-adapter.js";
 import type { HttpClient } from "../../../crawl-core/ports.js";
-import { listUrl, upsvr } from "./upsvr.js";
+import { listUrl, upsvr, withPage } from "./upsvr.js";
 
 const list = (count: number, from: number, size: number, source = 1) =>
   JSON.stringify({
@@ -21,6 +22,9 @@ const list = (count: number, from: number, size: number, source = 1) =>
       miestoVykonuPrace: "Košice - Košice I",
     })),
   });
+
+const practicePage = (practice: string) =>
+  `<dl><dt class="vpm-data-panel__key">Prax</dt><dd class="vpm-data-panel__value">${practice}</dd></dl>`;
 
 describe("upsvr (public-feeds FR-1)", () => {
   it("maps the saved answers into valid adverts", async () => {
@@ -54,6 +58,13 @@ describe("upsvr (public-feeds FR-1)", () => {
     expect(drafts[0]?.description).toContain(
       "Pracovný a mimopracovný pomer: Pracovný pomer na neurčitý čas",
     );
+    expect(drafts[0]?.contract).toBe("Pracovný pomer na neurčitý čas");
+  });
+
+  it("states the years of practice its page gives (advert-facts FR-1)", () => {
+    const draft = fakeDraft("upsvr", "1", { description: "" });
+    expect(withPage(draft, practicePage("2 roky")).years).toBe(2);
+    expect(withPage(draft, practicePage("bez praxe")).years).toBeUndefined();
   });
 
   it("leaves out offers shown from other portals", async () => {

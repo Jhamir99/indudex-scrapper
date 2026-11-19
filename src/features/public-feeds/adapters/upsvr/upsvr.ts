@@ -3,6 +3,7 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { plainText } from "../../../../shared/kit/text.js";
 import { checkWholePass, publicFeed, withDetailPages } from "../../family.js";
+import { stated } from "../../stated.js";
 
 // Slovakia: ÚPSVaR, the public employment service, through the list its own search draws
 // (Služby zamestnanosti). Its robots.txt closes only the reply form; the portal publishes no terms
@@ -129,10 +130,17 @@ export function withPage(draft: AdvertDraft, html: string): AdvertDraft {
     fields.get("Profesia (SK ISCO-08)") ?? "",
   )?.[1];
   if (lines.length === 0 && !isco) return draft;
+  // The contract («Pracovný pomer na neurčitý čas») and the years of practice («2 roky») it
+  // states in fields of their own.
+  const years = Number(/(\d{1,2})\s*rok/.exec(fields.get("Prax") ?? "")?.[1]);
   return {
     ...draft,
     description: [draft.description, ...lines].filter(Boolean).join("\n"),
     ...(isco ? { occupationCodes: { isco } } : {}),
+    ...stated({
+      contract: fields.get("Pracovný a mimopracovný pomer"),
+      ...(years > 0 ? { years } : {}),
+    }),
   };
 }
 
@@ -141,6 +149,10 @@ function withKnown(draft: AdvertDraft, known: AdvertDraft): AdvertDraft {
     ...draft,
     description: known.description,
     occupationCodes: known.occupationCodes,
+    ...stated({
+      contract: known.contract,
+      ...(known.years !== undefined ? { years: known.years } : {}),
+    }),
   };
 }
 
