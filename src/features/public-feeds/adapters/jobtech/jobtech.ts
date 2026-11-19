@@ -2,6 +2,7 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
 import { publicFeed } from "../../family.js";
+import { stated } from "../../stated.js";
 import { loadSsykGroups } from "./ssyk-groups.js";
 
 // Sweden: Arbetsförmedlingen's JobSearch API (JobTech Dev), CC0, no key. Adverts are asked per
@@ -29,6 +30,9 @@ interface Hit {
   readonly application_deadline?: string;
   readonly occupation_group?: { readonly concept_id?: string };
   readonly workplace_model?: { readonly label?: string | null };
+  readonly employment_type?: { readonly label?: string | null };
+  readonly duration?: { readonly label?: string | null };
+  readonly working_hours_type?: { readonly label?: string | null };
   readonly must_have?: {
     readonly skills?: readonly ({ readonly label?: string } | null)[];
   };
@@ -40,6 +44,23 @@ const WORK_MODES: Record<string, AdvertDraft["workMode"]> = {
   distansarbete: "remote",
   hybridarbete: "hybrid",
 };
+
+// Its employment type and duration: "Tills vidare" is permanent, a span of days or months a
+// temporary job of up to that many months, and an ordinary employment "6 månader eller längre"
+// names no kind (legacy jobtechContract).
+function contractOf(hit: Hit): string {
+  const span = hit.duration?.label ?? "";
+  const months = Number(/(\d+)\s*m[aå]nader\s*$/i.exec(span)?.[1]) || 1;
+  const short =
+    !/eller längre/i.test(span) &&
+    /dagar|\d+\s*-\s*\d+\s*m[aå]nader/i.test(span);
+  const kind = /tills vidare/i.test(span)
+    ? "Tills vidare"
+    : short
+      ? `Tidsbegränsad (${months} månader)`
+      : "";
+  return [hit.employment_type?.label, kind].filter(Boolean).join(" · ");
+}
 
 export function toDraft(hit: Hit): AdvertDraft | undefined {
   if (hit.id === undefined || hit.id === "" || !hit.headline) return undefined;
@@ -70,6 +91,10 @@ export function toDraft(hit: Hit): AdvertDraft | undefined {
       ? { ssyk: hit.occupation_group.concept_id }
       : {},
     language: "sv",
+    ...stated({
+      contract: contractOf(hit),
+      hours: hit.working_hours_type?.label ?? undefined,
+    }),
   };
   if (workMode) draft.workMode = workMode;
   const posted = parseDay(hit.publication_date);

@@ -74,6 +74,8 @@ describe("escoladeltreball (public-feeds FR-1)", () => {
       posted: "2026-11-12",
       expires: "2026-12-07",
       url: offerUrl("900001"),
+      contract: "Indefinit",
+      hours: "Indefinit",
     });
     expect(draft?.description).toBe(
       "Es busca tècnic per al manteniment d’obres i màquines. Enviar CV a o trucar al .\nEspecialitat: Fabricació mecànica\nEstudis: Mecatrònica industrial DUAL (grau superior)\nContracte: Indefinit\nHorari: Matí i tarda\nIncorporació: Immediata\nSou (brut/any): 28800\nIdiomes: Castellà, Anglès",

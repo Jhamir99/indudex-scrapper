@@ -61,6 +61,8 @@ describe("actiris (public-feeds FR-1)", () => {
       description: "CDI, temps plein",
       language: "fr",
       url: offerUrl("7"),
+      contract: "CDI",
+      hours: "temps plein",
     });
   });
 

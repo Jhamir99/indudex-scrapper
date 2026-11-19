@@ -3,6 +3,7 @@ import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
 import { checkWholePass, publicFeed, withDetailPages } from "../../family.js";
+import { stated } from "../../stated.js";
 
 // Brussels: Actiris, the region's public employment service, through the list its own search
 // draws. Its legal notice allows using what its sites show when the source is named; no robots.txt.
@@ -27,6 +28,13 @@ export const offerUrl = (reference: string, type = "Select") =>
 const REGIMES: Record<string, string> = {
   NO: "temps plein",
   PT: "temps partiel",
+};
+
+// The list's contract codes whose label the readers would not know (the legacy's ACTIRIS_CONTRACTS).
+const CONTRACTS: Record<string, string> = {
+  FPI: "formation professionnelle",
+  INDEPENDANT: "independant",
+  REMPLACEMENT: "remplacement",
 };
 
 interface Listed {
@@ -82,6 +90,15 @@ export function parseList(json: string): {
       description: facts,
       occupationCodes: {},
       language: offer.titreFr ? "fr" : "nl",
+      // Its list's own contract (CDI, CDD, INTERIM, REMPLACEMENT, STAGE, FPI, INDEPENDANT) and
+      // working regime, on every offer (1 November 2026).
+      ...stated({
+        contract:
+          CONTRACTS[(offer.typeContrat ?? "").toUpperCase()] ||
+          offer.typeContratLibelle ||
+          offer.typeContrat,
+        hours: REGIMES[(offer.regimeTravail ?? "").toUpperCase()],
+      }),
     };
     const posted = parseDay(offer.dateCreation);
     if (posted) draft.posted = posted;

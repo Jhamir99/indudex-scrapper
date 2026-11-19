@@ -8,6 +8,7 @@ import {
   titleCase,
 } from "../../../../shared/kit/text.js";
 import { publicFeed } from "../../family.js";
+import { stated } from "../../stated.js";
 
 // Catalonia: the Feina Activa XML of the Generalitat's employment service (open data, attribution
 // required, no key). One <ad> per vacancy, in Catalan or Spanish; the description is the content
@@ -67,6 +68,7 @@ export function parseFeinaActiva(xml: string): AdvertDraft[] {
           .join("\n"),
         occupationCodes: {},
         language: "ca",
+        ...stated({ contract, hours }),
       };
       const posted = parseDay(pickText(ad, "date"));
       if (posted) draft.posted = posted;

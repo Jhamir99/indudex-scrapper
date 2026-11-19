@@ -8,6 +8,7 @@ import { parseDay } from "../../shared/kit/dates.js";
 import { jobPostings } from "../../shared/kit/job-posting.js";
 import { plainText } from "../../shared/kit/text.js";
 import { publicFeed, withDetailPages } from "./family.js";
+import { stated } from "./stated.js";
 
 // Finland's public-sector job platform, run for the municipalities and wellbeing services
 // counties (Kuntarekry) and for the State (Valtiolle.fi). Its list answers in JSON when asked
@@ -36,6 +37,7 @@ interface ListItem {
   readonly publication_end?: string;
   readonly region?: string;
   readonly location_tags?: readonly string[];
+  readonly employment_type?: string;
 }
 
 // An open application is a standing invitation, not a vacancy.
@@ -76,6 +78,8 @@ export function parseList(
       description: "",
       occupationCodes: {},
       language: "fi",
+      // «Kokoaikatyö», «Osa-aikatyö», «Heltidsarbete»: 88 % of the list.
+      ...stated({ hours: item.employment_type }),
     };
     const posted = parseDay(item.publication_date);
     const expires = parseDay(item.publication_end);
@@ -93,7 +97,8 @@ const later = (a: string | undefined, b: string | undefined) =>
     .toSorted()
     .at(-1);
 
-// What a vacancy's own page adds: its text and its closing day.
+// What a vacancy's own page adds: its text, its closing day and its block's employment types
+// («Kokoaikatyö, Työpaikka, Vakinainen, Työsuhde»: the hours and the contract).
 export function withPage(draft: AdvertDraft, html: string): AdvertDraft {
   const [posting] = jobPostings(html, draft.url);
   if (!posting) return draft;
@@ -102,6 +107,11 @@ export function withPage(draft: AdvertDraft, html: string): AdvertDraft {
     ...draft,
     description: posting.description,
     ...(expires ? { expires } : {}),
+    ...stated({
+      employmentType: posting.employmentType.flatMap((type) =>
+        type.split(/\s*,\s*/),
+      ),
+    }),
   };
 }
 
@@ -111,6 +121,7 @@ function withKnown(draft: AdvertDraft, known: AdvertDraft): AdvertDraft {
     ...draft,
     description: known.description,
     ...(expires ? { expires } : {}),
+    ...(known.employmentType ? { employmentType: known.employmentType } : {}),
   };
 }
 

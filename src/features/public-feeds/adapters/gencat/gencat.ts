@@ -2,6 +2,7 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { plainText } from "../../../../shared/kit/text.js";
 import { publicFeed } from "../../family.js";
+import { stated } from "../../stated.js";
 
 // Generalitat de Catalunya: the temporary vacancies of the Government's departments (the offers
 // the ATRI portal listed), an open dataset on Catalonia's transparency portal read whole (Socrata,
@@ -72,6 +73,8 @@ export function parseGencat(json: string): AdvertDraft[] {
           .join("\n"),
         occupationCodes: {},
         language: "ca",
+        // The dataset is of temporary posts ("Ofertes de treball de caràcter temporal").
+        ...stated({ contract: "temporal" }),
       };
       const posted = parseDay(row.data_inici_publicacio);
       const expires = parseDay(row.data_fi_publicacio);

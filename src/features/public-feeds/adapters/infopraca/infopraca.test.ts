@@ -58,6 +58,7 @@ describe("infopraca (public-feeds FR-1)", () => {
       city: "Płock",
       posted: "2026-04-02",
       expires: "2026-11-24",
+      employmentType: ["FULL_TIME"],
     });
     expect(drafts[0]?.description).toMatch(/^Poszukujemy Inżyniera Budowy/);
     expect(drafts[1]?.city).toBe("Płock");

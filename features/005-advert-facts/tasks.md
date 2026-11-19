@@ -8,8 +8,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 - [x] **T001 — The source's contract, hours and years fields** · FR: FR-1 · Depends: places T011
       Done when: `Advert` (and so `AdvertDraft`) accepts optional `contract`, `hours`, `employmentType` and `years`, trimmed, non-empty and capped; tests pass: an advert with them validates, one without them (as stored before) still reads from the file store, a value over the cap or empty is refused; the crawl-core contract test still passes for every adapter.
-- [ ] **T002 — Adapters fill the fields (1/2)** · FR: FR-1 · Depends: T001
+- [x] **T002 — Adapters fill the fields (1/2)** · FR: FR-1 · Depends: T001
       Done when: `actiris`, `bolzano`, `escoladeltreball`, `feinaactiva`, `gencat`, `infopraca`, `jobtech` and `kuntarekry` with `valtiolle` fill the fields their source has (as their legacy adapters did), and each fixture test asserts them on at least one advert.
+      2026-11-19: adapters set the fields through `stated()` (`src/features/public-feeds/stated.ts`: only what the source gives, tidied, capped). `jobtech`'s saved answer was trimmed without those fields, so its test builds a hit in the API's documented form; the others assert them on their fixtures.
 - [ ] **T003 — Adapters fill the fields (2/2)** · FR: FR-1 · Depends: T001
       Done when: `mpsv`, `iefp`, `upsvr`, `vdab` (with `years`), `sae`, `clm` and `forem` fill the fields, `sae`, `clm`, `vdab` and `forem` from the same values the legacy read from their text, and each fixture test asserts them.
 - [ ] **T004 — Words and sentences** · FR: FR-3, FR-5 to FR-7 · Depends: places T011

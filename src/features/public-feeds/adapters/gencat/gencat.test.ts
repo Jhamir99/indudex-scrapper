@@ -35,6 +35,7 @@ describe("gencat (public-feeds FR-1)", () => {
       posted: "2026-11-03",
       expires: "2026-11-17",
       url: "https://documents.dadesobertes.gencat.cat/ofertes-treball/docs/2/132111.pdf",
+      contract: "temporal",
     });
     expect(drafts[0]?.description).toBe(
       "Tècnic/a Superior Especialista, Grup VII\nAgència Catalana de l'Aigua\nDepartament: TERRITORI, HABITATGE I TRAN.EC\nCategoria: Sector públic i altres\nÀmbit: Comarques de Barcelona\nContracte: temporal",

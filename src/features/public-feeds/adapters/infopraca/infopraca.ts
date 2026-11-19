@@ -2,6 +2,7 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { jobPostings } from "../../../../shared/kit/job-posting.js";
 import { plainText } from "../../../../shared/kit/text.js";
 import { publicFeed, withDetailPages } from "../../family.js";
+import { stated } from "../../stated.js";
 
 // Poland: Infopraca, read through its own search. Its terms name no bots and ask no leave, its
 // robots.txt opens its searches and their pages (pg=), and a search asked for JSON answers the
@@ -112,7 +113,7 @@ export function parseSearch(json: string): {
   return { items: items.length, drafts };
 }
 
-// What an offer's own page adds: its text and its days.
+// What an offer's own page adds: its text, its days and its employment types.
 export function withPage(draft: AdvertDraft, html: string): AdvertDraft {
   const [posting] = jobPostings(html, draft.url);
   if (!posting) return draft;
@@ -121,6 +122,7 @@ export function withPage(draft: AdvertDraft, html: string): AdvertDraft {
     description: posting.description,
     ...(posting.posted ? { posted: posting.posted } : {}),
     ...(posting.validThrough ? { expires: posting.validThrough } : {}),
+    ...stated({ employmentType: posting.employmentType }),
   };
 }
 
@@ -130,6 +132,7 @@ function withKnown(draft: AdvertDraft, known: AdvertDraft): AdvertDraft {
     description: known.description,
     ...(known.posted ? { posted: known.posted } : {}),
     ...(known.expires ? { expires: known.expires } : {}),
+    ...(known.employmentType ? { employmentType: known.employmentType } : {}),
   };
 }
 

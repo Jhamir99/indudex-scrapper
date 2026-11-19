@@ -57,6 +57,7 @@ describe("Kuntarekry platform: kuntarekry and valtiolle (public-feeds FR-1, FR-4
           publication_end: "30.11.2026",
           region: "Uusimaa",
           location_tags: ["Espoo", "Vantaa"],
+          employment_type: "Kokoaikatyö",
         },
         {
           id: 2,
@@ -82,6 +83,7 @@ describe("Kuntarekry platform: kuntarekry and valtiolle (public-feeds FR-1, FR-4
         expires: "2026-11-30",
         occupationCodes: {},
         language: "fi",
+        hours: "Kokoaikatyö",
       },
     ]);
   });
@@ -96,6 +98,14 @@ describe("Kuntarekry platform: kuntarekry and valtiolle (public-feeds FR-1, FR-4
 
     expect(drafts).toHaveLength(3);
     expect(drafts[0]?.description).toMatch(/^Kiinnostaako sinua/);
+    expect(drafts[0]?.employmentType).toEqual([
+      "Kokoaikatyö",
+      "3-vuorotyö",
+      "Työpaikka",
+      "Vakinainen",
+      "Anonyymi",
+      "Työsuhde",
+    ]);
     expect(drafts[1]?.description).toBe("");
     expect(http.requests).toHaveLength(1 + 3);
   });
@@ -107,6 +117,7 @@ describe("Kuntarekry platform: kuntarekry and valtiolle (public-feeds FR-1, FR-4
     const known = fakeDraft("kuntarekry", "1", {
       description: "Read before.",
       expires: "2026-12-15",
+      employmentType: ["Vakinainen"],
     });
 
     const [draft] = await readDrafts(
@@ -117,6 +128,7 @@ describe("Kuntarekry platform: kuntarekry and valtiolle (public-feeds FR-1, FR-4
     expect(draft).toMatchObject({
       description: "Read before.",
       expires: "2026-12-15",
+      employmentType: ["Vakinainen"],
     });
     expect(http.requests).toHaveLength(1);
   });

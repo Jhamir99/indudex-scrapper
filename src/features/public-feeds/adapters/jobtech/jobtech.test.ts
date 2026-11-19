@@ -27,6 +27,22 @@ const hits = (from: number, count: number) =>
     headline: `Ingenjör ${from + k}`,
   }));
 
+const contractHit = (duration: string) =>
+  parseSearch(
+    JSON.stringify({
+      total: { value: 1 },
+      hits: [
+        {
+          id: 2,
+          headline: "Elingenjör",
+          employment_type: { label: "Vanlig anställning" },
+          duration: { label: duration },
+          working_hours_type: { label: "Heltid" },
+        },
+      ],
+    }),
+  ).drafts[0];
+
 describe("jobtech (public-feeds FR-1, FR-7)", () => {
   it("maps the saved answers into valid adverts", async () => {
     expect(
@@ -71,6 +87,19 @@ describe("jobtech (public-feeds FR-1, FR-7)", () => {
       workMode: "remote",
       description: "Text\nAutoCAD",
     });
+  });
+
+  it("states its employment type, duration and working hours as its fields (advert-facts FR-1)", () => {
+    expect(contractHit("Tills vidare")).toMatchObject({
+      contract: "Vanlig anställning · Tills vidare",
+      hours: "Heltid",
+    });
+    expect(contractHit("3 - 6 månader")?.contract).toBe(
+      "Vanlig anställning · Tidsbegränsad (6 månader)",
+    );
+    expect(contractHit("6 månader eller längre")?.contract).toBe(
+      "Vanlig anställning",
+    );
   });
 
   it("asks every group of config/ssyk-groups.yml, paging up to its total", async () => {

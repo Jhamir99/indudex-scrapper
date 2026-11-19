@@ -56,6 +56,7 @@ describe("bolzano (public-feeds FR-1)", () => {
       url: "https://ejob.civis.bz.it/it/offerDetailPublic/1024525",
       posted: "2026-11-17",
       expires: "2026-12-16",
+      contract: "tempo determinato o stagionale",
     });
     expect(drafts[0]?.description).toMatch(
       /\nProfessione: commesso di negozio · Contratto: tempo determinato o stagionale$/,

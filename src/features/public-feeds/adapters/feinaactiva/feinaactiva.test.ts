@@ -43,6 +43,8 @@ describe("feinaactiva (public-feeds FR-1)", () => {
       url: "https://feinaactiva.gencat.cat/ca/search/offers/detail/FA90000001",
       description:
         "Instal·lacions elèctriques.\nContracte: Contracte laboral indefinit\nJornada: Jornada parcial (20 hores - jornada setmanal)\nSalari mensual brut des de 1200",
+      contract: "Contracte laboral indefinit",
+      hours: "Jornada parcial (20 hores - jornada setmanal)",
     });
   });
 

@@ -4,6 +4,7 @@ import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText, titleCase } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
 import { publicFeed } from "../../family.js";
+import { stated } from "../../stated.js";
 
 // Escola del Treball de Barcelona, a public vocational school: its job board, open to anyone, with
 // the offers companies send its graduates, by department (electricity, electronics, machining,
@@ -219,6 +220,8 @@ export function parseOffer(
       .join("\n"),
     occupationCodes: isco ? { isco } : {},
     language: "ca",
+    // One field for both («Indefinit», «Temporal», «En pràctiques», «A temps parcial»).
+    ...stated({ contract: field("Contracte"), hours: field("Contracte") }),
   };
   const day = parseDay(posted);
   const expires = parseDay(field("Data de finalització"));

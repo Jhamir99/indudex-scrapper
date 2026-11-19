@@ -6,6 +6,7 @@ import {
 } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
 import { checkWholePass, publicFeed } from "../../family.js";
+import { stated } from "../../stated.js";
 
 // South Tyrol: the offers on eJob, the Province of Bolzano's job exchange, through the search its
 // own page sends, a hundred at a time. Only what is published there: by employers, by private
@@ -109,6 +110,8 @@ export function parseBolzano(json: string): {
         .join("\n"),
       occupationCodes: {},
       language: titleLanguage(title),
+      // Its contract field («tempo indeterminato», «lavoro interinale»), on 94.5 % of offers.
+      ...stated({ contract: offer.tipoContratto?.value }),
     };
     const posted = dayOf(offer.dataInserimento);
     const expires = dayOf(offer.dataScadenza);
