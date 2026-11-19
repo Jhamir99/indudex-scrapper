@@ -105,6 +105,7 @@ describe("the placer over the real catalogues (FR-9)", () => {
     const placer = createPlacer({
       places: await readPlaces(),
       nuts: await readCatalogue("nuts"),
+      countries: (await readCatalogue("countries")).countries,
     });
     expect(placer.place(advert("de", "München, Bayern")).town?.name).toBe(
       "München",

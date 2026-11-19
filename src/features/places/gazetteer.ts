@@ -17,6 +17,15 @@ export interface Gazetteer {
   // Other ways sources write them: without the word for a province, the UK's counties, spaces
   // for hyphens. Only for a place that names no town, or as the area a town must lie in.
   readonly looseAreas: ReadonlyMap<string, ReadonlyMap<string, string>>;
+  // Each country's own names and code, folded: a place that names only its country names no town.
+  readonly countryNames: ReadonlyMap<string, ReadonlySet<string>>;
+}
+
+// The `countries` catalogue's entries, as far as places reads them.
+export interface CountryNames {
+  readonly iso: string;
+  readonly name: string;
+  readonly aliases: readonly string[];
 }
 
 export type NutsTables = Partial<Pick<Nuts, "areas" | "otherNames" | "towns">>;
@@ -74,6 +83,7 @@ function compileAreas(nuts: NutsTables) {
 export function compileGazetteer(
   places: readonly Place[],
   nuts: NutsTables = {},
+  countries: readonly CountryNames[] = [],
 ): Gazetteer {
   const towns = new Map<string, Map<string, Town[]>>();
   const spelt = new Map<Map<string, Town[]>, [string, Town][]>();
@@ -116,5 +126,15 @@ export function compileGazetteer(
       } else if (!list.includes(town)) list.push(town);
     }
   }
-  return { towns, ...compileAreas(nuts) };
+  const countryNames = new Map(
+    countries.map((country) => [
+      country.iso,
+      new Set(
+        [country.iso, country.name, ...country.aliases].map((name) =>
+          fold(name),
+        ),
+      ),
+    ]),
+  );
+  return { towns, countryNames, ...compileAreas(nuts) };
 }

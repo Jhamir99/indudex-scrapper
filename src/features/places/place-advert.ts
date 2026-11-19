@@ -1,8 +1,11 @@
 import { z } from "@hono/zod-openapi";
-import { areaOf } from "./areas.js";
+import { fold } from "../../shared/kit/fold.js";
+import { areaCode, areaOf, type PlaceText } from "./areas.js";
 import type { Gazetteer } from "./gazetteer.js";
+import { pieces } from "./pieces.js";
 import { shownName } from "./shown-name.js";
-import { townOf } from "./town-of.js";
+import { FOR_A_CLIENT, labelledTowns, postalTowns } from "./text-towns.js";
+import { townOf, type TownFound } from "./town-of.js";
 
 // What places reads of an advert (FR-9): the stored advert's fields, and whether it comes from a
 // recruitment agency (companies' finding, false until that step exists).
@@ -48,6 +51,51 @@ export function atMost(text: string, limit: number): string {
 
 const round = (degrees: number) => Math.round(degrees * 100) / 100;
 
+// The town the place itself names, known or not: the adapter's city, else the location's first
+// piece that is not the country's own name (legacy placeOfAdvert's city). "" when it names only
+// its country.
+function namedTown(gazetteer: Gazetteer, place: PlaceText): string {
+  const own = gazetteer.countryNames.get(place.country);
+  return (
+    [place.city, ...pieces(place.location)].find(
+      (piece) => piece && !own?.has(fold(piece)),
+    ) ?? ""
+  );
+}
+
+// The town the text gives (FR-6), for a place that names no town, or names a region or province
+// as its town («Bayern», «Limburg», «Île-de-France»: 8,061 published offers, 7 November 2026).
+// Inside that region only: outside it, the legacy's hints were mostly a head office's or an
+// agency's address (Roanne for missions in the Yvelines; 206 of 1,632 offers).
+function townFromText(
+  gazetteer: Gazetteer,
+  place: PlaceText,
+  input: PlaceInput,
+): TownFound | null {
+  const named = namedTown(gazetteer, place);
+  const namesArea =
+    named !== "" &&
+    areaCode(gazetteer, place.country, named) !== "" &&
+    !gazetteer.towns.get(place.country)?.has(fold(named));
+  if (named && !namesArea) return null;
+  const inside = named ? areaOf(gazetteer, place, "", true) : "";
+  // An agency's text, or one that places staff with a client, gives only the job's own labels.
+  const forOthers = input.agency || FOR_A_CLIENT.test(input.description);
+  const candidates = new Set([
+    ...labelledTowns(input.description, forOthers),
+    ...(forOthers ? [] : postalTowns(input.description, place.country)),
+  ]);
+  for (const candidate of candidates) {
+    const found = townOf(gazetteer, {
+      country: place.country,
+      location: candidate,
+      city: "",
+    });
+    if (found && (!inside || found.town.nuts.startsWith(inside))) return found;
+  }
+  return null;
+}
+
 export function placeAdvert(
   gazetteer: Gazetteer,
   input: PlaceInput,
@@ -57,7 +105,8 @@ export function placeAdvert(
     location: atMost(input.location, FIELD_LIMITS.location),
     city: atMost(input.city, FIELD_LIMITS.city),
   };
-  const found = townOf(gazetteer, place);
+  const fromLocation = townOf(gazetteer, place);
+  const found = fromLocation ?? townFromText(gazetteer, place, input);
   if (!found) {
     // A place that names a region or a province but no town we know is in that area all the same.
     const area = areaOf(gazetteer, place, "", true);
@@ -74,6 +123,6 @@ export function placeAdvert(
       longitude: round(town.longitude),
     },
     nuts: town.nuts || null,
-    from: "location",
+    from: fromLocation ? "location" : "text",
   };
 }

@@ -4,6 +4,7 @@ import { readPlaces } from "../../src/shared/catalogues/places.js";
 import { readCatalogue } from "../../src/shared/catalogues/read-catalogue.js";
 import {
   compileGazetteer,
+  type CountryNames,
   type Gazetteer,
   type NutsTables,
 } from "../../src/features/places/gazetteer.js";
@@ -12,16 +13,21 @@ import {
 export function smallGazetteer(
   rows: readonly PlaceRow[],
   nuts: NutsTables = {},
+  countries: readonly CountryNames[] = [],
 ): Gazetteer {
-  return compileGazetteer(rows.map(placeOf), nuts);
+  return compileGazetteer(rows.map(placeOf), nuts, countries);
 }
 
 let real: Promise<Gazetteer> | undefined;
 
 // The gazetteer of the real catalogues, built once per test file.
 export function realGazetteer(): Promise<Gazetteer> {
-  real ??= Promise.all([readPlaces(), readCatalogue("nuts")]).then(
-    ([places, nuts]) => compileGazetteer(places, nuts),
+  real ??= Promise.all([
+    readPlaces(),
+    readCatalogue("nuts"),
+    readCatalogue("countries"),
+  ]).then(([places, nuts, { countries }]) =>
+    compileGazetteer(places, nuts, countries),
   );
   return real;
 }
