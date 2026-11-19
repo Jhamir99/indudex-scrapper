@@ -15,8 +15,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T003 — Names as the adverts write them** · FR: FR-2 · Depends: T002
       Done when: `written-names.ts` holds `writtenNames` and the parts of `names.mjs` it needs (`spelling`, `capsSpelling`, `apart`, `asName`, `calm`), and tests pass on legacy examples («Zeissgroup» → «ZEISS Group», «JACKSON HOGG» → «Jackson Hogg», «Manpower» stays, two adverts needed, a source's only one enough).
       2026-11-19: done. Extracted from the legacy's `names.mjs` (`letters`, `calm`, `spelling`, `apart`, `asName`, `capsSpelling`, `writtenNames`); `GLUED`, used only by `addressCode`, waits for 016 with it. Expected values are the legacy's own readings.
-- [ ] **T004 — Agencies** · FR: FR-4 · Depends: gate T011
+- [x] **T004 — Agencies** · FR: FR-4 · Depends: gate T011
       Done when: `agencies.ts` holds the legacy's words and brands (extracted), and tests pass on legacy examples in each language and on the golden set; «Siemens» is none.
+      2026-11-19: done. The legacy's `agencies.mjs` copied whole (its tests too). Its rule is built with `new RegExp` without the `u` flag, so `\p{L}` there is the characters p, {, L and }: kept as it read, with a comment.
 - [ ] **T005 — The employer reader** · FR: FR-1 to FR-4, FR-9 · Depends: T002, T003, T004
       Done when: `createEmployerReader(adverts)` gives each advert's `{ name, key, agency }` as the legacy's build did (the source's written names first, then `companyOfAdvert` and `spelledCompany`, then the town rule), tested on legacy examples, the same answer twice.
 
