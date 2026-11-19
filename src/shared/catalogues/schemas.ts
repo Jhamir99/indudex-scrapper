@@ -1,5 +1,5 @@
 import { z } from "@hono/zod-openapi";
-import { catalogueFile } from "./header.js";
+import { CatalogueHeader, catalogueFile } from "./header.js";
 
 // The languages the catalogues name things in (FR-5). A name missing in one of them is allowed:
 // the English `label` stands in for it.
@@ -172,3 +172,125 @@ export const Vetoes = catalogueFile({
   vetoes: positional(Veto, (veto) => veto.id),
 }).openapi("Vetoes");
 export type Vetoes = z.output<typeof Vetoes>;
+
+// ---- Internal catalogues: read by the processor, never published (FR-6). ----
+
+const Labels = z.strictObject({
+  label: Name,
+  es: Name,
+  ca: Name,
+  fr: Name,
+  nl: Name,
+  de: Name,
+  it: Name,
+  pl: Name,
+});
+
+// Short names of the business registers' activities, for the company cards: NACE Rev. 2
+// (sections, divisions and classes), the NACE Rev. 2.1 classes whose code means something else,
+// and the Spanish CNAE-2009's own classes.
+export const Activities = catalogueFile({
+  nace: z.record(z.string().regex(/^(?:[A-U]|\d{2,4})$/), Labels),
+  nace21: z.record(z.string().regex(/^\d{4}$/), Labels),
+  cnae: z.record(z.string().regex(/^\d{4}$/), Labels),
+});
+export type Activities = z.output<typeof Activities>;
+
+const TitlesByLanguage = z.record(LanguageCode, z.array(Name));
+
+const EscoOccupation = z.strictObject({
+  uri: z.url(),
+  title: Name,
+  code: EscoCode,
+  labels: TitlesByLanguage,
+  preferred: TitlesByLanguage,
+});
+
+// ISCO-08 through ESCO: the scope's minor groups, their unit groups, and every ESCO occupation
+// under them with its job titles per language.
+export const IscoTable = catalogueFile({
+  langs: z.array(LanguageCode).min(1),
+  groups: z.array(
+    z.strictObject({
+      code: IscoMinorGroup,
+      title: Name,
+      units: z.array(IscoUnit).min(1),
+    }),
+  ),
+  units: z.record(
+    IscoUnit,
+    z.strictObject({
+      title: Name,
+      group: IscoMinorGroup,
+      occupations: z.array(EscoOccupation),
+      labels: TitlesByLanguage,
+      preferred: TitlesByLanguage,
+    }),
+  ),
+  // Titles of neighbouring groups that are out, so a generic "engineer" never covers them.
+  blockers: z.record(
+    IscoUnit,
+    z.strictObject({ title: Name, labels: TitlesByLanguage }),
+  ),
+  // Both empty at import; their entries' shape is for the rebuild tool to state.
+  outside: z.record(z.string(), z.unknown()),
+  skipped: z.array(z.unknown()),
+});
+export type IscoTable = z.output<typeof IscoTable>;
+
+// JobTech's SSYK-2012 concepts and the ISCO-08 unit groups it relates them to, by concept id.
+export const SsykIsco = catalogueFile({
+  concepts: z.record(
+    z.string().min(1),
+    z.strictObject({
+      ssyk: z.string().regex(/^\d{4}$/),
+      label: Name,
+      isco: z.array(IscoUnit),
+    }),
+  ),
+});
+export type SsykIsco = z.output<typeof SsykIsco>;
+
+// Job titles from national statistics offices' coding indexes, per unit group and language.
+export const NationalTitles = catalogueFile({
+  sources: z.array(
+    z.strictObject({
+      id: Name,
+      lang: Name,
+      name: Name,
+      page: z.url(),
+      licence: Name,
+      titles: z.int().nonnegative(),
+      as_of: Name.optional(),
+    }),
+  ),
+  units: z.record(IscoUnit, TitlesByLanguage),
+  // The BA's search words, read only in the gate's last, German pass.
+  last_pass: z.record(IscoUnit, TitlesByLanguage),
+  // Words that, next to a kept title, put it in another occupation.
+  contexts: z.record(Name, z.array(Name)),
+  // ESCO's titles a national index files outside the scope.
+  not_ours: TitlesByLanguage,
+});
+export type NationalTitles = z.output<typeof NationalTitles>;
+
+// Titles the gate's rules left out that two models placed in a unit group of the scope.
+export const ConfirmedTitles = catalogueFile({
+  titles: z.record(Name, IscoUnit),
+});
+export type ConfirmedTitles = z.output<typeof ConfirmedTitles>;
+
+// Each site country's Wikidata item, by country code, next to the header.
+export const WikidataCountries = z
+  .object({ about: CatalogueHeader })
+  .catchall(z.string().regex(/^Q\d+$/, "a Wikidata item"))
+  .superRefine((catalogue, context) => {
+    for (const key of Object.keys(catalogue))
+      if (key !== "about" && !CountryCode.safeParse(key).success)
+        context.addIssue({
+          code: "custom",
+          message: "a lower-case ISO 3166-1 code",
+          path: [key],
+        });
+  });
+export type WikidataCountries = z.output<typeof WikidataCountries>;

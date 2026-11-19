@@ -1,0 +1,4446 @@
+{
+  "about": {
+    "description": "Short names of the registers’ activities, for the Index page’s company card: NACE Rev. 2 classes, divisions and sections (Sirene, and the Diputació de Barcelona’s census by CCAE), the NACE Rev. 2.1 classes whose code means something else (Brønnøysund, SN2025), and the Spanish CNAE-2009’s own classes. Written from the official titles (Statistics Norway’s Klass, in English, for NACE Rev. 2 and 2.1).",
+    "sources": [
+      {
+        "name": "Eurostat, NACE Rev. 2 and Rev. 2.1",
+        "url": "https://ec.europa.eu/eurostat/web/nace",
+        "licence": "© European Union; reuse authorised with the source acknowledged (Commission Decision 2011/833/EU)"
+      },
+      {
+        "name": "Statistics Norway, Klass (NACE Rev. 2 and 2.1 titles in English, SN2025)",
+        "url": "https://www.ssb.no/en/klass",
+        "licence": "CC BY 4.0"
+      },
+      {
+        "name": "Instituto Nacional de Estadística, CNAE-2009",
+        "url": "https://www.ine.es/",
+        "licence": "CC BY 4.0 (INE's legal notice), the INE named as source"
+      },
+      {
+        "name": "Indudex legacy project (JustJans/indudex), written by hand or by its tools",
+        "url": "https://github.com/JustJans/indudex",
+        "licence": "© 2026 JustJans and Jhamir99, all rights reserved (this repository's LICENSE)"
+      }
+    ],
+    "builtAt": "2026-11-15",
+    "builtBy": "by hand (legacy)",
+    "importedFrom": "JustJans/indudex@b0cd182"
+  },
+  "nace": {
+    "10": {
+      "label": "Food",
+      "es": "Alimentación",
+      "ca": "Alimentació",
+      "fr": "Alimentaire",
+      "nl": "Voeding",
+      "de": "Lebensmittel",
+      "it": "Alimentare",
+      "pl": "Żywność"
+    },
+    "11": {
+      "label": "Drinks",
+      "es": "Bebidas",
+      "ca": "Begudes",
+      "fr": "Boissons",
+      "nl": "Dranken",
+      "de": "Getränke",
+      "it": "Bevande",
+      "pl": "Napoje"
+    },
+    "12": {
+      "label": "Tobacco",
+      "es": "Tabaco",
+      "ca": "Tabac",
+      "fr": "Tabac",
+      "nl": "Tabak",
+      "de": "Tabak",
+      "it": "Tabacco",
+      "pl": "Tytoń"
+    },
+    "13": {
+      "label": "Textiles",
+      "es": "Textil",
+      "ca": "Tèxtil",
+      "fr": "Textile",
+      "nl": "Textiel",
+      "de": "Textilien",
+      "it": "Tessile",
+      "pl": "Tekstylia"
+    },
+    "14": {
+      "label": "Clothing",
+      "es": "Confección",
+      "ca": "Confecció",
+      "fr": "Habillement",
+      "nl": "Kleding",
+      "de": "Bekleidung",
+      "it": "Abbigliamento",
+      "pl": "Odzież"
+    },
+    "15": {
+      "label": "Leather and footwear",
+      "es": "Cuero y calzado",
+      "ca": "Cuir i calçat",
+      "fr": "Cuir et chaussures",
+      "nl": "Leer en schoenen",
+      "de": "Leder und Schuhe",
+      "it": "Pelle e calzature",
+      "pl": "Skóra i obuwie"
+    },
+    "16": {
+      "label": "Wood",
+      "es": "Madera",
+      "ca": "Fusta",
+      "fr": "Bois",
+      "nl": "Hout",
+      "de": "Holz",
+      "it": "Legno",
+      "pl": "Drewno"
+    },
+    "17": {
+      "label": "Paper",
+      "es": "Papel",
+      "ca": "Paper",
+      "fr": "Papier",
+      "nl": "Papier",
+      "de": "Papier",
+      "it": "Carta",
+      "pl": "Papier"
+    },
+    "18": {
+      "label": "Printing",
+      "es": "Artes gráficas",
+      "ca": "Arts gràfiques",
+      "fr": "Imprimerie",
+      "nl": "Drukkerijen",
+      "de": "Druckerei",
+      "it": "Stampa",
+      "pl": "Poligrafia"
+    },
+    "19": {
+      "label": "Oil refining",
+      "es": "Refino de petróleo",
+      "ca": "Refinació de petroli",
+      "fr": "Raffinage du pétrole",
+      "nl": "Olieraffinage",
+      "de": "Erdölverarbeitung",
+      "it": "Raffinazione del petrolio",
+      "pl": "Rafinacja ropy naftowej"
+    },
+    "20": {
+      "label": "Chemicals",
+      "es": "Química",
+      "ca": "Química",
+      "fr": "Chimie",
+      "nl": "Chemie",
+      "de": "Chemie",
+      "it": "Chimica",
+      "pl": "Chemikalia"
+    },
+    "21": {
+      "label": "Pharmaceuticals",
+      "es": "Farmacéutica",
+      "ca": "Farmacèutica",
+      "fr": "Pharmacie",
+      "nl": "Farmacie",
+      "de": "Pharmazie",
+      "it": "Farmaceutica",
+      "pl": "Farmaceutyki"
+    },
+    "22": {
+      "label": "Rubber and plastics",
+      "es": "Caucho y plásticos",
+      "ca": "Cautxú i plàstics",
+      "fr": "Caoutchouc et plastiques",
+      "nl": "Rubber en kunststof",
+      "de": "Gummi und Kunststoffe",
+      "it": "Gomma e plastica",
+      "pl": "Guma i tworzywa sztuczne"
+    },
+    "23": {
+      "label": "Glass, ceramics and concrete",
+      "es": "Vidrio, cerámica y hormigón",
+      "ca": "Vidre, ceràmica i formigó",
+      "fr": "Verre, céramique et béton",
+      "nl": "Glas, keramiek en beton",
+      "de": "Glas, Keramik und Beton",
+      "it": "Vetro, ceramica e calcestruzzo",
+      "pl": "Szkło, ceramika i beton"
+    },
+    "24": {
+      "label": "Metallurgy",
+      "es": "Metalurgia",
+      "ca": "Metal·lúrgia",
+      "fr": "Métallurgie",
+      "nl": "Metallurgie",
+      "de": "Metallerzeugung",
+      "it": "Metallurgia",
+      "pl": "Metalurgia"
+    },
+    "25": {
+      "label": "Metal products",
+      "es": "Productos metálicos",
+      "ca": "Productes metàl·lics",
+      "fr": "Produits métalliques",
+      "nl": "Metaalproducten",
+      "de": "Metallerzeugnisse",
+      "it": "Prodotti in metallo",
+      "pl": "Wyroby metalowe"
+    },
+    "26": {
+      "label": "Electronics",
+      "es": "Electrónica",
+      "ca": "Electrònica",
+      "fr": "Électronique",
+      "nl": "Elektronica",
+      "de": "Elektronik",
+      "it": "Elettronica",
+      "pl": "Elektronika"
+    },
+    "27": {
+      "label": "Electrical equipment",
+      "es": "Material eléctrico",
+      "ca": "Material elèctric",
+      "fr": "Équipements électriques",
+      "nl": "Elektrische apparatuur",
+      "de": "Elektrische Ausrüstung",
+      "it": "Apparecchiature elettriche",
+      "pl": "Urządzenia elektryczne"
+    },
+    "28": {
+      "label": "Machinery",
+      "es": "Maquinaria",
+      "ca": "Maquinària",
+      "fr": "Machines",
+      "nl": "Machinebouw",
+      "de": "Maschinenbau",
+      "it": "Macchinari",
+      "pl": "Maszyny"
+    },
+    "29": {
+      "label": "Motor vehicles",
+      "es": "Automoción",
+      "ca": "Automoció",
+      "fr": "Automobile",
+      "nl": "Auto-industrie",
+      "de": "Kraftfahrzeuge",
+      "it": "Autoveicoli",
+      "pl": "Pojazdy samochodowe"
+    },
+    "30": {
+      "label": "Ships, trains and aircraft",
+      "es": "Barcos, trenes y aviones",
+      "ca": "Vaixells, trens i avions",
+      "fr": "Navires, trains et avions",
+      "nl": "Schepen, treinen en vliegtuigen",
+      "de": "Schiffe, Züge und Flugzeuge",
+      "it": "Navi, treni e aerei",
+      "pl": "Statki, pociągi i samoloty"
+    },
+    "31": {
+      "label": "Furniture",
+      "es": "Muebles",
+      "ca": "Mobles",
+      "fr": "Meubles",
+      "nl": "Meubels",
+      "de": "Möbel",
+      "it": "Mobili",
+      "pl": "Meble"
+    },
+    "32": {
+      "label": "Other manufacturing",
+      "es": "Otras industrias",
+      "ca": "Altres indústries",
+      "fr": "Autres industries",
+      "nl": "Overige industrie",
+      "de": "Sonstige Industrie",
+      "it": "Altre industrie manifatturiere",
+      "pl": "Pozostała produkcja"
+    },
+    "33": {
+      "label": "Repair and installation",
+      "es": "Reparación e instalación",
+      "ca": "Reparació i instal·lació",
+      "fr": "Réparation et installation",
+      "nl": "Reparatie en installatie",
+      "de": "Reparatur und Installation",
+      "it": "Riparazione e installazione",
+      "pl": "Naprawy i instalowanie"
+    },
+    "35": {
+      "label": "Energy",
+      "es": "Energía",
+      "ca": "Energia",
+      "fr": "Énergie",
+      "nl": "Energie",
+      "de": "Energie",
+      "it": "Energia",
+      "pl": "Energetyka"
+    },
+    "36": {
+      "label": "Water supply",
+      "es": "Agua",
+      "ca": "Aigua",
+      "fr": "Distribution d'eau",
+      "nl": "Watervoorziening",
+      "de": "Wasserversorgung",
+      "it": "Fornitura di acqua",
+      "pl": "Dostawa wody"
+    },
+    "37": {
+      "label": "Sewerage",
+      "es": "Saneamiento",
+      "ca": "Sanejament",
+      "fr": "Assainissement",
+      "nl": "Riolering",
+      "de": "Abwasser",
+      "it": "Fognature",
+      "pl": "Kanalizacja"
+    },
+    "38": {
+      "label": "Waste and recycling",
+      "es": "Residuos y reciclaje",
+      "ca": "Residus i reciclatge",
+      "fr": "Déchets et recyclage",
+      "nl": "Afval en recycling",
+      "de": "Abfall und Recycling",
+      "it": "Rifiuti e riciclo",
+      "pl": "Odpady i recykling"
+    },
+    "39": {
+      "label": "Decontamination",
+      "es": "Descontaminación",
+      "ca": "Descontaminació",
+      "fr": "Dépollution",
+      "nl": "Sanering",
+      "de": "Sanierung",
+      "it": "Bonifica",
+      "pl": "Rekultywacja"
+    },
+    "41": {
+      "label": "Building",
+      "es": "Edificación",
+      "ca": "Edificació",
+      "fr": "Bâtiment",
+      "nl": "Bouw",
+      "de": "Hochbau",
+      "it": "Edilizia",
+      "pl": "Budownictwo"
+    },
+    "42": {
+      "label": "Civil engineering",
+      "es": "Obra civil",
+      "ca": "Obra civil",
+      "fr": "Génie civil",
+      "nl": "Grond-, weg- en waterbouw",
+      "de": "Tiefbau",
+      "it": "Ingegneria civile",
+      "pl": "Inżynieria lądowa"
+    },
+    "43": {
+      "label": "Building trades",
+      "es": "Instalaciones y acabados",
+      "ca": "Instal·lacions i acabats",
+      "fr": "Corps d'état du bâtiment",
+      "nl": "Bouwinstallatie en afwerking",
+      "de": "Ausbaugewerbe",
+      "it": "Lavori edili specializzati",
+      "pl": "Specjalistyczne roboty budowlane"
+    },
+    "50": {
+      "label": "Shipping",
+      "es": "Transporte marítimo",
+      "ca": "Transport marítim",
+      "fr": "Transport maritime",
+      "nl": "Scheepvaart",
+      "de": "Schifffahrt",
+      "it": "Trasporto marittimo",
+      "pl": "Transport wodny"
+    },
+    "51": {
+      "label": "Air transport",
+      "es": "Transporte aéreo",
+      "ca": "Transport aeri",
+      "fr": "Transport aérien",
+      "nl": "Luchtvaart",
+      "de": "Luftfahrt",
+      "it": "Trasporto aereo",
+      "pl": "Transport lotniczy"
+    },
+    "52": {
+      "label": "Port and airport services",
+      "es": "Servicios portuarios y aeroportuarios",
+      "ca": "Serveis portuaris i aeroportuaris",
+      "fr": "Services portuaires et aéroportuaires",
+      "nl": "Haven- en luchthavendiensten",
+      "de": "Hafen- und Flughafendienste",
+      "it": "Servizi portuali e aeroportuali",
+      "pl": "Usługi portowe i lotniskowe"
+    },
+    "58": {
+      "label": "Software",
+      "es": "Software",
+      "ca": "Programari",
+      "fr": "Logiciels",
+      "nl": "Software",
+      "de": "Software",
+      "it": "Software",
+      "pl": "Oprogramowanie"
+    },
+    "61": {
+      "label": "Telecoms",
+      "es": "Telecomunicaciones",
+      "ca": "Telecomunicacions",
+      "fr": "Télécoms",
+      "nl": "Telecom",
+      "de": "Telekommunikation",
+      "it": "Telecomunicazioni",
+      "pl": "Telekomunikacja"
+    },
+    "62": {
+      "label": "IT services",
+      "es": "Servicios informáticos",
+      "ca": "Serveis informàtics",
+      "fr": "Services informatiques",
+      "nl": "IT-diensten",
+      "de": "IT-Dienstleistungen",
+      "it": "Servizi informatici",
+      "pl": "Usługi informatyczne"
+    },
+    "63": {
+      "label": "Data and hosting",
+      "es": "Datos y alojamiento",
+      "ca": "Dades i allotjament",
+      "fr": "Données et hébergement",
+      "nl": "Data en hosting",
+      "de": "Daten und Hosting",
+      "it": "Dati e hosting",
+      "pl": "Dane i hosting"
+    },
+    "71": {
+      "label": "Architecture and engineering",
+      "es": "Arquitectura e ingeniería",
+      "ca": "Arquitectura i enginyeria",
+      "fr": "Architecture et ingénierie",
+      "nl": "Architectuur en engineering",
+      "de": "Architektur und Ingenieurwesen",
+      "it": "Architettura e ingegneria",
+      "pl": "Architektura i inżynieria"
+    },
+    "72": {
+      "label": "Research and development",
+      "es": "I+D",
+      "ca": "R+D",
+      "fr": "Recherche et développement",
+      "nl": "Onderzoek en ontwikkeling",
+      "de": "Forschung und Entwicklung",
+      "it": "Ricerca e sviluppo",
+      "pl": "Badania i rozwój"
+    },
+    "1011": {
+      "label": "Meat",
+      "es": "Cárnicas",
+      "ca": "Càrnies",
+      "fr": "Viande",
+      "nl": "Vlees",
+      "de": "Fleisch",
+      "it": "Carne",
+      "pl": "Mięso"
+    },
+    "1012": {
+      "label": "Poultry",
+      "es": "Aves",
+      "ca": "Aviram",
+      "fr": "Volaille",
+      "nl": "Pluimvee",
+      "de": "Geflügel",
+      "it": "Pollame",
+      "pl": "Drób"
+    },
+    "1013": {
+      "label": "Meat products",
+      "es": "Productos cárnicos",
+      "ca": "Productes carnis",
+      "fr": "Produits à base de viande",
+      "nl": "Vleeswaren",
+      "de": "Fleischwaren",
+      "it": "Prodotti a base di carne",
+      "pl": "Wyroby mięsne"
+    },
+    "1020": {
+      "label": "Fish and seafood",
+      "es": "Pescado y marisco",
+      "ca": "Peix i marisc",
+      "fr": "Poissons et fruits de mer",
+      "nl": "Vis en schaaldieren",
+      "de": "Fisch und Meeresfrüchte",
+      "it": "Pesce e frutti di mare",
+      "pl": "Ryby i owoce morza"
+    },
+    "1031": {
+      "label": "Potatoes",
+      "es": "Patatas",
+      "ca": "Patates",
+      "fr": "Pommes de terre",
+      "nl": "Aardappelen",
+      "de": "Kartoffeln",
+      "it": "Patate",
+      "pl": "Ziemniaki"
+    },
+    "1032": {
+      "label": "Fruit juice",
+      "es": "Zumos",
+      "ca": "Sucs",
+      "fr": "Jus de fruits",
+      "nl": "Vruchtensap",
+      "de": "Fruchtsaft",
+      "it": "Succhi di frutta",
+      "pl": "Soki owocowe"
+    },
+    "1039": {
+      "label": "Fruit and vegetables",
+      "es": "Frutas y hortalizas",
+      "ca": "Fruites i hortalisses",
+      "fr": "Fruits et légumes",
+      "nl": "Groenten en fruit",
+      "de": "Obst und Gemüse",
+      "it": "Frutta e verdura",
+      "pl": "Owoce i warzywa"
+    },
+    "1041": {
+      "label": "Oils and fats",
+      "es": "Aceites y grasas",
+      "ca": "Olis i greixos",
+      "fr": "Huiles et graisses",
+      "nl": "Oliën en vetten",
+      "de": "Öle und Fette",
+      "it": "Oli e grassi",
+      "pl": "Oleje i tłuszcze"
+    },
+    "1042": {
+      "label": "Margarine",
+      "es": "Margarina",
+      "ca": "Margarina",
+      "fr": "Margarine",
+      "nl": "Margarine",
+      "de": "Margarine",
+      "it": "Margarina",
+      "pl": "Margaryna"
+    },
+    "1051": {
+      "label": "Dairy and cheese",
+      "es": "Lácteos y quesos",
+      "ca": "Làctics i formatges",
+      "fr": "Produits laitiers et fromages",
+      "nl": "Zuivel en kaas",
+      "de": "Milchprodukte und Käse",
+      "it": "Latticini e formaggi",
+      "pl": "Mleczarstwo i sery"
+    },
+    "1052": {
+      "label": "Ice cream",
+      "es": "Helados",
+      "ca": "Gelats",
+      "fr": "Glaces",
+      "nl": "IJs",
+      "de": "Speiseeis",
+      "it": "Gelati",
+      "pl": "Lody"
+    },
+    "1061": {
+      "label": "Flour milling",
+      "es": "Harinas",
+      "ca": "Farines",
+      "fr": "Meunerie",
+      "nl": "Meelmaalderij",
+      "de": "Mühlen",
+      "it": "Molitura",
+      "pl": "Młynarstwo"
+    },
+    "1062": {
+      "label": "Starches",
+      "es": "Almidones",
+      "ca": "Midons",
+      "fr": "Amidons",
+      "nl": "Zetmeel",
+      "de": "Stärke",
+      "it": "Amidi",
+      "pl": "Skrobie"
+    },
+    "1071": {
+      "label": "Bakery",
+      "es": "Panadería",
+      "ca": "Fleca",
+      "fr": "Boulangerie",
+      "nl": "Bakkerij",
+      "de": "Backwaren",
+      "it": "Panetteria",
+      "pl": "Piekarstwo"
+    },
+    "1072": {
+      "label": "Biscuits and pastries",
+      "es": "Galletas y bollería",
+      "ca": "Galetes i brioixeria",
+      "fr": "Biscuits et pâtisseries",
+      "nl": "Koek en gebak",
+      "de": "Kekse und Feingebäck",
+      "it": "Biscotti e pasticceria",
+      "pl": "Herbatniki i ciastka"
+    },
+    "1073": {
+      "label": "Pasta",
+      "es": "Pasta",
+      "ca": "Pasta",
+      "fr": "Pâtes alimentaires",
+      "nl": "Pasta",
+      "de": "Teigwaren",
+      "it": "Pasta",
+      "pl": "Makarony"
+    },
+    "1081": {
+      "label": "Sugar",
+      "es": "Azúcar",
+      "ca": "Sucre",
+      "fr": "Sucre",
+      "nl": "Suiker",
+      "de": "Zucker",
+      "it": "Zucchero",
+      "pl": "Cukier"
+    },
+    "1082": {
+      "label": "Cocoa and chocolate",
+      "es": "Cacao y chocolate",
+      "ca": "Cacau i xocolata",
+      "fr": "Cacao et chocolat",
+      "nl": "Cacao en chocolade",
+      "de": "Kakao und Schokolade",
+      "it": "Cacao e cioccolato",
+      "pl": "Kakao i czekolada"
+    },
+    "1083": {
+      "label": "Tea and coffee",
+      "es": "Té y café",
+      "ca": "Te i cafè",
+      "fr": "Thé et café",
+      "nl": "Thee en koffie",
+      "de": "Tee und Kaffee",
+      "it": "Tè e caffè",
+      "pl": "Herbata i kawa"
+    },
+    "1084": {
+      "label": "Condiments",
+      "es": "Condimentos",
+      "ca": "Condiments",
+      "fr": "Condiments",
+      "nl": "Specerijen en sauzen",
+      "de": "Würzmittel",
+      "it": "Condimenti",
+      "pl": "Przyprawy"
+    },
+    "1085": {
+      "label": "Prepared meals",
+      "es": "Platos preparados",
+      "ca": "Plats preparats",
+      "fr": "Plats préparés",
+      "nl": "Kant-en-klaarmaaltijden",
+      "de": "Fertiggerichte",
+      "it": "Piatti pronti",
+      "pl": "Gotowe posiłki"
+    },
+    "1086": {
+      "label": "Baby and diet foods",
+      "es": "Alimentos infantiles y dietéticos",
+      "ca": "Aliments infantils i dietètics",
+      "fr": "Aliments pour bébés et diététiques",
+      "nl": "Baby- en dieetvoeding",
+      "de": "Baby- und Diätnahrung",
+      "it": "Alimenti per l’infanzia e dietetici",
+      "pl": "Żywność dla niemowląt i dietetyczna"
+    },
+    "1089": {
+      "label": "Food products",
+      "es": "Productos alimenticios",
+      "ca": "Productes alimentaris",
+      "fr": "Produits alimentaires",
+      "nl": "Voedingsmiddelen",
+      "de": "Lebensmittel",
+      "it": "Prodotti alimentari",
+      "pl": "Produkty spożywcze"
+    },
+    "1091": {
+      "label": "Animal feed",
+      "es": "Piensos",
+      "ca": "Pinsos",
+      "fr": "Aliments pour animaux",
+      "nl": "Diervoeder",
+      "de": "Futtermittel",
+      "it": "Mangimi",
+      "pl": "Pasze"
+    },
+    "1092": {
+      "label": "Pet food",
+      "es": "Comida para mascotas",
+      "ca": "Menjar per a mascotes",
+      "fr": "Aliments pour animaux de compagnie",
+      "nl": "Dierenvoeding",
+      "de": "Tiernahrung",
+      "it": "Alimenti per animali da compagnia",
+      "pl": "Karma dla zwierząt"
+    },
+    "1101": {
+      "label": "Spirits",
+      "es": "Licores",
+      "ca": "Licors",
+      "fr": "Spiritueux",
+      "nl": "Gedistilleerde dranken",
+      "de": "Spirituosen",
+      "it": "Distillati",
+      "pl": "Wyroby spirytusowe"
+    },
+    "1102": {
+      "label": "Wine",
+      "es": "Vino",
+      "ca": "Vi",
+      "fr": "Vin",
+      "nl": "Wijn",
+      "de": "Wein",
+      "it": "Vino",
+      "pl": "Wino"
+    },
+    "1103": {
+      "label": "Cider",
+      "es": "Sidra",
+      "ca": "Sidra",
+      "fr": "Cidre",
+      "nl": "Cider",
+      "de": "Apfelwein",
+      "it": "Sidro",
+      "pl": "Cydr"
+    },
+    "1104": {
+      "label": "Fermented drinks",
+      "es": "Bebidas fermentadas",
+      "ca": "Begudes fermentades",
+      "fr": "Boissons fermentées",
+      "nl": "Gefermenteerde dranken",
+      "de": "Gegorene Getränke",
+      "it": "Bevande fermentate",
+      "pl": "Napoje fermentowane"
+    },
+    "1105": {
+      "label": "Beer",
+      "es": "Cerveza",
+      "ca": "Cervesa",
+      "fr": "Bière",
+      "nl": "Bier",
+      "de": "Bier",
+      "it": "Birra",
+      "pl": "Piwo"
+    },
+    "1106": {
+      "label": "Malt",
+      "es": "Malta",
+      "ca": "Malt",
+      "fr": "Malt",
+      "nl": "Mout",
+      "de": "Malz",
+      "it": "Malto",
+      "pl": "Słód"
+    },
+    "1107": {
+      "label": "Soft drinks and water",
+      "es": "Refrescos y agua",
+      "ca": "Refrescos i aigua",
+      "fr": "Boissons rafraîchissantes et eaux",
+      "nl": "Frisdrank en water",
+      "de": "Erfrischungsgetränke und Wasser",
+      "it": "Bibite e acque minerali",
+      "pl": "Napoje bezalkoholowe i woda"
+    },
+    "1200": {
+      "label": "Tobacco",
+      "es": "Tabaco",
+      "ca": "Tabac",
+      "fr": "Tabac",
+      "nl": "Tabak",
+      "de": "Tabak",
+      "it": "Tabacco",
+      "pl": "Tytoń"
+    },
+    "1310": {
+      "label": "Spinning",
+      "es": "Hilatura",
+      "ca": "Filatura",
+      "fr": "Filature",
+      "nl": "Spinnerij",
+      "de": "Spinnerei",
+      "it": "Filatura",
+      "pl": "Przędzalnictwo"
+    },
+    "1320": {
+      "label": "Weaving",
+      "es": "Tejeduría",
+      "ca": "Teixidoria",
+      "fr": "Tissage",
+      "nl": "Weverij",
+      "de": "Weberei",
+      "it": "Tessitura",
+      "pl": "Tkactwo"
+    },
+    "1330": {
+      "label": "Textile finishing",
+      "es": "Acabado textil",
+      "ca": "Acabat tèxtil",
+      "fr": "Ennoblissement textile",
+      "nl": "Textielveredeling",
+      "de": "Textilveredlung",
+      "it": "Finissaggio tessile",
+      "pl": "Wykańczanie tekstyliów"
+    },
+    "1391": {
+      "label": "Knitted fabrics",
+      "es": "Tejidos de punto",
+      "ca": "Teixits de punt",
+      "fr": "Étoffes à mailles",
+      "nl": "Gebreide stoffen",
+      "de": "Maschenware",
+      "it": "Tessuti a maglia",
+      "pl": "Dzianiny"
+    },
+    "1392": {
+      "label": "Home textiles",
+      "es": "Textil para el hogar",
+      "ca": "Tèxtil per a la llar",
+      "fr": "Linge de maison",
+      "nl": "Huishoudtextiel",
+      "de": "Heimtextilien",
+      "it": "Tessili per la casa",
+      "pl": "Tekstylia domowe"
+    },
+    "1393": {
+      "label": "Carpets",
+      "es": "Alfombras",
+      "ca": "Catifes",
+      "fr": "Tapis",
+      "nl": "Tapijt",
+      "de": "Teppiche",
+      "it": "Tappeti",
+      "pl": "Dywany"
+    },
+    "1394": {
+      "label": "Rope and nets",
+      "es": "Cuerdas y redes",
+      "ca": "Cordes i xarxes",
+      "fr": "Cordages et filets",
+      "nl": "Touw en netten",
+      "de": "Seile und Netze",
+      "it": "Corde e reti",
+      "pl": "Liny i sieci"
+    },
+    "1395": {
+      "label": "Non-wovens",
+      "es": "Telas no tejidas",
+      "ca": "Teles no teixides",
+      "fr": "Non-tissés",
+      "nl": "Non-wovens",
+      "de": "Vliesstoffe",
+      "it": "Tessuti non tessuti",
+      "pl": "Włókniny"
+    },
+    "1396": {
+      "label": "Technical textiles",
+      "es": "Textiles técnicos",
+      "ca": "Tèxtils tècnics",
+      "fr": "Textiles techniques",
+      "nl": "Technisch textiel",
+      "de": "Technische Textilien",
+      "it": "Tessili tecnici",
+      "pl": "Tekstylia techniczne"
+    },
+    "1399": {
+      "label": "Textiles",
+      "es": "Textil",
+      "ca": "Tèxtil",
+      "fr": "Textile",
+      "nl": "Textiel",
+      "de": "Textilien",
+      "it": "Tessile",
+      "pl": "Tekstylia"
+    },
+    "1411": {
+      "label": "Leather clothing",
+      "es": "Prendas de cuero",
+      "ca": "Peces de cuir",
+      "fr": "Vêtements en cuir",
+      "nl": "Lederen kleding",
+      "de": "Lederbekleidung",
+      "it": "Abbigliamento in pelle",
+      "pl": "Odzież skórzana"
+    },
+    "1412": {
+      "label": "Workwear",
+      "es": "Ropa de trabajo",
+      "ca": "Roba de treball",
+      "fr": "Vêtements de travail",
+      "nl": "Werkkleding",
+      "de": "Arbeitskleidung",
+      "it": "Abbigliamento da lavoro",
+      "pl": "Odzież robocza"
+    },
+    "1413": {
+      "label": "Outerwear",
+      "es": "Prendas exteriores",
+      "ca": "Peces exteriors",
+      "fr": "Vêtements de dessus",
+      "nl": "Bovenkleding",
+      "de": "Oberbekleidung",
+      "it": "Capispalla",
+      "pl": "Odzież wierzchnia"
+    },
+    "1414": {
+      "label": "Underwear",
+      "es": "Ropa interior",
+      "ca": "Roba interior",
+      "fr": "Sous-vêtements",
+      "nl": "Ondergoed",
+      "de": "Unterwäsche",
+      "it": "Biancheria intima",
+      "pl": "Bielizna"
+    },
+    "1419": {
+      "label": "Clothing",
+      "es": "Confección",
+      "ca": "Confecció",
+      "fr": "Habillement",
+      "nl": "Kleding",
+      "de": "Bekleidung",
+      "it": "Abbigliamento",
+      "pl": "Odzież"
+    },
+    "1420": {
+      "label": "Fur",
+      "es": "Peletería",
+      "ca": "Pelleteria",
+      "fr": "Fourrure",
+      "nl": "Bont",
+      "de": "Pelze",
+      "it": "Pellicceria",
+      "pl": "Futra"
+    },
+    "1431": {
+      "label": "Hosiery",
+      "es": "Calcetería",
+      "ca": "Mitgeria",
+      "fr": "Bonneterie",
+      "nl": "Kousen en sokken",
+      "de": "Strumpfwaren",
+      "it": "Calzetteria",
+      "pl": "Wyroby pończosznicze"
+    },
+    "1439": {
+      "label": "Knitwear",
+      "es": "Géneros de punto",
+      "ca": "Gèneres de punt",
+      "fr": "Maille",
+      "nl": "Breigoed",
+      "de": "Strickwaren",
+      "it": "Maglieria",
+      "pl": "Odzież dziana"
+    },
+    "1511": {
+      "label": "Leather tanning",
+      "es": "Curtidos",
+      "ca": "Adobats",
+      "fr": "Tannerie",
+      "nl": "Leerlooierij",
+      "de": "Gerberei",
+      "it": "Concia",
+      "pl": "Garbarstwo"
+    },
+    "1512": {
+      "label": "Leather goods",
+      "es": "Marroquinería",
+      "ca": "Marroquineria",
+      "fr": "Maroquinerie",
+      "nl": "Lederwaren",
+      "de": "Lederwaren",
+      "it": "Pelletteria",
+      "pl": "Wyroby skórzane"
+    },
+    "1520": {
+      "label": "Footwear",
+      "es": "Calzado",
+      "ca": "Calçat",
+      "fr": "Chaussures",
+      "nl": "Schoeisel",
+      "de": "Schuhe",
+      "it": "Calzature",
+      "pl": "Obuwie"
+    },
+    "1610": {
+      "label": "Sawmills",
+      "es": "Aserraderos",
+      "ca": "Serradores",
+      "fr": "Scieries",
+      "nl": "Zagerijen",
+      "de": "Sägewerke",
+      "it": "Segherie",
+      "pl": "Tartaki"
+    },
+    "1621": {
+      "label": "Wood panels",
+      "es": "Tableros de madera",
+      "ca": "Taulers de fusta",
+      "fr": "Panneaux de bois",
+      "nl": "Houtplaten",
+      "de": "Holzwerkstoffplatten",
+      "it": "Pannelli di legno",
+      "pl": "Płyty drewnopochodne"
+    },
+    "1622": {
+      "label": "Parquet",
+      "es": "Parqué",
+      "ca": "Parquet",
+      "fr": "Parquet",
+      "nl": "Parket",
+      "de": "Parkett",
+      "it": "Parquet",
+      "pl": "Parkiet"
+    },
+    "1623": {
+      "label": "Carpentry and joinery",
+      "es": "Carpintería",
+      "ca": "Fusteria",
+      "fr": "Charpenterie et menuiserie",
+      "nl": "Timmerwerk en schrijnwerk",
+      "de": "Zimmerei und Tischlerei",
+      "it": "Carpenteria e falegnameria",
+      "pl": "Stolarka budowlana"
+    },
+    "1624": {
+      "label": "Pallets and crates",
+      "es": "Palés y envases de madera",
+      "ca": "Palets i envasos de fusta",
+      "fr": "Palettes et caisses",
+      "nl": "Pallets en kisten",
+      "de": "Paletten und Kisten",
+      "it": "Pallet e casse",
+      "pl": "Palety i skrzynie"
+    },
+    "1629": {
+      "label": "Wood products",
+      "es": "Productos de madera",
+      "ca": "Productes de fusta",
+      "fr": "Produits en bois",
+      "nl": "Houtproducten",
+      "de": "Holzprodukte",
+      "it": "Prodotti in legno",
+      "pl": "Wyroby z drewna"
+    },
+    "1711": {
+      "label": "Pulp",
+      "es": "Pasta de papel",
+      "ca": "Pasta de paper",
+      "fr": "Pâte à papier",
+      "nl": "Pulp",
+      "de": "Zellstoff",
+      "it": "Pasta per carta",
+      "pl": "Masa celulozowa"
+    },
+    "1712": {
+      "label": "Paper and board",
+      "es": "Papel y cartón",
+      "ca": "Paper i cartró",
+      "fr": "Papier et carton",
+      "nl": "Papier en karton",
+      "de": "Papier und Pappe",
+      "it": "Carta e cartone",
+      "pl": "Papier i tektura"
+    },
+    "1721": {
+      "label": "Cardboard packaging",
+      "es": "Cartón y envases",
+      "ca": "Cartró i envasos",
+      "fr": "Emballages en carton",
+      "nl": "Kartonnen verpakkingen",
+      "de": "Kartonverpackungen",
+      "it": "Imballaggi in cartone",
+      "pl": "Opakowania tekturowe"
+    },
+    "1722": {
+      "label": "Hygiene paper",
+      "es": "Papel higiénico y sanitario",
+      "ca": "Paper higiènic i sanitari",
+      "fr": "Papier d'hygiène",
+      "nl": "Hygiënisch papier",
+      "de": "Hygienepapier",
+      "it": "Carta igienica e per la casa",
+      "pl": "Papier higieniczny"
+    },
+    "1723": {
+      "label": "Stationery",
+      "es": "Papelería",
+      "ca": "Papereria",
+      "fr": "Papeterie",
+      "nl": "Kantoorartikelen",
+      "de": "Schreibwaren",
+      "it": "Cartoleria",
+      "pl": "Artykuły papiernicze"
+    },
+    "1724": {
+      "label": "Wallpaper",
+      "es": "Papel pintado",
+      "ca": "Paper pintat",
+      "fr": "Papier peint",
+      "nl": "Behang",
+      "de": "Tapeten",
+      "it": "Carta da parati",
+      "pl": "Tapety"
+    },
+    "1729": {
+      "label": "Paper products",
+      "es": "Artículos de papel",
+      "ca": "Articles de paper",
+      "fr": "Articles en papier",
+      "nl": "Papierwaren",
+      "de": "Papierwaren",
+      "it": "Prodotti di carta",
+      "pl": "Wyroby z papieru"
+    },
+    "1811": {
+      "label": "Newspaper printing",
+      "es": "Impresión de periódicos",
+      "ca": "Impressió de diaris",
+      "fr": "Impression de journaux",
+      "nl": "Krantendrukkerij",
+      "de": "Zeitungsdruck",
+      "it": "Stampa di giornali",
+      "pl": "Druk gazet"
+    },
+    "1812": {
+      "label": "Printing",
+      "es": "Imprenta",
+      "ca": "Impremta",
+      "fr": "Imprimerie",
+      "nl": "Drukkerij",
+      "de": "Druckerei",
+      "it": "Stampa",
+      "pl": "Poligrafia"
+    },
+    "1813": {
+      "label": "Pre-press",
+      "es": "Preimpresión",
+      "ca": "Preimpressió",
+      "fr": "Prépresse",
+      "nl": "Prepress",
+      "de": "Druckvorstufe",
+      "it": "Prestampa",
+      "pl": "Przygotowanie do druku"
+    },
+    "1814": {
+      "label": "Binding",
+      "es": "Encuadernación",
+      "ca": "Enquadernació",
+      "fr": "Reliure",
+      "nl": "Boekbinderij",
+      "de": "Buchbinderei",
+      "it": "Legatoria",
+      "pl": "Introligatorstwo"
+    },
+    "1820": {
+      "label": "Media copying",
+      "es": "Reproducción de soportes",
+      "ca": "Reproducció de suports",
+      "fr": "Reproduction de supports",
+      "nl": "Kopiëren van media",
+      "de": "Vervielfältigung von Datenträgern",
+      "it": "Riproduzione di supporti",
+      "pl": "Powielanie nośników"
+    },
+    "1920": {
+      "label": "Oil refining",
+      "es": "Refino de petróleo",
+      "ca": "Refinació de petroli",
+      "fr": "Raffinage du pétrole",
+      "nl": "Olieraffinage",
+      "de": "Erdölraffination",
+      "it": "Raffinazione del petrolio",
+      "pl": "Rafinacja ropy naftowej"
+    },
+    "2011": {
+      "label": "Industrial gases",
+      "es": "Gases industriales",
+      "ca": "Gasos industrials",
+      "fr": "Gaz industriels",
+      "nl": "Industriële gassen",
+      "de": "Industriegase",
+      "it": "Gas industriali",
+      "pl": "Gazy techniczne"
+    },
+    "2012": {
+      "label": "Dyes and pigments",
+      "es": "Tintes y pigmentos",
+      "ca": "Tints i pigments",
+      "fr": "Colorants et pigments",
+      "nl": "Kleurstoffen en pigmenten",
+      "de": "Farbstoffe und Pigmente",
+      "it": "Coloranti e pigmenti",
+      "pl": "Barwniki i pigmenty"
+    },
+    "2013": {
+      "label": "Inorganic chemicals",
+      "es": "Química inorgánica",
+      "ca": "Química inorgànica",
+      "fr": "Chimie inorganique",
+      "nl": "Anorganische chemie",
+      "de": "Anorganische Chemie",
+      "it": "Chimica inorganica",
+      "pl": "Chemikalia nieorganiczne"
+    },
+    "2014": {
+      "label": "Organic chemicals",
+      "es": "Química orgánica",
+      "ca": "Química orgànica",
+      "fr": "Chimie organique",
+      "nl": "Organische chemie",
+      "de": "Organische Chemie",
+      "it": "Chimica organica",
+      "pl": "Chemikalia organiczne"
+    },
+    "2015": {
+      "label": "Fertilisers",
+      "es": "Fertilizantes",
+      "ca": "Fertilitzants",
+      "fr": "Engrais",
+      "nl": "Meststoffen",
+      "de": "Düngemittel",
+      "it": "Fertilizzanti",
+      "pl": "Nawozy"
+    },
+    "2016": {
+      "label": "Plastics",
+      "es": "Plásticos",
+      "ca": "Plàstics",
+      "fr": "Matières plastiques",
+      "nl": "Kunststoffen",
+      "de": "Kunststoffe",
+      "it": "Materie plastiche",
+      "pl": "Tworzywa sztuczne"
+    },
+    "2017": {
+      "label": "Synthetic rubber",
+      "es": "Caucho sintético",
+      "ca": "Cautxú sintètic",
+      "fr": "Caoutchouc synthétique",
+      "nl": "Synthetisch rubber",
+      "de": "Synthesekautschuk",
+      "it": "Gomma sintetica",
+      "pl": "Kauczuk syntetyczny"
+    },
+    "2020": {
+      "label": "Agrochemicals",
+      "es": "Agroquímicos",
+      "ca": "Agroquímics",
+      "fr": "Produits agrochimiques",
+      "nl": "Agrochemicaliën",
+      "de": "Agrochemikalien",
+      "it": "Agrochimici",
+      "pl": "Agrochemikalia"
+    },
+    "2030": {
+      "label": "Paints and varnishes",
+      "es": "Pinturas y barnices",
+      "ca": "Pintures i vernissos",
+      "fr": "Peintures et vernis",
+      "nl": "Verf en vernis",
+      "de": "Farben und Lacke",
+      "it": "Pitture e vernici",
+      "pl": "Farby i lakiery"
+    },
+    "2041": {
+      "label": "Soaps and detergents",
+      "es": "Jabones y detergentes",
+      "ca": "Sabons i detergents",
+      "fr": "Savons et détergents",
+      "nl": "Zeep en wasmiddelen",
+      "de": "Seifen und Waschmittel",
+      "it": "Saponi e detergenti",
+      "pl": "Mydła i detergenty"
+    },
+    "2042": {
+      "label": "Perfumes and cosmetics",
+      "es": "Perfumes y cosmética",
+      "ca": "Perfums i cosmètica",
+      "fr": "Parfums et cosmétiques",
+      "nl": "Parfum en cosmetica",
+      "de": "Parfüm und Kosmetik",
+      "it": "Profumi e cosmetici",
+      "pl": "Perfumy i kosmetyki"
+    },
+    "2051": {
+      "label": "Explosives",
+      "es": "Explosivos",
+      "ca": "Explosius",
+      "fr": "Explosifs",
+      "nl": "Explosieven",
+      "de": "Sprengstoffe",
+      "it": "Esplosivi",
+      "pl": "Materiały wybuchowe"
+    },
+    "2052": {
+      "label": "Glues",
+      "es": "Colas y adhesivos",
+      "ca": "Coles i adhesius",
+      "fr": "Colles",
+      "nl": "Lijmen",
+      "de": "Klebstoffe",
+      "it": "Colle",
+      "pl": "Kleje"
+    },
+    "2053": {
+      "label": "Essential oils",
+      "es": "Aceites esenciales",
+      "ca": "Olis essencials",
+      "fr": "Huiles essentielles",
+      "nl": "Etherische oliën",
+      "de": "Ätherische Öle",
+      "it": "Oli essenziali",
+      "pl": "Olejki eteryczne"
+    },
+    "2059": {
+      "label": "Chemical products",
+      "es": "Productos químicos",
+      "ca": "Productes químics",
+      "fr": "Produits chimiques",
+      "nl": "Chemische producten",
+      "de": "Chemische Erzeugnisse",
+      "it": "Prodotti chimici",
+      "pl": "Wyroby chemiczne"
+    },
+    "2060": {
+      "label": "Synthetic fibres",
+      "es": "Fibras sintéticas",
+      "ca": "Fibres sintètiques",
+      "fr": "Fibres synthétiques",
+      "nl": "Synthetische vezels",
+      "de": "Chemiefasern",
+      "it": "Fibre sintetiche",
+      "pl": "Włókna syntetyczne"
+    },
+    "2110": {
+      "label": "Pharmaceuticals",
+      "es": "Farmacéutica",
+      "ca": "Farmacèutica",
+      "fr": "Industrie pharmaceutique",
+      "nl": "Farmaceutica",
+      "de": "Pharmaindustrie",
+      "it": "Farmaceutica",
+      "pl": "Farmaceutyki"
+    },
+    "2120": {
+      "label": "Medicines",
+      "es": "Medicamentos",
+      "ca": "Medicaments",
+      "fr": "Médicaments",
+      "nl": "Geneesmiddelen",
+      "de": "Arzneimittel",
+      "it": "Medicinali",
+      "pl": "Leki"
+    },
+    "2211": {
+      "label": "Tyres",
+      "es": "Neumáticos",
+      "ca": "Pneumàtics",
+      "fr": "Pneumatiques",
+      "nl": "Banden",
+      "de": "Reifen",
+      "it": "Pneumatici",
+      "pl": "Opony"
+    },
+    "2219": {
+      "label": "Rubber products",
+      "es": "Productos de caucho",
+      "ca": "Productes de cautxú",
+      "fr": "Produits en caoutchouc",
+      "nl": "Rubberproducten",
+      "de": "Gummiwaren",
+      "it": "Prodotti in gomma",
+      "pl": "Wyroby gumowe"
+    },
+    "2221": {
+      "label": "Plastic sheets and pipes",
+      "es": "Placas y tubos de plástico",
+      "ca": "Plaques i tubs de plàstic",
+      "fr": "Plaques et tubes en plastique",
+      "nl": "Kunststof platen en buizen",
+      "de": "Kunststoffplatten und -rohre",
+      "it": "Lastre e tubi in plastica",
+      "pl": "Płyty i rury z tworzyw"
+    },
+    "2222": {
+      "label": "Plastic packaging",
+      "es": "Envases de plástico",
+      "ca": "Envasos de plàstic",
+      "fr": "Emballages en plastique",
+      "nl": "Kunststof verpakkingen",
+      "de": "Kunststoffverpackungen",
+      "it": "Imballaggi in plastica",
+      "pl": "Opakowania z tworzyw"
+    },
+    "2223": {
+      "label": "Plastic building products",
+      "es": "Plásticos para la construcción",
+      "ca": "Plàstics per a la construcció",
+      "fr": "Plastiques pour le bâtiment",
+      "nl": "Kunststof bouwproducten",
+      "de": "Baubedarf aus Kunststoff",
+      "it": "Prodotti in plastica per l’edilizia",
+      "pl": "Wyroby z tworzyw dla budownictwa"
+    },
+    "2229": {
+      "label": "Plastic products",
+      "es": "Productos de plástico",
+      "ca": "Productes de plàstic",
+      "fr": "Produits en plastique",
+      "nl": "Kunststofproducten",
+      "de": "Kunststoffwaren",
+      "it": "Prodotti in plastica",
+      "pl": "Wyroby z tworzyw sztucznych"
+    },
+    "2311": {
+      "label": "Flat glass",
+      "es": "Vidrio plano",
+      "ca": "Vidre pla",
+      "fr": "Verre plat",
+      "nl": "Vlakglas",
+      "de": "Flachglas",
+      "it": "Vetro piano",
+      "pl": "Szkło płaskie"
+    },
+    "2312": {
+      "label": "Glass processing",
+      "es": "Transformación del vidrio",
+      "ca": "Transformació del vidre",
+      "fr": "Transformation du verre",
+      "nl": "Glasbewerking",
+      "de": "Glasveredelung",
+      "it": "Lavorazione del vetro",
+      "pl": "Obróbka szkła"
+    },
+    "2313": {
+      "label": "Glass containers",
+      "es": "Vidrio hueco",
+      "ca": "Vidre buit",
+      "fr": "Verre creux",
+      "nl": "Hol glas",
+      "de": "Hohlglas",
+      "it": "Contenitori in vetro",
+      "pl": "Opakowania szklane"
+    },
+    "2314": {
+      "label": "Glass fibre",
+      "es": "Fibra de vidrio",
+      "ca": "Fibra de vidre",
+      "fr": "Fibre de verre",
+      "nl": "Glasvezel",
+      "de": "Glasfasern",
+      "it": "Fibra di vetro",
+      "pl": "Włókno szklane"
+    },
+    "2319": {
+      "label": "Technical glass",
+      "es": "Vidrio técnico",
+      "ca": "Vidre tècnic",
+      "fr": "Verre technique",
+      "nl": "Technisch glas",
+      "de": "Technisches Glas",
+      "it": "Vetro tecnico",
+      "pl": "Szkło techniczne"
+    },
+    "2320": {
+      "label": "Refractories",
+      "es": "Refractarios",
+      "ca": "Refractaris",
+      "fr": "Réfractaires",
+      "nl": "Vuurvaste producten",
+      "de": "Feuerfeste Erzeugnisse",
+      "it": "Refrattari",
+      "pl": "Materiały ogniotrwałe"
+    },
+    "2331": {
+      "label": "Ceramic tiles",
+      "es": "Baldosas cerámicas",
+      "ca": "Rajoles ceràmiques",
+      "fr": "Carreaux céramiques",
+      "nl": "Keramische tegels",
+      "de": "Keramische Fliesen",
+      "it": "Piastrelle",
+      "pl": "Płytki ceramiczne"
+    },
+    "2332": {
+      "label": "Bricks and tiles",
+      "es": "Ladrillos y tejas",
+      "ca": "Maons i teules",
+      "fr": "Briques et tuiles",
+      "nl": "Bakstenen en dakpannen",
+      "de": "Ziegel",
+      "it": "Laterizi",
+      "pl": "Cegły i dachówki"
+    },
+    "2341": {
+      "label": "Pottery",
+      "es": "Cerámica doméstica",
+      "ca": "Ceràmica domèstica",
+      "fr": "Céramique domestique",
+      "nl": "Aardewerk",
+      "de": "Haushaltskeramik",
+      "it": "Ceramica artistica",
+      "pl": "Wyroby ceramiczne"
+    },
+    "2342": {
+      "label": "Sanitary ware",
+      "es": "Sanitarios",
+      "ca": "Sanitaris",
+      "fr": "Sanitaires",
+      "nl": "Sanitair",
+      "de": "Sanitärkeramik",
+      "it": "Sanitari",
+      "pl": "Ceramika sanitarna"
+    },
+    "2343": {
+      "label": "Ceramic insulators",
+      "es": "Aisladores cerámicos",
+      "ca": "Aïlladors ceràmics",
+      "fr": "Isolateurs en céramique",
+      "nl": "Keramische isolatoren",
+      "de": "Keramische Isolatoren",
+      "it": "Isolatori in ceramica",
+      "pl": "Izolatory ceramiczne"
+    },
+    "2344": {
+      "label": "Technical ceramics",
+      "es": "Cerámica técnica",
+      "ca": "Ceràmica tècnica",
+      "fr": "Céramique technique",
+      "nl": "Technische keramiek",
+      "de": "Technische Keramik",
+      "it": "Ceramica tecnica",
+      "pl": "Ceramika techniczna"
+    },
+    "2349": {
+      "label": "Ceramics",
+      "es": "Cerámica",
+      "ca": "Ceràmica",
+      "fr": "Céramique",
+      "nl": "Keramiek",
+      "de": "Keramik",
+      "it": "Ceramica",
+      "pl": "Ceramika"
+    },
+    "2351": {
+      "label": "Cement",
+      "es": "Cemento",
+      "ca": "Ciment",
+      "fr": "Ciment",
+      "nl": "Cement",
+      "de": "Zement",
+      "it": "Cemento",
+      "pl": "Cement"
+    },
+    "2352": {
+      "label": "Lime and plaster",
+      "es": "Cal y yeso",
+      "ca": "Calç i guix",
+      "fr": "Chaux et plâtre",
+      "nl": "Kalk en gips",
+      "de": "Kalk und Gips",
+      "it": "Calce e gesso",
+      "pl": "Wapno i gips"
+    },
+    "2361": {
+      "label": "Concrete products",
+      "es": "Prefabricados de hormigón",
+      "ca": "Prefabricats de formigó",
+      "fr": "Produits en béton",
+      "nl": "Betonproducten",
+      "de": "Betonerzeugnisse",
+      "it": "Prodotti in calcestruzzo",
+      "pl": "Wyroby z betonu"
+    },
+    "2362": {
+      "label": "Plaster products",
+      "es": "Productos de yeso",
+      "ca": "Productes de guix",
+      "fr": "Produits en plâtre",
+      "nl": "Gipsproducten",
+      "de": "Gipserzeugnisse",
+      "it": "Prodotti in gesso",
+      "pl": "Wyroby gipsowe"
+    },
+    "2363": {
+      "label": "Ready-mixed concrete",
+      "es": "Hormigón",
+      "ca": "Formigó",
+      "fr": "Béton prêt à l'emploi",
+      "nl": "Stortklaar beton",
+      "de": "Transportbeton",
+      "it": "Calcestruzzo preconfezionato",
+      "pl": "Beton towarowy"
+    },
+    "2364": {
+      "label": "Mortar",
+      "es": "Mortero",
+      "ca": "Morter",
+      "fr": "Mortier",
+      "nl": "Mortel",
+      "de": "Mörtel",
+      "it": "Malta",
+      "pl": "Zaprawy"
+    },
+    "2365": {
+      "label": "Fibre cement",
+      "es": "Fibrocemento",
+      "ca": "Fibrociment",
+      "fr": "Fibrociment",
+      "nl": "Vezelcement",
+      "de": "Faserzement",
+      "it": "Fibrocemento",
+      "pl": "Włóknocement"
+    },
+    "2369": {
+      "label": "Concrete and plaster",
+      "es": "Hormigón y yeso",
+      "ca": "Formigó i guix",
+      "fr": "Béton et plâtre",
+      "nl": "Beton en gips",
+      "de": "Beton und Gips",
+      "it": "Calcestruzzo e gesso",
+      "pl": "Beton i gips"
+    },
+    "2370": {
+      "label": "Stone cutting",
+      "es": "Piedra natural",
+      "ca": "Pedra natural",
+      "fr": "Taille de pierre",
+      "nl": "Natuursteenbewerking",
+      "de": "Natursteinbearbeitung",
+      "it": "Taglio della pietra",
+      "pl": "Obróbka kamienia"
+    },
+    "2391": {
+      "label": "Abrasives",
+      "es": "Abrasivos",
+      "ca": "Abrasius",
+      "fr": "Abrasifs",
+      "nl": "Schuurmiddelen",
+      "de": "Schleifmittel",
+      "it": "Abrasivi",
+      "pl": "Materiały ścierne"
+    },
+    "2399": {
+      "label": "Mineral products",
+      "es": "Productos minerales",
+      "ca": "Productes minerals",
+      "fr": "Produits minéraux",
+      "nl": "Minerale producten",
+      "de": "Mineralische Erzeugnisse",
+      "it": "Prodotti minerali",
+      "pl": "Wyroby mineralne"
+    },
+    "2410": {
+      "label": "Iron and steel",
+      "es": "Siderurgia",
+      "ca": "Siderúrgia",
+      "fr": "Sidérurgie",
+      "nl": "IJzer en staal",
+      "de": "Eisen und Stahl",
+      "it": "Siderurgia",
+      "pl": "Hutnictwo żelaza i stali"
+    },
+    "2420": {
+      "label": "Steel tubes",
+      "es": "Tubos de acero",
+      "ca": "Tubs d'acer",
+      "fr": "Tubes en acier",
+      "nl": "Stalen buizen",
+      "de": "Stahlrohre",
+      "it": "Tubi in acciaio",
+      "pl": "Rury stalowe"
+    },
+    "2431": {
+      "label": "Bar drawing",
+      "es": "Estirado de barras",
+      "ca": "Estirat de barres",
+      "fr": "Étirage de barres",
+      "nl": "Staaftrekken",
+      "de": "Stabziehen",
+      "it": "Trafilatura di barre",
+      "pl": "Ciągnienie prętów"
+    },
+    "2432": {
+      "label": "Strip rolling",
+      "es": "Laminado en frío",
+      "ca": "Laminat en fred",
+      "fr": "Laminage à froid",
+      "nl": "Bandwalsen",
+      "de": "Kaltwalzen",
+      "it": "Laminazione di nastri",
+      "pl": "Walcowanie taśm"
+    },
+    "2433": {
+      "label": "Steel profiles",
+      "es": "Perfiles de acero",
+      "ca": "Perfils d'acer",
+      "fr": "Profilés en acier",
+      "nl": "Stalen profielen",
+      "de": "Stahlprofile",
+      "it": "Profilati in acciaio",
+      "pl": "Kształtowniki stalowe"
+    },
+    "2434": {
+      "label": "Wire drawing",
+      "es": "Trefilado",
+      "ca": "Trefilatge",
+      "fr": "Tréfilage",
+      "nl": "Draadtrekken",
+      "de": "Drahtziehen",
+      "it": "Trafilatura",
+      "pl": "Ciągnienie drutu"
+    },
+    "2441": {
+      "label": "Precious metals",
+      "es": "Metales preciosos",
+      "ca": "Metalls preciosos",
+      "fr": "Métaux précieux",
+      "nl": "Edelmetalen",
+      "de": "Edelmetalle",
+      "it": "Metalli preziosi",
+      "pl": "Metale szlachetne"
+    },
+    "2442": {
+      "label": "Aluminium",
+      "es": "Aluminio",
+      "ca": "Alumini",
+      "fr": "Aluminium",
+      "nl": "Aluminium",
+      "de": "Aluminium",
+      "it": "Alluminio",
+      "pl": "Aluminium"
+    },
+    "2443": {
+      "label": "Lead, zinc and tin",
+      "es": "Plomo, zinc y estaño",
+      "ca": "Plom, zinc i estany",
+      "fr": "Plomb, zinc et étain",
+      "nl": "Lood, zink en tin",
+      "de": "Blei, Zink und Zinn",
+      "it": "Piombo, zinco e stagno",
+      "pl": "Ołów, cynk i cyna"
+    },
+    "2444": {
+      "label": "Copper",
+      "es": "Cobre",
+      "ca": "Coure",
+      "fr": "Cuivre",
+      "nl": "Koper",
+      "de": "Kupfer",
+      "it": "Rame",
+      "pl": "Miedź"
+    },
+    "2445": {
+      "label": "Non-ferrous metals",
+      "es": "Metales no férreos",
+      "ca": "Metalls no fèrrics",
+      "fr": "Métaux non ferreux",
+      "nl": "Non-ferrometalen",
+      "de": "NE-Metalle",
+      "it": "Metalli non ferrosi",
+      "pl": "Metale nieżelazne"
+    },
+    "2446": {
+      "label": "Nuclear fuel",
+      "es": "Combustible nuclear",
+      "ca": "Combustible nuclear",
+      "fr": "Combustible nucléaire",
+      "nl": "Splijtstof",
+      "de": "Kernbrennstoffe",
+      "it": "Combustibile nucleare",
+      "pl": "Paliwo jądrowe"
+    },
+    "2451": {
+      "label": "Iron casting",
+      "es": "Fundición de hierro",
+      "ca": "Foneria de ferro",
+      "fr": "Fonderie de fonte",
+      "nl": "IJzergieterij",
+      "de": "Eisengießerei",
+      "it": "Fusione di ghisa",
+      "pl": "Odlewnictwo żeliwa"
+    },
+    "2452": {
+      "label": "Steel casting",
+      "es": "Fundición de acero",
+      "ca": "Foneria d'acer",
+      "fr": "Fonderie d'acier",
+      "nl": "Staalgieterij",
+      "de": "Stahlgießerei",
+      "it": "Fusione di acciaio",
+      "pl": "Odlewnictwo staliwa"
+    },
+    "2453": {
+      "label": "Light metal casting",
+      "es": "Fundición de metales ligeros",
+      "ca": "Foneria de metalls lleugers",
+      "fr": "Fonderie de métaux légers",
+      "nl": "Lichtmetaalgieterij",
+      "de": "Leichtmetallgießerei",
+      "it": "Fusione di metalli leggeri",
+      "pl": "Odlewnictwo metali lekkich"
+    },
+    "2454": {
+      "label": "Metal casting",
+      "es": "Fundición",
+      "ca": "Foneria",
+      "fr": "Fonderie",
+      "nl": "Metaalgieterij",
+      "de": "Gießerei",
+      "it": "Fonderia",
+      "pl": "Odlewnictwo metali"
+    },
+    "2511": {
+      "label": "Metal structures",
+      "es": "Estructuras metálicas",
+      "ca": "Estructures metàl·liques",
+      "fr": "Structures métalliques",
+      "nl": "Staalconstructies",
+      "de": "Stahlbau",
+      "it": "Strutture metalliche",
+      "pl": "Konstrukcje metalowe"
+    },
+    "2512": {
+      "label": "Metal doors and windows",
+      "es": "Carpintería metálica",
+      "ca": "Fusteria metàl·lica",
+      "fr": "Menuiserie métallique",
+      "nl": "Metalen deuren en ramen",
+      "de": "Metalltüren und -fenster",
+      "it": "Porte e finestre in metallo",
+      "pl": "Drzwi i okna metalowe"
+    },
+    "2521": {
+      "label": "Radiators and boilers",
+      "es": "Radiadores y calderas",
+      "ca": "Radiadors i calderes",
+      "fr": "Radiateurs et chaudières",
+      "nl": "Radiatoren en ketels",
+      "de": "Heizkörper und Kessel",
+      "it": "Radiatori e caldaie",
+      "pl": "Grzejniki i kotły"
+    },
+    "2529": {
+      "label": "Tanks and containers",
+      "es": "Depósitos y contenedores",
+      "ca": "Dipòsits i contenidors",
+      "fr": "Réservoirs et conteneurs",
+      "nl": "Tanks en containers",
+      "de": "Tanks und Behälter",
+      "it": "Serbatoi e contenitori",
+      "pl": "Zbiorniki i pojemniki"
+    },
+    "2530": {
+      "label": "Steam generators",
+      "es": "Generadores de vapor",
+      "ca": "Generadors de vapor",
+      "fr": "Générateurs de vapeur",
+      "nl": "Stoomketels",
+      "de": "Dampfkessel",
+      "it": "Generatori di vapore",
+      "pl": "Wytwornice pary"
+    },
+    "2540": {
+      "label": "Weapons",
+      "es": "Armas",
+      "ca": "Armes",
+      "fr": "Armes",
+      "nl": "Wapens",
+      "de": "Waffen",
+      "it": "Armi",
+      "pl": "Broń"
+    },
+    "2550": {
+      "label": "Forging and stamping",
+      "es": "Forja y estampación",
+      "ca": "Forja i estampació",
+      "fr": "Forge et emboutissage",
+      "nl": "Smeden en stampen",
+      "de": "Schmieden und Stanzen",
+      "it": "Forgiatura e stampaggio",
+      "pl": "Kucie i tłoczenie"
+    },
+    "2561": {
+      "label": "Metal treatment",
+      "es": "Tratamiento de metales",
+      "ca": "Tractament de metalls",
+      "fr": "Traitement des métaux",
+      "nl": "Metaalbehandeling",
+      "de": "Metallbehandlung",
+      "it": "Trattamento dei metalli",
+      "pl": "Obróbka metali"
+    },
+    "2562": {
+      "label": "Machining",
+      "es": "Mecanizado",
+      "ca": "Mecanització",
+      "fr": "Usinage",
+      "nl": "Verspaning",
+      "de": "Zerspanung",
+      "it": "Lavorazioni meccaniche",
+      "pl": "Obróbka skrawaniem"
+    },
+    "2571": {
+      "label": "Cutlery",
+      "es": "Cuchillería",
+      "ca": "Ganiveteria",
+      "fr": "Coutellerie",
+      "nl": "Messenmakerij",
+      "de": "Schneidwaren",
+      "it": "Coltelleria",
+      "pl": "Sztućce"
+    },
+    "2572": {
+      "label": "Locks and hinges",
+      "es": "Cerraduras y herrajes",
+      "ca": "Panys i ferramenta",
+      "fr": "Serrures et ferrures",
+      "nl": "Sloten en hang-en-sluitwerk",
+      "de": "Schlösser und Beschläge",
+      "it": "Serrature e cerniere",
+      "pl": "Zamki i zawiasy"
+    },
+    "2573": {
+      "label": "Tools",
+      "es": "Herramientas",
+      "ca": "Eines",
+      "fr": "Outillage",
+      "nl": "Gereedschap",
+      "de": "Werkzeuge",
+      "it": "Utensileria",
+      "pl": "Narzędzia"
+    },
+    "2591": {
+      "label": "Steel drums",
+      "es": "Bidones de acero",
+      "ca": "Bidons d'acer",
+      "fr": "Fûts en acier",
+      "nl": "Stalen vaten",
+      "de": "Stahlfässer",
+      "it": "Fusti in acciaio",
+      "pl": "Beczki stalowe"
+    },
+    "2592": {
+      "label": "Metal packaging",
+      "es": "Envases metálicos",
+      "ca": "Envasos metàl·lics",
+      "fr": "Emballages métalliques",
+      "nl": "Metalen verpakkingen",
+      "de": "Metallverpackungen",
+      "it": "Imballaggi metallici",
+      "pl": "Opakowania metalowe"
+    },
+    "2593": {
+      "label": "Wire and springs",
+      "es": "Alambre y muelles",
+      "ca": "Filferro i molles",
+      "fr": "Fils et ressorts",
+      "nl": "Draad en veren",
+      "de": "Draht und Federn",
+      "it": "Fili e molle",
+      "pl": "Drut i sprężyny"
+    },
+    "2594": {
+      "label": "Fasteners",
+      "es": "Tornillería",
+      "ca": "Cargoleria",
+      "fr": "Visserie et boulonnerie",
+      "nl": "Bevestigingsmiddelen",
+      "de": "Verbindungselemente",
+      "it": "Viteria e bulloneria",
+      "pl": "Elementy złączne"
+    },
+    "2599": {
+      "label": "Metal products",
+      "es": "Productos metálicos",
+      "ca": "Productes metàl·lics",
+      "fr": "Produits métalliques",
+      "nl": "Metaalproducten",
+      "de": "Metallerzeugnisse",
+      "it": "Prodotti in metallo",
+      "pl": "Wyroby metalowe"
+    },
+    "2611": {
+      "label": "Electronic components",
+      "es": "Componentes electrónicos",
+      "ca": "Components electrònics",
+      "fr": "Composants électroniques",
+      "nl": "Elektronische componenten",
+      "de": "Elektronische Bauelemente",
+      "it": "Componenti elettronici",
+      "pl": "Podzespoły elektroniczne"
+    },
+    "2612": {
+      "label": "Circuit boards",
+      "es": "Placas electrónicas",
+      "ca": "Plaques electròniques",
+      "fr": "Circuits imprimés",
+      "nl": "Printplaten",
+      "de": "Leiterplatten",
+      "it": "Circuiti stampati",
+      "pl": "Płytki drukowane"
+    },
+    "2620": {
+      "label": "Computers",
+      "es": "Ordenadores",
+      "ca": "Ordinadors",
+      "fr": "Ordinateurs",
+      "nl": "Computers",
+      "de": "Computer",
+      "it": "Computer",
+      "pl": "Komputery"
+    },
+    "2630": {
+      "label": "Communication equipment",
+      "es": "Equipos de telecomunicación",
+      "ca": "Equips de telecomunicació",
+      "fr": "Équipements de télécommunication",
+      "nl": "Communicatieapparatuur",
+      "de": "Kommunikationstechnik",
+      "it": "Apparecchiature per comunicazioni",
+      "pl": "Sprzęt telekomunikacyjny"
+    },
+    "2640": {
+      "label": "Consumer electronics",
+      "es": "Electrónica de consumo",
+      "ca": "Electrònica de consum",
+      "fr": "Électronique grand public",
+      "nl": "Consumentenelektronica",
+      "de": "Unterhaltungselektronik",
+      "it": "Elettronica di consumo",
+      "pl": "Elektronika użytkowa"
+    },
+    "2651": {
+      "label": "Measuring instruments",
+      "es": "Instrumentos de medida",
+      "ca": "Instruments de mesura",
+      "fr": "Instruments de mesure",
+      "nl": "Meetinstrumenten",
+      "de": "Messinstrumente",
+      "it": "Strumenti di misura",
+      "pl": "Przyrządy pomiarowe"
+    },
+    "2652": {
+      "label": "Watches and clocks",
+      "es": "Relojería",
+      "ca": "Rellotgeria",
+      "fr": "Horlogerie",
+      "nl": "Uurwerken",
+      "de": "Uhren",
+      "it": "Orologi",
+      "pl": "Zegarki i zegary"
+    },
+    "2660": {
+      "label": "Medical electronics",
+      "es": "Electromedicina",
+      "ca": "Electromedicina",
+      "fr": "Électronique médicale",
+      "nl": "Medische elektronica",
+      "de": "Medizinelektronik",
+      "it": "Elettronica medicale",
+      "pl": "Elektronika medyczna"
+    },
+    "2670": {
+      "label": "Optics",
+      "es": "Óptica",
+      "ca": "Òptica",
+      "fr": "Optique",
+      "nl": "Optiek",
+      "de": "Optik",
+      "it": "Ottica",
+      "pl": "Optyka"
+    },
+    "2680": {
+      "label": "Magnetic and optical media",
+      "es": "Soportes magnéticos y ópticos",
+      "ca": "Suports magnètics i òptics",
+      "fr": "Supports magnétiques et optiques",
+      "nl": "Magnetische en optische media",
+      "de": "Magnetische und optische Datenträger",
+      "it": "Supporti magnetici e ottici",
+      "pl": "Nośniki magnetyczne i optyczne"
+    },
+    "2711": {
+      "label": "Motors and transformers",
+      "es": "Motores y transformadores",
+      "ca": "Motors i transformadors",
+      "fr": "Moteurs et transformateurs",
+      "nl": "Motoren en transformatoren",
+      "de": "Motoren und Transformatoren",
+      "it": "Motori e trasformatori",
+      "pl": "Silniki i transformatory"
+    },
+    "2712": {
+      "label": "Switchgear",
+      "es": "Aparamenta eléctrica",
+      "ca": "Aparellatge elèctric",
+      "fr": "Appareillage électrique",
+      "nl": "Schakelapparatuur",
+      "de": "Schaltanlagen",
+      "it": "Quadri elettrici",
+      "pl": "Aparatura rozdzielcza"
+    },
+    "2720": {
+      "label": "Batteries",
+      "es": "Baterías",
+      "ca": "Bateries",
+      "fr": "Batteries",
+      "nl": "Batterijen",
+      "de": "Batterien",
+      "it": "Batterie",
+      "pl": "Baterie i akumulatory"
+    },
+    "2731": {
+      "label": "Fibre optic cable",
+      "es": "Fibra óptica",
+      "ca": "Fibra òptica",
+      "fr": "Câbles à fibre optique",
+      "nl": "Glasvezelkabel",
+      "de": "Glasfaserkabel",
+      "it": "Cavi in fibra ottica",
+      "pl": "Kable światłowodowe"
+    },
+    "2732": {
+      "label": "Electric cables",
+      "es": "Cables eléctricos",
+      "ca": "Cables elèctrics",
+      "fr": "Câbles électriques",
+      "nl": "Elektrische kabels",
+      "de": "Elektrokabel",
+      "it": "Cavi elettrici",
+      "pl": "Kable elektryczne"
+    },
+    "2733": {
+      "label": "Wiring devices",
+      "es": "Material de instalación",
+      "ca": "Material d'instal·lació",
+      "fr": "Matériel d'installation",
+      "nl": "Installatiemateriaal",
+      "de": "Installationsmaterial",
+      "it": "Apparecchi di cablaggio",
+      "pl": "Osprzęt elektroinstalacyjny"
+    },
+    "2740": {
+      "label": "Lighting",
+      "es": "Iluminación",
+      "ca": "Il·luminació",
+      "fr": "Éclairage",
+      "nl": "Verlichting",
+      "de": "Beleuchtung",
+      "it": "Illuminazione",
+      "pl": "Oświetlenie"
+    },
+    "2751": {
+      "label": "Home appliances",
+      "es": "Electrodomésticos",
+      "ca": "Electrodomèstics",
+      "fr": "Électroménager",
+      "nl": "Huishoudelijke apparaten",
+      "de": "Haushaltsgeräte",
+      "it": "Elettrodomestici",
+      "pl": "Sprzęt AGD"
+    },
+    "2752": {
+      "label": "Non-electric appliances",
+      "es": "Aparatos domésticos",
+      "ca": "Aparells domèstics",
+      "fr": "Appareils ménagers non électriques",
+      "nl": "Niet-elektrische huishoudtoestellen",
+      "de": "Nicht elektrische Haushaltsgeräte",
+      "it": "Apparecchi non elettrici",
+      "pl": "Urządzenia nieelektryczne"
+    },
+    "2790": {
+      "label": "Electrical equipment",
+      "es": "Material eléctrico",
+      "ca": "Material elèctric",
+      "fr": "Matériel électrique",
+      "nl": "Elektrische apparatuur",
+      "de": "Elektrische Ausrüstungen",
+      "it": "Apparecchiature elettriche",
+      "pl": "Urządzenia elektryczne"
+    },
+    "2811": {
+      "label": "Engines and turbines",
+      "es": "Motores y turbinas",
+      "ca": "Motors i turbines",
+      "fr": "Moteurs et turbines",
+      "nl": "Motoren en turbines",
+      "de": "Motoren und Turbinen",
+      "it": "Motori e turbine",
+      "pl": "Silniki i turbiny"
+    },
+    "2812": {
+      "label": "Hydraulics",
+      "es": "Oleohidráulica",
+      "ca": "Oleohidràulica",
+      "fr": "Hydraulique",
+      "nl": "Hydrauliek",
+      "de": "Hydraulik",
+      "it": "Oleodinamica",
+      "pl": "Hydraulika siłowa"
+    },
+    "2813": {
+      "label": "Pumps and compressors",
+      "es": "Bombas y compresores",
+      "ca": "Bombes i compressors",
+      "fr": "Pompes et compresseurs",
+      "nl": "Pompen en compressoren",
+      "de": "Pumpen und Kompressoren",
+      "it": "Pompe e compressori",
+      "pl": "Pompy i sprężarki"
+    },
+    "2814": {
+      "label": "Valves",
+      "es": "Válvulas",
+      "ca": "Vàlvules",
+      "fr": "Robinetterie",
+      "nl": "Afsluiters",
+      "de": "Armaturen",
+      "it": "Valvole",
+      "pl": "Zawory"
+    },
+    "2815": {
+      "label": "Bearings and gears",
+      "es": "Rodamientos y engranajes",
+      "ca": "Rodaments i engranatges",
+      "fr": "Roulements et engrenages",
+      "nl": "Lagers en tandwielen",
+      "de": "Lager und Getriebe",
+      "it": "Cuscinetti e ingranaggi",
+      "pl": "Łożyska i przekładnie"
+    },
+    "2821": {
+      "label": "Furnaces and burners",
+      "es": "Hornos y quemadores",
+      "ca": "Forns i cremadors",
+      "fr": "Fours et brûleurs",
+      "nl": "Ovens en branders",
+      "de": "Öfen und Brenner",
+      "it": "Forni e bruciatori",
+      "pl": "Piece i palniki"
+    },
+    "2822": {
+      "label": "Lifting equipment",
+      "es": "Elevación y manutención",
+      "ca": "Elevació i manutenció",
+      "fr": "Levage et manutention",
+      "nl": "Hijs- en hefwerktuigen",
+      "de": "Hebezeuge und Fördermittel",
+      "it": "Apparecchi di sollevamento",
+      "pl": "Urządzenia dźwigowe"
+    },
+    "2823": {
+      "label": "Office machines",
+      "es": "Máquinas de oficina",
+      "ca": "Màquines d'oficina",
+      "fr": "Machines de bureau",
+      "nl": "Kantoormachines",
+      "de": "Büromaschinen",
+      "it": "Macchine per ufficio",
+      "pl": "Maszyny biurowe"
+    },
+    "2824": {
+      "label": "Power tools",
+      "es": "Herramientas eléctricas",
+      "ca": "Eines elèctriques",
+      "fr": "Outillage électrique",
+      "nl": "Elektrisch gereedschap",
+      "de": "Elektrowerkzeuge",
+      "it": "Utensili elettrici",
+      "pl": "Elektronarzędzia"
+    },
+    "2825": {
+      "label": "Cooling and ventilation",
+      "es": "Frío y ventilación",
+      "ca": "Fred i ventilació",
+      "fr": "Froid et ventilation",
+      "nl": "Koeling en ventilatie",
+      "de": "Kälte- und Lüftungstechnik",
+      "it": "Refrigerazione e ventilazione",
+      "pl": "Chłodnictwo i wentylacja"
+    },
+    "2829": {
+      "label": "Machinery",
+      "es": "Maquinaria",
+      "ca": "Maquinària",
+      "fr": "Machines",
+      "nl": "Machines",
+      "de": "Maschinenbau",
+      "it": "Macchinari",
+      "pl": "Maszyny"
+    },
+    "2830": {
+      "label": "Agricultural machinery",
+      "es": "Maquinaria agrícola",
+      "ca": "Maquinària agrícola",
+      "fr": "Machines agricoles",
+      "nl": "Landbouwmachines",
+      "de": "Landmaschinen",
+      "it": "Macchine agricole",
+      "pl": "Maszyny rolnicze"
+    },
+    "2841": {
+      "label": "Metal forming machines",
+      "es": "Máquinas de conformado",
+      "ca": "Màquines de conformació",
+      "fr": "Machines de formage des métaux",
+      "nl": "Metaalvervormingsmachines",
+      "de": "Umformmaschinen",
+      "it": "Macchine per la formatura dei metalli",
+      "pl": "Maszyny do obróbki plastycznej"
+    },
+    "2849": {
+      "label": "Machine tools",
+      "es": "Máquinas herramienta",
+      "ca": "Màquines eina",
+      "fr": "Machines-outils",
+      "nl": "Werktuigmachines",
+      "de": "Werkzeugmaschinen",
+      "it": "Macchine utensili",
+      "pl": "Obrabiarki"
+    },
+    "2891": {
+      "label": "Metallurgy machinery",
+      "es": "Maquinaria metalúrgica",
+      "ca": "Maquinària metal·lúrgica",
+      "fr": "Machines pour la métallurgie",
+      "nl": "Machines voor de metallurgie",
+      "de": "Hüttenwerksmaschinen",
+      "it": "Macchine per la metallurgia",
+      "pl": "Maszyny dla metalurgii"
+    },
+    "2892": {
+      "label": "Construction machinery",
+      "es": "Maquinaria de obra",
+      "ca": "Maquinària d'obra",
+      "fr": "Engins de chantier",
+      "nl": "Bouwmachines",
+      "de": "Baumaschinen",
+      "it": "Macchine per l’edilizia",
+      "pl": "Maszyny budowlane"
+    },
+    "2893": {
+      "label": "Food machinery",
+      "es": "Maquinaria alimentaria",
+      "ca": "Maquinària alimentària",
+      "fr": "Machines agroalimentaires",
+      "nl": "Voedingsmachines",
+      "de": "Nahrungsmittelmaschinen",
+      "it": "Macchine alimentari",
+      "pl": "Maszyny dla przemysłu spożywczego"
+    },
+    "2894": {
+      "label": "Textile machinery",
+      "es": "Maquinaria textil",
+      "ca": "Maquinària tèxtil",
+      "fr": "Machines textiles",
+      "nl": "Textielmachines",
+      "de": "Textilmaschinen",
+      "it": "Macchine tessili",
+      "pl": "Maszyny włókiennicze"
+    },
+    "2895": {
+      "label": "Paper machinery",
+      "es": "Maquinaria papelera",
+      "ca": "Maquinària paperera",
+      "fr": "Machines pour le papier",
+      "nl": "Papiermachines",
+      "de": "Papiermaschinen",
+      "it": "Macchine per la carta",
+      "pl": "Maszyny papiernicze"
+    },
+    "2896": {
+      "label": "Plastics machinery",
+      "es": "Maquinaria para plásticos",
+      "ca": "Maquinària per a plàstics",
+      "fr": "Machines pour la plasturgie",
+      "nl": "Kunststofmachines",
+      "de": "Kunststoffmaschinen",
+      "it": "Macchine per la plastica",
+      "pl": "Maszyny do tworzyw sztucznych"
+    },
+    "2899": {
+      "label": "Special machinery",
+      "es": "Maquinaria especial",
+      "ca": "Maquinària especial",
+      "fr": "Machines spéciales",
+      "nl": "Speciale machines",
+      "de": "Sondermaschinen",
+      "it": "Macchine speciali",
+      "pl": "Maszyny specjalne"
+    },
+    "2910": {
+      "label": "Motor vehicles",
+      "es": "Automóviles",
+      "ca": "Automòbils",
+      "fr": "Automobiles",
+      "nl": "Motorvoertuigen",
+      "de": "Kraftwagen",
+      "it": "Autoveicoli",
+      "pl": "Pojazdy samochodowe"
+    },
+    "2920": {
+      "label": "Bodywork and trailers",
+      "es": "Carrocerías y remolques",
+      "ca": "Carrosseries i remolcs",
+      "fr": "Carrosseries et remorques",
+      "nl": "Carrosserieën en aanhangwagens",
+      "de": "Karosserien und Anhänger",
+      "it": "Carrozzerie e rimorchi",
+      "pl": "Nadwozia i przyczepy"
+    },
+    "2931": {
+      "label": "Vehicle electronics",
+      "es": "Electrónica del automóvil",
+      "ca": "Electrònica de l'automòbil",
+      "fr": "Électronique automobile",
+      "nl": "Voertuigelektronica",
+      "de": "Fahrzeugelektronik",
+      "it": "Elettronica per veicoli",
+      "pl": "Elektronika samochodowa"
+    },
+    "2932": {
+      "label": "Car parts",
+      "es": "Componentes de automoción",
+      "ca": "Components d'automoció",
+      "fr": "Équipements automobiles",
+      "nl": "Auto-onderdelen",
+      "de": "Kfz-Teile",
+      "it": "Componenti auto",
+      "pl": "Części samochodowe"
+    },
+    "3011": {
+      "label": "Shipbuilding",
+      "es": "Construcción naval",
+      "ca": "Construcció naval",
+      "fr": "Construction navale",
+      "nl": "Scheepsbouw",
+      "de": "Schiffbau",
+      "it": "Cantieristica navale",
+      "pl": "Budowa statków"
+    },
+    "3012": {
+      "label": "Boatbuilding",
+      "es": "Embarcaciones de recreo",
+      "ca": "Embarcacions d'esbarjo",
+      "fr": "Bateaux de plaisance",
+      "nl": "Jachtbouw",
+      "de": "Bootsbau",
+      "it": "Costruzione di imbarcazioni",
+      "pl": "Budowa łodzi"
+    },
+    "3020": {
+      "label": "Rolling stock",
+      "es": "Material ferroviario",
+      "ca": "Material ferroviari",
+      "fr": "Matériel ferroviaire",
+      "nl": "Rollend materieel",
+      "de": "Schienenfahrzeuge",
+      "it": "Materiale rotabile",
+      "pl": "Tabor kolejowy"
+    },
+    "3030": {
+      "label": "Aerospace",
+      "es": "Aeronáutica y espacio",
+      "ca": "Aeronàutica i espai",
+      "fr": "Aéronautique et spatial",
+      "nl": "Lucht- en ruimtevaart",
+      "de": "Luft- und Raumfahrt",
+      "it": "Aerospaziale",
+      "pl": "Lotnictwo i kosmonautyka"
+    },
+    "3040": {
+      "label": "Military vehicles",
+      "es": "Vehículos militares",
+      "ca": "Vehicles militars",
+      "fr": "Véhicules militaires",
+      "nl": "Militaire voertuigen",
+      "de": "Militärfahrzeuge",
+      "it": "Veicoli militari",
+      "pl": "Pojazdy wojskowe"
+    },
+    "3091": {
+      "label": "Motorcycles",
+      "es": "Motocicletas",
+      "ca": "Motocicletes",
+      "fr": "Motocycles",
+      "nl": "Motorfietsen",
+      "de": "Krafträder",
+      "it": "Motocicli",
+      "pl": "Motocykle"
+    },
+    "3092": {
+      "label": "Bicycles",
+      "es": "Bicicletas",
+      "ca": "Bicicletes",
+      "fr": "Bicyclettes",
+      "nl": "Fietsen",
+      "de": "Fahrräder",
+      "it": "Biciclette",
+      "pl": "Rowery"
+    },
+    "3099": {
+      "label": "Transport equipment",
+      "es": "Material de transporte",
+      "ca": "Material de transport",
+      "fr": "Matériel de transport",
+      "nl": "Transportmiddelen",
+      "de": "Fahrzeugbau",
+      "it": "Mezzi di trasporto",
+      "pl": "Sprzęt transportowy"
+    },
+    "3101": {
+      "label": "Office furniture",
+      "es": "Muebles de oficina",
+      "ca": "Mobles d'oficina",
+      "fr": "Meubles de bureau",
+      "nl": "Kantoormeubelen",
+      "de": "Büromöbel",
+      "it": "Mobili per ufficio",
+      "pl": "Meble biurowe"
+    },
+    "3102": {
+      "label": "Kitchen furniture",
+      "es": "Muebles de cocina",
+      "ca": "Mobles de cuina",
+      "fr": "Meubles de cuisine",
+      "nl": "Keukenmeubelen",
+      "de": "Küchenmöbel",
+      "it": "Mobili per cucina",
+      "pl": "Meble kuchenne"
+    },
+    "3103": {
+      "label": "Mattresses",
+      "es": "Colchones",
+      "ca": "Matalassos",
+      "fr": "Matelas",
+      "nl": "Matrassen",
+      "de": "Matratzen",
+      "it": "Materassi",
+      "pl": "Materace"
+    },
+    "3109": {
+      "label": "Furniture",
+      "es": "Muebles",
+      "ca": "Mobles",
+      "fr": "Meubles",
+      "nl": "Meubelen",
+      "de": "Möbel",
+      "it": "Mobili",
+      "pl": "Meble"
+    },
+    "3211": {
+      "label": "Coins",
+      "es": "Monedas",
+      "ca": "Monedes",
+      "fr": "Monnaies",
+      "nl": "Munten",
+      "de": "Münzen",
+      "it": "Monete",
+      "pl": "Monety"
+    },
+    "3212": {
+      "label": "Jewellery",
+      "es": "Joyería",
+      "ca": "Joieria",
+      "fr": "Joaillerie",
+      "nl": "Juwelen",
+      "de": "Schmuck",
+      "it": "Gioielleria",
+      "pl": "Jubilerstwo"
+    },
+    "3213": {
+      "label": "Costume jewellery",
+      "es": "Bisutería",
+      "ca": "Bijuteria",
+      "fr": "Bijouterie fantaisie",
+      "nl": "Bijouterie",
+      "de": "Modeschmuck",
+      "it": "Bigiotteria",
+      "pl": "Biżuteria sztuczna"
+    },
+    "3220": {
+      "label": "Musical instruments",
+      "es": "Instrumentos musicales",
+      "ca": "Instruments musicals",
+      "fr": "Instruments de musique",
+      "nl": "Muziekinstrumenten",
+      "de": "Musikinstrumente",
+      "it": "Strumenti musicali",
+      "pl": "Instrumenty muzyczne"
+    },
+    "3230": {
+      "label": "Sports goods",
+      "es": "Artículos de deporte",
+      "ca": "Articles d'esport",
+      "fr": "Articles de sport",
+      "nl": "Sportartikelen",
+      "de": "Sportgeräte",
+      "it": "Articoli sportivi",
+      "pl": "Sprzęt sportowy"
+    },
+    "3240": {
+      "label": "Toys",
+      "es": "Juguetes",
+      "ca": "Joguines",
+      "fr": "Jouets",
+      "nl": "Speelgoed",
+      "de": "Spielwaren",
+      "it": "Giocattoli",
+      "pl": "Zabawki"
+    },
+    "3250": {
+      "label": "Medical devices",
+      "es": "Material médico",
+      "ca": "Material mèdic",
+      "fr": "Dispositifs médicaux",
+      "nl": "Medische hulpmiddelen",
+      "de": "Medizinprodukte",
+      "it": "Dispositivi medici",
+      "pl": "Wyroby medyczne"
+    },
+    "3291": {
+      "label": "Brushes",
+      "es": "Escobas y cepillos",
+      "ca": "Escombres i raspalls",
+      "fr": "Brosserie",
+      "nl": "Borstels en bezems",
+      "de": "Besen und Bürsten",
+      "it": "Spazzole",
+      "pl": "Szczotki i pędzle"
+    },
+    "3299": {
+      "label": "Manufacturing",
+      "es": "Fabricación",
+      "ca": "Fabricació",
+      "fr": "Industrie manufacturière",
+      "nl": "Industrie",
+      "de": "Verarbeitendes Gewerbe",
+      "it": "Manifattura",
+      "pl": "Przetwórstwo przemysłowe"
+    },
+    "3311": {
+      "label": "Metal repair",
+      "es": "Reparación metálica",
+      "ca": "Reparació metàl·lica",
+      "fr": "Réparation d'ouvrages en métaux",
+      "nl": "Reparatie van metaalproducten",
+      "de": "Reparatur von Metallerzeugnissen",
+      "it": "Riparazione di prodotti in metallo",
+      "pl": "Naprawa wyrobów metalowych"
+    },
+    "3312": {
+      "label": "Machinery repair",
+      "es": "Reparación de maquinaria",
+      "ca": "Reparació de maquinària",
+      "fr": "Réparation de machines",
+      "nl": "Reparatie van machines",
+      "de": "Maschinenreparatur",
+      "it": "Riparazione di macchinari",
+      "pl": "Naprawa maszyn"
+    },
+    "3313": {
+      "label": "Electronics repair",
+      "es": "Reparación electrónica",
+      "ca": "Reparació electrònica",
+      "fr": "Réparation électronique",
+      "nl": "Reparatie van elektronica",
+      "de": "Elektronikreparatur",
+      "it": "Riparazione di elettronica",
+      "pl": "Naprawa elektroniki"
+    },
+    "3314": {
+      "label": "Electrical repair",
+      "es": "Reparación eléctrica",
+      "ca": "Reparació elèctrica",
+      "fr": "Réparation électrique",
+      "nl": "Reparatie van elektrische apparatuur",
+      "de": "Reparatur elektrischer Ausrüstungen",
+      "it": "Riparazione di apparecchiature elettriche",
+      "pl": "Naprawa urządzeń elektrycznych"
+    },
+    "3315": {
+      "label": "Ship repair",
+      "es": "Reparación naval",
+      "ca": "Reparació naval",
+      "fr": "Réparation navale",
+      "nl": "Scheepsreparatie",
+      "de": "Schiffsreparatur",
+      "it": "Riparazione navale",
+      "pl": "Remonty statków"
+    },
+    "3316": {
+      "label": "Aircraft maintenance",
+      "es": "Mantenimiento aeronáutico",
+      "ca": "Manteniment aeronàutic",
+      "fr": "Maintenance aéronautique",
+      "nl": "Vliegtuigonderhoud",
+      "de": "Flugzeugwartung",
+      "it": "Manutenzione aeronautica",
+      "pl": "Obsługa statków powietrznych"
+    },
+    "3317": {
+      "label": "Transport repair",
+      "es": "Reparación de vehículos",
+      "ca": "Reparació de vehicles",
+      "fr": "Réparation de matériel de transport",
+      "nl": "Reparatie van transportmiddelen",
+      "de": "Fahrzeugreparatur",
+      "it": "Riparazione di mezzi di trasporto",
+      "pl": "Naprawa środków transportu"
+    },
+    "3319": {
+      "label": "Repair",
+      "es": "Reparación",
+      "ca": "Reparació",
+      "fr": "Réparation",
+      "nl": "Reparatie",
+      "de": "Reparatur",
+      "it": "Riparazione",
+      "pl": "Naprawy"
+    },
+    "3320": {
+      "label": "Industrial installation",
+      "es": "Montaje industrial",
+      "ca": "Muntatge industrial",
+      "fr": "Installation industrielle",
+      "nl": "Industriële installatie",
+      "de": "Industriemontage",
+      "it": "Installazione di macchinari industriali",
+      "pl": "Instalowanie maszyn przemysłowych"
+    },
+    "3511": {
+      "label": "Power generation",
+      "es": "Producción eléctrica",
+      "ca": "Producció elèctrica",
+      "fr": "Production d'électricité",
+      "nl": "Elektriciteitsproductie",
+      "de": "Stromerzeugung",
+      "it": "Produzione di energia elettrica",
+      "pl": "Wytwarzanie energii elektrycznej"
+    },
+    "3512": {
+      "label": "Power transmission",
+      "es": "Transporte de electricidad",
+      "ca": "Transport d'electricitat",
+      "fr": "Transport d'électricité",
+      "nl": "Transport van elektriciteit",
+      "de": "Stromübertragung",
+      "it": "Trasmissione di energia elettrica",
+      "pl": "Przesył energii elektrycznej"
+    },
+    "3513": {
+      "label": "Power distribution",
+      "es": "Distribución eléctrica",
+      "ca": "Distribució elèctrica",
+      "fr": "Distribution d'électricité",
+      "nl": "Distributie van elektriciteit",
+      "de": "Stromverteilung",
+      "it": "Distribuzione di energia elettrica",
+      "pl": "Dystrybucja energii elektrycznej"
+    },
+    "3514": {
+      "label": "Electricity trading",
+      "es": "Comercio de electricidad",
+      "ca": "Comerç d'electricitat",
+      "fr": "Commerce d'électricité",
+      "nl": "Handel in elektriciteit",
+      "de": "Stromhandel",
+      "it": "Commercio di elettricità",
+      "pl": "Handel energią elektryczną"
+    },
+    "3521": {
+      "label": "Gas production",
+      "es": "Producción de gas",
+      "ca": "Producció de gas",
+      "fr": "Production de gaz",
+      "nl": "Gasproductie",
+      "de": "Gaserzeugung",
+      "it": "Produzione di gas",
+      "pl": "Wytwarzanie gazu"
+    },
+    "3522": {
+      "label": "Gas distribution",
+      "es": "Distribución de gas",
+      "ca": "Distribució de gas",
+      "fr": "Distribution de gaz",
+      "nl": "Gasdistributie",
+      "de": "Gasverteilung",
+      "it": "Distribuzione del gas",
+      "pl": "Dystrybucja gazu"
+    },
+    "3523": {
+      "label": "Gas trading",
+      "es": "Comercio de gas",
+      "ca": "Comerç de gas",
+      "fr": "Commerce de gaz",
+      "nl": "Gashandel",
+      "de": "Gashandel",
+      "it": "Commercio di gas",
+      "pl": "Handel gazem"
+    },
+    "3530": {
+      "label": "Heating and cooling networks",
+      "es": "Redes de calor y frío",
+      "ca": "Xarxes de calor i fred",
+      "fr": "Réseaux de chaleur et de froid",
+      "nl": "Warmte- en koudenetten",
+      "de": "Wärme- und Kältenetze",
+      "it": "Reti di riscaldamento e raffreddamento",
+      "pl": "Sieci ciepłownicze i chłodnicze"
+    },
+    "3600": {
+      "label": "Water supply",
+      "es": "Agua",
+      "ca": "Aigua",
+      "fr": "Distribution d'eau",
+      "nl": "Watervoorziening",
+      "de": "Wasserversorgung",
+      "it": "Fornitura di acqua",
+      "pl": "Dostawa wody"
+    },
+    "3700": {
+      "label": "Sewerage",
+      "es": "Saneamiento",
+      "ca": "Sanejament",
+      "fr": "Assainissement",
+      "nl": "Riolering",
+      "de": "Abwasserentsorgung",
+      "it": "Fognature",
+      "pl": "Kanalizacja"
+    },
+    "3811": {
+      "label": "Waste collection",
+      "es": "Recogida de residuos",
+      "ca": "Recollida de residus",
+      "fr": "Collecte des déchets",
+      "nl": "Afvalinzameling",
+      "de": "Abfallsammlung",
+      "it": "Raccolta dei rifiuti",
+      "pl": "Zbieranie odpadów"
+    },
+    "3812": {
+      "label": "Hazardous waste collection",
+      "es": "Recogida de residuos peligrosos",
+      "ca": "Recollida de residus perillosos",
+      "fr": "Collecte des déchets dangereux",
+      "nl": "Inzameling van gevaarlijk afval",
+      "de": "Sammlung gefährlicher Abfälle",
+      "it": "Raccolta di rifiuti pericolosi",
+      "pl": "Zbieranie odpadów niebezpiecznych"
+    },
+    "3821": {
+      "label": "Waste treatment",
+      "es": "Tratamiento de residuos",
+      "ca": "Tractament de residus",
+      "fr": "Traitement des déchets",
+      "nl": "Afvalverwerking",
+      "de": "Abfallbehandlung",
+      "it": "Trattamento dei rifiuti",
+      "pl": "Przetwarzanie odpadów"
+    },
+    "3822": {
+      "label": "Hazardous waste treatment",
+      "es": "Tratamiento de residuos peligrosos",
+      "ca": "Tractament de residus perillosos",
+      "fr": "Traitement des déchets dangereux",
+      "nl": "Verwerking van gevaarlijk afval",
+      "de": "Behandlung gefährlicher Abfälle",
+      "it": "Trattamento di rifiuti pericolosi",
+      "pl": "Przetwarzanie odpadów niebezpiecznych"
+    },
+    "3831": {
+      "label": "Dismantling",
+      "es": "Desguace",
+      "ca": "Desballestament",
+      "fr": "Démantèlement",
+      "nl": "Ontmanteling",
+      "de": "Demontage",
+      "it": "Smantellamento",
+      "pl": "Demontaż"
+    },
+    "3832": {
+      "label": "Recycling",
+      "es": "Reciclaje",
+      "ca": "Reciclatge",
+      "fr": "Recyclage",
+      "nl": "Recycling",
+      "de": "Recycling",
+      "it": "Riciclo",
+      "pl": "Recykling"
+    },
+    "3900": {
+      "label": "Decontamination",
+      "es": "Descontaminación",
+      "ca": "Descontaminació",
+      "fr": "Dépollution",
+      "nl": "Sanering",
+      "de": "Sanierung",
+      "it": "Bonifica",
+      "pl": "Rekultywacja"
+    },
+    "4110": {
+      "label": "Property development",
+      "es": "Promoción inmobiliaria",
+      "ca": "Promoció immobiliària",
+      "fr": "Promotion immobilière",
+      "nl": "Projectontwikkeling",
+      "de": "Projektentwicklung",
+      "it": "Sviluppo immobiliare",
+      "pl": "Działalność deweloperska"
+    },
+    "4120": {
+      "label": "Building",
+      "es": "Edificación",
+      "ca": "Edificació",
+      "fr": "Construction de bâtiments",
+      "nl": "Bouw van gebouwen",
+      "de": "Hochbau",
+      "it": "Edilizia",
+      "pl": "Budownictwo"
+    },
+    "4211": {
+      "label": "Roads",
+      "es": "Carreteras",
+      "ca": "Carreteres",
+      "fr": "Routes",
+      "nl": "Wegenbouw",
+      "de": "Straßenbau",
+      "it": "Strade",
+      "pl": "Drogi"
+    },
+    "4212": {
+      "label": "Railways",
+      "es": "Ferrocarriles",
+      "ca": "Ferrocarrils",
+      "fr": "Voies ferrées",
+      "nl": "Spoorwegbouw",
+      "de": "Bahnbau",
+      "it": "Ferrovie",
+      "pl": "Koleje"
+    },
+    "4213": {
+      "label": "Bridges and tunnels",
+      "es": "Puentes y túneles",
+      "ca": "Ponts i túnels",
+      "fr": "Ponts et tunnels",
+      "nl": "Bruggen en tunnels",
+      "de": "Brücken- und Tunnelbau",
+      "it": "Ponti e gallerie",
+      "pl": "Mosty i tunele"
+    },
+    "4221": {
+      "label": "Pipelines and networks",
+      "es": "Redes de fluidos",
+      "ca": "Xarxes de fluids",
+      "fr": "Canalisations et réseaux",
+      "nl": "Leidingen en netwerken",
+      "de": "Rohrleitungen und Netze",
+      "it": "Condotte e reti",
+      "pl": "Rurociągi i sieci"
+    },
+    "4222": {
+      "label": "Power and telecom networks",
+      "es": "Redes eléctricas y de telecomunicación",
+      "ca": "Xarxes elèctriques i de telecomunicació",
+      "fr": "Réseaux électriques et télécoms",
+      "nl": "Elektriciteits- en telecomnetten",
+      "de": "Strom- und Telekommunikationsnetze",
+      "it": "Reti elettriche e di telecomunicazione",
+      "pl": "Sieci energetyczne i telekomunikacyjne"
+    },
+    "4291": {
+      "label": "Hydraulic works",
+      "es": "Obras hidráulicas",
+      "ca": "Obres hidràuliques",
+      "fr": "Ouvrages hydrauliques",
+      "nl": "Waterbouw",
+      "de": "Wasserbau",
+      "it": "Opere idrauliche",
+      "pl": "Budowle wodne"
+    },
+    "4299": {
+      "label": "Civil engineering",
+      "es": "Obra civil",
+      "ca": "Obra civil",
+      "fr": "Génie civil",
+      "nl": "Grond-, weg- en waterbouw",
+      "de": "Tiefbau",
+      "it": "Ingegneria civile",
+      "pl": "Inżynieria lądowa"
+    },
+    "4311": {
+      "label": "Demolition",
+      "es": "Demolición",
+      "ca": "Demolició",
+      "fr": "Démolition",
+      "nl": "Sloop",
+      "de": "Abbruch",
+      "it": "Demolizione",
+      "pl": "Rozbiórka"
+    },
+    "4312": {
+      "label": "Earthworks",
+      "es": "Movimiento de tierras",
+      "ca": "Moviment de terres",
+      "fr": "Terrassement",
+      "nl": "Grondwerk",
+      "de": "Erdarbeiten",
+      "it": "Movimento terra",
+      "pl": "Roboty ziemne"
+    },
+    "4313": {
+      "label": "Drilling",
+      "es": "Sondeos",
+      "ca": "Sondatges",
+      "fr": "Forages",
+      "nl": "Boringen",
+      "de": "Bohrungen",
+      "it": "Perforazioni",
+      "pl": "Wiercenia"
+    },
+    "4321": {
+      "label": "Electrical installation",
+      "es": "Instalaciones eléctricas",
+      "ca": "Instal·lacions elèctriques",
+      "fr": "Installation électrique",
+      "nl": "Elektrotechnische installatie",
+      "de": "Elektroinstallation",
+      "it": "Impianti elettrici",
+      "pl": "Instalacje elektryczne"
+    },
+    "4322": {
+      "label": "Plumbing, heating and air conditioning",
+      "es": "Fontanería y climatización",
+      "ca": "Lampisteria i climatització",
+      "fr": "Plomberie, chauffage et climatisation",
+      "nl": "Loodgieterswerk, verwarming en airco",
+      "de": "Sanitär, Heizung und Klima",
+      "it": "Idraulica, riscaldamento e climatizzazione",
+      "pl": "Instalacje wodno-kanalizacyjne, grzewcze i klimatyzacyjne"
+    },
+    "4329": {
+      "label": "Building installation",
+      "es": "Instalaciones",
+      "ca": "Instal·lacions",
+      "fr": "Installations techniques",
+      "nl": "Bouwinstallaties",
+      "de": "Gebäudetechnik",
+      "it": "Impianti negli edifici",
+      "pl": "Instalacje budowlane"
+    },
+    "4331": {
+      "label": "Plastering",
+      "es": "Revocos",
+      "ca": "Arrebossats",
+      "fr": "Plâtrerie",
+      "nl": "Stukadoorswerk",
+      "de": "Verputzarbeiten",
+      "it": "Intonacatura",
+      "pl": "Tynkowanie"
+    },
+    "4332": {
+      "label": "Joinery",
+      "es": "Carpintería",
+      "ca": "Fusteria",
+      "fr": "Menuiserie",
+      "nl": "Schrijnwerk",
+      "de": "Tischlerei",
+      "it": "Falegnameria",
+      "pl": "Stolarka"
+    },
+    "4333": {
+      "label": "Floor and wall covering",
+      "es": "Revestimientos",
+      "ca": "Revestiments",
+      "fr": "Revêtements de sols et murs",
+      "nl": "Vloer- en wandafwerking",
+      "de": "Boden- und Wandbeläge",
+      "it": "Rivestimenti di pavimenti e pareti",
+      "pl": "Posadzki i okładziny ścian"
+    },
+    "4334": {
+      "label": "Painting and glazing",
+      "es": "Pintura y cristalería",
+      "ca": "Pintura i vidrieria",
+      "fr": "Peinture et vitrerie",
+      "nl": "Schilderwerk en glaszetten",
+      "de": "Maler- und Glaserarbeiten",
+      "it": "Tinteggiatura e vetrature",
+      "pl": "Malowanie i szklenie"
+    },
+    "4339": {
+      "label": "Finishing",
+      "es": "Acabados",
+      "ca": "Acabats",
+      "fr": "Finitions",
+      "nl": "Afwerking",
+      "de": "Ausbau",
+      "it": "Finiture",
+      "pl": "Wykończenia"
+    },
+    "4391": {
+      "label": "Roofing",
+      "es": "Cubiertas",
+      "ca": "Cobertes",
+      "fr": "Couverture",
+      "nl": "Dakwerk",
+      "de": "Dachdeckerei",
+      "it": "Coperture",
+      "pl": "Dekarstwo"
+    },
+    "4399": {
+      "label": "Building trades",
+      "es": "Construcción especializada",
+      "ca": "Construcció especialitzada",
+      "fr": "Métiers du bâtiment",
+      "nl": "Bouwvakken",
+      "de": "Bauhandwerk",
+      "it": "Lavori edili specializzati",
+      "pl": "Specjalistyczne roboty budowlane"
+    },
+    "5010": {
+      "label": "Passenger shipping",
+      "es": "Transporte marítimo de pasajeros",
+      "ca": "Transport marítim de passatgers",
+      "fr": "Transport maritime de passagers",
+      "nl": "Passagiersvervoer over zee",
+      "de": "Personenschifffahrt",
+      "it": "Trasporto marittimo di passeggeri",
+      "pl": "Morski transport pasażerski"
+    },
+    "5020": {
+      "label": "Cargo shipping",
+      "es": "Transporte marítimo de mercancías",
+      "ca": "Transport marítim de mercaderies",
+      "fr": "Transport maritime de fret",
+      "nl": "Goederenvervoer over zee",
+      "de": "Frachtschifffahrt",
+      "it": "Trasporto marittimo di merci",
+      "pl": "Morski transport towarów"
+    },
+    "5030": {
+      "label": "River passenger transport",
+      "es": "Transporte fluvial de pasajeros",
+      "ca": "Transport fluvial de passatgers",
+      "fr": "Transport fluvial de passagers",
+      "nl": "Passagiersvervoer over binnenwateren",
+      "de": "Personenbinnenschifffahrt",
+      "it": "Trasporto fluviale di passeggeri",
+      "pl": "Śródlądowy transport pasażerski"
+    },
+    "5040": {
+      "label": "River cargo transport",
+      "es": "Transporte fluvial de mercancías",
+      "ca": "Transport fluvial de mercaderies",
+      "fr": "Transport fluvial de fret",
+      "nl": "Binnenvaart (goederen)",
+      "de": "Güterbinnenschifffahrt",
+      "it": "Trasporto fluviale di merci",
+      "pl": "Śródlądowy transport towarów"
+    },
+    "5110": {
+      "label": "Airlines",
+      "es": "Aerolíneas",
+      "ca": "Aerolínies",
+      "fr": "Compagnies aériennes",
+      "nl": "Luchtvaartmaatschappijen",
+      "de": "Fluggesellschaften",
+      "it": "Compagnie aeree",
+      "pl": "Linie lotnicze"
+    },
+    "5121": {
+      "label": "Air cargo",
+      "es": "Carga aérea",
+      "ca": "Càrrega aèria",
+      "fr": "Fret aérien",
+      "nl": "Luchtvracht",
+      "de": "Luftfracht",
+      "it": "Trasporto aereo merci",
+      "pl": "Lotniczy transport towarów"
+    },
+    "5122": {
+      "label": "Space transport",
+      "es": "Transporte espacial",
+      "ca": "Transport espacial",
+      "fr": "Transport spatial",
+      "nl": "Ruimtevervoer",
+      "de": "Raumfahrt",
+      "it": "Trasporto spaziale",
+      "pl": "Transport kosmiczny"
+    },
+    "5222": {
+      "label": "Port services",
+      "es": "Servicios portuarios",
+      "ca": "Serveis portuaris",
+      "fr": "Services portuaires",
+      "nl": "Havendiensten",
+      "de": "Hafendienste",
+      "it": "Servizi portuali",
+      "pl": "Usługi portowe"
+    },
+    "5223": {
+      "label": "Airport services",
+      "es": "Servicios aeroportuarios",
+      "ca": "Serveis aeroportuaris",
+      "fr": "Services aéroportuaires",
+      "nl": "Luchthavendiensten",
+      "de": "Flughafendienste",
+      "it": "Servizi aeroportuali",
+      "pl": "Usługi lotniskowe"
+    },
+    "5821": {
+      "label": "Video games",
+      "es": "Videojuegos",
+      "ca": "Videojocs",
+      "fr": "Jeux vidéo",
+      "nl": "Videogames",
+      "de": "Videospiele",
+      "it": "Videogiochi",
+      "pl": "Gry wideo"
+    },
+    "5829": {
+      "label": "Software",
+      "es": "Software",
+      "ca": "Programari",
+      "fr": "Logiciels",
+      "nl": "Software",
+      "de": "Software",
+      "it": "Software",
+      "pl": "Oprogramowanie"
+    },
+    "6110": {
+      "label": "Fixed-line telecoms",
+      "es": "Telecomunicaciones por cable",
+      "ca": "Telecomunicacions per cable",
+      "fr": "Télécoms filaires",
+      "nl": "Vaste telecom",
+      "de": "Festnetz-Telekommunikation",
+      "it": "Telecomunicazioni fisse",
+      "pl": "Telekomunikacja stacjonarna"
+    },
+    "6120": {
+      "label": "Mobile telecoms",
+      "es": "Telecomunicaciones móviles",
+      "ca": "Telecomunicacions mòbils",
+      "fr": "Télécoms mobiles",
+      "nl": "Mobiele telecom",
+      "de": "Mobilfunk",
+      "it": "Telecomunicazioni mobili",
+      "pl": "Telekomunikacja ruchoma"
+    },
+    "6130": {
+      "label": "Satellite telecoms",
+      "es": "Telecomunicaciones por satélite",
+      "ca": "Telecomunicacions per satèl·lit",
+      "fr": "Télécoms par satellite",
+      "nl": "Satelliettelecom",
+      "de": "Satellitenkommunikation",
+      "it": "Telecomunicazioni satellitari",
+      "pl": "Telekomunikacja satelitarna"
+    },
+    "6190": {
+      "label": "Telecoms",
+      "es": "Telecomunicaciones",
+      "ca": "Telecomunicacions",
+      "fr": "Télécoms",
+      "nl": "Telecom",
+      "de": "Telekommunikation",
+      "it": "Telecomunicazioni",
+      "pl": "Telekomunikacja"
+    },
+    "6201": {
+      "label": "Software development",
+      "es": "Programación",
+      "ca": "Programació",
+      "fr": "Développement logiciel",
+      "nl": "Softwareontwikkeling",
+      "de": "Softwareentwicklung",
+      "it": "Sviluppo software",
+      "pl": "Tworzenie oprogramowania"
+    },
+    "6202": {
+      "label": "IT consulting",
+      "es": "Consultoría informática",
+      "ca": "Consultoria informàtica",
+      "fr": "Conseil informatique",
+      "nl": "IT-consultancy",
+      "de": "IT-Beratung",
+      "it": "Consulenza informatica",
+      "pl": "Doradztwo informatyczne"
+    },
+    "6203": {
+      "label": "IT operations",
+      "es": "Gestión de sistemas",
+      "ca": "Gestió de sistemes",
+      "fr": "Exploitation informatique",
+      "nl": "IT-beheer",
+      "de": "IT-Betrieb",
+      "it": "Gestione di sistemi informatici",
+      "pl": "Zarządzanie systemami IT"
+    },
+    "6209": {
+      "label": "IT services",
+      "es": "Servicios informáticos",
+      "ca": "Serveis informàtics",
+      "fr": "Services informatiques",
+      "nl": "IT-diensten",
+      "de": "IT-Dienstleistungen",
+      "it": "Servizi informatici",
+      "pl": "Usługi informatyczne"
+    },
+    "6311": {
+      "label": "Data and hosting",
+      "es": "Datos y alojamiento",
+      "ca": "Dades i allotjament",
+      "fr": "Données et hébergement",
+      "nl": "Data en hosting",
+      "de": "Daten und Hosting",
+      "it": "Dati e hosting",
+      "pl": "Dane i hosting"
+    },
+    "6312": {
+      "label": "Web portals",
+      "es": "Portales web",
+      "ca": "Portals web",
+      "fr": "Portails web",
+      "nl": "Webportalen",
+      "de": "Webportale",
+      "it": "Portali web",
+      "pl": "Portale internetowe"
+    },
+    "6391": {
+      "label": "News agencies",
+      "es": "Agencias de noticias",
+      "ca": "Agències de notícies",
+      "fr": "Agences de presse",
+      "nl": "Persbureaus",
+      "de": "Nachrichtenagenturen",
+      "it": "Agenzie di stampa",
+      "pl": "Agencje informacyjne"
+    },
+    "6399": {
+      "label": "Information services",
+      "es": "Servicios de información",
+      "ca": "Serveis d'informació",
+      "fr": "Services d'information",
+      "nl": "Informatiediensten",
+      "de": "Informationsdienstleistungen",
+      "it": "Servizi di informazione",
+      "pl": "Usługi informacyjne"
+    },
+    "7111": {
+      "label": "Architecture",
+      "es": "Arquitectura",
+      "ca": "Arquitectura",
+      "fr": "Architecture",
+      "nl": "Architectuur",
+      "de": "Architektur",
+      "it": "Architettura",
+      "pl": "Architektura"
+    },
+    "7112": {
+      "label": "Engineering",
+      "es": "Ingeniería",
+      "ca": "Enginyeria",
+      "fr": "Ingénierie",
+      "nl": "Engineering",
+      "de": "Ingenieurwesen",
+      "it": "Ingegneria",
+      "pl": "Inżynieria"
+    },
+    "7120": {
+      "label": "Testing and inspection",
+      "es": "Ensayos e inspección",
+      "ca": "Assaigs i inspecció",
+      "fr": "Essais et inspection",
+      "nl": "Testen en inspectie",
+      "de": "Prüfung und Inspektion",
+      "it": "Prove e ispezioni",
+      "pl": "Badania i kontrola techniczna"
+    },
+    "7211": {
+      "label": "Biotech research",
+      "es": "I+D en biotecnología",
+      "ca": "R+D en biotecnologia",
+      "fr": "Recherche en biotechnologie",
+      "nl": "Biotechnologisch onderzoek",
+      "de": "Biotechnologische Forschung",
+      "it": "Ricerca biotecnologica",
+      "pl": "Badania biotechnologiczne"
+    },
+    "7219": {
+      "label": "Research and development",
+      "es": "I+D",
+      "ca": "R+D",
+      "fr": "Recherche et développement",
+      "nl": "Onderzoek en ontwikkeling",
+      "de": "Forschung und Entwicklung",
+      "it": "Ricerca e sviluppo",
+      "pl": "Badania i rozwój"
+    },
+    "7220": {
+      "label": "Social science research",
+      "es": "I+D en ciencias sociales",
+      "ca": "R+D en ciències socials",
+      "fr": "Recherche en sciences sociales",
+      "nl": "Sociaalwetenschappelijk onderzoek",
+      "de": "Sozialwissenschaftliche Forschung",
+      "it": "Ricerca nelle scienze sociali",
+      "pl": "Badania w naukach społecznych"
+    },
+    "B": {
+      "label": "Mining and quarrying",
+      "es": "Minería y canteras",
+      "ca": "Mineria i pedreres",
+      "fr": "Industries extractives",
+      "nl": "Mijnbouw en groeven",
+      "de": "Bergbau und Steinbrüche",
+      "it": "Estrazione di minerali",
+      "pl": "Górnictwo i wydobywanie"
+    },
+    "C": {
+      "label": "Manufacturing",
+      "es": "Industria",
+      "ca": "Indústria",
+      "fr": "Industrie manufacturière",
+      "nl": "Industrie",
+      "de": "Verarbeitendes Gewerbe",
+      "it": "Manifattura",
+      "pl": "Przetwórstwo przemysłowe"
+    },
+    "E": {
+      "label": "Water and waste",
+      "es": "Agua y residuos",
+      "ca": "Aigua i residus",
+      "fr": "Eau et déchets",
+      "nl": "Water en afval",
+      "de": "Wasser und Abfall",
+      "it": "Acqua e rifiuti",
+      "pl": "Woda i odpady"
+    },
+    "F": {
+      "label": "Construction",
+      "es": "Construcción",
+      "ca": "Construcció",
+      "fr": "Construction",
+      "nl": "Bouw",
+      "de": "Baugewerbe",
+      "it": "Costruzioni",
+      "pl": "Budownictwo"
+    },
+    "05": {
+      "label": "Coal mining",
+      "es": "Minería del carbón",
+      "ca": "Mineria del carbó",
+      "fr": "Extraction de charbon",
+      "nl": "Kolenwinning",
+      "de": "Kohlenbergbau",
+      "it": "Estrazione di carbone",
+      "pl": "Górnictwo węgla"
+    },
+    "06": {
+      "label": "Oil and gas",
+      "es": "Petróleo y gas",
+      "ca": "Petroli i gas",
+      "fr": "Pétrole et gaz",
+      "nl": "Olie en gas",
+      "de": "Öl und Gas",
+      "it": "Petrolio e gas",
+      "pl": "Ropa i gaz"
+    },
+    "07": {
+      "label": "Metal ore mining",
+      "es": "Minería metálica",
+      "ca": "Mineria metàl·lica",
+      "fr": "Extraction de minerais métalliques",
+      "nl": "Winning van metaalertsen",
+      "de": "Erzbergbau",
+      "it": "Estrazione di minerali metalliferi",
+      "pl": "Górnictwo rud metali"
+    },
+    "08": {
+      "label": "Quarrying",
+      "es": "Canteras",
+      "ca": "Pedreres",
+      "fr": "Carrières",
+      "nl": "Groeven",
+      "de": "Steinbrüche",
+      "it": "Cave",
+      "pl": "Kopalnie odkrywkowe"
+    },
+    "09": {
+      "label": "Mining services",
+      "es": "Servicios a la minería",
+      "ca": "Serveis a la mineria",
+      "fr": "Services miniers",
+      "nl": "Diensten voor de mijnbouw",
+      "de": "Dienstleistungen für den Bergbau",
+      "it": "Servizi minerari",
+      "pl": "Usługi górnicze"
+    },
+    "0510": {
+      "label": "Coal mining",
+      "es": "Minería del carbón",
+      "ca": "Mineria del carbó",
+      "fr": "Extraction de houille",
+      "nl": "Steenkoolwinning",
+      "de": "Steinkohlenbergbau",
+      "it": "Estrazione di carbone",
+      "pl": "Górnictwo węgla"
+    },
+    "0520": {
+      "label": "Lignite mining",
+      "es": "Minería del lignito",
+      "ca": "Mineria del lignit",
+      "fr": "Extraction de lignite",
+      "nl": "Bruinkoolwinning",
+      "de": "Braunkohlenbergbau",
+      "it": "Estrazione di lignite",
+      "pl": "Górnictwo węgla brunatnego"
+    },
+    "0610": {
+      "label": "Crude oil",
+      "es": "Petróleo",
+      "ca": "Petroli",
+      "fr": "Pétrole brut",
+      "nl": "Ruwe olie",
+      "de": "Erdöl",
+      "it": "Petrolio greggio",
+      "pl": "Ropa naftowa"
+    },
+    "0620": {
+      "label": "Natural gas",
+      "es": "Gas natural",
+      "ca": "Gas natural",
+      "fr": "Gaz naturel",
+      "nl": "Aardgas",
+      "de": "Erdgas",
+      "it": "Gas naturale",
+      "pl": "Gaz ziemny"
+    },
+    "0710": {
+      "label": "Iron ore mining",
+      "es": "Minería de hierro",
+      "ca": "Mineria de ferro",
+      "fr": "Extraction de minerai de fer",
+      "nl": "IJzerertswinning",
+      "de": "Eisenerzbergbau",
+      "it": "Estrazione di minerali di ferro",
+      "pl": "Górnictwo rud żelaza"
+    },
+    "0729": {
+      "label": "Metal ore mining",
+      "es": "Minería metálica",
+      "ca": "Mineria metàl·lica",
+      "fr": "Extraction de minerais métalliques",
+      "nl": "Winning van metaalertsen",
+      "de": "Erzbergbau",
+      "it": "Estrazione di minerali metalliferi",
+      "pl": "Górnictwo rud metali"
+    },
+    "0811": {
+      "label": "Stone quarrying",
+      "es": "Canteras de piedra",
+      "ca": "Pedreres de pedra",
+      "fr": "Extraction de pierres",
+      "nl": "Natuursteengroeven",
+      "de": "Natursteingewinnung",
+      "it": "Estrazione di pietre",
+      "pl": "Wydobywanie kamienia"
+    },
+    "0812": {
+      "label": "Gravel and sand",
+      "es": "Áridos y arcillas",
+      "ca": "Àrids i argiles",
+      "fr": "Graviers et sables",
+      "nl": "Grind en zand",
+      "de": "Kies und Sand",
+      "it": "Ghiaia e sabbia",
+      "pl": "Żwir i piasek"
+    },
+    "0891": {
+      "label": "Chemical minerals",
+      "es": "Minerales químicos",
+      "ca": "Minerals químics",
+      "fr": "Minéraux chimiques",
+      "nl": "Chemische mineralen",
+      "de": "Chemische Mineralien",
+      "it": "Minerali per l’industria chimica",
+      "pl": "Minerały chemiczne"
+    },
+    "0892": {
+      "label": "Peat",
+      "es": "Turba",
+      "ca": "Torba",
+      "fr": "Tourbe",
+      "nl": "Turf",
+      "de": "Torf",
+      "it": "Torba",
+      "pl": "Torf"
+    },
+    "0893": {
+      "label": "Salt",
+      "es": "Sal",
+      "ca": "Sal",
+      "fr": "Sel",
+      "nl": "Zout",
+      "de": "Salz",
+      "it": "Sale",
+      "pl": "Sól"
+    },
+    "0899": {
+      "label": "Mining",
+      "es": "Minería",
+      "ca": "Mineria",
+      "fr": "Extraction minière",
+      "nl": "Mijnbouw",
+      "de": "Bergbau",
+      "it": "Estrazione",
+      "pl": "Górnictwo"
+    },
+    "0910": {
+      "label": "Oil and gas services",
+      "es": "Servicios petrolíferos",
+      "ca": "Serveis petrolífers",
+      "fr": "Services pétroliers et gaziers",
+      "nl": "Diensten voor olie en gas",
+      "de": "Dienstleistungen für Öl und Gas",
+      "it": "Servizi per petrolio e gas",
+      "pl": "Usługi dla górnictwa ropy i gazu"
+    },
+    "0990": {
+      "label": "Mining services",
+      "es": "Servicios a la minería",
+      "ca": "Serveis a la mineria",
+      "fr": "Services miniers",
+      "nl": "Diensten voor de mijnbouw",
+      "de": "Dienstleistungen für den Bergbau",
+      "it": "Servizi minerari",
+      "pl": "Usługi górnicze"
+    }
+  },
+  "nace21": {
+    "1011": {
+      "label": "Meat",
+      "es": "Cárnicas",
+      "ca": "Càrnies",
+      "fr": "Viande",
+      "nl": "Vlees",
+      "de": "Fleisch",
+      "it": "Carne",
+      "pl": "Mięso"
+    },
+    "1051": {
+      "label": "Dairy",
+      "es": "Lácteos",
+      "ca": "Làctics",
+      "fr": "Produits laitiers",
+      "nl": "Zuivel",
+      "de": "Milchprodukte",
+      "it": "Lattiero-caseario",
+      "pl": "Mleczarstwo"
+    },
+    "1410": {
+      "label": "Knitwear",
+      "es": "Géneros de punto",
+      "ca": "Gèneres de punt",
+      "fr": "Maille",
+      "nl": "Breigoed",
+      "de": "Strickwaren",
+      "it": "Maglieria",
+      "pl": "Odzież dziana"
+    },
+    "1421": {
+      "label": "Outerwear",
+      "es": "Prendas exteriores",
+      "ca": "Peces exteriors",
+      "fr": "Vêtements de dessus",
+      "nl": "Bovenkleding",
+      "de": "Oberbekleidung",
+      "it": "Capispalla",
+      "pl": "Odzież wierzchnia"
+    },
+    "1422": {
+      "label": "Underwear",
+      "es": "Ropa interior",
+      "ca": "Roba interior",
+      "fr": "Sous-vêtements",
+      "nl": "Ondergoed",
+      "de": "Unterwäsche",
+      "it": "Biancheria intima",
+      "pl": "Bielizna"
+    },
+    "1423": {
+      "label": "Workwear",
+      "es": "Ropa de trabajo",
+      "ca": "Roba de treball",
+      "fr": "Vêtements de travail",
+      "nl": "Werkkleding",
+      "de": "Arbeitskleidung",
+      "it": "Abbigliamento da lavoro",
+      "pl": "Odzież robocza"
+    },
+    "1429": {
+      "label": "Clothing",
+      "es": "Confección",
+      "ca": "Confecció",
+      "fr": "Habillement",
+      "nl": "Kleding",
+      "de": "Bekleidung",
+      "it": "Abbigliamento",
+      "pl": "Odzież"
+    },
+    "1611": {
+      "label": "Sawmills",
+      "es": "Aserraderos",
+      "ca": "Serradores",
+      "fr": "Scieries",
+      "nl": "Zagerijen",
+      "de": "Sägewerke",
+      "it": "Segherie",
+      "pl": "Tartaki"
+    },
+    "1612": {
+      "label": "Wood finishing",
+      "es": "Acabado de la madera",
+      "ca": "Acabat de la fusta",
+      "fr": "Finition du bois",
+      "nl": "Houtafwerking",
+      "de": "Holzveredelung",
+      "it": "Finitura del legno",
+      "pl": "Wykańczanie drewna"
+    },
+    "1625": {
+      "label": "Wooden doors and windows",
+      "es": "Puertas y ventanas de madera",
+      "ca": "Portes i finestres de fusta",
+      "fr": "Portes et fenêtres en bois",
+      "nl": "Houten deuren en ramen",
+      "de": "Holztüren und -fenster",
+      "it": "Porte e finestre in legno",
+      "pl": "Drzwi i okna drewniane"
+    },
+    "1626": {
+      "label": "Wood fuel",
+      "es": "Biocombustibles de madera",
+      "ca": "Biocombustibles de fusta",
+      "fr": "Bois-énergie",
+      "nl": "Houtbrandstof",
+      "de": "Holzbrennstoffe",
+      "it": "Combustibili legnosi",
+      "pl": "Paliwo drzewne"
+    },
+    "1628": {
+      "label": "Wood products",
+      "es": "Productos de madera",
+      "ca": "Productes de fusta",
+      "fr": "Produits en bois",
+      "nl": "Houtproducten",
+      "de": "Holzprodukte",
+      "it": "Prodotti in legno",
+      "pl": "Wyroby z drewna"
+    },
+    "1725": {
+      "label": "Paper products",
+      "es": "Artículos de papel",
+      "ca": "Articles de paper",
+      "fr": "Articles en papier",
+      "nl": "Papierwaren",
+      "de": "Papierwaren",
+      "it": "Prodotti di carta",
+      "pl": "Wyroby z papieru"
+    },
+    "2051": {
+      "label": "Biofuels",
+      "es": "Biocombustibles",
+      "ca": "Biocombustibles",
+      "fr": "Biocarburants",
+      "nl": "Biobrandstoffen",
+      "de": "Biokraftstoffe",
+      "it": "Biocarburanti",
+      "pl": "Biopaliwa"
+    },
+    "2212": {
+      "label": "Rubber products",
+      "es": "Productos de caucho",
+      "ca": "Productes de cautxú",
+      "fr": "Produits en caoutchouc",
+      "nl": "Rubberproducten",
+      "de": "Gummiwaren",
+      "it": "Prodotti in gomma",
+      "pl": "Wyroby gumowe"
+    },
+    "2223": {
+      "label": "Plastic doors and windows",
+      "es": "Puertas y ventanas de plástico",
+      "ca": "Portes i finestres de plàstic",
+      "fr": "Portes et fenêtres en plastique",
+      "nl": "Kunststof deuren en ramen",
+      "de": "Kunststofftüren und -fenster",
+      "it": "Porte e finestre in plastica",
+      "pl": "Drzwi i okna z tworzyw"
+    },
+    "2224": {
+      "label": "Plastic building products",
+      "es": "Plásticos para la construcción",
+      "ca": "Plàstics per a la construcció",
+      "fr": "Plastiques pour le bâtiment",
+      "nl": "Kunststof bouwproducten",
+      "de": "Baubedarf aus Kunststoff",
+      "it": "Prodotti in plastica per l’edilizia",
+      "pl": "Wyroby z tworzyw dla budownictwa"
+    },
+    "2225": {
+      "label": "Plastic finishing",
+      "es": "Acabado de plásticos",
+      "ca": "Acabat de plàstics",
+      "fr": "Finition des plastiques",
+      "nl": "Kunststofafwerking",
+      "de": "Kunststoffveredelung",
+      "it": "Finitura della plastica",
+      "pl": "Wykańczanie tworzyw"
+    },
+    "2226": {
+      "label": "Plastic products",
+      "es": "Productos de plástico",
+      "ca": "Productes de plàstic",
+      "fr": "Produits en plastique",
+      "nl": "Kunststofproducten",
+      "de": "Kunststoffwaren",
+      "it": "Prodotti in plastica",
+      "pl": "Wyroby z tworzyw sztucznych"
+    },
+    "2315": {
+      "label": "Technical glass",
+      "es": "Vidrio técnico",
+      "ca": "Vidre tècnic",
+      "fr": "Verre technique",
+      "nl": "Technisch glas",
+      "de": "Technisches Glas",
+      "it": "Vetro tecnico",
+      "pl": "Szkło techniczne"
+    },
+    "2366": {
+      "label": "Concrete and plaster",
+      "es": "Hormigón y yeso",
+      "ca": "Formigó i guix",
+      "fr": "Béton et plâtre",
+      "nl": "Beton en gips",
+      "de": "Beton und Gips",
+      "it": "Calcestruzzo e gesso",
+      "pl": "Beton i gips"
+    },
+    "2521": {
+      "label": "Radiators and boilers",
+      "es": "Radiadores y calderas",
+      "ca": "Radiadors i calderes",
+      "fr": "Radiateurs et chaudières",
+      "nl": "Radiatoren en ketels",
+      "de": "Heizkörper und Heizkessel",
+      "it": "Radiatori e caldaie",
+      "pl": "Grzejniki i kotły"
+    },
+    "2522": {
+      "label": "Tanks and containers",
+      "es": "Depósitos y contenedores",
+      "ca": "Dipòsits i contenidors",
+      "fr": "Réservoirs et conteneurs",
+      "nl": "Tanks en containers",
+      "de": "Tanks und Behälter",
+      "it": "Serbatoi e contenitori",
+      "pl": "Zbiorniki i pojemniki"
+    },
+    "2530": {
+      "label": "Weapons",
+      "es": "Armas",
+      "ca": "Armes",
+      "fr": "Armes",
+      "nl": "Wapens",
+      "de": "Waffen",
+      "it": "Armi",
+      "pl": "Broń"
+    },
+    "2540": {
+      "label": "Forging and stamping",
+      "es": "Forja y estampación",
+      "ca": "Forja i estampació",
+      "fr": "Forge et emboutissage",
+      "nl": "Smeden en stampen",
+      "de": "Schmieden und Stanzen",
+      "it": "Forgiatura e stampaggio",
+      "pl": "Kucie i tłoczenie"
+    },
+    "2551": {
+      "label": "Metal coating",
+      "es": "Recubrimiento de metales",
+      "ca": "Recobriment de metalls",
+      "fr": "Revêtement des métaux",
+      "nl": "Metaalcoating",
+      "de": "Metallbeschichtung",
+      "it": "Rivestimento dei metalli",
+      "pl": "Powlekanie metali"
+    },
+    "2552": {
+      "label": "Heat treatment",
+      "es": "Tratamiento térmico",
+      "ca": "Tractament tèrmic",
+      "fr": "Traitement thermique",
+      "nl": "Warmtebehandeling",
+      "de": "Wärmebehandlung",
+      "it": "Trattamenti termici",
+      "pl": "Obróbka cieplna"
+    },
+    "2553": {
+      "label": "Machining",
+      "es": "Mecanizado",
+      "ca": "Mecanització",
+      "fr": "Usinage",
+      "nl": "Verspaning",
+      "de": "Zerspanung",
+      "it": "Lavorazioni meccaniche",
+      "pl": "Obróbka skrawaniem"
+    },
+    "2561": {
+      "label": "Cutlery",
+      "es": "Cuchillería",
+      "ca": "Ganiveteria",
+      "fr": "Coutellerie",
+      "nl": "Bestek en messen",
+      "de": "Schneidwaren",
+      "it": "Coltelleria",
+      "pl": "Sztućce"
+    },
+    "2562": {
+      "label": "Locks and hinges",
+      "es": "Cerraduras y herrajes",
+      "ca": "Panys i ferramenta",
+      "fr": "Serrures et ferrures",
+      "nl": "Sloten en scharnieren",
+      "de": "Schlösser und Beschläge",
+      "it": "Serrature e cerniere",
+      "pl": "Zamki i zawiasy"
+    },
+    "2563": {
+      "label": "Tools",
+      "es": "Herramientas",
+      "ca": "Eines",
+      "fr": "Outillage",
+      "nl": "Gereedschap",
+      "de": "Werkzeuge",
+      "it": "Utensileria",
+      "pl": "Narzędzia"
+    },
+    "2821": {
+      "label": "Furnaces and heaters",
+      "es": "Hornos y calefactores",
+      "ca": "Forns i calefactors",
+      "fr": "Fours et brûleurs",
+      "nl": "Ovens en branders",
+      "de": "Öfen und Brenner",
+      "it": "Forni e riscaldatori",
+      "pl": "Piece i grzejniki"
+    },
+    "2825": {
+      "label": "Air conditioning",
+      "es": "Climatización",
+      "ca": "Climatització",
+      "fr": "Climatisation",
+      "nl": "Airconditioning",
+      "de": "Klimatechnik",
+      "it": "Climatizzazione",
+      "pl": "Klimatyzacja"
+    },
+    "2841": {
+      "label": "Machine tools",
+      "es": "Máquinas herramienta",
+      "ca": "Màquines eina",
+      "fr": "Machines-outils",
+      "nl": "Gereedschapswerktuigen",
+      "de": "Werkzeugmaschinen",
+      "it": "Macchine utensili",
+      "pl": "Obrabiarki"
+    },
+    "2842": {
+      "label": "Machine tools",
+      "es": "Máquinas herramienta",
+      "ca": "Màquines eina",
+      "fr": "Machines-outils",
+      "nl": "Gereedschapswerktuigen",
+      "de": "Werkzeugmaschinen",
+      "it": "Macchine utensili",
+      "pl": "Obrabiarki"
+    },
+    "3013": {
+      "label": "Naval shipbuilding",
+      "es": "Construcción naval militar",
+      "ca": "Construcció naval militar",
+      "fr": "Construction navale militaire",
+      "nl": "Militaire scheepsbouw",
+      "de": "Marineschiffbau",
+      "it": "Cantieristica militare",
+      "pl": "Budowa okrętów wojennych"
+    },
+    "3031": {
+      "label": "Aerospace",
+      "es": "Aeronáutica y espacio",
+      "ca": "Aeronàutica i espai",
+      "fr": "Aéronautique et spatial",
+      "nl": "Lucht- en ruimtevaart",
+      "de": "Luft- und Raumfahrt",
+      "it": "Aerospaziale",
+      "pl": "Lotnictwo i kosmonautyka"
+    },
+    "3100": {
+      "label": "Furniture",
+      "es": "Muebles",
+      "ca": "Mobles",
+      "fr": "Meubles",
+      "nl": "Meubelen",
+      "de": "Möbel",
+      "it": "Mobili",
+      "pl": "Meble"
+    },
+    "3318": {
+      "label": "Military repair",
+      "es": "Mantenimiento militar",
+      "ca": "Manteniment militar",
+      "fr": "Maintenance militaire",
+      "nl": "Militair onderhoud",
+      "de": "Militärische Instandhaltung",
+      "it": "Riparazione militare",
+      "pl": "Naprawa sprzętu wojskowego"
+    },
+    "3511": {
+      "label": "Power generation",
+      "es": "Producción eléctrica",
+      "ca": "Producció elèctrica",
+      "fr": "Production d'électricité",
+      "nl": "Elektriciteitsopwekking",
+      "de": "Stromerzeugung",
+      "it": "Produzione di energia elettrica",
+      "pl": "Wytwarzanie energii elektrycznej"
+    },
+    "3512": {
+      "label": "Renewable power",
+      "es": "Energías renovables",
+      "ca": "Energies renovables",
+      "fr": "Énergies renouvelables",
+      "nl": "Hernieuwbare energie",
+      "de": "Erneuerbare Energien",
+      "it": "Energia rinnovabile",
+      "pl": "Energia odnawialna"
+    },
+    "3513": {
+      "label": "Power transmission",
+      "es": "Transporte de electricidad",
+      "ca": "Transport d'electricitat",
+      "fr": "Transport d'électricité",
+      "nl": "Transmissie van elektriciteit",
+      "de": "Stromübertragung",
+      "it": "Trasmissione di energia elettrica",
+      "pl": "Przesył energii elektrycznej"
+    },
+    "3514": {
+      "label": "Power distribution",
+      "es": "Distribución eléctrica",
+      "ca": "Distribució elèctrica",
+      "fr": "Distribution d'électricité",
+      "nl": "Distributie van elektriciteit",
+      "de": "Stromverteilung",
+      "it": "Distribuzione di energia elettrica",
+      "pl": "Dystrybucja energii elektrycznej"
+    },
+    "3515": {
+      "label": "Electricity trading",
+      "es": "Comercio de electricidad",
+      "ca": "Comerç d'electricitat",
+      "fr": "Commerce d'électricité",
+      "nl": "Elektriciteitshandel",
+      "de": "Stromhandel",
+      "it": "Commercio di elettricità",
+      "pl": "Handel energią elektryczną"
+    },
+    "3540": {
+      "label": "Energy brokers",
+      "es": "Intermediación energética",
+      "ca": "Intermediació energètica",
+      "fr": "Courtage en énergie",
+      "nl": "Energiebemiddeling",
+      "de": "Energievermittlung",
+      "it": "Intermediari dell’energia",
+      "pl": "Pośrednictwo energetyczne"
+    },
+    "3821": {
+      "label": "Materials recovery",
+      "es": "Recuperación de materiales",
+      "ca": "Recuperació de materials",
+      "fr": "Récupération de matériaux",
+      "nl": "Terugwinning van materialen",
+      "de": "Rückgewinnung von Wertstoffen",
+      "it": "Recupero di materiali",
+      "pl": "Odzysk surowców"
+    },
+    "3822": {
+      "label": "Energy from waste",
+      "es": "Valorización energética",
+      "ca": "Valorització energètica",
+      "fr": "Valorisation énergétique",
+      "nl": "Energie uit afval",
+      "de": "Energetische Verwertung",
+      "it": "Energia dai rifiuti",
+      "pl": "Energia z odpadów"
+    },
+    "3823": {
+      "label": "Waste recovery",
+      "es": "Valorización de residuos",
+      "ca": "Valorització de residus",
+      "fr": "Valorisation des déchets",
+      "nl": "Afvalverwerking",
+      "de": "Abfallverwertung",
+      "it": "Recupero dei rifiuti",
+      "pl": "Odzysk odpadów"
+    },
+    "3832": {
+      "label": "Landfill",
+      "es": "Vertederos",
+      "ca": "Abocadors",
+      "fr": "Décharges",
+      "nl": "Stortplaatsen",
+      "de": "Deponien",
+      "it": "Discariche",
+      "pl": "Składowiska odpadów"
+    },
+    "3833": {
+      "label": "Waste disposal",
+      "es": "Eliminación de residuos",
+      "ca": "Eliminació de residus",
+      "fr": "Élimination des déchets",
+      "nl": "Afvalverwijdering",
+      "de": "Abfallbeseitigung",
+      "it": "Smaltimento dei rifiuti",
+      "pl": "Unieszkodliwianie odpadów"
+    },
+    "4100": {
+      "label": "Building",
+      "es": "Edificación",
+      "ca": "Edificació",
+      "fr": "Bâtiment",
+      "nl": "Bouw",
+      "de": "Hochbau",
+      "it": "Edilizia",
+      "pl": "Budownictwo"
+    },
+    "4323": {
+      "label": "Insulation",
+      "es": "Aislamientos",
+      "ca": "Aïllaments",
+      "fr": "Isolation",
+      "nl": "Isolatie",
+      "de": "Dämmung",
+      "it": "Isolamento",
+      "pl": "Izolacje"
+    },
+    "4324": {
+      "label": "Building installation",
+      "es": "Instalaciones",
+      "ca": "Instal·lacions",
+      "fr": "Installations du bâtiment",
+      "nl": "Bouwinstallaties",
+      "de": "Bauinstallation",
+      "it": "Impianti negli edifici",
+      "pl": "Instalacje budowlane"
+    },
+    "4335": {
+      "label": "Finishing",
+      "es": "Acabados",
+      "ca": "Acabats",
+      "fr": "Finitions",
+      "nl": "Afwerking",
+      "de": "Ausbau",
+      "it": "Finiture",
+      "pl": "Wykończenia"
+    },
+    "4341": {
+      "label": "Roofing",
+      "es": "Cubiertas",
+      "ca": "Cobertes",
+      "fr": "Couverture",
+      "nl": "Dakwerken",
+      "de": "Dachdeckerei",
+      "it": "Coperture",
+      "pl": "Dekarstwo"
+    },
+    "4342": {
+      "label": "Building trades",
+      "es": "Construcción especializada",
+      "ca": "Construcció especialitzada",
+      "fr": "Travaux de construction spécialisés",
+      "nl": "Gespecialiseerde bouw",
+      "de": "Baugewerbe",
+      "it": "Lavori edili specializzati",
+      "pl": "Specjalistyczne roboty budowlane"
+    },
+    "4350": {
+      "label": "Civil engineering trades",
+      "es": "Obra civil especializada",
+      "ca": "Obra civil especialitzada",
+      "fr": "Génie civil spécialisé",
+      "nl": "Gespecialiseerde GWW",
+      "de": "Spezialtiefbau",
+      "it": "Lavori di ingegneria civile",
+      "pl": "Roboty inżynieryjne"
+    },
+    "4360": {
+      "label": "Construction brokers",
+      "es": "Intermediación en la construcción",
+      "ca": "Intermediació en la construcció",
+      "fr": "Intermédiation dans la construction",
+      "nl": "Bemiddeling in de bouw",
+      "de": "Bauvermittlung",
+      "it": "Intermediari delle costruzioni",
+      "pl": "Pośrednictwo budowlane"
+    },
+    "4391": {
+      "label": "Masonry",
+      "es": "Albañilería",
+      "ca": "Paleta",
+      "fr": "Maçonnerie",
+      "nl": "Metselwerk",
+      "de": "Maurerarbeiten",
+      "it": "Muratura",
+      "pl": "Murarstwo"
+    },
+    "4399": {
+      "label": "Building trades",
+      "es": "Construcción especializada",
+      "ca": "Construcció especialitzada",
+      "fr": "Travaux de construction spécialisés",
+      "nl": "Gespecialiseerde bouw",
+      "de": "Baugewerbe",
+      "it": "Lavori edili specializzati",
+      "pl": "Specjalistyczne roboty budowlane"
+    },
+    "5821": {
+      "label": "Video games",
+      "es": "Videojuegos",
+      "ca": "Videojocs",
+      "fr": "Jeux vidéo",
+      "nl": "Videogames",
+      "de": "Videospiele",
+      "it": "Videogiochi",
+      "pl": "Gry wideo"
+    },
+    "6110": {
+      "label": "Telecoms",
+      "es": "Telecomunicaciones",
+      "ca": "Telecomunicacions",
+      "fr": "Télécommunications",
+      "nl": "Telecom",
+      "de": "Telekommunikation",
+      "it": "Telecomunicazioni",
+      "pl": "Telekomunikacja"
+    },
+    "6120": {
+      "label": "Telecom resellers",
+      "es": "Reventa de telecomunicaciones",
+      "ca": "Revenda de telecomunicacions",
+      "fr": "Revente de télécommunications",
+      "nl": "Telecomwederverkoop",
+      "de": "Telekom-Wiederverkauf",
+      "it": "Rivenditori di telecomunicazioni",
+      "pl": "Odsprzedaż usług telekomunikacyjnych"
+    },
+    "6210": {
+      "label": "Software development",
+      "es": "Programación",
+      "ca": "Programació",
+      "fr": "Développement de logiciels",
+      "nl": "Softwareontwikkeling",
+      "de": "Softwareentwicklung",
+      "it": "Sviluppo software",
+      "pl": "Tworzenie oprogramowania"
+    },
+    "6220": {
+      "label": "IT consulting",
+      "es": "Consultoría informática",
+      "ca": "Consultoria informàtica",
+      "fr": "Conseil informatique",
+      "nl": "IT-advies",
+      "de": "IT-Beratung",
+      "it": "Consulenza informatica",
+      "pl": "Doradztwo informatyczne"
+    },
+    "6290": {
+      "label": "IT services",
+      "es": "Servicios informáticos",
+      "ca": "Serveis informàtics",
+      "fr": "Services informatiques",
+      "nl": "IT-diensten",
+      "de": "IT-Dienstleistungen",
+      "it": "Servizi informatici",
+      "pl": "Usługi informatyczne"
+    },
+    "6310": {
+      "label": "Data and hosting",
+      "es": "Datos y alojamiento",
+      "ca": "Dades i allotjament",
+      "fr": "Données et hébergement",
+      "nl": "Data en hosting",
+      "de": "Daten und Hosting",
+      "it": "Dati e hosting",
+      "pl": "Dane i hosting"
+    },
+    "6391": {
+      "label": "Search engines",
+      "es": "Buscadores web",
+      "ca": "Cercadors web",
+      "fr": "Moteurs de recherche",
+      "nl": "Zoekmachines",
+      "de": "Suchmaschinen",
+      "it": "Motori di ricerca",
+      "pl": "Wyszukiwarki internetowe"
+    },
+    "6392": {
+      "label": "Information services",
+      "es": "Servicios de información",
+      "ca": "Serveis d'informació",
+      "fr": "Services d'information",
+      "nl": "Informatiediensten",
+      "de": "Informationsdienste",
+      "it": "Servizi di informazione",
+      "pl": "Usługi informacyjne"
+    },
+    "7210": {
+      "label": "Research and development",
+      "es": "I+D",
+      "ca": "R+D",
+      "fr": "Recherche et développement",
+      "nl": "Onderzoek en ontwikkeling",
+      "de": "Forschung und Entwicklung",
+      "it": "Ricerca e sviluppo",
+      "pl": "Badania i rozwój"
+    }
+  },
+  "cnae": {
+    "1021": {
+      "label": "Fish processing",
+      "es": "Procesado de pescado",
+      "ca": "Processament de peix",
+      "fr": "Transformation du poisson",
+      "nl": "Visverwerking",
+      "de": "Fischverarbeitung",
+      "it": "Lavorazione del pesce",
+      "pl": "Przetwórstwo ryb"
+    },
+    "1022": {
+      "label": "Fish canning",
+      "es": "Conservas de pescado",
+      "ca": "Conserves de peix",
+      "fr": "Conserves de poisson",
+      "nl": "Visconserven",
+      "de": "Fischkonserven",
+      "it": "Conserve ittiche",
+      "pl": "Konserwy rybne"
+    },
+    "1043": {
+      "label": "Olive oil",
+      "es": "Aceite de oliva",
+      "ca": "Oli d'oliva",
+      "fr": "Huile d'olive",
+      "nl": "Olijfolie",
+      "de": "Olivenöl",
+      "it": "Olio d’oliva",
+      "pl": "Oliwa z oliwek"
+    },
+    "1053": {
+      "label": "Cheese",
+      "es": "Quesos",
+      "ca": "Formatges",
+      "fr": "Fromages",
+      "nl": "Kaas",
+      "de": "Käse",
+      "it": "Formaggi",
+      "pl": "Sery"
+    },
+    "1054": {
+      "label": "Dairy",
+      "es": "Lácteos",
+      "ca": "Làctics",
+      "fr": "Produits laitiers",
+      "nl": "Zuivel",
+      "de": "Milchprodukte",
+      "it": "Lattiero-caseario",
+      "pl": "Mleczarstwo"
+    },
+    "3515": {
+      "label": "Hydropower",
+      "es": "Energía hidroeléctrica",
+      "ca": "Energia hidroelèctrica",
+      "fr": "Hydroélectricité",
+      "nl": "Waterkracht",
+      "de": "Wasserkraft",
+      "it": "Energia idroelettrica",
+      "pl": "Energetyka wodna"
+    },
+    "3516": {
+      "label": "Thermal power",
+      "es": "Energía térmica",
+      "ca": "Energia tèrmica",
+      "fr": "Énergie thermique",
+      "nl": "Thermische energie",
+      "de": "Wärmekraft",
+      "it": "Energia termoelettrica",
+      "pl": "Energetyka cieplna"
+    },
+    "3519": {
+      "label": "Power generation",
+      "es": "Producción eléctrica",
+      "ca": "Producció elèctrica",
+      "fr": "Production d'électricité",
+      "nl": "Elektriciteitsopwekking",
+      "de": "Stromerzeugung",
+      "it": "Produzione di energia elettrica",
+      "pl": "Wytwarzanie energii elektrycznej"
+    },
+    "4121": {
+      "label": "Housing construction",
+      "es": "Construcción de viviendas",
+      "ca": "Construcció d'habitatges",
+      "fr": "Construction de logements",
+      "nl": "Woningbouw",
+      "de": "Wohnungsbau",
+      "it": "Edilizia residenziale",
+      "pl": "Budownictwo mieszkaniowe"
+    },
+    "4122": {
+      "label": "Non-residential building",
+      "es": "Edificación no residencial",
+      "ca": "Edificació no residencial",
+      "fr": "Bâtiment non résidentiel",
+      "nl": "Utiliteitsbouw",
+      "de": "Nichtwohnungsbau",
+      "it": "Edilizia non residenziale",
+      "pl": "Budownictwo niemieszkalne"
+    }
+  }
+}

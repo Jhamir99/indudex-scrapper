@@ -9,7 +9,7 @@ const raw = async (file: string) =>
     [key: string]: unknown;
   };
 
-describe("the positional catalogues (FR-1, FR-3, FR-5)", () => {
+describe("the catalogues (FR-1, FR-3, FR-5)", () => {
   it("hold the legacy's entries", async () => {
     const families = await readCatalogue("families");
     expect(families.groups).toHaveLength(9);
@@ -20,6 +20,51 @@ describe("the positional catalogues (FR-1, FR-3, FR-5)", () => {
     expect((await readCatalogue("degrees")).degrees).toHaveLength(19);
     expect((await readCatalogue("seniority")).levels).toHaveLength(4);
     expect((await readCatalogue("vetoes")).vetoes).toHaveLength(10);
+  });
+
+  it("hold the legacy's occupation tables", async () => {
+    const isco = await readCatalogue("isco");
+    expect(isco.groups).toHaveLength(17);
+    expect(Object.keys(isco.units)).toHaveLength(71);
+    expect(isco.langs).toHaveLength(23);
+    expect(Object.keys((await readCatalogue("ssykIsco")).concepts)).toHaveLength(
+      400,
+    );
+    expect(
+      Object.keys((await readCatalogue("confirmedTitles")).titles),
+    ).toHaveLength(45_111);
+    const titles = await readCatalogue("titles");
+    expect(titles.sources.map((source) => source.id)).toEqual([
+      "ons",
+      "cbs",
+      "ba",
+      "dkz",
+      "bfs",
+    ]);
+    expect(titles.about.sources.map((source) => source.licence)).toEqual(
+      titles.sources.map((source) => source.licence),
+    );
+    const { about: _about, ...wikidata } =
+      await readCatalogue("wikidataCountries");
+    expect(Object.keys(wikidata)).toHaveLength(45);
+  });
+
+  it("place every family's unit group in the ESCO table", async () => {
+    const { units } = await readCatalogue("isco");
+    const { families } = await readCatalogue("families");
+    expect(families.filter((family) => !units[family.id])).toEqual([]);
+  });
+
+  it("keep the occupation tables internal", () => {
+    const internal = [
+      "activities",
+      "isco",
+      "ssykIsco",
+      "titles",
+      "confirmedTitles",
+      "wikidataCountries",
+    ] as const;
+    expect(internal.filter((name) => CATALOGUES[name].published)).toEqual([]);
   });
 
   it("name every family and occupation in English, Spanish, French, German and Polish", async () => {
