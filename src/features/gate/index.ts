@@ -4,7 +4,13 @@ import { compileGate, type GateCatalogues } from "./compile.js";
 import { decider, type GateDecision, type GateInput } from "./decide.js";
 
 export { GateDecision, type GateInput } from "./decide.js";
-export { explainLine, type ExplainedAdvert } from "./explain.js";
+export {
+  explainLine,
+  type ExplainedAdvert,
+  type ExplainSummary,
+  formatSummary,
+  writeExplainReport,
+} from "./explain.js";
 
 export interface GateSources extends GateCatalogues {
   readonly countries: Countries;
