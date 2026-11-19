@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   Advert,
+  SOURCE_FIELD_LIMIT,
   advertId,
   DESCRIPTION_LIMIT,
   expiryDay,
@@ -119,6 +120,50 @@ describe("Advert (FR-1, FR-2)", () => {
         description: "x".repeat(DESCRIPTION_LIMIT + 1),
       }),
     ).toEqual(["description"]);
+  });
+});
+
+describe("Advert's source fields (advert-facts FR-1)", () => {
+  it("accepts the contract, hours, employment types and years a source states, trimmed", () => {
+    const advert = Advert.parse({
+      ...completeAdvert,
+      contract: " Contrato indefinido ",
+      hours: "Jornada completa",
+      employmentType: ["FULL_TIME", "TEMPORARY"],
+      years: 2,
+    });
+    expect([
+      advert.contract,
+      advert.hours,
+      advert.employmentType,
+      advert.years,
+    ]).toEqual([
+      "Contrato indefinido",
+      "Jornada completa",
+      ["FULL_TIME", "TEMPORARY"],
+      2,
+    ]);
+  });
+
+  it("reads an advert stored before them as before", () => {
+    const advert = Advert.parse(completeAdvert);
+    expect("contract" in advert || "years" in advert).toBe(false);
+  });
+
+  it("refuses an empty or overlong value, and years that are no count", () => {
+    expect(rejectionPaths({ ...completeAdvert, contract: "  " })).toEqual([
+      "contract",
+    ]);
+    expect(
+      rejectionPaths({
+        ...completeAdvert,
+        hours: "x".repeat(SOURCE_FIELD_LIMIT + 1),
+      }),
+    ).toEqual(["hours"]);
+    expect(rejectionPaths({ ...completeAdvert, employmentType: [] })).toEqual([
+      "employmentType",
+    ]);
+    expect(rejectionPaths({ ...completeAdvert, years: -1 })).toEqual(["years"]);
   });
 });
 

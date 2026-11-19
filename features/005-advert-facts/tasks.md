@@ -6,7 +6,7 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part A — What the source states
 
-- [ ] **T001 — The source's contract, hours and years fields** · FR: FR-1 · Depends: places T011
+- [x] **T001 — The source's contract, hours and years fields** · FR: FR-1 · Depends: places T011
       Done when: `Advert` (and so `AdvertDraft`) accepts optional `contract`, `hours`, `employmentType` and `years`, trimmed, non-empty and capped; tests pass: an advert with them validates, one without them (as stored before) still reads from the file store, a value over the cap or empty is refused; the crawl-core contract test still passes for every adapter.
 - [ ] **T002 — Adapters fill the fields (1/2)** · FR: FR-1 · Depends: T001
       Done when: `actiris`, `bolzano`, `escoladeltreball`, `feinaactiva`, `gencat`, `infopraca`, `jobtech` and `kuntarekry` with `valtiolle` fill the fields their source has (as their legacy adapters did), and each fixture test asserts them on at least one advert.

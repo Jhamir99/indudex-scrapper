@@ -8,6 +8,11 @@ export const DESCRIPTION_LIMIT = 100_000;
 
 const Day = z.iso.date();
 
+// A value as the source wrote it in a field of its own: trimmed, never empty, and capped so a
+// broken field cannot fill the store.
+export const SOURCE_FIELD_LIMIT = 200;
+const SourceWords = z.string().trim().min(1).max(SOURCE_FIELD_LIMIT);
+
 // The source's licence and required attribution, stored with every advert (FR-2).
 // `credit: null` states explicitly that the source requires none.
 export const Attribution = z.strictObject({
@@ -31,6 +36,14 @@ export const Advert = z.strictObject({
   city: z.string(),
   remote: z.boolean(),
   workMode: z.enum(["onsite", "hybrid", "remote"]).optional(),
+  // The contract, hours and employment types the source states in fields of their own, in its
+  // words ("Contrato indefinido", "Jornada completa", ["FULL_TIME", "TEMPORARY"]); the processor
+  // reads contract and working time only from these (advert-facts FR-1, FR-2).
+  contract: SourceWords.optional(),
+  hours: SourceWords.optional(),
+  employmentType: z.array(SourceWords).min(1).max(10).optional(),
+  // The years of experience the source states in a field of its own (VDAB), believed as given.
+  years: z.number().nonnegative().max(60).optional(),
   url: z.url({ protocol: /^https$/, error: "an https:// address" }),
   description: z.string().max(DESCRIPTION_LIMIT),
   posted: Day.optional(),
