@@ -28,7 +28,34 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T009 — Ambiguous town names** · FR: FR-8 · Depends: T008
       Done when: `ambiguousNames` passes tests on legacy examples: «Orange» in a company name and «Hook» in «Hook Up Engineer» are words, «Engineer – Vigo», «(Vigo)», «in Vigo», «Köln, NRW», «Softwareentwickler Duisburg» are places, a name is ambiguous above a quarter of word uses, and a mention near its town counts as a place.
       2026-11-19: as the legacy's code reads them, a separator or region word after a name marks it only past the title's first word («Köln, NRW» alone is a word, «Engineer Köln, NRW» a place). The legacy also read the offer's English title (`te`); that comes with title translation (011).
-- [ ] **T010 — Measure on a real store** · FR: FR-9, spec section 5 · Depends: T007
+- [x] **T010 — Measure on a real store** · FR: FR-9, spec section 5 · Depends: T007
       Done when: the scratchpad script has placed every advert of a real store and the numbers are recorded here: per source the share placed from the location, from the text, by area only and not at all, and the time for the whole pass (under a minute). Any source far below the others has a note: an adapter finding to check, or a rule to add with its test.
+      2026-11-19: measured on the stores of the public-feeds live runs (38 enabled sources, the newest file of each, 188,365 adverts, no network) on the development Mac: the gazetteer compiled in 0.65 s and every advert placed in 2.8 s. Placed from the location 92.1 %, from the text 0.2 %, by area only 4.3 %, not at all 3.4 %. 18 sources place every advert; most others leave under 5 % unplaced. Agency flag `false` throughout (companies does not exist yet).
+
+      | source | adverts | location % | text % | area % | none % |
+      | --- | --- | --- | --- | --- | --- |
+      | island | 138 | 0 | 0 | 0 | 100 |
+      | actiris | 1,884 | 27 | 7 | 0 | 66.1 |
+      | infopraca | 2,868 | 60.8 | 0 | 0 | 39.2 |
+      | jobindex | 148 | 67.6 | 0 | 0 | 32.4 |
+      | nva | 1,260 | 84 | 0 | 0.2 | 15.9 |
+      | anofm | 8,468 | 54.7 | 0 | 31 | 14.3 |
+      | mpsv | 6,260 | 87.1 | 0.6 | 0 | 12.3 |
+      | brescia | 113 | 92 | 0 | 0 | 8 |
+      | upsvr | 12,184 | 94.9 | 0 | 0 | 5.1 |
+      | hzz | 6,011 | 39 | 0 | 56.9 | 4.1 |
+      | cyprus | 401 | 0 | 0 | 100 | 0 |
+      | vdab | 117,042 | 98.2 | 0.1 | 1.4 | 0.3 |
+      | all 38 | 188,365 | 92.1 | 0.2 | 4.3 | 3.4 |
+
+      Findings (none changes a ported rule; each needs its own decision):
+      - `infopraca`: jobs abroad («Niemcy», «Holandia», «Jenbach / Austria») are stored with country `pl` (945 of its 2,868 adverts name a foreign country or region). An adapter fault: the legacy guessed the country, which 004 leaves out (FR-1).
+      - `island`: the location is an Icelandic region («Höfuðborgarsvæðið», «Suðurland»), not one of NUTS's names for Iceland (IS001 is «Höfuðborgarsvæði»). Needs other names for those regions.
+      - `actiris`: 1,240 adverts name only «Belgique»; the adapter may have the commune in another field.
+      - `anofm`: «Municipiul Bucuresti» (1,211 adverts) is Bucharest; Romanian «Municipiul» before a town's name is not a rule of the legacy.
+      - `jobindex`: Copenhagen's and Aarhus's postal districts («København Ø», «Aarhus N»).
+      - `nva` and `mpsv`: villages under 1,000 people and addresses («Lidosta "Rīga"»), and 590 `mpsv` adverts that name only «Česko».
+      - `hzz` gives counties only («Grad Zagreb» is the area HR050, not the town), and `cyprus` only «Κύπρος» (CY000, the whole island): placed by area, as the sources give no town.
+
 - [ ] **T011 — Close places** · FR: FR-1 to FR-9 · Depends: T001-T010
       Done when: `index.ts` exports only `createPlacer`, `Placement` and the list types; `CLAUDE.md` ("Intended structure") lists `src/features/places/`; `features/README.md` marks this feature done; the CI command is green.
