@@ -18,12 +18,13 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T004 — Words and sentences shared** · FR: FR-4, FR-5 · Depends: advert-facts T011
       Done when: `words/` and `sentences.ts` live in `src/shared/` (`src/shared/words/`, `src/shared/kit/sentences.ts`) with their tests, advert facts imports them from there, and every advert-facts test, golden sets included, passes unchanged.
 
-      2026-11-19: done. Moved with `git mv`; advert facts imports them from `src/shared/`, and its 841 tests, golden sets included, pass unchanged. `CLAUDE.md` updated with the move.
+      2026-11-19: done. Moved with `git mv`; advert facts imports them from `src/shared/`, and every advert-facts test, golden sets included, passes unchanged. `CLAUDE.md` updated with the move.
 
 ## Part B — The readers
 
-- [ ] **T005 — Periods, currencies and pay fields** · FR: FR-4 · Depends: T004
+- [x] **T005 — Periods, currencies and pay fields** · FR: FR-4 · Depends: T004
       Done when: `periods.ts`, `currencies.ts` and `figures.ts` pass tests on legacy examples: the period words of the sources and each language (`P1Y`, `ANN`, «pro Stunde», «p/maand», «1 YEAR»), a currency by sign or word only when it names one, «kr» and «Fr.» by country, the country's currency when none is named, figures as people write them («45.000,-», «3.772,00», «45k», «Kč» not thousands), a range in one field with its period's words and a remark in brackets, and what is refused (doubtful grouping, a negative figure, a word beside the figure); every field reading of the golden set (`test/fixtures/pay/fields.json`) matches.
+      2026-11-19: done. The golden sets come from the legacy itself, run in the scratchpad: its pay tests run through a recorder that keeps every call to `periodOf`, `currencyOf`, `readPay`, `payInText` and `payOfText` (the 49 and 29 legacy checks pass there), then every string of its pay tests (and of `data-audit`, `still-reproducing`, `readers-languages`) read as a period, a currency, a pay field and a text: 6,293 field cases and 2,292 text cases (`test/fixtures/pay/`, read by `test/pay/golden.ts`). Every period and currency reading matches. Periods are words here («month»), the legacy's letters (`m`) mapped in the tests. «75000 OTE» reads as a three-letter currency, as the legacy did, and is refused by the checks (no rate).
 - [ ] **T006 — Minimum wages and the pay checks** · FR: FR-7, FR-8 · Depends: T005
       Done when: `minimum-wages.ts` and `read-pay.ts` pass tests on legacy examples: a period by the law (month, year, an hour with cents; Britain, Ireland and Malta by the year), «18.000 € al mes» as a year, the believable year and the widest range, a ceiling alone with its 0, part time by its weekly hours, a currency the ECB does not quote refused, the yearly figure to a hundred, and the test that fails when `MINIMUM_WAGE_YEAR` is not this year's; every `readPay` reading of the golden set matches.
 - [ ] **T007 — Pay in a line of text** · FR: FR-5 · Depends: T005
