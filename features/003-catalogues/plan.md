@@ -98,8 +98,8 @@ A one-off script in the scratchpad, not committed, since the rebuild tools come 
 - **Scope (FR-8):**
   - the ISCO codes of `config/isco-units.yml` equal the families' `isco` codes;
   - each family's unit group is in `codes/isco.json`'s `units`;
-  - each group of `config/ssyk-groups.yml` is in `codes/ssyk-isco.json` with the same SSYK code and ISCO codes.
-- **Personal data (FR-9):** every string of every catalogue, keys included, is checked against an e-mail pattern (`name@domain.tld`) and a phone pattern (an optional `+`, then 9 or more digits with spaces or dashes). The phone pattern skips the reference numbers sources put in titles (`j12070 - 01200`): it counts only runs of digits not glued to letters, and the legacy's 45,111 confirmed titles are checked against it before it is fixed. A real hit is removed from the file and noted in its `description`. The import found no e-mail address: the 34 titles with an `@` are handles such as "@marshtech".
+  - the groups of `config/ssyk-groups.yml` are exactly the concepts of `codes/ssyk-isco.json` with an ISCO code among the families, each with the same SSYK code and those in-scope ISCO codes (the list leaves out a concept's codes outside the scope).
+- **Personal data (FR-9):** every string of every catalogue, keys included, is checked against an e-mail pattern (`name@domain.tld`) and a phone pattern. A phone is a number in international form (`+` and the country code) or a number a word names as one ("tel.", "móvil", "WhatsApp"). Bare runs of digits are not enough: the 30 that a first, wider pattern found among the confirmed titles were all reference numbers, dates or pay ranges ("ref. 04 2026 003422", "oferta 2026/1234-567"). A real hit is removed from the file and noted in its `description`. The import found no e-mail address (the 34 titles with an `@` are handles such as "@marshtech") and no phone number.
 
 ## 9. Deployment
 

@@ -56,7 +56,7 @@ _Acceptance:_ Reading a catalogue twice parses the file once; no code outside th
 
 **FR-8 — Consistent scope.**
 The scope lists in `config/` (`isco-units.yml`, `ssyk-groups.yml`) shall agree with the catalogues they were built from.
-_Acceptance:_ A test fails if a unit group of `isco-units.yml` is not a family of `families`, or the reverse, or an SSYK group of `ssyk-groups.yml` is not in `ssyk-isco` with the same ISCO codes.
+_Acceptance:_ A test fails if a unit group of `isco-units.yml` is not a family of `families`, or the reverse, or the SSYK groups of `ssyk-groups.yml` are not exactly the concepts of `ssyk-isco` with an ISCO code among the families, each with those codes. (2026-11-19: was "with the same ISCO codes"; the list keeps only the codes in the scope, as its header says.)
 
 **FR-9 — No personal data.**
 No catalogue shall hold an e-mail address or a phone number (`confirmed-titles` holds advert titles as sources wrote them).
