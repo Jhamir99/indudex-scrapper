@@ -1,0 +1,280 @@
+import { describe, expect, it } from "vitest";
+import { readCatalogue } from "../../shared/catalogues/read-catalogue.js";
+import {
+  ES_MECHANIC,
+  ES_OUT,
+  ES_SUPERVISOR,
+  ES_SUPERVISOR_OUT,
+  ES_TECHNICIAN,
+  ES_TECHNICIAN_OUT,
+  FITTER_ELSEWHERE,
+  FR_OUT,
+  MASTER_OUT,
+  NL_MACHINE_DRIVER,
+  NL_OUT,
+  PLANNER_OUT,
+  TECHNICIAN_ELSEWHERE,
+  ENGINEER_ROUTES,
+  ES_SUPERVISOR_ROUTES,
+  ES_TECHNICIAN_ROUTES,
+  ES_TRADE_ROUTES,
+  FITTER_ROUTES,
+  FR_TECHNICIAN_ROUTES,
+  FR_TRADE_ROUTES,
+  ICT_ROUTES,
+  MASTER_ROUTES,
+  NL_TRADE_ROUTES,
+  PLANNER_ROUTES,
+  TECHNICIAN_ROUTES,
+  compoundFitter,
+  compoundTechnician,
+  route,
+} from "./routes.js";
+import {
+  COMPOUND_ENGINEER,
+  ICT_WORDS,
+  OUTSIDE_WORDS,
+  usableTitle,
+} from "./words.js";
+
+// Every case below is the legacy's own reading (its gate.mjs, run in the scratchpad), 2026-11-19.
+const families = await readCatalogue("families");
+const known = new Set(families.families.map((family) => family.id));
+
+const ROUTES = {
+  ENGINEER_ROUTES,
+  ES_SUPERVISOR_ROUTES,
+  ES_TECHNICIAN_ROUTES,
+  ES_TRADE_ROUTES,
+  FITTER_ROUTES,
+  FR_TECHNICIAN_ROUTES,
+  FR_TRADE_ROUTES,
+  ICT_ROUTES,
+  MASTER_ROUTES,
+  NL_TRADE_ROUTES,
+  PLANNER_ROUTES,
+  TECHNICIAN_ROUTES,
+};
+const PATTERNS = {
+  COMPOUND_ENGINEER,
+  ES_MECHANIC,
+  ES_OUT,
+  ES_SUPERVISOR,
+  ES_SUPERVISOR_OUT,
+  ES_TECHNICIAN,
+  ES_TECHNICIAN_OUT,
+  FITTER_ELSEWHERE,
+  FR_OUT,
+  ICT_WORDS,
+  MASTER_OUT,
+  NL_MACHINE_DRIVER,
+  NL_OUT,
+  OUTSIDE_WORDS,
+  PLANNER_OUT,
+  TECHNICIAN_ELSEWHERE,
+};
+
+const ROUTE_CASES: readonly [keyof typeof ROUTES, string, string | null][] = [
+  ["ENGINEER_ROUTES", "pcb design engineer", "2152"],
+  ["ENGINEER_ROUTES", "rf engineer", "2152"],
+  ["ENGINEER_ROUTES", "electrical engineer", "2151"],
+  ["ENGINEER_ROUTES", "hvac engineer", "2144"],
+  ["ENGINEER_ROUTES", "structural engineer", "2142"],
+  ["ENGINEER_ROUTES", "subsea engineer", "2144"],
+  ["ENGINEER_ROUTES", "offshore structural engineer", "2142"],
+  ["ENGINEER_ROUTES", "chemical engineer", "2145"],
+  ["ENGINEER_ROUTES", "sustainability engineer", "2143"],
+  ["ENGINEER_ROUTES", "mining engineer", "2146"],
+  ["ENGINEER_ROUTES", "lean engineer", "2141"],
+  ["ENGINEER_ROUTES", "sales engineer", null],
+  ["ICT_ROUTES", "soc analyst", "2529"],
+  ["ICT_ROUTES", "sap consultant", "2511"],
+  ["ICT_ROUTES", "oracle dba", "2521"],
+  ["ICT_ROUTES", "network engineer", "2523"],
+  ["ICT_ROUTES", "service desk agent", "3512"],
+  ["ICT_ROUTES", "devops engineer", "2522"],
+  ["ICT_ROUTES", "frontend developer", "2513"],
+  ["ICT_ROUTES", "android developer", "2514"],
+  ["ICT_ROUTES", "data engineer", "2519"],
+  ["ICT_ROUTES", "business analyst", "2511"],
+  ["ICT_ROUTES", "java developer", "2512"],
+  ["ICT_ROUTES", "project manager", null],
+  ["TECHNICIAN_ROUTES", "techniker elektrotechnik", "3113"],
+  ["TECHNICIAN_ROUTES", "techniker hochbau", "3112"],
+  ["TECHNICIAN_ROUTES", "techniker maschinenbau", "3115"],
+  ["TECHNICIAN_ROUTES", "techniker labor", "3111"],
+  ["TECHNICIAN_ROUTES", "techniker", null],
+  ["PLANNER_ROUTES", "planer elektrotechnik", "3113"],
+  ["PLANNER_ROUTES", "planer tga", "3118"],
+  ["PLANNER_ROUTES", "planer tiefbau", "3112"],
+  ["PLANNER_ROUTES", "planer arbeitsvorbereitung", "3119"],
+  ["PLANNER_ROUTES", "planer", null],
+  ["MASTER_ROUTES", "meister shk", "3123"],
+  ["MASTER_ROUTES", "meister elektrotechnik", "3122"],
+  ["MASTER_ROUTES", "meister", null],
+  ["FITTER_ROUTES", "monteur kfz", "7231"],
+  ["FITTER_ROUTES", "monteur klima", "7127"],
+  ["FITTER_ROUTES", "monteur heizung", "7126"],
+  ["FITTER_ROUTES", "monteur glasfaser", "7422"],
+  ["FITTER_ROUTES", "monteur kabelbau", "7413"],
+  ["FITTER_ROUTES", "monteur elektro", "7411"],
+  ["FITTER_ROUTES", "monteur stahlbau", "7214"],
+  ["FITTER_ROUTES", "monteur", null],
+  ["FR_TRADE_ROUTES", "mecanicien poids lourds", "7231"],
+  ["FR_TRADE_ROUTES", "technicien aeronautique", "7232"],
+  ["FR_TRADE_ROUTES", "regleur cnc", "7223"],
+  ["FR_TRADE_ROUTES", "technicien cvc", "7127"],
+  ["FR_TRADE_ROUTES", "plombier", "7126"],
+  ["FR_TRADE_ROUTES", "technicien fibre optique", "7422"],
+  ["FR_TRADE_ROUTES", "electricien", "7411"],
+  ["FR_TRADE_ROUTES", "technicien de maintenance", "7233"],
+  ["FR_TECHNICIAN_ROUTES", "technicien electronique", "3114"],
+  ["FR_TECHNICIAN_ROUTES", "technicien telecom", "3522"],
+  ["FR_TECHNICIAN_ROUTES", "technicien automatisme", "3113"],
+  ["FR_TECHNICIAN_ROUTES", "technicien bureau d etudes", "3118"],
+  ["FR_TECHNICIAN_ROUTES", "technicien btp", "3112"],
+  ["FR_TECHNICIAN_ROUTES", "technicien laboratoire", "3111"],
+  ["FR_TECHNICIAN_ROUTES", "technicien assainissement", "3132"],
+  ["FR_TECHNICIAN_ROUTES", "technicien methodes", "3119"],
+  ["NL_TRADE_ROUTES", "technieker vrachtwagens", "7231"],
+  ["NL_TRADE_ROUTES", "technieker hvac", "7127"],
+  ["NL_TRADE_ROUTES", "technieker sanitair", "7126"],
+  ["NL_TRADE_ROUTES", "technieker elektriciteit", "7411"],
+  ["NL_TRADE_ROUTES", "technieker elektromechanica", "7412"],
+  ["NL_TRADE_ROUTES", "technieker cnc", "7223"],
+  ["ES_TRADE_ROUTES", "mecanico electricista", "7412"],
+  ["ES_TRADE_ROUTES", "mecanico de camiones", "7231"],
+  ["ES_TRADE_ROUTES", "mecanico aeronautico", "7232"],
+  ["ES_TRADE_ROUTES", "mecanico de moldes", "7222"],
+  ["ES_TRADE_ROUTES", "mecanico cnc", "7223"],
+  ["ES_TRADE_ROUTES", "mecanico frigorista", "7127"],
+  ["ES_TRADE_ROUTES", "mecanico de mantenimiento industrial", "7233"],
+  ["ES_TECHNICIAN_ROUTES", "tecnico electronica", "3114"],
+  ["ES_TECHNICIAN_ROUTES", "tecnico telecomunicaciones", "3522"],
+  ["ES_TECHNICIAN_ROUTES", "tecnico automatista", "3113"],
+  ["ES_TECHNICIAN_ROUTES", "tecnico cad", "3118"],
+  ["ES_TECHNICIAN_ROUTES", "tecnico de obra", "3112"],
+  ["ES_TECHNICIAN_ROUTES", "tecnico mecanico", "3115"],
+  ["ES_TECHNICIAN_ROUTES", "tecnico laboratorio", "3111"],
+  ["ES_TECHNICIAN_ROUTES", "tecnico i+d", "3119"],
+  ["ES_SUPERVISOR_ROUTES", "supervisor de montaje", "3122"],
+  ["ES_SUPERVISOR_ROUTES", "supervisor de obra", "3123"],
+  ["ES_SUPERVISOR_ROUTES", "supervisor", null],
+];
+const PATTERN_CASES: readonly [keyof typeof PATTERNS, string, boolean][] = [
+  ["OUTSIDE_WORDS", "marketing manager", true],
+  ["OUTSIDE_WORDS", "facility manager", true],
+  ["OUTSIDE_WORDS", "ingenieur commercial", true],
+  ["OUTSIDE_WORDS", "macon paysagiste", true],
+  ["OUTSIDE_WORDS", "schichtleiter gastronomie", true],
+  ["OUTSIDE_WORDS", "mechanical engineer", false],
+  ["OUTSIDE_WORDS", "paysagiste", false],
+  ["ICT_WORDS", "mobile pflege", false],
+  ["ICT_WORDS", "mobile developer", true],
+  ["ICT_WORDS", "software engineer", true],
+  ["ICT_WORDS", "it support", true],
+  ["ICT_WORDS", "ingeniero de datos", true],
+  ["ICT_WORDS", "mechanical engineer", false],
+  ["FITTER_ELSEWHERE", "monteur fenster", true],
+  ["FITTER_ELSEWHERE", "monteur heizung", false],
+  ["TECHNICIAN_ELSEWHERE", "zahn techniker", true],
+  ["TECHNICIAN_ELSEWHERE", "service techniker", false],
+  ["PLANNER_OUT", "planer logistik", true],
+  ["MASTER_OUT", "meister friseur", true],
+  ["FR_OUT", "technicien de surface", true],
+  ["FR_OUT", "technicien de maintenance", false],
+  ["NL_OUT", "technieker keukens", true],
+  ["ES_OUT", "mecanico de acoples y maniobras", true],
+  ["ES_TECHNICIAN_OUT", "tecnico comercial", true],
+  ["ES_TECHNICIAN_OUT", "tecnico electronica", false],
+  ["ES_SUPERVISOR_OUT", "supervisor de limpieza", true],
+  ["NL_MACHINE_DRIVER", "machinist rupskraan", true],
+  ["NL_MACHINE_DRIVER", "cnc machinist", false],
+  ["NL_MACHINE_DRIVER", "allround machinist", true],
+  ["ES_MECHANIC", "mecanico", true],
+  ["ES_MECHANIC", "oficial de 1a mecanico", true],
+  ["ES_MECHANIC", "disenador mecanico", false],
+  ["ES_MECHANIC", "mecanico ajustador", true],
+  ["ES_TECHNICIAN", "tecnico automatista", true],
+  ["ES_TECHNICIAN", "jefe tecnico", false],
+  ["ES_SUPERVISOR", "supervisor de obra", true],
+  ["ES_SUPERVISOR", "el supervisor", false],
+  ["COMPOUND_ENGINEER", "bauingenieur", true],
+  ["COMPOUND_ENGINEER", "driftsingeniør", true],
+  ["COMPOUND_ENGINEER", "ingenieur", false],
+  ["COMPOUND_ENGINEER", "buvinzenieris", true],
+];
+
+describe("the gate's routes and word lists (gate FR-3)", () => {
+  it.each(ROUTE_CASES)("%s files «%s» in %s", (name, title, family) => {
+    expect(route(ROUTES[name], title, known)).toBe(family);
+  });
+
+  it.each(PATTERN_CASES)("%s reads «%s»: %s", (name, title, matches) => {
+    expect(PATTERNS[name].test(title)).toBe(matches);
+  });
+
+  it("sets a compound fitter or technician apart, its joining «s» off too", () => {
+    expect(
+      [
+        [
+          "obermonteur elektrotechnik",
+          "ober monteur elektrotechnik ober monteur elektrotechnik",
+          "obermonteur elektrotechnik",
+        ],
+        [
+          "heizungsmonteur",
+          "heizungs monteur heizung monteur",
+          "heizungsmonteur",
+        ],
+        [
+          "wartungstechniker",
+          "wartungstechniker",
+          "wartungs techniker wartung techniker",
+        ],
+      ].map(([title]) => [
+        title,
+        compoundFitter(title ?? ""),
+        compoundTechnician(title ?? ""),
+      ]),
+    ).toEqual([
+      [
+        "obermonteur elektrotechnik",
+        "ober monteur elektrotechnik ober monteur elektrotechnik",
+        "obermonteur elektrotechnik",
+      ],
+      [
+        "heizungsmonteur",
+        "heizungs monteur heizung monteur",
+        "heizungsmonteur",
+      ],
+      [
+        "wartungstechniker",
+        "wartungstechniker",
+        "wartungs techniker wartung techniker",
+      ],
+    ]);
+  });
+
+  it("leaves bare role words, broken labels and one letter out of the titles", () => {
+    expect(
+      [
+        "Ingeniero",
+        "technician",
+        "in",
+        "FTE",
+        "esperto",
+        "Fachmann",
+        "x",
+        "Bauingenieur",
+        "mechanical engineer",
+      ].map(usableTitle),
+    ).toEqual([false, false, false, false, false, false, false, true, true]);
+  });
+
+  it("routes only to a family the compiled gate holds", () => {
+    expect(
+      route(ROUTES.ENGINEER_ROUTES, "electrical engineer", new Set(["2149"])),
+    ).toBeNull();
+  });
+});
