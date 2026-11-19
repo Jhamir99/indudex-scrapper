@@ -1,0 +1,18 @@
+# Sources whose terms ask that what they publish is not altered, translated or given another sense:
+# their titles are kept as written (no capitals brought down, advert-facts FR-4) and shown untranslated
+# in every language of the site (title-translation). Each with the clause that asks it and where it was
+# read. Sources that allow changes with a notice of them (CC BY, Datenlizenz Deutschland) are not here.
+#
+# Imported on 2026-11-19 from the legacy Indudex project (https://github.com/JustJans/indudex, © 2026
+# JustJans), builder/config/untranslated.yml, read there on 27 October 2026 (the owner's rule: respect what
+# each source asks about altering and translating its offers). Validated by src/shared/config/untranslated.ts.
+
+sources:
+  sne: "«… siempre que no se manipulen ni alteren los contenidos y no se utilice directamente con fines comerciales» (https://www.sistemanacionalempleo.es/HomeSne/avisoLegal.html)"
+  feinaactiva: "«No es pot alterar el contingut de la informació. No es pot desnaturalitzar el sentit de la informació.» (https://web.gencat.cat/ca/generalitat/dades-indicadors/dades-obertes/llicencies)"
+  gencat: "«No es pot alterar el contingut de la informació. No es pot desnaturalitzar el sentit de la informació.» (https://web.gencat.cat/ca/generalitat/dades-indicadors/dades-obertes/llicencies)"
+  madrid: "«… a condición de que no se altere el contenido de la información, no se modifique o desnaturalice el sentido» (https://www.comunidad.madrid/atencion-ciudadano/aviso-legal-privacidad)"
+  clm: "«No debe desfigurarse el sentido de la información extraída.» (https://www.castillalamancha.es/avisolegal)"
+  adzuna: "«You will not copy, translate, create a derivative work of […] the Services or any part thereof» (https://www.adzuna.co.uk/terms-and-conditions.html)"
+  solidjobs: "«… kopiowania, modyfikowania, rozpowszechniania […] jakichkolwiek utworów i baz danych udostępnionych w Serwisie» (https://solid.jobs/about/terms)"
+  bund: "«Texte […] dürfen, soweit diese urheberrechtlich geschützt sind, ohne vorherige Zustimmung […] nicht vervielfältigt […] werden» (https://www.service.bund.de/Content/DE/Service/Impressum/impressum_node.html)"

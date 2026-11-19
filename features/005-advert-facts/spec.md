@@ -40,7 +40,8 @@ _Acceptance:_ Tests on the legacy's examples for each way, and a text that only 
 
 **FR-4 — Titles in capitals.**
 A title written in capitals (eight letters at least, seven in ten of them capitals) shall be written the way the other titles write each word: the spelling the other titles use most for that word when it appears three times or more («IOT» is «IoT», «DEVOPS» «DevOps»), its acronyms kept, small words small inside the title.
-_Acceptance:_ Tests on the legacy's examples; a title not in capitals is never changed.
+A source whose terms ask that its content not be altered (`config/untranslated.yml`) keeps its titles as written (added 2026-11-19, as the legacy did).
+_Acceptance:_ Tests on the legacy's examples; a title not in capitals is never changed; a title of such a source is never changed.
 
 ### Part B — What the advert asks for
 

@@ -23,8 +23,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T006 — Work mode** · FR: FR-3 · Depends: T004
       Done when: `work-mode.ts` passes tests on legacy examples for each way, in order: the source's field, a LinkedIn tag, a location naming remote work, a labelled field («Work Model: Hybrid»), the title, a stating sentence; tags and location that disagree say nothing; a passing mention of «remote» says nothing.
       2026-11-19: ported rule for rule. Checked against the legacy itself, run in the scratchpad: the same mode for all 188,365 stored adverts of the live runs, and for the 1,716 readings of every text in its `test/work-mode.test.mjs`, kept as a golden set in `test/fixtures/advert-facts/work-mode.json` that the tests check. The legacy's `modeTag` (a tag an adapter read elsewhere) is not a field here: the tag is read in the text.
-- [ ] **T007 — Titles in capitals** · FR: FR-4 · Depends: T004
+- [x] **T007 — Titles in capitals** · FR: FR-4 · Depends: T004
       Done when: `calm-titles.ts` passes tests on legacy examples: what counts as capitals (eight letters, seven in ten; «MAßSCHNEIDER»), the spelling the other titles use most when seen three times («IoT», «DevOps»), acronyms kept, small words small inside the title, a title not in capitals unchanged.
+      2026-11-19: checked against the legacy, run in the scratchpad: the same 16,274 spellings learnt from the 188,365 stored titles, and the same result for all 10,073 titles in capitals. As the legacy, a source whose terms ask that its content not be altered keeps its capitals: `config/untranslated.yml` (sne, feinaactiva, gencat, madrid, clm, adzuna, solidjobs, bund, each with its clause) is imported from the legacy with `src/shared/config/untranslated.ts`, since title translation (011) reads it too.
 
 ## Part B — What the advert asks for
 
