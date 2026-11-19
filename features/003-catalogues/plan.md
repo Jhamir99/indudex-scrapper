@@ -10,6 +10,7 @@ catalogues/                      # the published set (FR-6), JSON, as in the leg
   activities.json                # internal: NACE/CNAE names for company cards
   codes/                         # internal working tables (FR-6)
     isco.json ssyk-isco.json titles.json confirmed-titles.json places.json nuts.json elsewhere.json
+    wikidata-countries.json
   positions.json                 # the order of each positional catalogue, recorded at import (FR-4)
 src/shared/catalogues/
   header.ts                      # the header every file carries (FR-2)

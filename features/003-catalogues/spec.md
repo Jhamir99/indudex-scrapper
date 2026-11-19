@@ -27,7 +27,7 @@ The legacy project keeps them in `catalogues/` (the ones the web reads) and `cat
 ## 4. Functional requirements
 
 **FR-1 — Coverage.**
-The repo shall hold every catalogue file of the legacy project except the Public Suffix List: `families`, `occupations`, `countries`, `languages`, `degrees`, `seniority`, `vetoes` and `activities`, and the working tables `isco` (ISCO-08 groups with ESCO occupations and titles in 23 languages), `ssyk-isco`, `titles`, `confirmed-titles`, `places` (GeoNames towns), `nuts` and `elsewhere`.
+The repo shall hold every catalogue file of the legacy project except the Public Suffix List: `families`, `occupations`, `countries`, `languages`, `degrees`, `seniority`, `vetoes` and `activities`, and the working tables `isco` (ISCO-08 groups with ESCO occupations and titles in 23 languages), `ssyk-isco`, `titles`, `confirmed-titles`, `places` (GeoNames towns), `nuts`, `elsewhere` and `wikidata-countries` (each country's Wikidata item, for source discovery).
 _Acceptance:_ Each file exists under `catalogues/` with the same entries as the legacy file (same counts: 71 families, 644 occupations, 45 countries, 84,176 places, 71 ISCO unit groups), only its header changed.
 
 **FR-2 — Credit and licence.**

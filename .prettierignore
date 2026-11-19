@@ -3,3 +3,6 @@ pnpm-lock.yaml
 # Saved source answers: kept byte for byte as the source sent them.
 test/fixtures/**/*
 !test/fixtures/**/routes.json
+
+# Catalogues: generated data, written byte for byte by its import.
+catalogues/
