@@ -13,6 +13,22 @@ const Day = z.iso.date();
 export const SOURCE_FIELD_LIMIT = 200;
 const SourceWords = z.string().trim().min(1).max(SOURCE_FIELD_LIMIT);
 
+const PayFigure = z.union([z.number().positive().finite(), SourceWords]);
+const HOURS_IN_A_WEEK = 168;
+export const SourcePay = z
+  .strictObject({
+    min: PayFigure.optional(),
+    max: PayFigure.optional(),
+    currency: SourceWords.optional(),
+    period: SourceWords.optional(),
+    hoursPerWeek: z.number().positive().max(HOURS_IN_A_WEEK).optional(),
+    partTime: z.boolean().optional(),
+  })
+  .refine((pay) => pay.min !== undefined || pay.max !== undefined, {
+    error: "a pay needs a figure",
+  });
+export type SourcePay = z.infer<typeof SourcePay>;
+
 // The source's licence and required attribution, stored with every advert (FR-2).
 // `credit: null` states explicitly that the source requires none.
 export const Attribution = z.strictObject({
@@ -44,6 +60,11 @@ export const Advert = z.strictObject({
   employmentType: z.array(SourceWords).min(1).max(10).optional(),
   // The years of experience the source states in a field of its own (VDAB), believed as given.
   years: z.number().nonnegative().max(60).optional(),
+  // The pay the source states in fields of its own, as it gives it: the figures as numbers or the
+  // field's words ("£35,000 - £40,000"), currency and period in its words ("€", "Mensual",
+  // "P1M"), and the weekly hours and part time when it states them. The processor reads and
+  // checks it (pay FR-1, FR-4).
+  pay: SourcePay.optional(),
   url: z.url({ protocol: /^https$/, error: "an https:// address" }),
   description: z.string().max(DESCRIPTION_LIMIT),
   posted: Day.optional(),

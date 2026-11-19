@@ -167,6 +167,65 @@ describe("Advert's source fields (advert-facts FR-1)", () => {
   });
 });
 
+describe("Advert's pay field (pay FR-1)", () => {
+  it("accepts the pay a source states, figures as numbers or words", () => {
+    const advert = Advert.parse({
+      ...completeAdvert,
+      pay: {
+        min: 1416,
+        max: " 1550 ",
+        currency: "EUR",
+        period: "month",
+        hoursPerWeek: 20,
+        partTime: true,
+      },
+    });
+    expect(advert.pay).toEqual({
+      min: 1416,
+      max: "1550",
+      currency: "EUR",
+      period: "month",
+      hoursPerWeek: 20,
+      partTime: true,
+    });
+    expect(
+      Advert.parse({ ...completeAdvert, pay: { max: "£35,000 - £40,000" } })
+        .pay,
+    ).toEqual({ max: "£35,000 - £40,000" });
+  });
+
+  it("reads an advert stored before it as before", () => {
+    expect("pay" in Advert.parse(completeAdvert)).toBe(false);
+  });
+
+  it("refuses a pay with no figure, a negative or broken figure, or an unknown key", () => {
+    expect(
+      rejectionPaths({ ...completeAdvert, pay: { currency: "EUR" } }),
+    ).toEqual(["pay"]);
+    expect(rejectionPaths({ ...completeAdvert, pay: { min: -5 } })).toEqual([
+      "pay.min",
+    ]);
+    expect(
+      rejectionPaths({ ...completeAdvert, pay: { min: Number.NaN } }),
+    ).toEqual(["pay.min"]);
+    expect(
+      rejectionPaths({
+        ...completeAdvert,
+        pay: { min: "x".repeat(SOURCE_FIELD_LIMIT + 1) },
+      }),
+    ).toEqual(["pay.min"]);
+    expect(
+      rejectionPaths({ ...completeAdvert, pay: { min: 1, max: "  " } }),
+    ).toEqual(["pay.max"]);
+    expect(
+      rejectionPaths({ ...completeAdvert, pay: { min: 1, hoursPerWeek: 200 } }),
+    ).toEqual(["pay.hoursPerWeek"]);
+    expect(
+      rejectionPaths({ ...completeAdvert, pay: { min: 1, contact: "x" } }),
+    ).toEqual(["pay"]);
+  });
+});
+
 describe("advertId", () => {
   it("is stable and depends only on the source and its own id", () => {
     expect(advertId("brz", "4711")).toBe(advertId("brz", "4711"));

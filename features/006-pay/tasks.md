@@ -6,8 +6,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part A — What the source states, and the rates
 
-- [ ] **T001 — The source's pay field** · FR: FR-1 · Depends: advert-facts T011
+- [x] **T001 — The source's pay field** · FR: FR-1 · Depends: advert-facts T011
       Done when: `Advert` (and so `AdvertDraft`) accepts an optional strict `pay` (`min`, `max` as a positive number or capped words, at least one of them; `currency`, `period` as capped words; `hoursPerWeek` above 0 and at most 168; `partTime`); tests pass: an advert with it validates, one without it (as stored before) still reads from the file store, a negative figure, an empty pay or an unknown key is refused; the crawl-core contract test still passes for every adapter.
+      2026-11-19: done. `SourcePay` in `advert.ts`; the file store keeps it beside adverts stored without it (tested).
 - [ ] **T002 — Adapters fill the pay** · FR: FR-1 · Depends: T001
       Done when: `job-posting.ts` gives a posting's `baseSalary` as a pay (the legacy's `salaryOf` examples tested); `clm`, `feinaactiva`, `infopraca`, `nva`, `mpsv`, `uzt` and `upsvr` fill `pay` as their legacy adapters did (`clmPay`'s «15.5 € / Hora», `feinaactiva`'s daily hours, `nva`'s period by the minimum wage and «vesela» only), and each fixture test asserts it on at least one advert.
 - [ ] **T003 — The ECB's rates kept in the store** · FR: FR-2, FR-3 · Depends: crawl-core

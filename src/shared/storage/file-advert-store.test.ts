@@ -98,6 +98,21 @@ describe("FileAdvertStore adverts (FR-4, FR-11)", () => {
     expect(second?.firstSeen).toBe("2026-11-18");
   });
 
+  it("keeps the fields a source states beside adverts stored without them", async () => {
+    const stated = {
+      ...advert("brz", "2"),
+      hours: "Vollzeit",
+      pay: { min: 3200, currency: "EUR", period: "month" },
+    };
+    await store.replaceAdverts("brz", [advert("brz", "1"), stated]);
+    const [plain, withPay] = await store.readAdverts("brz");
+    expect("pay" in plain! || "hours" in plain!).toBe(false);
+    expect([withPay?.hours, withPay?.pay]).toEqual([
+      "Vollzeit",
+      { min: 3200, currency: "EUR", period: "month" },
+    ]);
+  });
+
   it("drops adverts by id", async () => {
     await store.replaceAdverts("brz", [advert("brz", "1"), advert("brz", "2")]);
     await store.dropAdverts("brz", [advertId("brz", "1")]);
