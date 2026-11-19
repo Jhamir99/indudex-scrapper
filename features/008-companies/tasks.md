@@ -12,8 +12,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T002 — Clutter and the employer's name** · FR: FR-1 · Depends: T001
       Done when: `clutter.ts` and `employer-name.ts` hold the legacy's `withoutClutter`, `withoutPictures`, `genericName`, `companyName`, `companyOfAdvert` and `spelledCompany` (patterns extracted, not retyped), and tests pass on legacy examples for each rule (markup, an address, a phone, placeholders, control marks; a tax number, «Stellenangebote bei», «Karriere», «Jobs», a board's name, a slogan; «Confidencial», «Human Resources», a country, a board's line; a title taken for the employer; «Fröwag» for «Froewag»; the employer that is the advert's town); every name reading of the golden set matches.
       2026-11-19: done. Extracted from the legacy by line ranges; one range stopped two lines short of `withoutPictures`'s end, which the «Bosch™ Rexroth» example caught (the golden set had no such case), so every extracted function's end was checked against the legacy. The example phone number is made up (the legacy's comment quotes an advert's).
-- [ ] **T003 — Names as the adverts write them** · FR: FR-2 · Depends: T002
+- [x] **T003 — Names as the adverts write them** · FR: FR-2 · Depends: T002
       Done when: `written-names.ts` holds `writtenNames` and the parts of `names.mjs` it needs (`spelling`, `capsSpelling`, `apart`, `asName`, `calm`), and tests pass on legacy examples («Zeissgroup» → «ZEISS Group», «JACKSON HOGG» → «Jackson Hogg», «Manpower» stays, two adverts needed, a source's only one enough).
+      2026-11-19: done. Extracted from the legacy's `names.mjs` (`letters`, `calm`, `spelling`, `apart`, `asName`, `capsSpelling`, `writtenNames`); `GLUED`, used only by `addressCode`, waits for 016 with it. Expected values are the legacy's own readings.
 - [ ] **T004 — Agencies** · FR: FR-4 · Depends: gate T011
       Done when: `agencies.ts` holds the legacy's words and brands (extracted), and tests pass on legacy examples in each language and on the golden set; «Siemens» is none.
 - [ ] **T005 — The employer reader** · FR: FR-1 to FR-4, FR-9 · Depends: T002, T003, T004
