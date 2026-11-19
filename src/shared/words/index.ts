@@ -1,4 +1,4 @@
-import { fold } from "../../../shared/kit/fold.js";
+import { fold } from "../kit/fold.js";
 import { TABLES, type WordTable } from "./tables.js";
 
 export type WordLanguage = keyof typeof TABLES;

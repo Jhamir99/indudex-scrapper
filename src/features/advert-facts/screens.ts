@@ -6,7 +6,7 @@
 // below lean to reading less.
 // Legacy builder/screens.mjs, ported rule for rule (advert-facts FR-6, FR-7).
 import { fold } from "../../shared/kit/fold.js";
-import { sentences } from "./sentences.js";
+import { sentences } from "../../shared/kit/sentences.js";
 
 // The catalogues' parts the screens read (catalogues/degrees.json, catalogues/languages.json).
 export interface ScreenCatalogues {

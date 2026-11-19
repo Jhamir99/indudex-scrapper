@@ -6,14 +6,14 @@
 // or names a minimum beside an experience word asks for them. Legacy builder/years.mjs (the largest
 // figure since 9 November 2026; docs/research/years-asked.md there).
 import { extractRequiredYears } from "./argus/requirements.js";
-import { sentences } from "./sentences.js";
+import { sentences } from "../../shared/kit/sentences.js";
 import {
   LANGUAGES,
   READ_BY_ARGUS,
   anyOf,
   numbers,
   words,
-} from "./words/index.js";
+} from "../../shared/words/index.js";
 
 // The words for years the requirement reader knows (its YEAR, in its six languages); the others' are put in English for it.
 const BOT_YEAR = /^(?:years?|yrs?|años?|anys|ans?|jahren?|jaar|jaren)$/;

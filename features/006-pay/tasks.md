@@ -15,8 +15,10 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T003 — The ECB's rates kept in the store** · FR: FR-2, FR-3 · Depends: crawl-core
       Done when: `src/shared/rates/ecb.ts` parses the ECB's file and tells a whole one; `kept-rates.ts` keeps it at `<store>/rates/ecb.xml` and reads it; `crawl()` refreshes it once a day before the sources; tests pass with a fake client and a temporary store: a whole file kept, a notice page, a cut file or a failure leaving the kept one, a second run the same day asking nothing, the stop switch asking nothing, an old file read with a warning, no file giving euros only; the store layout comment lists the file; one live run keeps a real file.
       2026-11-19: done. `RatesKeeper` is a crawl-core port, filled by `FileRatesKeeper` (its file's modification time is the run's time, so the day it was kept is known without another file). `crawl()` takes it as `rates` and asks before the sources, also with `--source`; without it nothing is asked. The fixture is the ECB's file of 19 November 2026 (30 currencies). Live: a `--source uzt` run into a temporary store kept the real file, and a second run the same day did not ask.
-- [ ] **T004 — Words and sentences shared** · FR: FR-4, FR-5 · Depends: advert-facts T011
+- [x] **T004 — Words and sentences shared** · FR: FR-4, FR-5 · Depends: advert-facts T011
       Done when: `words/` and `sentences.ts` live in `src/shared/` (`src/shared/words/`, `src/shared/kit/sentences.ts`) with their tests, advert facts imports them from there, and every advert-facts test, golden sets included, passes unchanged.
+
+      2026-11-19: done. Moved with `git mv`; advert facts imports them from `src/shared/`, and its 841 tests, golden sets included, pass unchanged. `CLAUDE.md` updated with the move.
 
 ## Part B — The readers
 

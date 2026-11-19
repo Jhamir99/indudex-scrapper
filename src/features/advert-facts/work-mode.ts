@@ -7,7 +7,12 @@
 // count. docs/research/work-mode.md has the sources.
 import type { StoredAdvert } from "../../shared/schemas/advert.js";
 import { fold } from "../../shared/kit/fold.js";
-import { anyOf, numbers, words, type Concept } from "./words/index.js";
+import {
+  anyOf,
+  numbers,
+  words,
+  type Concept,
+} from "../../shared/words/index.js";
 
 export type WorkMode = "onsite" | "hybrid" | "remote";
 

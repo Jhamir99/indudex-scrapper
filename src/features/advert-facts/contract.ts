@@ -1,6 +1,6 @@
 import type { StoredAdvert } from "../../shared/schemas/advert.js";
 import { fold } from "../../shared/kit/fold.js";
-import { anyOf, words } from "./words/index.js";
+import { anyOf, words } from "../../shared/words/index.js";
 
 // An advert's contract and working time, only from a field its source fills for that
 // (docs/research/contract-type.md in the legacy): never from the advert's words, nor an agency's
