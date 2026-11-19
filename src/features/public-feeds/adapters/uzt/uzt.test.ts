@@ -52,6 +52,11 @@ describe("uzt (public-feeds FR-1)", () => {
     expect(drafts[1]?.description).toMatch(
       /Atlyginimas: 1800–2400 EUR per mėnesį prieš mokesčius$/,
     );
+    // The same pay in its own field (pay FR-1).
+    expect([drafts[0]?.pay, drafts[1]?.pay]).toEqual([
+      { min: 4132.23, max: 4132.23, currency: "EUR", period: "month" },
+      { min: 1800, max: 2400, currency: "EUR", period: "month" },
+    ]);
   });
 
   it("takes the town before the country and drops a postcode", () => {

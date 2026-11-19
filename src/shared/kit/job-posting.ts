@@ -1,5 +1,7 @@
 import * as cheerio from "cheerio";
+import type { SourcePay } from "../schemas/advert.js";
 import { parseDay } from "./dates.js";
+import { statedPay } from "./stated-pay.js";
 import { pageText, plainText } from "./text.js";
 
 // A schema.org JobPosting as plain fields. Sites follow the schema loosely, so every field is
@@ -20,6 +22,8 @@ export interface JobPosting {
   // FULL_TIME, TEMPORARY… or the site's own words.
   readonly employmentType: readonly string[];
   readonly remote: boolean;
+  // The pay its `baseSalary` states, as the fields give it (pay FR-1).
+  readonly pay: SourcePay | undefined;
 }
 
 type Node = Record<string, unknown>;
@@ -45,6 +49,34 @@ function textOf(value: unknown): string {
   if (isNode(value))
     return textOf(value["name"] ?? value["@value"] ?? value["text"]);
   return "";
+}
+
+// Part time when the posting says so and not also full time.
+function partTimeOnly(types: unknown): boolean {
+  const kinds = many(types).map((type) =>
+    String(type)
+      .toUpperCase()
+      .replace(/[^A-Z]/g, ""),
+  );
+  return kinds.includes("PARTTIME") && !kinds.includes("FULLTIME");
+}
+
+// The pay a posting states in `baseSalary` (legacy `salaryOf`). Sites fill the block loosely: the
+// amount in `value` or in `minValue` and `maxValue`, the period on the amount or on the salary,
+// the currency on the salary or on the posting (`salaryCurrency`).
+export function salaryOf(node: unknown): SourcePay | undefined {
+  const base = many(field(node, "baseSalary"))[0];
+  if (!isNode(base)) return undefined;
+  const amount = isNode(base["value"])
+    ? base["value"]
+    : { value: base["value"] };
+  return statedPay({
+    min: amount["minValue"] ?? amount["value"],
+    max: amount["maxValue"] ?? amount["value"],
+    currency: base["currency"] || field(node, "salaryCurrency"),
+    period: amount["unitText"] || base["unitText"],
+    partTime: partTimeOnly(field(node, "employmentType")),
+  });
 }
 
 // Hand-written blocks often leave a real newline or tab inside a string, which strict JSON
@@ -148,6 +180,7 @@ export function jobPostings(html: string, pageUrl: string): JobPosting[] {
           .filter(Boolean)
           .slice(0, 4),
         remote: telecommute || /remote/i.test(location),
+        pay: salaryOf(node),
       });
     }
   }

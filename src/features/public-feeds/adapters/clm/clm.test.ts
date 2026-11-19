@@ -12,7 +12,7 @@ import {
   readDrafts,
 } from "../../../../../test/fakes/source-adapter.js";
 import type { HttpClient } from "../../../crawl-core/ports.js";
-import { clm, listUrl, offerUrl, parseClm } from "./clm.js";
+import { clm, clmPay, listUrl, offerUrl, parseClm } from "./clm.js";
 
 // A page of the list: a hundred offers, or fifty on the last one.
 const page = (n: number, last: boolean) =>
@@ -54,9 +54,24 @@ describe("clm (public-feeds FR-1)", () => {
         "Jornada: completa\nContrato: indefinido\nSalario: 25.103,23 € / Anual Bruto",
       contract: "INDEFINIDO",
       hours: "Jornada completa",
+      pay: { min: 25103.23, max: 25103.23, currency: "EUR", period: "year" },
     });
     // A title in mixed case is kept as written.
     expect(drafts[1]?.title).toBe("Soldador");
+  });
+
+  it("reads its pay field's figures and period (pay FR-1)", () => {
+    expect([
+      clmPay("1.900 € / Mensual sin prorrata Bruto"),
+      clmPay("15.5 € / Hora Bruto"),
+      clmPay("1.200 € - 1.500,50 € / Semanal Bruto"),
+      clmPay("A convenir"),
+    ]).toEqual([
+      { min: 1900, max: 1900, currency: "EUR", period: "month" },
+      { min: 15.5, max: 15.5, currency: "EUR", period: "hour" },
+      { min: 1200, max: 1500.5, currency: "EUR", period: "week" },
+      null,
+    ]);
   });
 
   it("keeps the last day an offer names", () => {

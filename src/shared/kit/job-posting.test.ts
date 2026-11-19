@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
-import { jobPostings, repairJson } from "./job-posting.js";
+import { jobPostings, repairJson, salaryOf } from "./job-posting.js";
 
 const PAGE = "https://example.com/jobs/1";
 const ld = (json: string, type = "application/ld+json") =>
@@ -107,5 +107,84 @@ describe("repairJson", () => {
     expect(repairJson('{"a":"say \\"hi\\"\n"}')).toBe(
       '{"a":"say \\"hi\\"\\n"}',
     );
+  });
+});
+
+const partTimeOf = (employmentType: unknown) =>
+  salaryOf({
+    baseSalary: {
+      currency: "EUR",
+      value: { minValue: 20, maxValue: 25, unitText: "HOUR" },
+    },
+    employmentType,
+  })?.partTime;
+
+describe("salaryOf (pay FR-1)", () => {
+  it("reads Google's own example shape", () => {
+    expect(
+      salaryOf({
+        baseSalary: {
+          "@type": "MonetaryAmount",
+          currency: "EUR",
+          value: {
+            "@type": "QuantitativeValue",
+            minValue: 50000,
+            maxValue: 60000,
+            unitText: "YEAR",
+          },
+        },
+        employmentType: "FULL_TIME",
+      }),
+    ).toEqual({ min: 50000, max: 60000, currency: "EUR", period: "YEAR" });
+  });
+
+  it("reads a bare number with the period on the salary, and the currency on the posting", () => {
+    expect(
+      salaryOf({
+        baseSalary: { currency: "GBP", value: 42000, unitText: "YEAR" },
+      }),
+    ).toEqual({ min: 42000, max: 42000, currency: "GBP", period: "YEAR" });
+    expect(
+      salaryOf({
+        salaryCurrency: "PLN",
+        baseSalary: { value: { value: 12000, unitText: "MONTH" } },
+      }),
+    ).toEqual({ min: 12000, max: 12000, currency: "PLN", period: "MONTH" });
+  });
+
+  it("is part time when the posting says only that", () => {
+    expect([
+      partTimeOf(["PART_TIME"]),
+      partTimeOf(["PART_TIME", "FULL_TIME"]),
+    ]).toEqual([true, undefined]);
+  });
+
+  it("gives nothing for no salary, a word, or a salary with no amount", () => {
+    expect([
+      salaryOf({}),
+      salaryOf({ baseSalary: "Competitive" }),
+      salaryOf({ baseSalary: { currency: "EUR" } }),
+      salaryOf({
+        baseSalary: {
+          currency: "EUR",
+          value: { minValue: null, maxValue: null, unitText: "YEAR" },
+        },
+      }),
+    ]).toEqual([undefined, undefined, undefined, undefined]);
+  });
+
+  it("reads a page end to end", () => {
+    const [posting] = jobPostings(
+      ld(
+        '{"@type":"JobPosting","title":"Site Engineer","baseSalary":{"@type":"MonetaryAmount","currency":"EUR","value":{"@type":"QuantitativeValue","minValue":3000,"maxValue":3800,"unitText":"MONTH"}}}',
+      ),
+      PAGE,
+    );
+    expect(posting?.pay).toEqual({
+      min: 3000,
+      max: 3800,
+      currency: "EUR",
+      period: "MONTH",
+    });
   });
 });

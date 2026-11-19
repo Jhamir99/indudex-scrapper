@@ -1,3 +1,4 @@
+import { stated } from "../../stated.js";
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { plainText } from "../../../../shared/kit/text.js";
@@ -64,7 +65,26 @@ const COLUMNS = [
   "Pieteiksanas_termins",
   "Vieta",
   "Vakances_paplasinats_apraksts",
+  "Alga_no",
+  "Alga_lidz",
+  "Slodzes_tips",
 ] as const;
+
+// Latvia's minimum monthly wage (€780 on 1 January 2026), which tells a month from an hour: the
+// file states no period.
+const MINIMUM_MONTHLY_WAGE = 780;
+
+// Its pay fields, for full-time work only («Viena vesela slodze»): a month from the minimum wage
+// up, an hour under €50, nothing in between (legacy `nvaPay`, the legacy's decision 3 in
+// docs/research/salary.md).
+export function nvaPay(from: string, to: string, workload: string) {
+  const low = Number(from) || 0;
+  const high = Number(to) || low;
+  if (!low || !/vesela/i.test(workload)) return null;
+  const period =
+    low >= MINIMUM_MONTHLY_WAGE ? "month" : high < 50 ? "hour" : "";
+  return period ? { min: low, max: high, currency: "EUR", period } : null;
+}
 
 export function parseNva(csv: string): AdvertDraft[] {
   const rows = parseCsv(csv);
@@ -73,9 +93,19 @@ export function parseNva(csv: string): AdvertDraft[] {
   const missing = COLUMNS.filter((name) => !head.includes(name));
   if (missing.length > 0)
     throw new Error(`NVA's file has no ${missing.join(", ")}`);
-  const [id, updated, title, sector, deadline, place, link] = COLUMNS.map(
-    (name) => head.indexOf(name),
-  ) as [number, number, number, number, number, number, number];
+  const [id, updated, title, sector, deadline, place, link, from, to, load] =
+    COLUMNS.map((name) => head.indexOf(name)) as [
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+    ];
   return rows.flatMap((row) => {
     const url = (row[link] ?? "").trim();
     const sourceId = (row[id] ?? "").trim();
@@ -95,6 +125,9 @@ export function parseNva(csv: string): AdvertDraft[] {
       description: (row[sector] ?? "").trim(),
       occupationCodes: {},
       language: "lv",
+      ...stated({
+        pay: nvaPay(row[from] ?? "", row[to] ?? "", row[load] ?? ""),
+      }),
     };
     const posted = parseDay(row[updated]);
     const expires = parseDay(row[deadline]);

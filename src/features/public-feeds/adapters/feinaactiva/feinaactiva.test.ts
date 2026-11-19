@@ -6,7 +6,12 @@ import {
   FIXTURES_DIRECTORY,
   loadFixtureRoutes,
 } from "../../../../../test/contract/adapter-contract.js";
-import { feinaactiva, parseFeinaActiva, publicUrl } from "./feinaactiva.js";
+import {
+  catalanPay,
+  feinaactiva,
+  parseFeinaActiva,
+  publicUrl,
+} from "./feinaactiva.js";
 
 describe("feinaactiva (public-feeds FR-1)", () => {
   it("maps the saved answers into valid adverts", async () => {
@@ -45,7 +50,35 @@ describe("feinaactiva (public-feeds FR-1)", () => {
         "Instal·lacions elèctriques.\nContracte: Contracte laboral indefinit\nJornada: Jornada parcial (20 hores - jornada setmanal)\nSalari mensual brut des de 1200",
       contract: "Contracte laboral indefinit",
       hours: "Jornada parcial (20 hores - jornada setmanal)",
+      pay: {
+        min: "1200",
+        currency: "EUR",
+        period: "month",
+        hoursPerWeek: 20,
+        partTime: true,
+      },
     });
+  });
+
+  it("states the part-time hours its working-day field gives, a week or a day of five (pay FR-1)", () => {
+    expect(
+      [
+        catalanPay(
+          "900",
+          "900",
+          "Jornada parcial (20 hores - jornada setmanal)",
+        ),
+        catalanPay(
+          "600",
+          "",
+          "Jornada parcial matí (3 hores - jornada diaria)",
+        ),
+      ].map((pay) => [pay?.hoursPerWeek, pay?.partTime]),
+    ).toEqual([
+      [20, true],
+      [15, true],
+    ]);
+    expect(catalanPay("", "", "Jornada completa")).toBeNull();
   });
 
   it("gives the public page of an address from a developer's machine, or from the id", () => {

@@ -113,7 +113,7 @@ export function parseSearch(json: string): {
   return { items: items.length, drafts };
 }
 
-// What an offer's own page adds: its text, its days and its employment types.
+// What an offer's own page adds: its text, its days, its employment types and its pay.
 export function withPage(draft: AdvertDraft, html: string): AdvertDraft {
   const [posting] = jobPostings(html, draft.url);
   if (!posting) return draft;
@@ -122,7 +122,7 @@ export function withPage(draft: AdvertDraft, html: string): AdvertDraft {
     description: posting.description,
     ...(posting.posted ? { posted: posting.posted } : {}),
     ...(posting.validThrough ? { expires: posting.validThrough } : {}),
-    ...stated({ employmentType: posting.employmentType }),
+    ...stated({ employmentType: posting.employmentType, pay: posting.pay }),
   };
 }
 
@@ -133,6 +133,7 @@ function withKnown(draft: AdvertDraft, known: AdvertDraft): AdvertDraft {
     ...(known.posted ? { posted: known.posted } : {}),
     ...(known.expires ? { expires: known.expires } : {}),
     ...(known.employmentType ? { employmentType: known.employmentType } : {}),
+    ...(known.pay ? { pay: known.pay } : {}),
   };
 }
 

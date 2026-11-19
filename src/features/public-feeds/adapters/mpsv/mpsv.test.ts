@@ -88,6 +88,40 @@ describe("mpsv (public-feeds FR-1, FR-7)", () => {
     ).toBeUndefined();
   });
 
+  it("states its wage: a month in koruna, or an hour in the monthly fields (pay FR-1)", () => {
+    const vacancy = {
+      portalId: 1,
+      profeseCzIsco: { id: "CzIsco/72140" },
+      pozadovanaProfese: { cs: "Montér" },
+      mesicniMzdaOd: 45000,
+      mesicniMzdaDo: 60000,
+      typMzdy: { id: "TypMzdy/mesic" },
+    };
+    const pay = (fields: object) =>
+      toDraft({ ...vacancy, ...fields }, new Map(), units)?.pay;
+    expect(pay({})).toEqual({
+      min: 45000,
+      max: 60000,
+      currency: "CZK",
+      period: "month",
+    });
+    expect(
+      pay({
+        mesicniMzdaOd: 250,
+        mesicniMzdaDo: null,
+        typMzdy: { id: "TypMzdy/hod" },
+        pocetHodinTydne: 40,
+      }),
+    ).toEqual({
+      min: 250,
+      max: 250,
+      currency: "CZK",
+      period: "hour",
+      hoursPerWeek: 40,
+    });
+    expect(pay({ typMzdy: null })).toBeUndefined();
+  });
+
   it("still sends its adverts when the municipality list fails", async () => {
     const routes = await loadFixtureRoutes("mpsv");
     const http = new FakeHttpClient({

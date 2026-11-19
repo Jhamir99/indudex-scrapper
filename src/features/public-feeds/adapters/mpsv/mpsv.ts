@@ -40,6 +40,9 @@ interface Vacancy {
   readonly expirace?: string | null;
   readonly pracovnePravniVztahy?: readonly Coded[] | null;
   readonly pocetHodinTydne?: number | string | null;
+  readonly typMzdy?: Coded;
+  readonly mesicniMzdaOd?: number | null;
+  readonly mesicniMzdaDo?: number | null;
 }
 
 // "CzIsco/31152" → "31152".
@@ -86,6 +89,25 @@ function hoursOf(vacancy: Vacancy): string {
   return week ? String(week) : "";
 }
 
+const WAGE_PERIODS: Readonly<Record<string, string>> = {
+  mesic: "month",
+  hod: "hour",
+};
+
+// The wage and its kind: monthly, or hourly with the hour in the "monthly" fields, and the weekly
+// hours (legacy `payOf`). No wage type, no pay.
+function payOf(vacancy: Vacancy) {
+  const period = WAGE_PERIODS[codeOf(vacancy.typMzdy)];
+  if (!period || !vacancy.mesicniMzdaOd) return null;
+  return {
+    min: vacancy.mesicniMzdaOd,
+    max: vacancy.mesicniMzdaDo || vacancy.mesicniMzdaOd,
+    currency: "CZK",
+    period,
+    hoursPerWeek: Number(vacancy.pocetHodinTydne) || 0,
+  };
+}
+
 export function toDraft(
   vacancy: Vacancy,
   towns: ReadonlyMap<string, string>,
@@ -114,7 +136,7 @@ export function toDraft(
     description: pageText(vacancy.upresnujiciInformace?.cs ?? ""),
     occupationCodes: { isco: isco.slice(0, 4) },
     language: "cs",
-    ...stated({ hours: hoursOf(vacancy) }),
+    ...stated({ hours: hoursOf(vacancy), pay: payOf(vacancy) }),
   };
   const posted = parseDay(vacancy.datumVlozeni);
   const expires = parseDay(vacancy.expirace);

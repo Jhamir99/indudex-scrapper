@@ -6,6 +6,7 @@ import {
 import { FakeHttpClient } from "../../../../../test/fakes/http-client.js";
 import {
   fakeContext,
+  fakeDraft,
   readDrafts,
 } from "../../../../../test/fakes/source-adapter.js";
 import {
@@ -15,6 +16,7 @@ import {
   QUERIES,
   searchUrl,
   townOf,
+  withPage,
 } from "./infopraca.js";
 
 const items = (from: number, count: number) =>
@@ -63,6 +65,27 @@ describe("infopraca (public-feeds FR-1)", () => {
     expect(drafts[0]?.description).toMatch(/^Poszukujemy Inżyniera Budowy/);
     expect(drafts[1]?.city).toBe("Płock");
     expect(townOf("38-543 Nowy Łupków")).toBe("Nowy Łupków");
+  });
+
+  it("states the pay its page's JobPosting gives (pay FR-1)", () => {
+    // The saved page states none; this one is made up in the JobPosting form its pages use.
+    const page = `<script type="application/ld+json">${JSON.stringify({
+      "@type": "JobPosting",
+      title: "Inżynier",
+      description: "Opis",
+      employmentType: "FULL_TIME",
+      baseSalary: {
+        "@type": "MonetaryAmount",
+        currency: "PLN",
+        value: { minValue: 9000, maxValue: 12000, unitText: "MONTH" },
+      },
+    })}</script>`;
+    expect(withPage(fakeDraft("infopraca", "1"), page).pay).toEqual({
+      min: 9000,
+      max: 12000,
+      currency: "PLN",
+      period: "MONTH",
+    });
   });
 
   it("pages a search until a short page, without pg on the first", async () => {

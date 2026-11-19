@@ -1,3 +1,4 @@
+import { stated } from "../../stated.js";
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { plainText } from "../../../../shared/kit/text.js";
@@ -79,6 +80,19 @@ function payLine(row: Row): string {
   return `Atlyginimas: ${range} ${row.valiuta || "EUR"} per mėnesį prieš mokesčius`;
 }
 
+// The same pay as the source's own fields (legacy `payOf`).
+export function uztPay(row: Row) {
+  const base = row.vid_darbo_uzmokestis || row.prelim_darbo_uzmokestis;
+  return base
+    ? {
+        min: base,
+        max: row.maks_darbo_uzmokestis || base,
+        currency: row.valiuta || "EUR",
+        period: "month",
+      }
+    : null;
+}
+
 export function parseUzt(json: string): AdvertDraft[] {
   // The API wraps its rows in a list named "_data".
   const { _data: rows } = (JSON.parse(json) ?? {}) as {
@@ -115,6 +129,7 @@ export function parseUzt(json: string): AdvertDraft[] {
       description: text,
       occupationCodes: isco ? { isco } : {},
       language: "lt",
+      ...stated({ pay: uztPay(row) }),
     };
     const posted = parseDay(row.ikelimo_data ?? row.galioja_nuo ?? undefined);
     const expires = parseDay(row.galioja_iki ?? undefined);

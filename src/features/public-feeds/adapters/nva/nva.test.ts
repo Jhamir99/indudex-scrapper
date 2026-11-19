@@ -13,6 +13,7 @@ import {
   cityOf,
   newestCsv,
   nva,
+  nvaPay,
   parseCsv,
   parseNva,
 } from "./nva.js";
@@ -45,7 +46,23 @@ describe("nva (public-feeds FR-1)", () => {
       expires: "2026-12-01",
       occupationCodes: {},
       language: "lv",
+      pay: { min: 780, max: 780, currency: "EUR", period: "month" },
     });
+  });
+
+  it("reads full-time pay as a month over the minimum wage, an hour under €50 (pay FR-1)", () => {
+    expect([
+      nvaPay("2300.000", "2600.000", "Viena vesela slodze"),
+      nvaPay("4.690", "4.690", "Viena vesela slodze"),
+    ]).toEqual([
+      { min: 2300, max: 2600, currency: "EUR", period: "month" },
+      { min: 4.69, max: 4.69, currency: "EUR", period: "hour" },
+    ]);
+    expect([
+      nvaPay("300", "400", "Viena vesela slodze"),
+      nvaPay("900", "1000", "Nepilna slodze"),
+      nvaPay("", "", "Viena vesela slodze"),
+    ]).toEqual([null, null, null]);
   });
 
   it("reads quoted fields, doubled quotes and line breaks in quotes", () => {

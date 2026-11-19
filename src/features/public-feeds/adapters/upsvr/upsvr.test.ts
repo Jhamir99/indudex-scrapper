@@ -59,6 +59,13 @@ describe("upsvr (public-feeds FR-1)", () => {
       "Pracovný a mimopracovný pomer: Pracovný pomer na neurčitý čas",
     );
     expect(drafts[0]?.contract).toBe("Pracovný pomer na neurčitý čas");
+    // The base wage in its own field (pay FR-1).
+    expect(drafts[0]?.pay).toEqual({
+      min: 1550,
+      max: 1550,
+      currency: "EUR",
+      period: "month",
+    });
   });
 
   it("states the years of practice its page gives (advert-facts FR-1)", () => {

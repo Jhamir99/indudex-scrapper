@@ -36,6 +36,39 @@ interface Page {
   };
 }
 
+const CLM_PERIODS: Readonly<Record<string, string>> = {
+  mensual: "month",
+  anual: "year",
+  semanal: "week",
+  diario: "day",
+  hora: "hour",
+};
+
+// «15.5 € / Hora»: a lone dot before one or two digits is a decimal point, not thousands (FUE-16).
+const amount = (value: string) =>
+  Number(
+    /^\d+\.\d{1,2}$/.test(value)
+      ? value
+      : value.replace(/\./g, "").replace(",", "."),
+  );
+
+// Its pay field, on every offer («1.900 € / Mensual sin prorrata Bruto», «… Anual Bruto», «…
+// Semanal Bruto»): the figures and their period (legacy `clmPay`, 1 November 2026).
+export function clmPay(salario: string | undefined) {
+  const match =
+    /([\d.]+(?:,\d+)?)\s*€(?:\s*-\s*([\d.]+(?:,\d+)?)\s*€)?\s*\/\s*(Mensual|Anual|Semanal|Diario|Hora)/i.exec(
+      salario ?? "",
+    );
+  if (!match) return null;
+  const [, low = "", high, period = ""] = match;
+  return {
+    min: amount(low),
+    max: amount(high ?? low),
+    currency: "EUR",
+    period: CLM_PERIODS[period.toLowerCase()],
+  };
+}
+
 export function parseClm(json: string): {
   readonly total: number | undefined;
   readonly last: boolean;
@@ -77,8 +110,9 @@ export function parseClm(json: string): {
         .join("\n"),
       occupationCodes: {},
       language: "es",
-      // Its working-day and contract fields («completa», «indefinido»).
+      // Its working-day and contract fields («completa», «indefinido»), and its pay field.
       ...stated({
+        pay: clmPay(offer.salario),
         contract: offer.tipoContrato,
         hours: offer.jornada
           ? `Jornada ${offer.jornada.toLowerCase()}`

@@ -80,6 +80,19 @@ export function parseList(json: string): ListPage {
           : "",
       occupationCodes: {},
       language: "sk",
+      // The base wage in its own field, a month's or an hour's (99 % of its offers).
+      ...stated({
+        pay:
+          wage > 0
+            ? {
+                min: wage,
+                max: wage,
+                currency: "EUR",
+                period:
+                  row.zakladnaMzdaZaObdobie === "HODINA" ? "hour" : "month",
+              }
+            : null,
+      }),
     };
     const posted = parseDay(row.naposledyZmenene);
     if (posted) draft.posted = posted;

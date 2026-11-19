@@ -25,6 +25,29 @@ export function publicUrl(url: string, id: string): string {
   return path ? `https://feinaactiva.gencat.cat/ca${path}` : "";
 }
 
+// Its pay fields: a monthly gross range in euros, with the part-time hours its working-day field
+// states («Jornada parcial (20 hores - jornada setmanal)», «(3 hores - jornada diaria)», a week of
+// five days) (legacy `payOf`).
+export function catalanPay(min: string, max: string, workingHours: string) {
+  if (!min && !max) return null;
+  const statedHours =
+    /\((\d+(?:[.,]\d+)?) hores - jornada (setmanal|diaria)\)/.exec(
+      workingHours,
+    );
+  const hours = statedHours
+    ? Number(statedHours[1]?.replace(",", ".")) *
+      (statedHours[2] === "diaria" ? 5 : 1)
+    : 0;
+  return {
+    min,
+    max,
+    currency: "EUR",
+    period: "month",
+    hoursPerWeek: hours,
+    partTime: /parcial/i.test(workingHours),
+  };
+}
+
 export function parseFeinaActiva(xml: string): AdvertDraft[] {
   return pickAll(parseXml(xml), "ofertes.feinaactiva.ad").flatMap(
     (ad): AdvertDraft[] => {
@@ -68,7 +91,7 @@ export function parseFeinaActiva(xml: string): AdvertDraft[] {
           .join("\n"),
         occupationCodes: {},
         language: "ca",
-        ...stated({ contract, hours }),
+        ...stated({ contract, hours, pay: catalanPay(min, max, hours) }),
       };
       const posted = parseDay(pickText(ad, "date"));
       if (posted) draft.posted = posted;
