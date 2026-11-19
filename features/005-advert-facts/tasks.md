@@ -17,8 +17,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T004 — Words and sentences** · FR: FR-3, FR-5 to FR-7 · Depends: places T011
       Done when: the legacy's word lists (`builder/words/*.mjs`, with `anyOf`, `words`, `numbers`) and sentence splitter are in `src/features/advert-facts/words/` and `sentences.ts`, with tests on the legacy's examples (a list with no full stops split by lines, a short heading kept with the line after it).
       2026-11-19: the legacy's tables are one typed module (`words/tables.ts`, generated from `builder/words/*.mjs`). Keeping a short heading with the line after it is the years reader's rule (`years.mjs`), so it is tested in T008.
-- [ ] **T005 — Contract and working time** · FR: FR-2 · Depends: T001, T004
+- [x] **T005 — Contract and working time** · FR: FR-2 · Depends: T001, T004
       Done when: `contract.ts` gives `{ kind, months? }` and `{ kind, hours? }` from the fields, and tests pass on legacy examples: the narrower kind first («Interim met optie vast werk», «CDI Intérimaire»), months and hours read («t6», «p20»), the Dutch, Czech, Italian, French, Swiss, Finnish, Nordic and Polish words of 1 November 2026, `employmentType` values, a list of two kinds or hours saying neither, one kind with and without its months being that kind with them, and no fact from an unknown value.
+      2026-11-19: checked against the legacy itself: the legacy's `contract.mjs`, run in the scratchpad with Argus's `text.mjs`, and the port agree on all 520 readings of the values in its test and its research note.
 - [ ] **T006 — Work mode** · FR: FR-3 · Depends: T004
       Done when: `work-mode.ts` passes tests on legacy examples for each way, in order: the source's field, a LinkedIn tag, a location naming remote work, a labelled field («Work Model: Hybrid»), the title, a stating sentence; tags and location that disagree say nothing; a passing mention of «remote» says nothing.
 - [ ] **T007 — Titles in capitals** · FR: FR-4 · Depends: T004
