@@ -33,7 +33,39 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T009 — The explain report** · FR: FR-9 · Depends: T008
       Done when: `explain.ts` and `pnpm gate:explain [-- --out <dir>]` (`src/bin/gate-explain.ts`, built to `dist/bin/gate-explain.js`) write `explain.txt.gz` atomically (one line per advert left out, `[reason] title | company | location (source)`) and print the counts per reason and the share kept; tests on a temporary store pass (lines, counts, expired adverts skipped, nothing written into the store); `published/` stays ignored by git.
       2026-11-19: done. `writeExplainReport` (in `explain.ts`) decides every advert, writes the lines gzipped and atomically, and counts the reasons; `src/bin/gate-explain.ts` feeds it the store's adverts that have not expired, source by source. On the fresh store of 005 and 006: 191,466 adverts in about 8 s, the report in `published/` (ignored by git) or `--out`.
-- [ ] **T010 — Measurement and equivalence** · FR: spec section 5 · Depends: T008
+- [x] **T010 — Measurement and equivalence** · FR: spec section 5 · Depends: T008
       Done when: a pass over the fresh store of 005 and 006 records here, per source, the share kept, left out by each reason and kept by the trades, and the time (under two minutes); the legacy's gate, run on the same adverts, gives the same families, occupations and reasons for every one (differences explained here if any).
+      2026-11-19: done. A pass over the fresh store of advert-facts and pay (191,466 adverts) gives, per source, the share in %:
+
+      | source | adverts | kept | by the trades | outside the vertical | hygiene |
+      | --- | --: | --: | --: | --: | --: |
+      | vdab | 119,132 | 52.3 | 30.9 | 47.7 | 0.1 |
+      | upsvr | 12,103 | 19.0 | 14.7 | 81.0 | 0 |
+      | jobtech | 9,753 | 97.4 | 30.3 | 1.7 | 0.9 |
+      | anofm | 8,843 | 21.7 | 13.1 | 78.3 | 0 |
+      | mpsv | 6,277 | 97.4 | 59.3 | 0 | 2.6 |
+      | hzz | 6,020 | 15.5 | 8.6 | 84.5 | 0 |
+      | iefp | 5,739 | 23.7 | 14.2 | 76.3 | 0 |
+      | feinaactiva | 4,195 | 11.1 | 6.7 | 88.7 | 0.2 |
+      | sne | 3,303 | 19.6 | 13.2 | 80.2 | 0.2 |
+      | infopraca | 2,905 | 50.7 | 44.7 | 49.3 | 0 |
+      | actiris | 1,928 | 13.1 | 6.7 | 86.7 | 0.2 |
+      | solidjobs | 1,760 | 78.6 | 5.6 | 21.0 | 0.3 |
+      | kuntarekry | 1,580 | 3.0 | 0.3 | 97.0 | 0 |
+      | nva | 1,248 | 8.1 | 1.9 | 91.9 | 0 |
+      | bolzano | 977 | 13.5 | 6.0 | 86.4 | 0.1 |
+      | trento | 705 | 17.2 | 10.2 | 82.7 | 0.1 |
+      | karrierenrw | 675 | 23.1 | 0.3 | 76.9 | 0 |
+      | sae | 618 | 10.8 | 7.4 | 88.8 | 0.3 |
+      | emilia | 577 | 14.2 | 7.8 | 85.3 | 0.5 |
+      | gencat | 424 | 5.2 | 0.2 | 94.8 | 0 |
+      | cyprus | 412 | 99.8 | 72.6 | 0 | 0.2 |
+      | brandenburg | 379 | 6.9 | 0.3 | 92.1 | 1.1 |
+      | clm | 330 | 19.4 | 14.2 | 80.0 | 0.6 |
+      | the other 15 | 1,583 | 20.6 | 8.6 | 79.0 | 0.4 |
+      | all | 191,466 | 47.1 | 26.5 | 52.7 | 0.2 |
+
+      No advert is outside Europe (every public feed's country is one of the catalogue's). Compiling the gate took 1.0 s and deciding every advert 5.3 s on the development Mac (Node 26), not yet measured on the server. The legacy's gate (its `classifier`, `hygieneReason` and `build-pile.mjs`'s order, run in the scratchpad on the same adverts) gives the same decision, families, occupations and trade for every one of the 191,466: no difference. Notes: the sources whose adapters ask only for our occupations (jobtech, mpsv, cyprus) are kept at 97 % and more; the feeds that list every job (vdab, upsvr, hzz, kuntarekry, …) are mostly outside the vertical, as in the legacy. The legacy also mended broken letters and cut long fields before the gate (`mendedText`, `atMost` in `build-pile.mjs`); both readers were given the same stored title here, so that step is the publication's to place (010).
+
 - [ ] **T011 — Close gate** · FR: FR-1 to FR-10 · Depends: T001-T010
       Done when: nothing outside the feature imports past `src/features/gate/index.ts` but its entry in `src/bin/` (checked with a search); `CLAUDE.md` lists `src/features/gate/`, `pnpm gate:explain` and the title rules' copy; `MEMORY.md` notes the copy for `indudex-matching`; `features/README.md` marks this feature done; the CI command is green.
