@@ -17,7 +17,7 @@ src/features/places/
   in-use.ts             # towns and regions that hold offers (legacy locate's list, regionsInUse)
   ambiguous-names.ts    # town names that are words in titles and employers (legacy place-names.ts)
   *.test.ts
-src/shared/kit/text.ts  # gains fold and unaccent (Argus's text helpers, used by gate and companies later)
+src/shared/kit/fold.ts  # fold, unaccent, nameKey, nameKeys (Argus's text helpers and the legacy web's name keys)
 ```
 
 **Processor features expose an `index.ts`.** The publication (010) runs every step, so it imports each processor feature's `index.ts`, and only that. This is the processor's version of the rule that source features import only crawl-core's ports. The rule goes into `AGENTS.md` ("Features") with T001.
@@ -65,7 +65,7 @@ createPlacer(catalogues): {
 
 - **Behaviour, not code.** The legacy is read rule by rule. Each rule becomes a small named function, or a branch with a comment carrying its _why_ and the dated measure the legacy recorded ("2,187 published offers, 1 November 2026"), so the reason survives.
 - **One test per rule**, on the example its comment names, against the real catalogues (`readPlaces`, `nuts`). The gazetteer is built once per test file, in about 0.3 s.
-- **Folded comparison**: `fold` (accents off, lower case) from Argus's `server-bot/text.mjs` v1.11.0, added to `src/shared/kit/text.ts` with `unaccent`. Plus the legacy's "spelt-out letters" forms (ae, oe, ue, aa), kept apart (FR-2).
+- **Folded comparison**: `fold` (accents off, lower case) from Argus's `server-bot/text.mjs` v1.11.0, in `src/shared/kit/fold.ts` with `unaccent` and the legacy web's `nameKey` and `nameKeys`. Plus the legacy's "spelt-out letters" forms (ae, oe, ue, aa), kept apart (FR-2).
 - **Regular expressions** follow the legacy's guard against slow patterns (NOB-11): fields are capped before matching, and no pattern has a nested optional repetition.
 
 ## 4. Text towns (FR-6)
