@@ -69,6 +69,7 @@ All of it is a rewrite of the monolith [`JustJans/indudex`](https://github.com/J
 - Incremental builds and `--explain` (why each advert was dropped).
 - Output, the published dataset: shards, index, word index, latest adverts, company directory and cards, exported catalogues, metadata (build time, counts, sources and licences).
 - **Owns the catalogues** (occupations, countries, towns, languages, degrees, vetoes); the API serves the copy the processor publishes.
+- Keeps what it must remember between runs (the employers it has listed) in a state folder of its own (`state/`, or `PROCESSOR_STATE_DIR`), never in the scrapper's store.
 
 Out of scope:
 

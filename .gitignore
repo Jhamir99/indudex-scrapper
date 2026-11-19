@@ -27,6 +27,7 @@ MEMORY.md
 # collected and published data: advert text can hold third parties' names or contacts
 store/
 published/
+state/
 
 # logs
 logs/

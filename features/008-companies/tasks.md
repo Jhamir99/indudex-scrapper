@@ -25,8 +25,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part B — The directory
 
-- [ ] **T006 — The processor's state folder** · FR: FR-5 · Depends: gate T011
+- [x] **T006 — The processor's state folder** · FR: FR-5 · Depends: gate T011
       Done when: `processor-state.ts` gives the folder (`PROCESSOR_STATE_DIR`, default `state/` at the repo root, in `.gitignore`), and `history.ts` reads and writes `state/companies.json` (versioned, validated, atomic; a broken file an error naming its path; none an empty history); `AGENTS.md` ("Processor") says the processor keeps its state there; tests on a temporary folder pass.
+      2026-11-19: done. `state/` added to `.gitignore` and `AGENTS.md`. The history is read into an object without a prototype, so an employer keyed «constructor» is only an employer.
 - [ ] **T007 — The employers listed** · FR: FR-5 · Depends: T001, T006
       Done when: `directory.ts` holds `updateCompanies`, `mainCountry` and `offersAt` over `DirectoryOffer`s, and tests pass on legacy examples: the most seen spelling, the group hired most for, places with today's counts and 0, the town and its NUTS code, a key that changed moved, a name no longer usable and a taken-down employer forgotten, the order (most offers first, then by name).
 
