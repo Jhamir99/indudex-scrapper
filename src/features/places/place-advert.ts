@@ -4,7 +4,12 @@ import { areaCode, areaOf, type PlaceText } from "./areas.js";
 import type { Gazetteer } from "./gazetteer.js";
 import { pieces } from "./pieces.js";
 import { shownName } from "./shown-name.js";
-import { FOR_A_CLIENT, labelledTowns, postalTowns } from "./text-towns.js";
+import {
+  FOR_A_CLIENT,
+  labelledTowns,
+  phraseTowns,
+  postalTowns,
+} from "./text-towns.js";
 import { townOf, type TownFound } from "./town-of.js";
 
 // What places reads of an advert (FR-9): the stored advert's fields, and whether it comes from a
@@ -84,6 +89,12 @@ function townFromText(
   const candidates = new Set([
     ...labelledTowns(input.description, forOthers),
     ...(forOthers ? [] : postalTowns(input.description, place.country)),
+    ...phraseTowns(
+      atMost(input.title, FIELD_LIMITS.title),
+      input.description,
+      forOthers,
+      place.country,
+    ),
   ]);
   for (const candidate of candidates) {
     const found = townOf(gazetteer, {

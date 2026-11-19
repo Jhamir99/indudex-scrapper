@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { smallGazetteer } from "../../../test/places/gazetteer.js";
 import { placeAdvert } from "./place-advert.js";
-import { labelledTowns, postalTowns } from "./text-towns.js";
+import { labelledTowns, phraseTowns, postalTowns } from "./text-towns.js";
 
 describe("towns from postcodes (FR-6)", () => {
   it("reads the words after a country's postcode, in its own form only", () => {
@@ -163,5 +163,77 @@ describe("placing an advert by its text (FR-6)", () => {
         ),
       ),
     ).toEqual({ town: null, nuts: null, from: null });
+  });
+});
+
+describe("towns from phrases (FR-6)", () => {
+  it.each([
+    ["Elektriker (m/w/d) in Oppenheim", "", "de", ["Oppenheim"]],
+    ["Servicetechniker – Salem", "", "de", ["Salem"]],
+    ["Monteur Region Mannheim", "", "de", ["Mannheim"]],
+    [
+      "Techniker",
+      "Für unseren Standort Wittlich suchen wir",
+      "de",
+      ["Wittlich"],
+    ],
+    ["Techniker", "Unsere Niederlassung in Hilgert sucht", "de", ["Hilgert"]],
+    ["Techniker", "Der Hauptsitz in Wiesbaden ist", "de", []],
+    [
+      "Techniker",
+      "Standort Bad Oldesloe Vollzeit",
+      "de",
+      ["Bad Oldesloe Vollzeit", "Bad Oldesloe", "Bad"],
+    ],
+    ["Monteur regio Zwolle", "", "nl", ["Zwolle"]],
+    [
+      "Monteur",
+      "Voor onze vestiging Eindhoven zoeken wij",
+      "nl",
+      ["Eindhoven"],
+    ],
+    ["Technicien", "Poste basé à Strasbourg", "fr", ["Strasbourg"]],
+    ["Ingénieur", "Sur notre site de Palaiseau", "fr", ["Palaiseau"]],
+    ["Engineer", "The role is based in Redhill", "gb", ["Redhill"]],
+    ["Engineer - London E", "", "gb", ["London E", "London"]],
+    ["Guide near Buckingham Palace", "", "gb", ["Buckingham Palace"]],
+    ["Technico-Commercial(E) H/F", "", "fr", []],
+    ["Engineer (Blyth)", "", "gb", ["Blyth"]],
+    ["Engineer (Bridge & Structures)", "", "gb", []],
+    ["Engineer in Madrid", "", "es", []],
+  ])("reads «%s» «%s» in %s as %j", (title, text, country, towns) => {
+    expect(phraseTowns(title, text, false, country)).toEqual(towns);
+  });
+
+  it("reads an agency's title, never its text", () => {
+    expect(
+      phraseTowns("Techniker", "Unser Team in Hannover", true, "de"),
+    ).toEqual([]);
+    expect(
+      phraseTowns(
+        "Techniker in Oppenheim",
+        "Unser Team in Hannover",
+        true,
+        "de",
+      ),
+    ).toEqual(["Oppenheim"]);
+  });
+
+  it("places an advert by its title's phrase when its place names only the country", () => {
+    const germany = smallGazetteer(
+      [[12, "Oppenheim", "de", "Rhineland-Palatinate", 49.85, 8.36, 7500, []]],
+      { towns: { "12": "DEB3J" } },
+      [{ iso: "de", name: "Germany", aliases: ["Deutschland"] }],
+    );
+    expect(
+      placeAdvert(germany, {
+        country: "de",
+        location: "Deutschland",
+        city: "",
+        title: "Elektriker (m/w/d) in Oppenheim",
+        description: "",
+        agency: false,
+      }),
+    ).toMatchObject({ town: { name: "Oppenheim" }, from: "text" });
   });
 });

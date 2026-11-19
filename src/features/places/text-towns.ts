@@ -115,3 +115,132 @@ export function labelledTowns(text: string, agency: boolean): string[] {
 // Switzerland, 6 November 2026), so it is read as an agency's.
 export const FOR_A_CLIENT =
   /\b(?:unser(?:e[mnrs]?)? kunden?|unseres kunden|our client|our customer|notre client|nos clients|nuestro cliente|onze (?:klant|opdrachtgever)|il nostro cliente|naszego klienta|nasz klient|personaldienstleist\w*|personalvermittl\w*|arbeitnehmer(?:ü|ue)berlassung|zeitarbeit|uitzendbureau|interim)\b/i;
+
+// The town a phrase gives where no line labels one. German: the title's «… in Oppenheim», «… –
+// Salem», «Region Mannheim»; the text's «für unseren Standort Wittlich», «Niederlassung in
+// Hilgert», «unser Team in Hannover», not a head office's («Hauptsitz in Wiesbaden»). Up to four
+// capitalised words, then each shorter run («Bad Oldesloe Vollzeit», «Bad Oldesloe»). Of 44,830
+// German-speaking offers with no town, 3,970 placed so, a sample of 45 right (7 November 2026).
+// Dutch, French and English the same way («regio Zwolle», «vestiging Eindhoven», «basé à
+// Strasbourg», «based in Redhill»), but a name is cut only of a closing word for a site or in
+// capitals («London E»): a shorter one is often another place («Buckingham Palace», «Stone
+// Cross»). Of 34,076 such offers with no town, 4,087 placed so (7 November 2026).
+const PHRASE_NAME = String.raw`(\p{Lu}[\p{L}.]*(?:(?:-|\s(?:(?:am|an|im|in|ob|bei|der|vor der|a\.|v\.\s?d\.|a\.\s?d\.)\s)?)\p{Lu}[\p{L}.]*){0,3})`;
+const NAME_START = String.raw`\p{Lu}[\p{L}'’.]*`;
+const NAMES = {
+  nl: String.raw`(${NAME_START}(?:(?:-|\s(?:(?:aan|op|bij|ten|ter|in)\s(?:de\s|den\s|der\s)?)?)${NAME_START}){0,3})`,
+  fr: String.raw`(${NAME_START}(?:(?:-(?:(?:le|la|les|lès|sur|sous|en|de|du|des|aux|et)-)?|-d['’]|\s(?:(?:sur|sous|en|le|la|les|de|du|des|aux)\s)?|\sd['’])${NAME_START}){0,4})`,
+  en: String.raw`(${NAME_START}(?:(?:-|\s(?:(?:upon|on|in|under|by|le)\s)?)${NAME_START}){0,3})`,
+};
+
+type PhraseLanguage = "de" | "nl" | "fr" | "en";
+
+// For each language, the title's phrases and the text's. Without "i": a town's capital is what
+// tells it from the words after it («Wittlich suchen wir»).
+const PHRASES: Readonly<
+  Record<PhraseLanguage, readonly [title: RegExp, text: RegExp]>
+> = {
+  de: [
+    new RegExp(
+      String.raw`(?:(?<![\p{L}])(?:in|bei|nahe|[Rr]aum|[Rr]egion|[Gg]roßraum|[Ss]tandort)\s+|\s[-–|]\s|,\s)${PHRASE_NAME}`,
+      "gu",
+    ),
+    new RegExp(
+      String.raw`(?<![\p{L}])(?:[Ss]tandort(?:e|en)?|[Nn]iederlassung|[Ff]iliale|[Ww]erk|[Bb]üro|[Bb]etrieb|[Tt]eams?)\s+(?:(?:in|im|bei|nahe)\s+)?${PHRASE_NAME}`,
+      "gu",
+    ),
+  ],
+  nl: [
+    new RegExp(
+      String.raw`(?:(?<![\p{L}])(?:in|te|regio|omgeving|nabij)\s+|\s[-–|]\s|,\s)${NAMES.nl}`,
+      "gu",
+    ),
+    new RegExp(
+      String.raw`(?<![\p{L}])(?:[Vv]estiging|[Kk]antoor|[Ll]ocatie|[Rr]egio)(?:\s+(?:in|te))?\s+${NAMES.nl}`,
+      "gu",
+    ),
+  ],
+  fr: [
+    new RegExp(
+      String.raw`(?:(?<![\p{L}])(?:à|sur)\s+|\s[-–|]\s|,\s)${NAMES.fr}`,
+      "gu",
+    ),
+    new RegExp(
+      String.raw`(?<![\p{L}])(?:(?:[Bb]as[ée]e?s?|[Ss]itu[ée]e?s?)\s+(?:à|sur)|(?:[Ss]ite|[Aa]gence|[Uu]sine|[Éé]tablissement)\s+(?:de\s+|d['’]))\s*${NAMES.fr}`,
+      "gu",
+    ),
+  ],
+  // A bracket only round the name alone («(Blyth)»), not round a field («(Bridge & Structures)»).
+  en: [
+    new RegExp(
+      String.raw`(?:(?<![\p{L}])(?:in|near)\s+|\s[-–|]\s|,\s)${NAMES.en}|\(${NAMES.en}(?=\))`,
+      "gu",
+    ),
+    new RegExp(
+      String.raw`(?<![\p{L}])(?:(?:[Bb]ased|[Ll]ocated)\s+(?:in|at|near)|(?:[Oo]ffice|[Ss]ite|[Pp]lant|[Dd]epot|[Ff]acility)\s+in)\s+${NAMES.en}`,
+      "gu",
+    ),
+  ],
+};
+
+// The languages whose phrases are read in each country.
+const PHRASE_LANGUAGES: Readonly<Record<string, readonly PhraseLanguage[]>> = {
+  de: ["de"],
+  at: ["de"],
+  ch: ["de"],
+  nl: ["nl", "en"],
+  be: ["nl", "fr", "en"],
+  fr: ["fr", "en"],
+  lu: ["fr", "en"],
+  gb: ["en"],
+  ie: ["en"],
+  mt: ["en"],
+};
+
+const CLOSING =
+  /^(?:type|office|site|area|campus|station|centre|center|region|regio|hq|head|hybrid|remote|kantoor|vestiging|bureau|bureaux|agence|siège)$/i;
+
+// The towns the title's and the text's phrases give, in the languages of the advert's country.
+// An agency's text is never read: its branch. Its title is.
+export function phraseTowns(
+  title: string,
+  text: string,
+  agency: boolean,
+  country: string,
+): string[] {
+  const out: string[] = [];
+  const put = (town: string) => {
+    if (town && !out.includes(town)) out.push(town);
+  };
+  const add = (language: PhraseLanguage, said: string) => {
+    // Not a letter or two: a gender's «(E)» or «H/F» («Technico-Commercial(E)» was Ay).
+    if (said.replace(/[^\p{L}]/gu, "").length < 3) return;
+    const words = said.split(/\s+/);
+    if (language === "de") {
+      for (let count = words.length; count >= 1; count--)
+        put(words.slice(0, count).join(" "));
+      return;
+    }
+    put(said);
+    let last = words.at(-1) ?? "";
+    while (
+      words.length > 1 &&
+      (CLOSING.test(last) || last === last.toUpperCase())
+    ) {
+      words.pop();
+      put(words.join(" "));
+      last = words.at(-1) ?? "";
+    }
+  };
+  const languages = PHRASE_LANGUAGES[country] ?? [];
+  for (const language of languages)
+    for (const match of title.matchAll(PHRASES[language][0]))
+      add(language, match[1] ?? match[2] ?? "");
+  if (!agency)
+    for (const language of languages)
+      for (const match of text.matchAll(PHRASES[language][1])) {
+        add(language, match[1] ?? "");
+        if (out.length >= 12) break;
+      }
+  return out;
+}
