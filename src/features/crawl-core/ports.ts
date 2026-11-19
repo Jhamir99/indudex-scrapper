@@ -70,3 +70,10 @@ export interface Clock {
 export interface StopSwitch {
   isActive(): Promise<boolean>;
 }
+
+// Where the crawl keeps the ECB's rates for the processor (pay FR-2).
+export interface RatesKeeper {
+  // The day (UTC, YYYY-MM-DD) the kept file was written, or undefined when there is none.
+  keptOn(): Promise<string | undefined>;
+  keep(xml: string): Promise<void>;
+}

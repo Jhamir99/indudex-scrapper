@@ -7,7 +7,9 @@ import {
   fakeDraft,
   FakeSourceAdapter,
 } from "../../../test/fakes/source-adapter.js";
+import { InMemoryRatesKeeper } from "../../../test/fakes/rates-keeper.js";
 import { FakeStopSwitch } from "../../../test/fakes/stop-switch.js";
+import { ECB_URL } from "../../shared/rates/ecb.js";
 import { CrawlConfig, scheduleRules } from "./config/crawl-config.js";
 import { loadConfig } from "../../shared/config/load-config.js";
 import { TakedownList } from "./config/takedowns.js";
@@ -70,6 +72,32 @@ describe("crawl entry (FR-6)", () => {
     expect((await store.readState("bravo"))?.lastRunAt).toBe(
       "2026-11-16T09:00:00.000Z",
     );
+  });
+
+  it("asks the ECB's rates once a day, before the sources (pay FR-2)", async () => {
+    const { clock, http, adapters, dependencies } = await fakeRun();
+    http.route(ECB_URL, new Error("ECB unreachable"));
+    const rates = new InMemoryRatesKeeper(clock);
+
+    await crawl(parseCrawlArguments([]), adapters, { ...dependencies, rates });
+    await crawl(parseCrawlArguments(["--source", "bravo"]), adapters, {
+      ...dependencies,
+      rates,
+    });
+
+    const asked = http.requests.map((request) => request.url);
+    expect(asked[0]).toBe(ECB_URL);
+    expect(asked.filter((url) => url === ECB_URL)).toHaveLength(2);
+    // Without a keeper, no rates are asked for.
+    http.requests.length = 0;
+    await crawl(
+      parseCrawlArguments(["--source", "bravo"]),
+      adapters,
+      dependencies,
+    );
+    expect(http.requests.map((request) => request.url)).toEqual([
+      "https://bravo.example/feed",
+    ]);
   });
 
   it("refuses an unknown source and names the registered ones", async () => {

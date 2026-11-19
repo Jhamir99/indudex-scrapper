@@ -20,6 +20,7 @@ import {
 } from "../features/crawl-core/run.js";
 import { FileAdvertStore } from "../shared/storage/file-advert-store.js";
 import { FileStopSwitch } from "../shared/storage/file-stop-switch.js";
+import { FileRatesKeeper } from "../shared/storage/kept-rates.js";
 import { storeDirectory } from "./store-directory.js";
 
 // Keys from `.env` at the repo root (never committed); a variable already set wins.
@@ -54,6 +55,7 @@ try {
       environment,
       log,
       concurrency: config.run.concurrency,
+      rates: new FileRatesKeeper(directory, clock),
     });
     const counts = new Map<string, number>();
     for (const { outcome } of result.sources) {

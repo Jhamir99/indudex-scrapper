@@ -7,7 +7,8 @@ import { FetchClient } from "../../shared/http/fetch-client.js";
 import { PacedClient } from "../../shared/http/paced-client.js";
 import { RobotsClient } from "../../shared/http/robots-client.js";
 import type { CrawlConfig } from "./config/crawl-config.js";
-import type { Clock, HttpClient, SourceAdapter } from "./ports.js";
+import type { Clock, HttpClient, RatesKeeper, SourceAdapter } from "./ports.js";
+import { refreshRates } from "./rates.js";
 import {
   type RunDependencies,
   type RunResult,
@@ -48,14 +49,31 @@ export function parseCrawlArguments(argv: readonly string[]): CrawlArguments {
   }
 }
 
-// One crawl: the due sources, or the one asked for.
+export interface CrawlDependencies extends RunDependencies {
+  // Where the ECB's rates are kept; without it, they are not asked for.
+  readonly rates?: RatesKeeper;
+}
+
+// One crawl: the ECB's rates when due (pay FR-2), then the due sources, or the one asked for.
 export async function crawl(
   argumentsGiven: CrawlArguments,
   adapters: readonly SourceAdapter[],
-  dependencies: RunDependencies,
+  dependencies: CrawlDependencies,
 ): Promise<RunResult> {
-  if (argumentsGiven.source === undefined)
-    return runDue(adapters, dependencies);
+  const adapter = findAdapter(argumentsGiven, adapters);
+  if (dependencies.rates)
+    await refreshRates({ ...dependencies, rates: dependencies.rates });
+  return adapter
+    ? runOnly(adapter, dependencies)
+    : runDue(adapters, dependencies);
+}
+
+// The adapter asked for, undefined for a run of the due sources, or a usage error.
+function findAdapter(
+  argumentsGiven: CrawlArguments,
+  adapters: readonly SourceAdapter[],
+): SourceAdapter | undefined {
+  if (argumentsGiven.source === undefined) return undefined;
   const adapter = adapters.find(
     (a) => a.definition.id === argumentsGiven.source,
   );
@@ -65,7 +83,7 @@ export async function crawl(
       `unknown source "${argumentsGiven.source}"; registered: ${known.length > 0 ? known.join(", ") : "none"}`,
     );
   }
-  return runOnly(adapter, dependencies);
+  return adapter;
 }
 
 // The polite client every adapter gets: robots.txt, then pacing by provider, server and host
