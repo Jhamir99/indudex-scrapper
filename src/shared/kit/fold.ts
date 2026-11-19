@@ -24,9 +24,14 @@ const LATIN: Readonly<Record<string, string>> = {
   ħ: "h",
 };
 
-// Folded, with those letters spelt out too, everything else as it was.
+// Folded, with those letters spelt out too, everything else as it was. As the legacy web's
+// name-key.ts takes accents off: every combining mark (\p{M}), not only Argus's range.
 export const foldLetters = (text: string): string =>
-  fold(text).replace(/[øæœßłđðþıħ]/g, (letter) => LATIN[letter] ?? letter);
+  text
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .replace(/[øæœßłđðþıħ]/g, (letter) => LATIN[letter] ?? letter);
 
 // The form a town's name and a visitor's words are compared in: folded letters and digits,
 // anything else a single space.

@@ -6,8 +6,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part A — The employer of an advert
 
-- [ ] **T001 — The employer's key** · FR: FR-3 · Depends: gate T011
+- [x] **T001 — The employer's key** · FR: FR-3 · Depends: gate T011
       Done when: `company-key.ts` holds the legacy's `LEGAL`, `nameWords`, `companyKey`, `usable`, `townKey` and `displayName`, and tests pass on legacy examples («Siemens AG», «SIEMENS» and «Siemens» one key; «Müller GmbH & Co. KG» «muller»; «SAS Institute», «Groupe SEB»; «S.A.U.», «Sp. z o.o.», «ООО «Мегафон»»; «Confidential» and «0» no employer; «SANDNES ELEKTRISKE AS» shown «Sandnes Elektriske AS»; «Paris 13» Paris); the golden set (`test/fixtures/companies/`) is built from the legacy in the scratchpad and every key, `usable` and `displayName` reading of it matches.
+      2026-11-19: done. Extracted from the legacy by a scratchpad script. The golden set (`test/fixtures/companies/names.json`, read by `test/companies/golden.ts`) holds the legacy's readings of the 982 strings of its name tests (one with an e-mail address left out). `foldLetters` in `shared/kit/fold.ts` is back to the legacy web's own rule (every combining mark), which the gate's T001 had narrowed to Argus's; every earlier test still passes.
 - [ ] **T002 — Clutter and the employer's name** · FR: FR-1 · Depends: T001
       Done when: `clutter.ts` and `employer-name.ts` hold the legacy's `withoutClutter`, `withoutPictures`, `genericName`, `companyName`, `companyOfAdvert` and `spelledCompany` (patterns extracted, not retyped), and tests pass on legacy examples for each rule (markup, an address, a phone, placeholders, control marks; a tax number, «Stellenangebote bei», «Karriere», «Jobs», a board's name, a slogan; «Confidencial», «Human Resources», a country, a board's line; a title taken for the employer; «Fröwag» for «Froewag»; the employer that is the advert's town); every name reading of the golden set matches.
 - [ ] **T003 — Names as the adverts write them** · FR: FR-2 · Depends: T002
