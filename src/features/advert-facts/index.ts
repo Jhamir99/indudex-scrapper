@@ -1,0 +1,4 @@
+// Advert facts' public entry for the processor (AGENTS.md, "Features").
+export { AdvertFacts, createFactReader, type FactSources } from "./facts.js";
+export type { Contract, ContractKind, WorkingTime } from "./contract.js";
+export type { WorkMode } from "./work-mode.js";

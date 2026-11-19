@@ -35,7 +35,37 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T009 — Degrees and languages** · FR: FR-6, FR-7 · Depends: T004
       Done when: `screens.ts` compiles the `degrees` and `languages` catalogues and passes tests on legacy examples: a degree or language demanded is read, one named «a plus», «von Vorteil», «souhaité», «not required» is not, «Deutschkenntnisse» and «Nederlandstalig» are languages, «Germany» and «polished» are not, a stem matches its endings («fliessend*»).
       2026-11-19: ported rule for rule and checked against the legacy over its own catalogues: the same degrees and languages for all 188,365 stored adverts (2,366 demand a degree, 10,915 a language) and for the 315 texts of its tests that call them, kept as `test/fixtures/advert-facts/screens.json`.
-- [ ] **T010 — The fact reader and its measurement** · FR: FR-8, spec section 5 · Depends: T002, T003, T005-T009
+- [x] **T010 — The fact reader and its measurement** · FR: FR-8, spec section 5 · Depends: T002, T003, T005-T009
       Done when: `createFactReader(...).facts(advert)` gives `AdvertFacts` (validated by its Zod schema), equal on a second read; a pass over the stores of the live runs (and a live pass of the swept adapters into a temporary store, for contract and hours) records here per source the share with each fact and the time (under two minutes); a source far below the others has a note.
+      2026-11-19: done. `facts` is checked by its schema and equal on a second read. The old stores of the live runs (38 sources, 188,365 adverts, stored before the new fields) give: work mode 8.7 %, years 27.2 %, degrees 1.3 %, languages 5.8 %, 6,654 titles calmed. Each reader matched the legacy itself on every one of those adverts (zero differences). A fresh live pass into a temporary store (191,473 adverts, 38 sources, 1 h 20 min, most of it vdab) gives, per source, the share in %:
+
+      | source | adverts | mode | contract | hours | years | degrees | languages | titles calmed |
+      | --- | --: | --: | --: | --: | --: | --: | --: | --: |
+      | actiris | 1,928 | 1.2 | 99.5 | 100 | 1.9 | 1.6 | 13.9 | 90 |
+      | anofm | 8,843 | 99.8 | 0 | 0 | 19.3 | 0.2 | 0.5 | 0 |
+      | bolzano | 977 | 2.1 | 99.6 | 0 | 4.6 | 8.5 | 35.4 | 23 |
+      | brz | 60 | 96.7 | 0 | 0 | 86.7 | 25 | 90 | 0 |
+      | clm | 330 | 0 | 91.5 | 98.5 | 0 | 0 | 0 | 0 |
+      | escoladeltreball | 45 | 4.4 | 88.9 | 0 | 22.2 | 60 | 20 | 0 |
+      | feinaactiva | 4,199 | 0.1 | 99.4 | 92.3 | 62 | 8.3 | 49.7 | 0 |
+      | gencat | 424 | 0 | 100 | 0 | 0 | 2.4 | 0 | 0 |
+      | iefp | 5,739 | 98.3 | 5.2 | 5.1 | 0.3 | 0 | 0.2 | 0 |
+      | infopraca | 2,887 | 0 | 0 | 9.5 | 0.2 | 1.5 | 0.5 | 940 |
+      | jobtech | 9,753 | 10.4 | 87.1 | 97.6 | 17.9 | 7 | 56.7 | 76 |
+      | kuntarekry | 1,580 | 0 | 47.3 | 68.3 | 0.1 | 0 | 8.9 | 3 |
+      | mpsv | 6,277 | 0 | 0 | 99.8 | 5.6 | 5.4 | 6.1 | 929 |
+      | nva | 1,248 | 0 | 0 | 0 | 0 | 0 | 0 | 1,000 |
+      | sae | 618 | 0 | 99.7 | 100 | 2.8 | 5 | 1.1 | 1 |
+      | sef | 251 | 0 | 0 | 0 | 15.1 | 8.8 | 8 | 247 |
+      | sne | 3,303 | 0.3 | 0 | 0 | 10.4 | 7.6 | 4.1 | 0 |
+      | solidjobs | 1,760 | 72.4 | 0 | 0 | 86.7 | 11.4 | 49.9 | 0 |
+      | upsvr | 12,124 | 0 | 2.4 | 0 | 0.8 | 0 | 0.6 | 19 |
+      | valtiolle | 250 | 0 | 100 | 0 | 0 | 0 | 0.8 | 1 |
+      | vdab | 119,132 | 0 | 99.1 | 100 | 36.2 | 0.2 | 0.7 | 3,493 |
+      | the other 17 | 9,745 | 0.1 | 0 | 0 | 1.9 | 1.1 | 1.5 | 41 |
+      | all | 191,473 | 8.8 | 71.3 | 74.8 | 27.1 | 1.2 | 5.8 | 6,863 |
+
+      Facts for every advert took 22 s on the development Mac (Node 26), not yet measured on the server. Notes: the 17 other sources have no contract or hours fields (brandenburg, hungary, hzz and the rest), as in the legacy. `iefp`, `upsvr`, `infopraca` and half of `kuntarekry` fill the fields from their own pages, and a first pass on an empty store reads only 300 to 800 of them; the shares rise as later runs read the rest. Pages read before the fields existed are not read again for them.
+
 - [ ] **T011 — Close advert-facts** · FR: FR-1 to FR-8 · Depends: T001-T010
       Done when: `index.ts` exports only the reader, `AdvertFacts` and its types; `CLAUDE.md` ("Intended structure") lists `src/features/advert-facts/` and the advert's new fields; `features/README.md` marks this feature done; the CI command is green.
