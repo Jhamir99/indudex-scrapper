@@ -6,7 +6,7 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Tasks
 
-- [ ] **T001 — Folding and the gazetteer** · FR: FR-2, FR-9 · Depends: catalogues T009
+- [x] **T001 — Folding and the gazetteer** · FR: FR-2, FR-9 · Depends: catalogues T009
       Done when: `fold` and `unaccent` are in `src/shared/kit/text.ts` with tests; `gazetteer.ts` compiles, once, every town by its folded names per country, with the forms without hyphens, apostrophes and dots and the spelt-out letters kept apart, and the regions and provinces by their names (with and without the word for a province, with spaces for hyphens, and the loose and other names); tests on legacy examples («Aix en Provence», «s Hertogenbosch», «St.Gallen», «Baerum», «Lillestroem», «Muenchen», «Zuid Holland», «prov. west-vlaanderen») find the right GeoNames ids and NUTS codes; `AGENTS.md` states that processor features expose an `index.ts` that only the publication imports.
 - [ ] **T002 — Areas a place names** · FR: FR-5 · Depends: T001
       Done when: `areaCode` and `areaOf` pass tests on legacy examples: the most precise of nested areas («Terrassa, Barcelona, Catalonia» is ES511), none for areas that disagree («Madrid, Barcelona»), the first loose name when loose names disagree («Bedfordshire, South East»), a province's word (Italy's «provincia di», Belgium's «Provincie», «Kanton», «canton de», «županija»), and a point of the compass not cut into a town («Noord-Brabant»).
