@@ -10,10 +10,12 @@ import {
   type Placement,
 } from "./place-advert.js";
 
-import { regionsInUse, townsInUse } from "./in-use.js";
+import { ambiguousNames, type NamedOffer } from "./ambiguous-names.js";
+import { regionsInUse, townsInUse, type TownInUse } from "./in-use.js";
 
 export { Placement, type PlaceInput } from "./place-advert.js";
 export type { AreaInUse, RegionsInUse, TownInUse } from "./in-use.js";
+export type { NamedOffer } from "./ambiguous-names.js";
 
 export interface PlaceCatalogues {
   // From readPlaces.
@@ -44,5 +46,10 @@ export function createPlacer(catalogues: PlaceCatalogues) {
         readonly nuts: string | null;
       }[],
     ) => regionsInUse(catalogues.nuts, placed),
+    // The town names the search bar must not take for a town unless marked as one.
+    ambiguousNames: (
+      towns: readonly TownInUse[],
+      offers: readonly NamedOffer[],
+    ) => ambiguousNames(towns, offers),
   };
 }

@@ -25,8 +25,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
       Done when: `phraseTowns` passes tests on legacy examples in German («… in Oppenheim», «Region Mannheim», «für unseren Standort Wittlich», not «Hauptsitz in Wiesbaden»), Dutch («regio Zwolle», «vestiging Eindhoven»), French («basé à Strasbourg», «site de Palaiseau») and English («based in Redhill», «London E» cut, «Buckingham Palace» not), and an agency's text gives none while its title still does.
 - [x] **T008 — Towns and regions in use** · FR: FR-8 · Depends: T005
       Done when: `townsInUse` and `regionsInUse` pass tests on a small set of placements: each town under the name its offers use most, GeoNames' name when it differs, its names in visitors' languages (four letters at least, three words at most), the fullest first and ties by id; regions and provinces with their names, other names and counts.
-- [ ] **T009 — Ambiguous town names** · FR: FR-8 · Depends: T008
+- [x] **T009 — Ambiguous town names** · FR: FR-8 · Depends: T008
       Done when: `ambiguousNames` passes tests on legacy examples: «Orange» in a company name and «Hook» in «Hook Up Engineer» are words, «Engineer – Vigo», «(Vigo)», «in Vigo», «Köln, NRW», «Softwareentwickler Duisburg» are places, a name is ambiguous above a quarter of word uses, and a mention near its town counts as a place.
+      2026-11-19: as the legacy's code reads them, a separator or region word after a name marks it only past the title's first word («Köln, NRW» alone is a word, «Engineer Köln, NRW» a place). The legacy also read the offer's English title (`te`); that comes with title translation (011).
 - [ ] **T010 — Measure on a real store** · FR: FR-9, spec section 5 · Depends: T007
       Done when: the scratchpad script has placed every advert of a real store and the numbers are recorded here: per source the share placed from the location, from the text, by area only and not at all, and the time for the whole pass (under a minute). Any source far below the others has a note: an adapter finding to check, or a rule to add with its test.
 - [ ] **T011 — Close places** · FR: FR-1 to FR-9 · Depends: T001-T010
