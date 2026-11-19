@@ -146,15 +146,16 @@ describe("Sirene (companies FR-6)", () => {
   });
 
   it("leaves out a withheld record, a sole trader, fewer than ten people, an unknown size, a closed unit and an old classification", () => {
+    const changes: Record<string, string>[] = [
+      { statutDiffusionUniteLegale: "P" },
+      { categorieJuridiqueUniteLegale: "1000" },
+      { trancheEffectifsUniteLegale: "03" },
+      { trancheEffectifsUniteLegale: "NN" },
+      { etatAdministratifUniteLegale: "C" },
+      { nomenclatureActivitePrincipaleUniteLegale: "NAFRev1" },
+    ];
     expect(
-      [
-        { statutDiffusionUniteLegale: "P" },
-        { categorieJuridiqueUniteLegale: "1000" },
-        { trancheEffectifsUniteLegale: "03" },
-        { trancheEffectifsUniteLegale: "NN" },
-        { etatAdministratifUniteLegale: "C" },
-        { nomenclatureActivitePrincipaleUniteLegale: "NAFRev1" },
-      ].map((change) => fromSireneUnit(get({ ...sirene, ...change }))),
+      changes.map((change) => fromSireneUnit(get({ ...sirene, ...change }))),
     ).toEqual([null, null, null, null, null, null]);
   });
 
