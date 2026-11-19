@@ -12,6 +12,7 @@ export interface Town extends Place {
 // the names a place may give for them. Built once per run (legacy compileTowns).
 export interface Gazetteer {
   readonly towns: ReadonlyMap<string, ReadonlyMap<string, readonly Town[]>>;
+  readonly byId: ReadonlyMap<number, Town>;
   // NUTS's own names, folded.
   readonly areas: ReadonlyMap<string, ReadonlyMap<string, string>>;
   // Other ways sources write them: without the word for a province, the UK's counties, spaces
@@ -28,7 +29,9 @@ export interface CountryNames {
   readonly aliases: readonly string[];
 }
 
-export type NutsTables = Partial<Pick<Nuts, "areas" | "otherNames" | "towns">>;
+export type NutsTables = Partial<
+  Pick<Nuts, "areas" | "otherNames" | "towns" | "regions" | "provinces">
+>;
 
 // The letters fold leaves, which sources write without them or spelt out: «Baerum»,
 // «Lillestrom» and «Lillestroem», «Aalesund», «Muenchen» (NOB-17).
@@ -86,9 +89,11 @@ export function compileGazetteer(
   countries: readonly CountryNames[] = [],
 ): Gazetteer {
   const towns = new Map<string, Map<string, Town[]>>();
+  const byId = new Map<number, Town>();
   const spelt = new Map<Map<string, Town[]>, [string, Town][]>();
   for (const place of places) {
     const town: Town = { ...place, nuts: nuts.towns?.[place.geonameId] ?? "" };
+    byId.set(town.geonameId, town);
     const byName = mapOf(towns, town.country);
     const names = [town.name, ...town.otherNames];
     let pairs = spelt.get(byName);
@@ -136,5 +141,5 @@ export function compileGazetteer(
       ),
     ]),
   );
-  return { towns, countryNames, ...compileAreas(nuts) };
+  return { towns, byId, countryNames, ...compileAreas(nuts) };
 }

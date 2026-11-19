@@ -10,7 +10,10 @@ import {
   type Placement,
 } from "./place-advert.js";
 
+import { regionsInUse, townsInUse } from "./in-use.js";
+
 export { Placement, type PlaceInput } from "./place-advert.js";
+export type { AreaInUse, RegionsInUse, TownInUse } from "./in-use.js";
 
 export interface PlaceCatalogues {
   // From readPlaces.
@@ -31,5 +34,15 @@ export function createPlacer(catalogues: PlaceCatalogues) {
   );
   return {
     place: (input: PlaceInput): Placement => placeAdvert(gazetteer, input),
+    // The towns that hold offers, from the placements of every published offer.
+    townsInUse: (placements: readonly Placement[]) =>
+      townsInUse(gazetteer, placements),
+    // The regions and provinces that hold offers.
+    regionsInUse: (
+      placed: readonly {
+        readonly country: string;
+        readonly nuts: string | null;
+      }[],
+    ) => regionsInUse(catalogues.nuts, placed),
   };
 }
