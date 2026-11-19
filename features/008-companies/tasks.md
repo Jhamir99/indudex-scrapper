@@ -38,8 +38,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T008 — Registers' schema, file and LAU** · FR: FR-6 · Depends: gate T011
       Done when: `src/shared/schemas/register.ts` and `registers-file.ts` keep `<store>/registers/<register>.json` (versioned, validated, atomic, with licence and credit), the store's layout comment lists it, and `lau.ts` reads Eurostat's LAU table and places a code (a missing one by its département's or province's unit), tested on a small table.
       2026-11-19: done. The LAU placer carries the legacy's `MERGED` map (islands' and Northern Ireland's units), since the nuts catalogue already codes them so. A register's company is a strict object, so no other field (an owner's name) can be stored.
-- [ ] **T009 — Brønnøysund and Sirene** · FR: FR-6 · Depends: T008
+- [x] **T009 — Brønnøysund and Sirene** · FR: FR-6 · Depends: T008
       Done when: `brreg.ts` and `sirene.ts` turn records into companies as the legacy did (its relevant activities, ten people, the size bands, legal forms that are people, withheld records, struck-off and bankrupt companies left out) and read their bulk files as streams; tests on saved records (the legacy's `test/registers.test.mjs` cases) pass.
+      2026-11-19: done. The legacy's cases (`test/registers.test.mjs`) pass, plus each bulk file read end to end: a gzipped JSON array for Brønnøysund, two zipped CSVs for Sirene (zipped and read with the system's `zip` and `unzip`, as the legacy read them; GitHub's Ubuntu runners have both).
 - [ ] **T010 — Barcelona's census and the tool** · FR: FR-6 · Depends: T009
       Done when: `diba.ts` reads the census through the polite client (ten seconds apart, robots.txt first) and keeps companies as the legacy did (a person's tax number left out, the activity by CCAE class or industrial mark); `pnpm registers` runs each register into the store; tests with a fake client and saved answers pass; a live run of `brreg` and `diba` into a temporary store is recorded here (counts kept and placed).
 
