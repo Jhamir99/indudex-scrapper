@@ -26,3 +26,4 @@ One employer appears under many spellings ("Siemens AG", "SIEMENS", "Siemens"), 
 ## Open questions
 
 - [NEEDS CLARIFICATION] Whether the open business registers stay in scope for the first version of the directory.
+- [NEEDS CLARIFICATION] The Public Suffix List (an employer's site to its registrable domain, for company keys): the legacy's `catalogues/codes/public_suffix_list.dat` (Mozilla, MPL 2.0) or a library such as `tldts`. Moved here from `003-catalogues` on 2026-11-19, since this feature is its only user.
