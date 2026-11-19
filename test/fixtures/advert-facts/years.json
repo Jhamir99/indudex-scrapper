@@ -1,0 +1,2547 @@
+{
+ "about": "The legacy's years readings (builder/years.mjs with Argus v1.11.0's reader, JustJans/indudex@b0cd182, 2026-11-19) of every text in its test/years.test.mjs and test/readers-languages.test.mjs, as a title and as a text: the port must read each the same.",
+ "cases": [
+  {
+   "title": "",
+   "text": "years",
+   "years": null
+  },
+  {
+   "title": "years",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "QA Engineer",
+   "years": null
+  },
+  {
+   "title": "QA Engineer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "What We Are Looking For",
+   "years": null
+  },
+  {
+   "title": "What We Are Looking For",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "3+ years in QA and test automation. You have built suites.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "3+ years in QA and test automation. You have built suites.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Software Engineer",
+   "years": null
+  },
+  {
+   "title": "Software Engineer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Our ideal candidate has:",
+   "years": null
+  },
+  {
+   "title": "Our ideal candidate has:",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "3+ years of successful history in software engineering positions,",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "3+ years of successful history in software engineering positions,",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Ingénieur DevOps",
+   "years": null
+  },
+  {
+   "title": "Ingénieur DevOps",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Entre 7 et 12 ans d'expérience sur des fonctions similaires.",
+   "years": {
+    "most": 7,
+    "least": 7
+   }
+  },
+  {
+   "title": "Entre 7 et 12 ans d'expérience sur des fonctions similaires.",
+   "text": "",
+   "years": {
+    "most": 7,
+    "least": 7
+   }
+  },
+  {
+   "title": "",
+   "text": "Électricien",
+   "years": null
+  },
+  {
+   "title": "Électricien",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Expérience significative dans le domaine de l'électricité (minimum 5 ans)",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "Expérience significative dans le domaine de l'électricité (minimum 5 ans)",
+   "text": "",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "",
+   "text": "Full Stack",
+   "years": null
+  },
+  {
+   "title": "Full Stack",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "About us: we have 25 years of experience.",
+   "years": null
+  },
+  {
+   "title": "About us: we have 25 years of experience.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "3+ years of backend experience with Python",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "3+ years of backend experience with Python",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Our team is great",
+   "years": null
+  },
+  {
+   "title": "Our team is great",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "what the owner found: years with no \"experience\" word, a French range, a minimum far from its word, a list without full stops",
+   "years": null
+  },
+  {
+   "title": "what the owner found: years with no \"experience\" word, a French range, a minimum far from its word, a list without full stops",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Ingegnere",
+   "years": null
+  },
+  {
+   "title": "Ingegnere",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Requisiti: almeno 3 anni di esperienza nel ruolo",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Requisiti: almeno 3 anni di esperienza nel ruolo",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Inżynier",
+   "years": null
+  },
+  {
+   "title": "Inżynier",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Wymagania: minimum 2 lata doświadczenia w automatyce",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "Wymagania: minimum 2 lata doświadczenia w automatyce",
+   "text": "",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "",
+   "text": "Ingenjör",
+   "years": null
+  },
+  {
+   "title": "Ingenjör",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Du har minst 3 års erfarenhet av PLC",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Du har minst 3 års erfarenhet av PLC",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Engenheiro",
+   "years": null
+  },
+  {
+   "title": "Engenheiro",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Experiência mínima de 4 anos em manutenção",
+   "years": {
+    "most": 4,
+    "least": 4
+   }
+  },
+  {
+   "title": "Experiência mínima de 4 anos em manutenção",
+   "text": "",
+   "years": {
+    "most": 4,
+    "least": 4
+   }
+  },
+  {
+   "title": "",
+   "text": "Analista",
+   "years": null
+  },
+  {
+   "title": "Analista",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "tra 3 e 5 anni di esperienza",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "tra 3 e 5 anni di esperienza",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Vânzător",
+   "years": null
+  },
+  {
+   "title": "Vânzător",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Experiență medie - între 3 și 5 ani",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Experiență medie - între 3 și 5 ani",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Italian, Polish, Swedish, Portuguese and Romanian, ranges by their low end",
+   "years": null
+  },
+  {
+   "title": "Italian, Polish, Swedish, Portuguese and Romanian, ranges by their low end",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Project Manager",
+   "years": null
+  },
+  {
+   "title": "Project Manager",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Minimum Qualifications Required:",
+   "years": null
+  },
+  {
+   "title": "Minimum Qualifications Required:",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "7–10 years in heavy industrial construction, with at least 3–5 years directly managing field operations",
+   "years": {
+    "most": 7,
+    "least": 7
+   }
+  },
+  {
+   "title": "7–10 years in heavy industrial construction, with at least 3–5 years directly managing field operations",
+   "text": "",
+   "years": {
+    "most": 7,
+    "least": 7
+   }
+  },
+  {
+   "title": "",
+   "text": "Key Account Manager",
+   "years": null
+  },
+  {
+   "title": "Key Account Manager",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Skills: 2+ yrs. of experience in Distribution sales",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "Skills: 2+ yrs. of experience in Distribution sales",
+   "text": "",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "",
+   "text": "Design Engineer",
+   "years": null
+  },
+  {
+   "title": "Design Engineer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Requirements",
+   "years": null
+  },
+  {
+   "title": "Requirements",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "7+ years designing and developing medical devices",
+   "years": {
+    "most": 7,
+    "least": 7
+   }
+  },
+  {
+   "title": "7+ years designing and developing medical devices",
+   "text": "",
+   "years": {
+    "most": 7,
+    "least": 7
+   }
+  },
+  {
+   "title": "",
+   "text": "Operations",
+   "years": null
+  },
+  {
+   "title": "Operations",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Experience",
+   "years": null
+  },
+  {
+   "title": "Experience",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "6 – 10 years in logistics.",
+   "years": {
+    "most": 6,
+    "least": 6
+   }
+  },
+  {
+   "title": "6 – 10 years in logistics.",
+   "text": "",
+   "years": {
+    "most": 6,
+    "least": 6
+   }
+  },
+  {
+   "title": "",
+   "text": "Director",
+   "years": null
+  },
+  {
+   "title": "Director",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "What we are looking for:",
+   "years": null
+  },
+  {
+   "title": "What we are looking for:",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "8+ years of product management experience, including 3+ years managing PMs",
+   "years": {
+    "most": 8,
+    "least": 8
+   }
+  },
+  {
+   "title": "8+ years of product management experience, including 3+ years managing PMs",
+   "text": "",
+   "years": {
+    "most": 8,
+    "least": 8
+   }
+  },
+  {
+   "title": "",
+   "text": "Legal Counsel",
+   "years": null
+  },
+  {
+   "title": "Legal Counsel",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "About You",
+   "years": null
+  },
+  {
+   "title": "About You",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Have 3-8 years of PQE on a corporate team",
+   "years": null
+  },
+  {
+   "title": "Have 3-8 years of PQE on a corporate team",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Principal Engineer",
+   "years": null
+  },
+  {
+   "title": "Principal Engineer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Master's in Computer Science with at least 10 years of industry experience.",
+   "years": {
+    "most": 10,
+    "least": 10
+   }
+  },
+  {
+   "title": "Master's in Computer Science with at least 10 years of industry experience.",
+   "text": "",
+   "years": {
+    "most": 10,
+    "least": 10
+   }
+  },
+  {
+   "title": "",
+   "text": "Nutzfahrzeugverkäufer",
+   "years": null
+  },
+  {
+   "title": "Nutzfahrzeugverkäufer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Ausbildung: kaufmännische Ausbildung oder technische Ausbildung Berufserfahrung: mind. 3-5 Jahre Sprachen: deutsch",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Ausbildung: kaufmännische Ausbildung oder technische Ausbildung Berufserfahrung: mind. 3-5 Jahre Sprachen: deutsch",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Técnico SSI",
+   "years": null
+  },
+  {
+   "title": "Técnico SSI",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Vous avez une expérience d’au moins de 2 ans dans le domaine de la Sécurité Incendie",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "Vous avez une expérience d’au moins de 2 ans dans le domaine de la Sécurité Incendie",
+   "text": "",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "",
+   "text": "Operador",
+   "years": null
+  },
+  {
+   "title": "Operador",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Requisitos:",
+   "years": null
+  },
+  {
+   "title": "Requisitos:",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "- Brevete A3C (opcional A4).",
+   "years": null
+  },
+  {
+   "title": "- Brevete A3C (opcional A4).",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "- 3 años operando camión fábrica en el sector",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "- 3 años operando camión fábrica en el sector",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Buyer",
+   "years": null
+  },
+  {
+   "title": "Buyer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "8 years minimum Purchasing, Supply Chain, or Engineering experience",
+   "years": {
+    "most": 8,
+    "least": 8
+   }
+  },
+  {
+   "title": "8 years minimum Purchasing, Supply Chain, or Engineering experience",
+   "text": "",
+   "years": {
+    "most": 8,
+    "least": 8
+   }
+  },
+  {
+   "title": "",
+   "text": "a heading over its line, an abbreviation, a total and what it includes, «al menos de», gerunds",
+   "years": null
+  },
+  {
+   "title": "a heading over its line, an abbreviation, a total and what it includes, «al menos de», gerunds",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Bezorger",
+   "years": null
+  },
+  {
+   "title": "Bezorger",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "- 18 jaar - €11,33",
+   "years": null
+  },
+  {
+   "title": "- 18 jaar - €11,33",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Werkzeugmechaniker",
+   "years": null
+  },
+  {
+   "title": "Werkzeugmechaniker",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "1 Jahr Statistik-Cookies helfen Webseiten-Besitzern",
+   "years": null
+  },
+  {
+   "title": "1 Jahr Statistik-Cookies helfen Webseiten-Besitzern",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Engineer",
+   "years": null
+  },
+  {
+   "title": "Engineer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "3+ years of experience preferred",
+   "years": null
+  },
+  {
+   "title": "3+ years of experience preferred",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "We have been in business for 30 years.",
+   "years": null
+  },
+  {
+   "title": "We have been in business for 30 years.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Ajutor bucătar",
+   "years": null
+  },
+  {
+   "title": "Ajutor bucătar",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Experiență puțină - mai puțin de 3 ani",
+   "years": null
+  },
+  {
+   "title": "Experiență puțină - mai puțin de 3 ani",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "An engineer with an eye for detail. Let us know.",
+   "years": null
+  },
+  {
+   "title": "An engineer with an eye for detail. Let us know.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Brand Ambassador",
+   "years": null
+  },
+  {
+   "title": "Brand Ambassador",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "18 years old minimum",
+   "years": null
+  },
+  {
+   "title": "18 years old minimum",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "High School diploma/GED required",
+   "years": null
+  },
+  {
+   "title": "High School diploma/GED required",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Smart Meter Engineer",
+   "years": null
+  },
+  {
+   "title": "Smart Meter Engineer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "A customer first mindset",
+   "years": null
+  },
+  {
+   "title": "A customer first mindset",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Valid MOCoPA certification held within the last 2 years (evidence required)",
+   "years": null
+  },
+  {
+   "title": "Valid MOCoPA certification held within the last 2 years (evidence required)",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Duales Studium",
+   "years": null
+  },
+  {
+   "title": "Duales Studium",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Studieninhalte",
+   "years": null
+  },
+  {
+   "title": "Studieninhalte",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Die Studiendauer beträgt drei Jahre und gliedert sich in sechs Theorie- und Praxisphasen.",
+   "years": null
+  },
+  {
+   "title": "Die Studiendauer beträgt drei Jahre und gliedert sich in sechs Theorie- und Praxisphasen.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Accountant",
+   "years": null
+  },
+  {
+   "title": "Accountant",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Less than 2 years’ experience in accounting",
+   "years": null
+  },
+  {
+   "title": "Less than 2 years’ experience in accounting",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "DevSecOps",
+   "years": null
+  },
+  {
+   "title": "DevSecOps",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "A few numbers that speak for themselves:",
+   "years": null
+  },
+  {
+   "title": "A few numbers that speak for themselves:",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "4 years on the market — a stable, profitable company",
+   "years": null
+  },
+  {
+   "title": "4 years on the market — a stable, profitable company",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "no years: an age, a cookie, a wish, a boast, a ceiling, a recent certificate, a course length",
+   "years": null
+  },
+  {
+   "title": "no years: an age, a cookie, a wish, a boast, a ceiling, a recent certificate, a course length",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Gießer",
+   "years": null
+  },
+  {
+   "title": "Gießer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Mindestens 1 Jahr Berufserfahrung in der Gießerei",
+   "years": {
+    "most": 1,
+    "least": 1
+   }
+  },
+  {
+   "title": "Mindestens 1 Jahr Berufserfahrung in der Gießerei",
+   "text": "",
+   "years": {
+    "most": 1,
+    "least": 1
+   }
+  },
+  {
+   "title": "",
+   "text": "Architecte",
+   "years": null
+  },
+  {
+   "title": "Architecte",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "- Expérience confirmée en architecture de solutions (5 à 7 ans minimum).",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "- Expérience confirmée en architecture de solutions (5 à 7 ans minimum).",
+   "text": "",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "",
+   "text": "Technik kvality",
+   "years": null
+  },
+  {
+   "title": "Technik kvality",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Zkušenosti na pozici v kvalitě v automotive minimálně 3 roky",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Zkušenosti na pozici v kvalitě v automotive minimálně 3 roky",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Process Engineer",
+   "years": null
+  },
+  {
+   "title": "Process Engineer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Minimum 3 years of experience in production processes (preferably in the electronics manufacturing sector),",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Minimum 3 years of experience in production processes (preferably in the electronics manufacturing sector),",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Mechanical Engineer",
+   "years": null
+  },
+  {
+   "title": "Mechanical Engineer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "BS in Mechanical Engineering (MS preferred) with 10+ years of mechanical engineering experience",
+   "years": {
+    "most": 10,
+    "least": 10
+   }
+  },
+  {
+   "title": "BS in Mechanical Engineering (MS preferred) with 10+ years of mechanical engineering experience",
+   "text": "",
+   "years": {
+    "most": 10,
+    "least": 10
+   }
+  },
+  {
+   "title": "",
+   "text": "Sales Manager",
+   "years": null
+  },
+  {
+   "title": "Sales Manager",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "6+ years of sales experience.",
+   "years": {
+    "most": 6,
+    "least": 6
+   }
+  },
+  {
+   "title": "6+ years of sales experience.",
+   "text": "",
+   "years": {
+    "most": 6,
+    "least": 6
+   }
+  },
+  {
+   "title": "",
+   "text": "2+ years managing a team (preferred)",
+   "years": null
+  },
+  {
+   "title": "2+ years managing a team (preferred)",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "the German singular, a French range with its minimum after, a Czech minimum, and soft asides",
+   "years": null
+  },
+  {
+   "title": "the German singular, a French range with its minimum after, a Czech minimum, and soft asides",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Elektriker",
+   "years": null
+  },
+  {
+   "title": "Elektriker",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Anforderungen: Mindestens zwei Jahre Berufserfahrung",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "Anforderungen: Mindestens zwei Jahre Berufserfahrung",
+   "text": "",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "",
+   "text": "More than three years of professional experience in IT",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "More than three years of professional experience in IT",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Technicien",
+   "years": null
+  },
+  {
+   "title": "Technicien",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Au moins deux ans d’expérience",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "Au moins deux ans d’expérience",
+   "text": "",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "",
+   "text": "Monteur",
+   "years": null
+  },
+  {
+   "title": "Monteur",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Mit über 15 Jahren Erfahrung bieten wir unseren Kunden Full-Service.",
+   "years": null
+  },
+  {
+   "title": "Mit über 15 Jahren Erfahrung bieten wir unseren Kunden Full-Service.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Entwickler",
+   "years": null
+  },
+  {
+   "title": "Entwickler",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Mit mehr als 5 Jahren Erfahrung bringst du dein Wissen ein.",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "Mit mehr als 5 Jahren Erfahrung bringst du dein Wissen ein.",
+   "text": "",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "",
+   "text": "Analyst",
+   "years": null
+  },
+  {
+   "title": "Analyst",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "One to three years of relevant professional experience.",
+   "years": {
+    "most": 1,
+    "least": 1
+   }
+  },
+  {
+   "title": "One to three years of relevant professional experience.",
+   "text": "",
+   "years": {
+    "most": 1,
+    "least": 1
+   }
+  },
+  {
+   "title": "",
+   "text": "Etwa drei bis fünf Jahre Erfahrung in Product Analytics.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Etwa drei bis fünf Jahre Erfahrung in Product Analytics.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "years in words, «more than» as the least, and a company’s own years that speak to no candidate",
+   "years": null
+  },
+  {
+   "title": "years in words, «more than» as the least, and a company’s own years that speak to no candidate",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Lead Engineer",
+   "years": null
+  },
+  {
+   "title": "Lead Engineer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Minimum 5 years of professional engineering experience, ideally within the automotive industry.",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "Minimum 5 years of professional engineering experience, ideally within the automotive industry.",
+   "text": "",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "",
+   "text": "Coordinator",
+   "years": null
+  },
+  {
+   "title": "Coordinator",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Experience: 2–5 years in a project coordination or service admin role, preferably within the low voltage or IT industry.",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "Experience: 2–5 years in a project coordination or service admin role, preferably within the low voltage or IT industry.",
+   "text": "",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "",
+   "text": "Konstruktér",
+   "years": null
+  },
+  {
+   "title": "Konstruktér",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Prax: aspoň 2 roky",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "Prax: aspoň 2 roky",
+   "text": "",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "",
+   "text": "Posiadasz co najmniej 3 letnie doświadczenie.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Posiadasz co najmniej 3 letnie doświadczenie.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Konstrukteur",
+   "years": null
+  },
+  {
+   "title": "Konstrukteur",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Minimum 3 Jahre Berufserfahrung, gerne im Maschinenbau.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Minimum 3 Jahre Berufserfahrung, gerne im Maschinenbau.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Developer",
+   "years": null
+  },
+  {
+   "title": "Developer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Experience with Python, ideally 3 years.",
+   "years": null
+  },
+  {
+   "title": "Experience with Python, ideally 3 years.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Planner",
+   "years": null
+  },
+  {
+   "title": "Planner",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Experience Required: 2–5 years (preferred)",
+   "years": null
+  },
+  {
+   "title": "Experience Required: 2–5 years (preferred)",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "a wish after the years about something else, Slovak and Polish forms; a wish on the years stays one",
+   "years": null
+  },
+  {
+   "title": "a wish after the years about something else, Slovak and Polish forms; a wish on the years stays one",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Data Engineer",
+   "years": null
+  },
+  {
+   "title": "Data Engineer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Over 5 years of professional experience in Data Engineering, Analytics Engineering, or similar data-focused roles.",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "Over 5 years of professional experience in Data Engineering, Analytics Engineering, or similar data-focused roles.",
+   "text": "",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "",
+   "text": "Técnico de Mantenimiento",
+   "years": null
+  },
+  {
+   "title": "Técnico de Mantenimiento",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Con más de 10 años de experiencia, nuestra actividad se centra en hoteles, apartamentos y residencias.",
+   "years": null
+  },
+  {
+   "title": "Con más de 10 años de experiencia, nuestra actividad se centra en hoteles, apartamentos y residencias.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Técnico",
+   "years": null
+  },
+  {
+   "title": "Técnico",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Con más de 3 años de experiencia en mantenimiento industrial, buscamos tu talento.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Con más de 3 años de experiencia en mantenimiento industrial, buscamos tu talento.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Cost Leader",
+   "years": null
+  },
+  {
+   "title": "Cost Leader",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "* Must have a minimum of 3 years of experience preferably in Cost management teams",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "* Must have a minimum of 3 years of experience preferably in Cost management teams",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "At least 5 years of experience, preferably 7.",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "At least 5 years of experience, preferably 7.",
+   "text": "",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "",
+   "text": "over as more than, a company boast in Spanish, a wish about the field, a wish on more years",
+   "years": null
+  },
+  {
+   "title": "over as more than, a company boast in Spanish, a wish about the field, a wish on more years",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Senior Account Executive",
+   "years": null
+  },
+  {
+   "title": "Senior Account Executive",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "10+ years of professional experience.",
+   "years": {
+    "most": 10,
+    "least": 10
+   }
+  },
+  {
+   "title": "10+ years of professional experience.",
+   "text": "",
+   "years": {
+    "most": 10,
+    "least": 10
+   }
+  },
+  {
+   "title": "",
+   "text": "3+ years of B2B enterprise software or SaaS sales experience.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "3+ years of B2B enterprise software or SaaS sales experience.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Staff Product Designer",
+   "years": null
+  },
+  {
+   "title": "Staff Product Designer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "7+ years of product design experience.",
+   "years": {
+    "most": 7,
+    "least": 7
+   }
+  },
+  {
+   "title": "7+ years of product design experience.",
+   "text": "",
+   "years": {
+    "most": 7,
+    "least": 7
+   }
+  },
+  {
+   "title": "",
+   "text": "We do not expect anyone to have ten years of experience with tools that are only beginning to emerge.",
+   "years": null
+  },
+  {
+   "title": "We do not expect anyone to have ten years of experience with tools that are only beginning to emerge.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Triage Engineer",
+   "years": null
+  },
+  {
+   "title": "Triage Engineer",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "2+ years of professional experience working on safety critical systems.",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "2+ years of professional experience working on safety critical systems.",
+   "text": "",
+   "years": {
+    "most": 2,
+    "least": 2
+   }
+  },
+  {
+   "title": "",
+   "text": "Bachelor's degree in Engineering or equivalent, or 4 years of relevant experience.",
+   "years": {
+    "most": 4,
+    "least": 4
+   }
+  },
+  {
+   "title": "Bachelor's degree in Engineering or equivalent, or 4 years of relevant experience.",
+   "text": "",
+   "years": {
+    "most": 4,
+    "least": 4
+   }
+  },
+  {
+   "title": "",
+   "text": "QA Manager",
+   "years": null
+  },
+  {
+   "title": "QA Manager",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "5+ years of experience in software quality assurance.",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "5+ years of experience in software quality assurance.",
+   "text": "",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "",
+   "text": "3 years of experience with Selenium.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "3 years of experience with Selenium.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "the largest figure asked; not one denied nor one in lieu of a degree",
+   "years": null
+  },
+  {
+   "title": "the largest figure asked; not one denied nor one in lieu of a degree",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "3+ years of experience in QA. 5+ years of experience in software.",
+   "years": {
+    "most": 5,
+    "least": 3
+   }
+  },
+  {
+   "title": "3+ years of experience in QA. 5+ years of experience in software.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Minimum 5 years of experience.",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "Minimum 5 years of experience.",
+   "text": "",
+   "years": {
+    "most": 5,
+    "least": 5
+   }
+  },
+  {
+   "title": "",
+   "text": "the fewest years asked beside the most, for the filter (decision 15)",
+   "years": null
+  },
+  {
+   "title": "the fewest years asked beside the most, for the filter (decision 15)",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "At least 3 years of experience as a maintenance technician.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "At least 3 years of experience as a maintenance technician.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Experiencia mínima de 3 años como técnico de mantenimiento.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Experiencia mínima de 3 años como técnico de mantenimiento.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Experiència mínima de 3 anys com a tècnic de manteniment.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Experiència mínima de 3 anys com a tècnic de manteniment.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Au moins 3 ans d'expérience en maintenance industrielle.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Au moins 3 ans d'expérience en maintenance industrielle.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Minimaal 3 jaar ervaring als onderhoudsmonteur.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Minimaal 3 jaar ervaring als onderhoudsmonteur.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Mindestens 3 Jahre Berufserfahrung in der Instandhaltung.",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "Mindestens 3 Jahre Berufserfahrung in der Instandhaltung.",
+   "text": "",
+   "years": {
+    "most": 3,
+    "least": 3
+   }
+  },
+  {
+   "title": "",
+   "text": "Our company has more than 20 years of experience in the sector.",
+   "years": null
+  },
+  {
+   "title": "Our company has more than 20 years of experience in the sector.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Empresa con más de 20 años de experiencia en el sector.",
+   "years": null
+  },
+  {
+   "title": "Empresa con más de 20 años de experiencia en el sector.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Empresa amb més de 20 anys d'experiència en el sector.",
+   "years": null
+  },
+  {
+   "title": "Empresa amb més de 20 anys d'experiència en el sector.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Entreprise avec plus de 20 ans d'expérience dans le secteur.",
+   "years": null
+  },
+  {
+   "title": "Entreprise avec plus de 20 ans d'expérience dans le secteur.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Bedrijf met meer dan 20 jaar ervaring in de sector.",
+   "years": null
+  },
+  {
+   "title": "Bedrijf met meer dan 20 jaar ervaring in de sector.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Unternehmen mit über 20 Jahren Erfahrung in der Branche.",
+   "years": null
+  },
+  {
+   "title": "Unternehmen mit über 20 Jahren Erfahrung in der Branche.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Hybrid work: 2 days per week from home.",
+   "years": null
+  },
+  {
+   "title": "Hybrid work: 2 days per week from home.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Teletrabajo 2 días por semana.",
+   "years": null
+  },
+  {
+   "title": "Teletrabajo 2 días por semana.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Teletreball 2 dies per setmana.",
+   "years": null
+  },
+  {
+   "title": "Teletreball 2 dies per setmana.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Télétravail 2 jours par semaine.",
+   "years": null
+  },
+  {
+   "title": "Télétravail 2 jours par semaine.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Thuiswerken 2 dagen per week.",
+   "years": null
+  },
+  {
+   "title": "Thuiswerken 2 dagen per week.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Homeoffice 2 Tage pro Woche.",
+   "years": null
+  },
+  {
+   "title": "Homeoffice 2 Tage pro Woche.",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Job type: Part-time, flexible hours",
+   "years": null
+  },
+  {
+   "title": "Job type: Part-time, flexible hours",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Modalidad: jornada parcial flexible",
+   "years": null
+  },
+  {
+   "title": "Modalidad: jornada parcial flexible",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Modalitat: jornada parcial flexible",
+   "years": null
+  },
+  {
+   "title": "Modalitat: jornada parcial flexible",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Organisation du travail : temps partiel, horaires flexibles",
+   "years": null
+  },
+  {
+   "title": "Organisation du travail : temps partiel, horaires flexibles",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Werkrooster: deeltijd, flexibele uren",
+   "years": null
+  },
+  {
+   "title": "Werkrooster: deeltijd, flexibele uren",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Arbeitsmodell: Teilzeit, flexible Arbeitszeiten",
+   "years": null
+  },
+  {
+   "title": "Arbeitsmodell: Teilzeit, flexible Arbeitszeiten",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Permanent / Temporary",
+   "years": null
+  },
+  {
+   "title": "Permanent / Temporary",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Indefinido o temporal",
+   "years": null
+  },
+  {
+   "title": "Indefinido o temporal",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Indefinit o temporal",
+   "years": null
+  },
+  {
+   "title": "Indefinit o temporal",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "CDI ou CDD",
+   "years": null
+  },
+  {
+   "title": "CDI ou CDD",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Vast contract of tijdelijk contract",
+   "years": null
+  },
+  {
+   "title": "Vast contract of tijdelijk contract",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Unbefristet oder befristet",
+   "years": null
+  },
+  {
+   "title": "Unbefristet oder befristet",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Permanent",
+   "years": null
+  },
+  {
+   "title": "Permanent",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Indefinido",
+   "years": null
+  },
+  {
+   "title": "Indefinido",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Indefinit",
+   "years": null
+  },
+  {
+   "title": "Indefinit",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "CDI",
+   "years": null
+  },
+  {
+   "title": "CDI",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Vast contract",
+   "years": null
+  },
+  {
+   "title": "Vast contract",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Unbefristet",
+   "years": null
+  },
+  {
+   "title": "Unbefristet",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Net salary: €1,500 per month",
+   "years": null
+  },
+  {
+   "title": "Net salary: €1,500 per month",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Salario neto: 1.500 € al mes",
+   "years": null
+  },
+  {
+   "title": "Salario neto: 1.500 € al mes",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Sou net: 1.500 € al mes",
+   "years": null
+  },
+  {
+   "title": "Sou net: 1.500 € al mes",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Salaire net : 1 500 € par mois",
+   "years": null
+  },
+  {
+   "title": "Salaire net : 1 500 € par mois",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Nettosalaris: € 1.500 per maand",
+   "years": null
+  },
+  {
+   "title": "Nettosalaris: € 1.500 per maand",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Nettogehalt: 1.500 € monatlich",
+   "years": null
+  },
+  {
+   "title": "Nettogehalt: 1.500 € monatlich",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Salary: €1,800 per month",
+   "years": null
+  },
+  {
+   "title": "Salary: €1,800 per month",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Salario: 1.800 € al mes",
+   "years": null
+  },
+  {
+   "title": "Salario: 1.800 € al mes",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Sou: 1.800 € al mes",
+   "years": null
+  },
+  {
+   "title": "Sou: 1.800 € al mes",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Salaire : 1 800 € par mois",
+   "years": null
+  },
+  {
+   "title": "Salaire : 1 800 € par mois",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Salaris: € 1.800 per maand",
+   "years": null
+  },
+  {
+   "title": "Salaris: € 1.800 per maand",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Gehalt: 1.800 € monatlich",
+   "years": null
+  },
+  {
+   "title": "Gehalt: 1.800 € monatlich",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "the same phrase reads the same in every language served",
+   "years": null
+  },
+  {
+   "title": "the same phrase reads the same in every language served",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "en,es,ca,fr,nl,de",
+   "years": null
+  },
+  {
+   "title": "en,es,ca,fr,nl,de",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "the rows follow LANGUAGES",
+   "years": null
+  },
+  {
+   "title": "the rows follow LANGUAGES",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "years asked",
+   "years": null
+  },
+  {
+   "title": "years asked",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "a company's own years",
+   "years": null
+  },
+  {
+   "title": "a company's own years",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "days at home are hybrid",
+   "years": null
+  },
+  {
+   "title": "days at home are hybrid",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "a working time under a generic label is no mode",
+   "years": null
+  },
+  {
+   "title": "a working time under a generic label is no mode",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "two kinds say none",
+   "years": null
+  },
+  {
+   "title": "two kinds say none",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "a permanent contract",
+   "years": null
+  },
+  {
+   "title": "a permanent contract",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "a net pay is not read",
+   "years": null
+  },
+  {
+   "title": "a net pay is not read",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "EUR",
+   "years": null
+  },
+  {
+   "title": "EUR",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "month",
+   "years": null
+  },
+  {
+   "title": "month",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "a gross pay is",
+   "years": null
+  },
+  {
+   "title": "a gross pay is",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "ab-",
+   "years": null
+  },
+  {
+   "title": "ab-",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "€1 ",
+   "years": null
+  },
+  {
+   "title": "€1 ",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "CDI / ",
+   "years": null
+  },
+  {
+   "title": "CDI / ",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "remote ",
+   "years": null
+  },
+  {
+   "title": "remote ",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "3 days ",
+   "years": null
+  },
+  {
+   "title": "3 days ",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "Salary: ",
+   "years": null
+  },
+  {
+   "title": "Salary: ",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": "a hostile field is read in well under a second",
+   "years": null
+  },
+  {
+   "title": "a hostile field is read in well under a second",
+   "text": "",
+   "years": null
+  },
+  {
+   "title": "",
+   "text": ";\n    for (const [name, read] of Object.entries(READERS)) {\n      const t0 = performance.now();\n      read(s);\n      const ms = performance.now() - t0;\n      if (ms > 500) slow.push(",
+   "years": null
+  },
+  {
+   "title": ";\n    for (const [name, read] of Object.entries(READERS)) {\n      const t0 = performance.now();\n      read(s);\n      const ms = performance.now() - t0;\n      if (ms > 500) slow.push(",
+   "text": "",
+   "years": null
+  }
+ ]
+}

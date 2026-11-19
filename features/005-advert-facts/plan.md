@@ -66,7 +66,7 @@ AdvertFacts = {
   workMode: "onsite" | "hybrid" | "remote" | null,
   contract: { kind, months? } | null,
   workingTime: { kind, hours? } | null,
-  yearsAsked: number | null,
+  years: { most, least } | null, // the largest figure asked and the smallest (the filter reads it)
   degrees: string[],     // degree ids of the catalogue, in its order
   languages: string[],   // language codes of the catalogue, in its order
   title: string,         // the title, calmed when in capitals

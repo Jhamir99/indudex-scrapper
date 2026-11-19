@@ -29,8 +29,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part B — What the advert asks for
 
-- [ ] **T008 — Years of experience** · FR: FR-5 · Depends: T004
+- [x] **T008 — Years of experience** · FR: FR-5 · Depends: T004
       Done when: `argus/requirements.ts` holds the copied `extractRequiredYears` with its header, and `years.ts` passes tests on legacy examples: «3+ years of backend experience» in a list with no full stops, a heading over «7–10 years in heavy industrial construction», «Entre 7 et 12 ans», «tra 3 e 5 anni», «Expérience significative dans le domaine (minimum 5 ans)», «less than 3 years» asking nothing, the largest of several, a source's `years` believed.
+      2026-11-19: checked against the legacy with Argus v1.11.0, run in the scratchpad: the same reading for all 188,365 stored adverts (51,249 ask years) and for the 440 readings of every text in its `test/years.test.mjs` and `test/readers-languages.test.mjs`, kept as `test/fixtures/advert-facts/years.json`. As the legacy, the reader gives the largest and the smallest figure (`{ most, least }`): the card shows the largest, the filter reads the smallest (its decision 15, 15 November 2026), so `AdvertFacts.years` carries both.
 - [ ] **T009 — Degrees and languages** · FR: FR-6, FR-7 · Depends: T004
       Done when: `screens.ts` compiles the `degrees` and `languages` catalogues and passes tests on legacy examples: a degree or language demanded is read, one named «a plus», «von Vorteil», «souhaité», «not required» is not, «Deutschkenntnisse» and «Nederlandstalig» are languages, «Germany» and «polished» are not, a stem matches its endings («fliessend*»).
 - [ ] **T010 — The fact reader and its measurement** · FR: FR-8, spec section 5 · Depends: T002, T003, T005-T009
