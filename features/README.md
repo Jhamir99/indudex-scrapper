@@ -15,7 +15,7 @@ A feature starts when the ones before it are closed. The order reaches a first p
 | 001 | [crawl-core](001-crawl-core/)                     | scrapper  | done    | Runner, cadence, backoff and parking, polite HTTP, store, status, stop switch, takedowns |
 | 002 | [public-feeds](002-public-feeds/)                 | scrapper  | done    | Public employment services and open-data feeds (44), `brz` first as reference            |
 | 003 | [catalogues](003-catalogues/)                     | processor | done    | ISCO/ESCO families and titles, countries, towns, NUTS, languages, degrees, vetoes        |
-| 004 | [places](004-places/)                             | processor | draft   | Country, town with coordinates, and region of each advert                                |
+| 004 | [places](004-places/)                             | processor | done    | Country, town with coordinates, and region of each advert                                |
 | 005 | [advert-facts](005-advert-facts/)                 | processor | outline | Work mode, contract, working time, years, degrees and languages asked, title tidying     |
 | 006 | [pay](006-pay/)                                   | processor | outline | Stated pay, period and currency, converted with ECB rates                                |
 | 007 | [gate](007-gate/)                                 | processor | outline | In-scope occupations, skilled trades, Europe only, hygiene, `--explain`                  |
