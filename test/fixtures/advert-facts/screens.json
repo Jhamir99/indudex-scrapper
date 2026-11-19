@@ -1,0 +1,1731 @@
+{
+ "about": "The legacy's degree and language readings (builder/screens.mjs over its catalogues, JustJans/indudex@b0cd182, 2026-11-19) of every text in its tests that call them: the port must read each the same.",
+ "cases": [
+  {
+   "text": " fixes from the audit (DAA-02 to DAA-30, DAB-02 to DAB-13): net pay, a company",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "s hybrids, contracts that name two kinds, pay fields as sources write them, the ECB",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "utf8",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a net pay in any of its forms is not read (DAA-03)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salario neto: 1.500 € al mes",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Ofrecemos 1.500 € netos al mes.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Nettogehalt 2.500 € monatlich.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Técnico",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "two currencies in a line: the one beside the figure read (DAA-21)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: $90,000 - $110,000 (€85,000 - €100,000)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: CHF 95,000 – 110,000 (EUR 100,000 – 116,000)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: €60,000 - €70,000 ($65,000 - $76,000)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: £45,000 (€52,000)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "USD",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "CHF",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "EUR",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "GBP",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "«.NET» and Dutch «net» («just») are no net pay (regression of DAA-03)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: €55,000 - €65,000 per year for a .NET developer",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salaris: € 3.000 bruto per maand, ook als je net van school komt",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salaire : 2 000 € net par mois",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: 2,000 EUR net per month",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "pay: an hour in Catalan, a code stuck to a word, a ceiling after the figure, the currency beside it (DAA-16 to DAA-21)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salari: 15 €/hora",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salaire : soudeur 35 h, 13 € de l'heure",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Lön: 35 000 kr/mån",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Gehalt: 4.000 € monatlich, Bewerbung bis 30.11.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: £45,000 per annum, EUR travel",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "hour",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "month",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "year",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "the period nearest the figure, not the first in the table (DAA-19)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Gehalt: 7.500 € brutto monatlich zzgl. Jahresprämie",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: £3,200 per month plus 25 days annual leave",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Jahresgehalt: 55.000 € brutto",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salaire annuel : 38 000 € brut, prime mensuelle",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "pay fields as sources write them, and a «$» no country owns (DAA-05, DAA-22)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "45 000 Kč",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "35-45k",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "35.000 — 45.000 €",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "45.000,- EUR",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "$80,000",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "CZK",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a company's own years are not asked, and Catalan years are read (DAA-02, DAA-25)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Somos una empresa con más de 10 años de experiencia en el sector.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Es requereix entre 3 i 5 anys d'experiència.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Dos anys d'experiència en manteniment.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Twenty-five years of history. You have 3 years of experience.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Empresa con 12 años de experiencia en el sector industrial.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Nuestro equipo cuenta con más de 12 años de experiencia.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Empresa amb més de 15 anys d'experiència en el sector.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Unser Team hat 10 Jahre Erfahrung im Sondermaschinenbau.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Bedrijf met ruim 10 jaar ervaring in de installatietechniek.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "the company as subject anywhere in the sentence",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Amb més de 20 anys d'experiència, busquem tècnic amb 2 anys d'experiència.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Empresa con 12 años de experiencia en el sector. Se requieren 3 años de experiencia como soldador.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Empresa del sector busca técnico con 5 años de experiencia.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Experiencia mínima de 3 años en empresa del sector.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "and what is asked beside them is still read",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "work modes: generic labels, a part at home in the place, the trade's remote and hybrid, Catalan (DAA-06 to DAA-10)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Employment type: Part-time, 3 days per week",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Employment type: 80%",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Köln (teilweise remote)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Hamburg / Homeoffice möglich",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Remote Support Engineer position",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Kfz-Mechatroniker Hybrid- und Elektrofahrzeuge",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Hybrid Powertrain Engineer",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "remote",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Remote diagnosis is possible.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Teletreball 2 dies per setmana.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Modalitat: Híbrid",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Treball 100% remot.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Modalitat híbrida.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Treball híbrid: 3 dies a l'oficina.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Model de treball híbrid.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Treballaràs en un equip de manteniment de vehicles híbrids.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Catalan hybrid work, not its hybrid cars",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "EV/Hybrid Technician",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Hybrid Bonding Process Engineer",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Projektingenieur Hybrid-Kraftwerke",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Monteur Hybrid-Heizungen",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Software Engineer (Hybrid)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "the trade's hybrids name no mode",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Arbeiten vor Ort und auch remote möglich.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a choice of on site or remote keeps the source's remote",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a contract that names two kinds says none; forms the lists lacked (DAA-09, DAA-23, DAA-24)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "CDI / CDD",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Indefinido o temporal",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Permanent / Temporary",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Befristete Anstellung",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "indefinida",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Contrato fijo",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "eventual",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Jornada completa o parcial",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "only the ECB's own file replaces the one kept (DAA-14)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "PLN",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "SEK",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "2026-11-13",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "the minimum wages are this year's (DAA-30)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "renew MINIMUM_MONTH_EUR in builder/pay.mjs from Eurostat (earn_mw_cur)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a company's nationality and its training are no language asked (DAB-02, DAB-08)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "degrees",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "languages",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Multinacional francesa con alto nivel de innovación.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Ofrecemos formación en inglés hasta nivel B2.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Imprescindible nivel alto de inglés.",
+   "degrees": [],
+   "languages": [
+    "en"
+   ]
+  },
+  {
+   "text": "url",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "path",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "screens",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "catalogues",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "degrees.json",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "utf-8",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "languages.json",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Bachelor or Master in Mechanical Engineering required.",
+   "degrees": [
+    "mechanical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "mechanical",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "an English degree demand",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Titulación: Ingeniería Industrial o Mecánica.",
+   "degrees": [
+    "mechanical",
+    "industrial"
+   ],
+   "languages": []
+  },
+  {
+   "text": "industrial",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "two Spanish fields in one sentence: either will do",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Abgeschlossenes Studium im Bereich Elektrotechnik.",
+   "degrees": [
+    "electrical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "electrical",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a German Studium",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Afgeronde HBO opleiding werktuigbouwkunde.",
+   "degrees": [
+    "mechanical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "a Dutch HBO",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Civilingenjör inom kemiteknik.",
+   "degrees": [
+    "chemical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "chemical",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a Swedish civilingenjör",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "An engineering degree is required.",
+   "degrees": [
+    "engineering-any"
+   ],
+   "languages": []
+  },
+  {
+   "text": "engineering-any",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a degree with no field named is the generic one",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Engineering degree, preferably in naval architecture.",
+   "degrees": [
+    "naval"
+   ],
+   "languages": []
+  },
+  {
+   "text": "naval",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "the generic word steps back when a field is named",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "A degree in physics would be a plus.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a softened mention is not a demand",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "We are a mechanical engineering company with 20 years of history.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "no degree word, no demand",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Fluent German is required for this role.",
+   "degrees": [],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "an English demand of German",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a Spanish demand of English",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Sehr gute Deutschkenntnisse erforderlich.",
+   "degrees": [],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "a German demand of German",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Je spreekt vloeiend Nederlands.",
+   "degrees": [],
+   "languages": [
+    "nl"
+   ]
+  },
+  {
+   "text": "a Dutch demand of Dutch",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Du behärskar svenska flytande i tal och skrift.",
+   "degrees": [],
+   "languages": [
+    "sv"
+   ]
+  },
+  {
+   "text": "a Swedish demand of Swedish",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Flytende norsk kreves.",
+   "degrees": [],
+   "languages": [
+    "no"
+   ]
+  },
+  {
+   "text": "a Norwegian demand of Norwegian",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "French is a plus. English required.",
+   "degrees": [],
+   "languages": [
+    "en"
+   ]
+  },
+  {
+   "text": "a plus is not a demand; a demand is",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "German required. Actually not required for this position.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "the next sentence can take it back",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Our office is in Germany, near the German border.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a country is not a language demand",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Excellent communication skills in English and Spanish are essential.",
+   "degrees": [],
+   "languages": [
+    "en",
+    "es"
+   ]
+  },
+  {
+   "text": "two languages in one demand",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Fluent Spanish is required, con fines comerciales.",
+   "degrees": [],
+   "languages": [
+    "es"
+   ]
+  },
+  {
+   "text": "\"fines\" (purposes) is not Finnish",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Must know heat exchanger fins.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Must manage VMware resource pools.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Polished communication skills are essential.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Must hold a work permit for the Czech Republic.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Must be willing to relocate to Germany.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Imprescindible residir en la región Romana.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "fins, pools, polished, a country and a region are no language demand",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Nederlandstalig is vereist.",
+   "degrees": [],
+   "languages": [
+    "nl"
+   ]
+  },
+  {
+   "text": "a name with its tail still counts",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Fluent German is required; English is a plus.",
+   "degrees": [],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "a softener in another part of the sentence does not undo a demand",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Scrum Master for our software teams.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Our office is near the university, with free energy drinks.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Master data management in SAP is required.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Wo Technik auf Zukunft trifft.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a scrum master, a university nearby, master data and the German \"wo\" demand no degree",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Abgeschlossenes Studium der Elektrotechnik.",
+   "degrees": [
+    "electrical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "Een afgeronde opleiding op WO-niveau in werktuigbouwkunde.",
+   "degrees": [
+    "mechanical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "A master's degree in mechanical engineering is required; a PhD is a plus.",
+   "degrees": [
+    "mechanical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "a completed Studium, WO level and a demand before a softener still count",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Bac+5 en informatique, intelligence artificielle, Data Science, mathématiques appliquées ou domaine équivalent.",
+   "degrees": [
+    "computer-science",
+    "physics-maths"
+   ],
+   "languages": []
+  },
+  {
+   "text": "Titulaire d'un CAP, BEP ou Bac Pro en électricité ou équivalent",
+   "degrees": [
+    "electrical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "Abgeschlossene Ausbildung zum Elektroniker für Betriebstechnik",
+   "degrees": [
+    "electrical",
+    "electronics-telecom"
+   ],
+   "languages": []
+  },
+  {
+   "text": "Je hebt een mbo-opleiding, bij voorkeur in werktuigbouwkunde of autotechniek.",
+   "degrees": [
+    "mechanical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "Laurea in Ingegneria Meccanica o equivalente",
+   "degrees": [
+    "mechanical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "Wykształcenie wyższe techniczne (automatyka, elektrotechnika)",
+   "degrees": [
+    "electrical",
+    "automation-mechatronics"
+   ],
+   "languages": []
+  },
+  {
+   "text": "Máte elektro vzdělání a chcete se podívat do různých koutů?",
+   "degrees": [
+    "electrical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "computer-science",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "physics-maths",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "electronics-telecom",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "automation-mechatronics",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "French, German, Dutch, Italian, Polish and Czech degrees and training",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Erfahrung im Maschinenbau, gerne eine abgeschlossene Berufsausbildung im Metallbereich – kein muss!",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Studii superioare finalizate (domeniul economic prezinta un avantaj);",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a degree that is no must, or an advantage, is not demanded",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Métier de l'employeur : industriel en systèmes mécaniques et électroniques pour les industries lourdes, 30 personnes, marchés en France et à l'international, avec une équipe soudée et des projets variés dans le monde entier depuis plus de vingt ans et une croissance continue. Formation Bac+5 en informatique.",
+   "degrees": [
+    "computer-science"
+   ],
+   "languages": []
+  },
+  {
+   "text": "in a long run-on text, the field beside the degree word, not the employer's trade",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Abgeschlossene Berufsausbildung zum Industriemechaniker/Zerspanungsmechaniker oder vergleichbare Qualifikation.",
+   "degrees": [
+    "mechanical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "Abgeschlossene Ausbildung im Metallbau mit technischem Verständnis.",
+   "degrees": [
+    "mechanical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "Erfolgreich abgeschlossene technische Berufsausbildung in den Bereichen Elektrotechnik/ Automatisierungstechnik.",
+   "degrees": [
+    "electrical",
+    "automation-mechatronics"
+   ],
+   "languages": []
+  },
+  {
+   "text": "Gesucht werden Absolventen des Bauingenieurwesens mit verhandlungssicherem Deutsch.",
+   "degrees": [
+    "civil"
+   ],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "civil",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a trade or a field written as a compound names its family, and a graduate sought demands a degree",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "auf sehr gutem Deutsch",
+   "degrees": [],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "Das bringst du mit … fortgeschrittene Deutsch- und Englischkenntnisse",
+   "degrees": [],
+   "languages": [
+    "de",
+    "en"
+   ]
+  },
+  {
+   "text": "Die deutsche Sprache sicher in Wort und Schrift beherrschst",
+   "degrees": [],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "Sie sind sicher im Umgang mit Kasse und Scanner. Deutschkenntnisse von Vorteil.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "de,en",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a German level in its inflected and advanced forms, and «sicher» only before «in» or «auf»",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Verhandlungssicheres bis muttersprachliches Deutsch sowie gute Englischkenntnisse.",
+   "degrees": [],
+   "languages": [
+    "de",
+    "en"
+   ]
+  },
+  {
+   "text": "Strong command of English",
+   "degrees": [],
+   "languages": [
+    "en"
+   ]
+  },
+  {
+   "text": "Hai un'ottima padronanza dell'italiano e dell'inglese (livello C1)",
+   "degrees": [],
+   "languages": [
+    "it",
+    "en"
+   ]
+  },
+  {
+   "text": "Langues: français natif.",
+   "degrees": [],
+   "languages": [
+    "fr"
+   ]
+  },
+  {
+   "text": "You speak both Spanish and English.",
+   "degrees": [],
+   "languages": [
+    "es",
+    "en"
+   ]
+  },
+  {
+   "text": "Deutschkenntnisse mindestens auf B1-Niveau",
+   "degrees": [],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "Znajomość języka angielskiego na poziomie B2",
+   "degrees": [],
+   "languages": [
+    "en"
+   ]
+  },
+  {
+   "text": "Gute Kenntnisse der deutschen Sprache",
+   "degrees": [],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "Goda kunskaper i svenska och engelska",
+   "degrees": [],
+   "languages": [
+    "sv",
+    "en"
+   ]
+  },
+  {
+   "text": "<ul><li>Fluent Dutch</li><li>English is a plus</li></ul>",
+   "degrees": [],
+   "languages": [
+    "nl"
+   ]
+  },
+  {
+   "text": "en,it",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "en,es",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "en,sv",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a level, a form or a CEFR level beside the name is a demand",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "You are fluent in English (German is a plus).",
+   "degrees": [],
+   "languages": [
+    "en"
+   ]
+  },
+  {
+   "text": "Sehr gute Deutschkenntnisse in Wort und Schrift, weitere Fremdsprachen von Vorteil",
+   "degrees": [],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "Fließend Deutsch und Englisch von Vorteil",
+   "degrees": [],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "Dominio del español y deseable fluidez en inglés.",
+   "degrees": [],
+   "languages": [
+    "es"
+   ]
+  },
+  {
+   "text": "Je hebt een goede kennis van Nederlands en Frans, Engels is een plus",
+   "degrees": [],
+   "languages": [
+    "nl",
+    "fr"
+   ]
+  },
+  {
+   "text": "Excellent English (written and spoken) plus fluency in local language",
+   "degrees": [],
+   "languages": [
+    "en"
+   ]
+  },
+  {
+   "text": "Fluent German required, English (preferred)",
+   "degrees": [],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "fr,nl",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a softener speaks for its own language, not for the one demanded before it",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Sehr gute Deutsch- und Englischkenntnisse sind von Vorteil",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Good German and English skills are an advantage",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Bilingual in French and English preferred",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "High proficiency (written, verbal and reading) in English and Mandarin (preferred)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Fluent English\nNice to have:\nFluent German",
+   "degrees": [],
+   "languages": [
+    "en"
+   ]
+  },
+  {
+   "text": "Fluent English\nPreferred qualifications\nGerman, fluent",
+   "degrees": [],
+   "languages": [
+    "en"
+   ]
+  },
+  {
+   "text": "Proficiency in English\nAdditional languages are a plus",
+   "degrees": [],
+   "languages": [
+    "en"
+   ]
+  },
+  {
+   "text": "Annual bonus\nFluent German",
+   "degrees": [],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "Master degree preferred\nFluent German",
+   "degrees": [],
+   "languages": [
+    "de"
+   ]
+  },
+  {
+   "text": "softened together, under a softened heading, and not under pay or a softened item",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Good English or German skills are required.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Fluency in one or more of the following languages: English, German, French",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "4-6+ years of experience processing French payroll, with a strong understanding of French social security.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Please provide a copy of your CV in English.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Language training: Danish lessons up to B2 level.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Make smart tradeoffs between speed and polish",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Fluent English. Korean proficiency would be an advantage, but is not required.",
+   "degrees": [],
+   "languages": [
+    "en"
+   ]
+  },
+  {
+   "text": "a choice, an adjective, a course and a take-back demand no language",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Bonne maîtrise de la langue anglaise",
+   "degrees": [],
+   "languages": [
+    "en"
+   ]
+  },
+  {
+   "text": "Maîtrise de la langue française",
+   "degrees": [],
+   "languages": [
+    "fr"
+   ]
+  },
+  {
+   "text": "Munissez-vous d'une clé anglaise",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a language named by its French feminine form, and a wrench that is none",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Coneixement de català (nivell C).",
+   "degrees": [],
+   "languages": [
+    "ca"
+   ]
+  },
+  {
+   "text": "Imprescindible catalán y castellano.",
+   "degrees": [],
+   "languages": [
+    "ca",
+    "es"
+   ]
+  },
+  {
+   "text": "Català parlat i escrit.",
+   "degrees": [],
+   "languages": [
+    "ca"
+   ]
+  },
+  {
+   "text": "Empresa catalana del sector.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Es valorarà el català.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Es valorarà: Català: Nivell C1.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Fluency in Spanish is required, with Catalan as a strong plus.",
+   "degrees": [],
+   "languages": [
+    "es"
+   ]
+  },
+  {
+   "text": "Catalan asked, in Catalan or Spanish; a Catalan company or a plus asks none (decision 16)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "s pay labelled as a month",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": ", import.meta.url), 'utf8'));\n\ntest('a degree asked in Catalan or by its vocational acronym is read (NO1-03)', () => {\n  const s = compileScreens({ degrees: catalogue('degrees.json'), languages: catalogue('languages.json') });\n  const read = t => requiredDegrees(t, s).sort();\n  assert.deepEqual(read('Requisits: titulació en electricitat o electrònica'), ['electrical', 'electronics-telecom']);\n  assert.deepEqual(read('Tècnic superior en mecatrònica industrial'), ['automation-mechatronics', 'industrial']);\n  assert.deepEqual(read('Grau en enginyeria mecànica'), ['mechanical']);\n  assert.deepEqual(read('CFGM o CFGS de electricidad'), ['electrical']);\n  assert.deepEqual(read('FP en electricidad o electrónica'), ['electrical', 'electronics-telecom']);\n  assert.deepEqual(read('Es valorarà formació en electricitat'), []);\n});\n\ntest('the trade titles the job-portals note left as a question are ours (NO1-08)', () => {\n  const titles = [\n    [\"Chef d'équipe Réseaux électriques\", 'fr'],\n    ['Facharbeiter Mechatronik, oder Elektrik', 'de'],\n    ['Facharbeiter:in Kälteanlagentechnik', 'de'],\n    ['KFZ-Facharbeiterin – Buswerkstatt', 'de'],\n    ['Chefmonteur HVAC', 'de'],\n    ['Hoofdmonteur Installatietechniek', 'nl'],\n    ['Technicus PLC/SCADA', 'nl'],\n    ['Technicus Hoogspanning', 'nl'],\n    ['Assembler Technician', 'gb'],\n  ];\n  assert.deepEqual(\n    titles.filter(([t, cc]) => !titleIsOurs(t, cc)),\n    [],\n  );\n});\n\ntest('a British town with its county after it and no comma, on the real map (NO1-10)', () => {\n  const codes = f => JSON.parse(readFileSync(new URL(",
+   "degrees": [
+    "electrical",
+    "electronics-telecom",
+    "industrial",
+    "automation-mechatronics",
+    "mechanical"
+   ],
+   "languages": []
+  },
+  {
+   "text": "places.json",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "nuts.json",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Swindon Wiltshire",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Fareham Hampshire",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Reading Berkshire",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Crawley West Sussex",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Maidstone Kent",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Swindon",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Fareham",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Reading",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Crawley",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Maidstone",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Paris Kent",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a town that does not lie in the county is not taken",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "another country's dollars are no US dollars, with a period too (NO2-04)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: CA$85,000 per year",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Pay: AU$5,000 per month",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: NZ$70,000 - NZ$80,000 per year",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: R$6.000 per month",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: $85,000 per year",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Salary: €50,000 per year (approx. CA$75,000)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a year's pay labelled as a month's is read as a year where the minimum wage says so (NO2-05)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "MONTH",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a board gives only web addresses (LEC-26)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Welder",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "javascript:void(0)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Fitter",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "https://jobs.example/2",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "_js",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "«La Cañada» is no Canada, a «.nu» domain no Niue (LEC-27)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "-la-canada-",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "-toronto-canada-",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "/jobs/canada/",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "https://jobb.foretag.nu/1",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "https://jobs.firma.se/1",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "a town in brackets with an Italian province's code is Italy's only in that province's region (NO1-07)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "countries.json",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "elsewhere.json",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Electrician",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Florence (AL)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Milan (TN)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Firenze (FI)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Bergamo (BG)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Milano (MI)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Espoo (FI)",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "what measuring the readers on the store found: a six-figure «month» and an Italian year in fourteen payments",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "280000",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "300000",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "no year slip: cents or a wrong field, not read",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "45000",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "52000",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "La retribuzione annua lorda, erogata su quattordici mensilità, è compresa tra € 7.634,71 ed € 12.724,57.",
+   "degrees": [],
+   "languages": []
+  },
+  {
+   "text": "Retribuzione mensile lorda: 1.500 €",
+   "degrees": [],
+   "languages": []
+  }
+ ]
+}
