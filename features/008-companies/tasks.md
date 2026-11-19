@@ -35,8 +35,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part C — The registers
 
-- [ ] **T008 — Registers' schema, file and LAU** · FR: FR-6 · Depends: gate T011
+- [x] **T008 — Registers' schema, file and LAU** · FR: FR-6 · Depends: gate T011
       Done when: `src/shared/schemas/register.ts` and `registers-file.ts` keep `<store>/registers/<register>.json` (versioned, validated, atomic, with licence and credit), the store's layout comment lists it, and `lau.ts` reads Eurostat's LAU table and places a code (a missing one by its département's or province's unit), tested on a small table.
+      2026-11-19: done. The LAU placer carries the legacy's `MERGED` map (islands' and Northern Ireland's units), since the nuts catalogue already codes them so. A register's company is a strict object, so no other field (an owner's name) can be stored.
 - [ ] **T009 — Brønnøysund and Sirene** · FR: FR-6 · Depends: T008
       Done when: `brreg.ts` and `sirene.ts` turn records into companies as the legacy did (its relevant activities, ten people, the size bands, legal forms that are people, withheld records, struck-off and bankrupt companies left out) and read their bulk files as streams; tests on saved records (the legacy's `test/registers.test.mjs` cases) pass.
 - [ ] **T010 — Barcelona's census and the tool** · FR: FR-6 · Depends: T009

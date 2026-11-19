@@ -10,6 +10,7 @@ import { writeFileAtomic } from "./atomic.js";
 //   <directory>/state/<source>.json     { version, source, state: SourceState }
 //   <directory>/memory/<source>.json    { version, source, memory: JSON }  (the source's own, between passes)
 //   <directory>/rates/ecb.xml           the ECB's daily rates file as fetched (kept-rates.ts, pay FR-2)
+//   <directory>/registers/<register>.json  { version, register, savedAt, licence, credit, companies }  (registers-file.ts, companies FR-6)
 // A change to any of these shapes needs a new FORMAT_VERSION.
 export const FORMAT_VERSION = 1;
 
