@@ -37,7 +37,35 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T009 — The pay reader** · FR: FR-3, FR-6, FR-8, FR-9 · Depends: T001, T003, T006, T008
       Done when: `createPayReader({ rates }).pay(advert)` gives `AdvertPay` (validated by its Zod schema) or null, equal on a second read; tests pass on legacy examples for the field and the text together (a template below the text's «Mindestgehalt», a field that is one end of the text's band, a field set aside giving the text's pay); `index.ts` exports only the reader, `AdvertPay` and its types.
       2026-11-19: done. `createPayReader({ rates })` takes the rates `readKeptRates` gives; `pay` reads only the advert's country, title, description and pay (`PayInput`). The legacy read the text after `asLines` and `withoutContacts`; the stored descriptions are already plain text (none of the 191,473 of the fresh store holds markup, 55 an entity), so the reader reads the description as stored, and T010 measures whether that changes any pay.
-- [ ] **T010 — Measurement and equivalence** · FR: spec section 5 · Depends: T002, T009
+- [x] **T010 — Measurement and equivalence** · FR: spec section 5 · Depends: T002, T009
       Done when: a live pass of the seven swept adapters into the fresh store fills their pay; a pass over that store records here, per source, the share with a pay from the field, from the text and with a yearly figure, and the time (under two minutes); the legacy's readers, run on the same adverts and rates, give the same pay for every one (differences explained here if any).
+      2026-11-19: done. A live pass of the seven adapters (`clm`, `feinaactiva`, `nva`, `mpsv`, `upsvr`, `infopraca`, `uzt`) refilled the fresh store of advert-facts T010 with their pay fields, and the crawl kept the ECB's file of 19 November 2026 there. A pass over that store (191,466 adverts) gives, per source, the share in %:
+
+      | source | adverts | field stated | pay from the field | pay from the text | yearly figure |
+      | --- | --: | --: | --: | --: | --: |
+      | upsvr | 12,103 | 98.2 | 97.1 | 0.1 | 97.2 |
+      | mpsv | 6,277 | 100 | 99.7 | 0.1 | 99.8 |
+      | feinaactiva | 4,195 | 72.7 | 68.8 | 0.1 | 68.9 |
+      | nva | 1,248 | 74.7 | 74.7 | 0 | 74.7 |
+      | clm | 330 | 99.4 | 95.8 | 0 | 95.8 |
+      | uzt | 2 | 100 | 100 | 0 | 100 |
+      | infopraca | 2,905 | 1.4 | 1.4 | 4.5 | 5.9 |
+      | sae | 618 | 0 | 0 | 90.6 | 90.6 |
+      | brescia | 117 | 0 | 0 | 40.2 | 40.2 |
+      | emilia | 577 | 0 | 0 | 35.5 | 35.5 |
+      | sef | 251 | 0 | 0 | 35.5 | 35.5 |
+      | solidjobs | 1,760 | 0 | 0 | 33.2 | 33.2 |
+      | bolzano | 977 | 0 | 0 | 23.7 | 23.7 |
+      | sne | 3,303 | 0 | 0 | 18.4 | 18.4 |
+      | emcan | 95 | 0 | 0 | 14.7 | 14.7 |
+      | escoladeltreball | 45 | 0 | 0 | 13.3 | 13.3 |
+      | kuntarekry | 1,580 | 0 | 0 | 7.3 | 7.3 |
+      | vdab | 119,132 | 0 | 0 | 2.2 | 2.2 |
+      | actiris | 1,928 | 0 | 0 | 0.9 | 0.9 |
+      | the other 19 | 34,023 | 0 | 0 | under 0.2 | under 0.2 |
+      | all | 191,466 | 11.8 | 11.6 | 2.7 | 14.3 |
+
+      Reading the pay of every advert took 5.7 s on the development Mac (Node 26), not yet measured on the server. The legacy's readers (its `readPay`, `payOfText` and `normalise.mjs`'s choice between field and text, run in the scratchpad with the same rates) give the same pay for every one of the 191,466 adverts on the stored description. The legacy itself read the text after `asLines` and `withoutContacts`; on that text 23 adverts differ, each a better reading here: in 22 its phone stripping took a pay band joined by a slash («17.000/22.000 euro», «25.000/27.000 EUROS») for a phone number and lost the pay; in one (solidjobs) it read 9,000–18,000 PLN where the line gives the employment band «14 000-18 000 PLN brutto (UoP)». So the processor reads the stored description as it is. Notes: `infopraca` states its pay on its own pages, read 300 a pass, and pages read before the field existed are not read again, so its share rises over later passes; `feinaactiva` and `nva` state no pay on about a quarter of their offers (`nva` only for full-time work); the sources with no pay field and little text pay (anofm, hzz, jobtech, iefp, …) state none, as in the legacy.
+
 - [ ] **T011 — Close pay** · FR: FR-1 to FR-9 · Depends: T001-T010
       Done when: nothing outside the feature imports past `src/features/pay/index.ts` (checked with a search); `CLAUDE.md` ("Intended structure") lists `src/features/pay/`, the advert's `pay`, the moved `words` and `sentences`, the rates file and `refreshRates`; `features/README.md` marks this feature done; the CI command is green.
