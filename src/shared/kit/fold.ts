@@ -1,9 +1,10 @@
 // The comparison forms of names and words, from Argus's server-bot/text.mjs (v1.11.0) and the legacy
 // web's app/lib/name-key.ts, so the processor compares as the legacy did.
 
-// Accents off, case kept ("Électromécanicien" → "Electromecanicien").
+// Accents off, case kept ("Électromécanicien" → "Electromecanicien"): the combining marks
+// U+0300-U+036F, exactly as Argus takes them off (other marks stay).
 export const unaccent = (text: string): string =>
-  text.normalize("NFD").replace(/\p{M}/gu, "");
+  text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
 // Accents off and lower case: the form words are matched in. Letters no accent-stripping takes
 // apart (ø, ß, ł) stay as they are.

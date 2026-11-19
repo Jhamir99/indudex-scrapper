@@ -6,8 +6,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Tasks
 
-- [ ] **T001 — Title rules** · FR: FR-2 · Depends: pay T011
+- [x] **T001 — Title rules** · FR: FR-2 · Depends: pay T011
       Done when: `title-rules.ts` is the legacy's `app/lib/titles.ts` with a header naming its source and commit, and tests pass on the legacy's examples (`test/titles.test.mjs`): folding and apostrophes, the longest match on one text («naval architect» is no «architect»), a named title over an alternative, and `find` over an index giving what `matches` gives with each list's alternation.
+      2026-11-19: done. `TITLES` is the rules with Argus's fold. That fold is `src/shared/kit/fold.ts`, whose `unaccent` took off every combining mark (`\p{M}`) where Argus takes off only U+0300-U+036F: corrected to Argus's, and every test of places, advert facts and pay, golden sets included, still passes.
 - [ ] **T002 — The title as the gate reads it** · FR: FR-2 · Depends: T001
       Done when: `matchable-title.ts` passes tests on legacy examples: gender marks off («Ingeniero/a», «(m/w/d)», «Ingénieur(e)», «technicien·ne», a zero-width space in «(d/m/f)»), a word written for both genders once, a reference number and a board's «Oferta de empleo para» off, «Engineering Graduate» and the misspellings of «engineer»; the second reading (plurals, words kept as they are, «CAD-Designer»), the German reading (small words, female and plural endings, a hyphen left open, at most thirty letters) and the Spanish reading («Soldadores», «Técnico calidad»).
 - [ ] **T003 — Word lists and routes** · FR: FR-3 · Depends: T002
