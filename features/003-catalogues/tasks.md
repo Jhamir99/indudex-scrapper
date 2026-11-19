@@ -6,7 +6,7 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Tasks
 
-- [ ] **T001 — Shared path guard and `readCatalogue`** · FR: FR-3, FR-7 · Depends: public-feeds T018
+- [x] **T001 — Shared path guard and `readCatalogue`** · FR: FR-3, FR-7 · Depends: public-feeds T018
       Done when: `loadConfig`'s path guard lives in `src/shared/config/data-file.ts` and `loadConfig`'s tests still pass unchanged; tests on a temporary folder pass: `readCatalogue` validates a JSON file with its schema, parses it once when read twice, refuses `..`, absolute paths and links leading out, and reports a missing file, broken JSON or a schema mismatch as `CatalogueError` with `file: path: message`, without caching the failure.
 - [ ] **T002 — Header schema and the import script** · FR: FR-2 · Depends: T001
       Done when: `src/shared/catalogues/header.ts` declares the `about` header (description, sources with name, url and licence, builtAt, builtBy, importedFrom) and a test refuses a header with no source or a source with no licence; the scratchpad import script writes a file with the new header and its data untouched, and its deep comparison with the legacy file passes; `catalogues/` is in `.prettierignore`.
