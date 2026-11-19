@@ -1,0 +1,30 @@
+# Tasks: Gate
+
+Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have a verifiable "Done when". Every task ends with `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:run && pnpm build` green. "Legacy example" means the example the legacy's comment or test for that rule gives.
+
+**Depends:** `pay` closed (its T011).
+
+## Tasks
+
+- [ ] **T001 — Title rules** · FR: FR-2 · Depends: pay T011
+      Done when: `title-rules.ts` is the legacy's `app/lib/titles.ts` with a header naming its source and commit, and tests pass on the legacy's examples (`test/titles.test.mjs`): folding and apostrophes, the longest match on one text («naval architect» is no «architect»), a named title over an alternative, and `find` over an index giving what `matches` gives with each list's alternation.
+- [ ] **T002 — The title as the gate reads it** · FR: FR-2 · Depends: T001
+      Done when: `matchable-title.ts` passes tests on legacy examples: gender marks off («Ingeniero/a», «(m/w/d)», «Ingénieur(e)», «technicien·ne», a zero-width space in «(d/m/f)»), a word written for both genders once, a reference number and a board's «Oferta de empleo para» off, «Engineering Graduate» and the misspellings of «engineer»; the second reading (plurals, words kept as they are, «CAD-Designer»), the German reading (small words, female and plural endings, a hyphen left open, at most thirty letters) and the Spanish reading («Soldadores», «Técnico calidad»).
+- [ ] **T003 — Word lists and routes** · FR: FR-3 · Depends: T002
+      Done when: `words.ts` and `routes.ts` hold the legacy's lists and routes word for word, and tests pass on legacy examples for each: the outside words (sales, teaching, care, «Maçon paysagiste», «Schichtleiter Gastronomie»), the ICT words («mobile Pflege» is none), each engineer, ICT, German, French, Flemish and Spanish route and its «out» list.
+- [ ] **T004 — The gate compiled from the catalogues** · FR: FR-1, FR-2 · Depends: T001, T002
+      Done when: `compile.ts` builds the main and optional gates from `families`, `codes/isco`, `codes/ssyk-isco`, `codes/titles` and `codes/confirmed-titles` (read with `readCatalogue`); tests pass on the real catalogues: 71 families split into the main ones and the trades, every family's ISCO unit group found back, an SSYK concept of several families, the bare role words and «not ours» titles kept out of the index, a family's `not_terms` not taken; compiling takes under five seconds (noted here).
+- [ ] **T005 — An advert's families and occupations** · FR: FR-1 to FR-3, FR-6 · Depends: T003, T004
+      Done when: `title-families.ts` and `families-of.ts` pass tests on legacy examples: a code of the vertical and one outside it, an SSYK code narrowed by the title, a title found by each reading, a blocker over our titles, the contexts, each catch-all and route, «Hardwareentwickler», an Italian «ai»; occupations inside the families («Naval Architect», «Mechanical Design Engineer»). The golden sets (`test/fixtures/gate/`) are built from the legacy itself in the scratchpad.
+- [ ] **T006 — The classifier** · FR: FR-4, FR-5, FR-10 · Depends: T005
+      Done when: `markets.ts` and `classifier.ts` pass tests on legacy examples: the trades only for what the main families leave out, the vehicle trades first («Kfz-Mechatroniker» 7231), the Spanish technician, the German passes (whole, then with the compound roles apart), the gender marks («Industriemechaniker (m/w/d)» in an Italian source), Catalan read in Spanish («Mecànic/a de manteniment», «Enginyer/a de processos» out of 2149), the confirmed titles never against the gate's own decisions; the same answer twice and from the cache; every reading of the golden sets matches.
+- [ ] **T007 — Hygiene** · FR: FR-7 · Depends: pay T011
+      Done when: `hygiene.ts` passes tests on legacy examples: a listing page, a template, workwear, a site task, a filled vacancy, an application form (title and address both), and the sales, recruiting, trainee, apprentice, student, helper, labourer, retail, operative and gig roles in the sources' languages; an engineer's title passes; every hygiene reading of the golden sets matches.
+- [ ] **T008 — The gate's decision** · FR: FR-8, FR-9, FR-10 · Depends: T006, T007
+      Done when: `decide.ts` and `index.ts` give `createGate(...).decide(advert)`: families, occupations and whether a trade kept it, or the reason in the legacy's order (outside the vertical, hygiene, outside Europe); tests pass: each reason, a country outside the catalogue, the same decision twice; `index.ts` exports only `createGate`, the decision type and the explain line.
+- [ ] **T009 — The explain report** · FR: FR-9 · Depends: T008
+      Done when: `explain.ts` and `pnpm gate:explain [-- --out <dir>]` (`src/bin/gate-explain.ts`, built to `dist/bin/gate-explain.js`) write `explain.txt.gz` atomically (one line per advert left out, `[reason] title | company | location (source)`) and print the counts per reason and the share kept; tests on a temporary store pass (lines, counts, expired adverts skipped, nothing written into the store); `published/` stays ignored by git.
+- [ ] **T010 — Measurement and equivalence** · FR: spec section 5 · Depends: T008
+      Done when: a pass over the fresh store of 005 and 006 records here, per source, the share kept, left out by each reason and kept by the trades, and the time (under two minutes); the legacy's gate, run on the same adverts, gives the same families, occupations and reasons for every one (differences explained here if any).
+- [ ] **T011 — Close gate** · FR: FR-1 to FR-10 · Depends: T001-T010
+      Done when: nothing outside the feature imports past `src/features/gate/index.ts` but its entry in `src/bin/` (checked with a search); `CLAUDE.md` lists `src/features/gate/`, `pnpm gate:explain` and the title rules' copy; `MEMORY.md` notes the copy for `indudex-matching`; `features/README.md` marks this feature done; the CI command is green.
