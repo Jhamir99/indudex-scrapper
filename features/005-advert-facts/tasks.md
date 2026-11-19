@@ -67,5 +67,6 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
       Facts for every advert took 22 s on the development Mac (Node 26), not yet measured on the server. Notes: the 17 other sources have no contract or hours fields (brandenburg, hungary, hzz and the rest), as in the legacy. `iefp`, `upsvr`, `infopraca` and half of `kuntarekry` fill the fields from their own pages, and a first pass on an empty store reads only 300 to 800 of them; the shares rise as later runs read the rest. Pages read before the fields existed are not read again for them.
 
-- [ ] **T011 — Close advert-facts** · FR: FR-1 to FR-8 · Depends: T001-T010
+- [x] **T011 — Close advert-facts** · FR: FR-1 to FR-8 · Depends: T001-T010
       Done when: `index.ts` exports only the reader, `AdvertFacts` and its types; `CLAUDE.md` ("Intended structure") lists `src/features/advert-facts/` and the advert's new fields; `features/README.md` marks this feature done; the CI command is green.
+      2026-11-19: done. `index.ts` exports only `createFactReader`, `AdvertFacts`, `FactSources` and the fact types; nothing outside the feature imports past it (checked with a search). `CLAUDE.md` lists the feature, the advert's new fields, `stated.ts` and `config/untranslated.yml`.
