@@ -19,7 +19,7 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T006 — Import the places tables** · FR: FR-1, FR-2, FR-3 · Depends: T002
       Done when: `codes/places.json`, `codes/nuts.json` and `codes/elsewhere.json` are imported with their headers (GeoNames CC BY 4.0; GISCO, © EuroGeographics), schemas and internal `CATALOGUES` entries; `places` is read as tuples and handed out as named `Place` fields; tests pass: 84,176 places (of 8 or 9 fields), every town of `nuts` (79,826) is a place of `places`, and reading `places` and `nuts` takes under two seconds (measured once on the server and noted here).
       2026-11-19: measured on the development Mac (Node 26), not yet on the server: `places` (as `Place`) and `nuts` read together in about 280 ms, about 130 MB of heap.
-- [ ] **T007 — Published set and catalogue version** · FR: FR-6 · Depends: T003
+- [x] **T007 — Published set and catalogue version** · FR: FR-6 · Depends: T003
       Done when: `publishedCatalogues()` reads the seven published catalogues with their headers, their schemas carry `.openapi` names, `CATALOGUE_VERSION` is 1, and a test fails if the published set is not exactly those seven (`titles`, `activities` and every `codes/` file stay internal).
 - [ ] **T008 — Checks across files** · FR: FR-8, FR-9 · Depends: T003, T005, T006
       Done when: tests pass on the real files: `config/isco-units.yml` and the families name the same unit groups; every group of `config/ssyk-groups.yml` is in `ssyk-isco` with the same codes; no string in any catalogue (keys included) holds an e-mail address or a phone number, with a test showing each pattern catches a real one and lets the reference numbers of `confirmed-titles` through.
