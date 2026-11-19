@@ -1,0 +1,217 @@
+{
+  "about": {
+    "description": "Ready-made exclusions the site offered until September 2026 (one-tap chips adding title terms to the negatives). No longer shown or applied: one word cut good offers, and the visitor types words to avoid instead. Kept because profile codes still name them by their position. APPEND ONLY.",
+    "sources": [
+      {
+        "name": "Indudex legacy project (JustJans/indudex), written by hand or by its tools",
+        "url": "https://github.com/JustJans/indudex",
+        "licence": "© 2026 JustJans and Jhamir99, all rights reserved (this repository's LICENSE)"
+      }
+    ],
+    "builtAt": "2026-11-15",
+    "builtBy": "by hand (legacy)",
+    "importedFrom": "JustJans/indudex@b0cd182"
+  },
+  "vetoes": [
+    {
+      "id": "sales",
+      "label": "Sales",
+      "es": "Ventas",
+      "ca": "Vendes",
+      "terms": [
+        "sales",
+        "comercial",
+        "vendedor",
+        "vendedora",
+        "vendeur",
+        "vendeuse",
+        "commercial",
+        "vertrieb",
+        "verkoop",
+        "saljare",
+        "selger",
+        "account manager",
+        "business developer"
+      ]
+    },
+    {
+      "id": "internships",
+      "label": "Internships",
+      "es": "Prácticas",
+      "ca": "Pràctiques",
+      "terms": [
+        "intern",
+        "internship",
+        "trainee",
+        "becario",
+        "becaria",
+        "practicas",
+        "stagiaire",
+        "stage",
+        "praktikant",
+        "praktikum",
+        "werkstudent",
+        "stagiair",
+        "praktikant",
+        "laerling"
+      ]
+    },
+    {
+      "id": "software",
+      "label": "Pure software",
+      "es": "Solo software",
+      "ca": "Només programari",
+      "terms": [
+        "developer",
+        "software engineer",
+        "programador",
+        "programadora",
+        "developpeur",
+        "entwickler",
+        "ontwikkelaar",
+        "utvecklare",
+        "utvikler",
+        "full stack",
+        "frontend",
+        "backend",
+        "devops",
+        "data scientist"
+      ]
+    },
+    {
+      "id": "management",
+      "label": "Management",
+      "es": "Dirección",
+      "ca": "Direcció",
+      "terms": [
+        "manager",
+        "director",
+        "directora",
+        "head of",
+        "chief",
+        "jefe",
+        "jefa",
+        "directeur",
+        "directrice",
+        "leiter",
+        "leiterin",
+        "hoofd",
+        "sjef",
+        "leder"
+      ]
+    },
+    {
+      "id": "teaching",
+      "label": "Teaching",
+      "es": "Docencia",
+      "ca": "Docència",
+      "terms": [
+        "teacher",
+        "lecturer",
+        "profesor",
+        "profesora",
+        "docente",
+        "enseignant",
+        "enseignante",
+        "lehrer",
+        "lehrerin",
+        "dozent",
+        "docent",
+        "larare",
+        "laerer"
+      ]
+    },
+    {
+      "id": "night-shifts",
+      "label": "Night shifts",
+      "es": "Turnos de noche",
+      "ca": "Torns de nit",
+      "terms": [
+        "night shift",
+        "nights",
+        "turno de noche",
+        "nocturno",
+        "nocturna",
+        "nuit",
+        "nachtschicht",
+        "nachtdienst",
+        "nattskift",
+        "nattjobb"
+      ]
+    },
+    {
+      "id": "seagoing",
+      "label": "Seagoing",
+      "es": "Embarcado",
+      "ca": "Embarcat",
+      "terms": [
+        "roustabout",
+        "roughneck",
+        "seafarer",
+        "onboard",
+        "on board",
+        "embarcado",
+        "embarque",
+        "embarque",
+        "navigant",
+        "offshore rotation",
+        "rotation"
+      ]
+    },
+    {
+      "id": "defence",
+      "label": "Defence",
+      "es": "Defensa",
+      "ca": "Defensa",
+      "terms": [
+        "defence",
+        "defense",
+        "military",
+        "militar",
+        "militaire",
+        "armee",
+        "bundeswehr",
+        "defensie",
+        "forsvaret",
+        "forsvar",
+        "weapons",
+        "armamento"
+      ]
+    },
+    {
+      "id": "temp-agency",
+      "label": "Temp agencies",
+      "es": "ETT",
+      "ca": "ETT",
+      "terms": [
+        "temporary",
+        "temporal",
+        "ett",
+        "interim",
+        "zeitarbeit",
+        "uitzend",
+        "bemanning",
+        "vikariat",
+        "vikar"
+      ]
+    },
+    {
+      "id": "consulting",
+      "label": "Consultancies",
+      "es": "Consultoras",
+      "ca": "Consultores",
+      "terms": [
+        "consultant",
+        "consultor",
+        "consultora",
+        "consultoria",
+        "consulting",
+        "berater",
+        "beraterin",
+        "adviseur",
+        "konsult",
+        "konsulent"
+      ]
+    }
+  ]
+}

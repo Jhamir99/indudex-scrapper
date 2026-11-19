@@ -63,5 +63,8 @@ export function readCatalogue<Name extends CatalogueName>(
   directory: string = CATALOGUE_DIRECTORY,
 ): Promise<CatalogueOf<Name>> {
   const { file, schema } = CATALOGUES[name];
-  return readCatalogueFile(file, schema, directory);
+  // TypeScript cannot follow a generic name through the table's union of schemas.
+  return readCatalogueFile(file, schema, directory) as Promise<
+    CatalogueOf<Name>
+  >;
 }

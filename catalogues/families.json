@@ -1,0 +1,2866 @@
+{
+  "about": {
+    "description": "Version 2 (2026-09-05; computing groups appended 2026-09-06; the skilled trades, optional, 2026-10-07). One family per ISCO-08 unit group of the vertical (minor groups 214-216, 251-252, 311-315 and 351-352, minus product/garment and graphic designers; optional: 712 (plumbing and air conditioning only), 721-723 (without bicycle repairers) and 741-742), grouped by minor group. id = the ISCO code; label = what the screen shows under the group heading, es and ca = the same in Spanish and Catalan; a group with optional: true shows its offers only to a visitor who picks one of its families; isco_title = ISCO/ESCO's own title; extra_terms = job titles ESCO lacks, per language (all of Catalan; the English of company boards; a few Spanish). The gate reads the job titles per language from codes/isco.json (ESCO) and the SSYK correspondence from codes/ssyk-isco.json (JobTech). APPEND ONLY: the position of a family is its bit in the profile code. Built by builder/tools/make-families.mjs.",
+    "sources": [
+      {
+        "name": "Indudex legacy project (JustJans/indudex), written by hand or by its tools",
+        "url": "https://github.com/JustJans/indudex",
+        "licence": "© 2026 JustJans and Jhamir99, all rights reserved (this repository's LICENSE)"
+      },
+      {
+        "name": "ESCO (European Skills, Competences, Qualifications and Occupations), European Commission",
+        "url": "https://esco.ec.europa.eu/",
+        "licence": "© European Union; reuse for any purpose under Commission Decision 2011/833/EU, credited as \"This service uses the ESCO classification of the European Commission\"; adapted versions marked as such"
+      }
+    ],
+    "builtAt": "2026-11-15",
+    "builtBy": "legacy builder/tools/make-families.mjs",
+    "importedFrom": "JustJans/indudex@b0cd182"
+  },
+  "groups": [
+    {
+      "id": "engineers",
+      "label": "Engineers",
+      "es": "Ingenieros",
+      "ca": "Enginyers",
+      "fr": "Ingénieurs",
+      "nl": "Ingenieurs",
+      "de": "Ingenieure",
+      "it": "Ingegneri",
+      "pl": "Inżynierowie",
+      "isco": [
+        "214",
+        "215"
+      ]
+    },
+    {
+      "id": "architects-surveyors",
+      "label": "Architects, planners and surveyors",
+      "es": "Arquitectos, urbanistas y topógrafos",
+      "ca": "Arquitectes, urbanistes i topògrafs",
+      "fr": "Architectes, urbanistes et géomètres",
+      "nl": "Architecten, planologen en landmeters",
+      "de": "Architekten, Planer und Vermessungsingenieure",
+      "it": "Architetti, urbanisti e topografi",
+      "pl": "Architekci, urbaniści i geodeci",
+      "isco": [
+        "216"
+      ]
+    },
+    {
+      "id": "technicians",
+      "label": "Technicians",
+      "es": "Técnicos",
+      "ca": "Tècnics",
+      "fr": "Techniciens",
+      "nl": "Technici",
+      "de": "Techniker",
+      "it": "Tecnici",
+      "pl": "Technicy",
+      "isco": [
+        "311"
+      ]
+    },
+    {
+      "id": "supervisors",
+      "label": "Supervisors",
+      "es": "Supervisores",
+      "ca": "Supervisors",
+      "fr": "Chefs d'équipe",
+      "nl": "Leidinggevenden",
+      "de": "Aufsichtskräfte",
+      "it": "Supervisori",
+      "pl": "Mistrzowie produkcji",
+      "isco": [
+        "312"
+      ]
+    },
+    {
+      "id": "plant-operators",
+      "label": "Plant operators",
+      "es": "Operadores de planta",
+      "ca": "Operadors de planta",
+      "fr": "Opérateurs d'installations",
+      "nl": "Procesoperators",
+      "de": "Anlagenführer",
+      "it": "Conduttori di impianti",
+      "pl": "Operatorzy instalacji",
+      "isco": [
+        "313"
+      ]
+    },
+    {
+      "id": "crews",
+      "label": "Ship and aircraft crews",
+      "es": "Tripulaciones de barco y avión",
+      "ca": "Tripulacions de vaixell i d'avió",
+      "fr": "Équipages de navires et d'avions",
+      "nl": "Scheeps- en vliegtuigbemanning",
+      "de": "Schiffs- und Flugzeugbesatzungen",
+      "it": "Equipaggi di navi e aerei",
+      "pl": "Załogi statków i samolotów",
+      "isco": [
+        "315"
+      ]
+    },
+    {
+      "id": "software-it",
+      "label": "Software and IT",
+      "es": "Software e informática",
+      "ca": "Programari i informàtica",
+      "fr": "Logiciels et informatique",
+      "nl": "Software en IT",
+      "de": "Software und IT",
+      "it": "Software e informatica",
+      "pl": "Oprogramowanie i IT",
+      "isco": [
+        "251",
+        "252"
+      ]
+    },
+    {
+      "id": "it-technicians",
+      "label": "IT technicians",
+      "es": "Técnicos informáticos",
+      "ca": "Tècnics informàtics",
+      "fr": "Techniciens informatiques",
+      "nl": "IT-technici",
+      "de": "IT-Techniker",
+      "it": "Tecnici informatici",
+      "pl": "Technicy IT",
+      "isco": [
+        "351",
+        "352"
+      ]
+    },
+    {
+      "id": "trades",
+      "label": "Skilled trades",
+      "es": "Oficios",
+      "ca": "Oficis",
+      "fr": "Métiers qualifiés",
+      "nl": "Vakmensen",
+      "de": "Handwerksberufe",
+      "it": "Mestieri qualificati",
+      "pl": "Zawody rzemieślnicze",
+      "isco": [
+        "712",
+        "721",
+        "722",
+        "723",
+        "741",
+        "742"
+      ],
+      "optional": true
+    }
+  ],
+  "families": [
+    {
+      "id": "2141",
+      "group": "engineers",
+      "label": "Industrial and production",
+      "es": "Industriales y de producción",
+      "ca": "Industrials i de producció",
+      "fr": "Industriels et de production",
+      "nl": "Industrieel en productie",
+      "de": "Industrie und Produktion",
+      "it": "Industriali e gestionali",
+      "pl": "Przemysł i produkcja",
+      "isco_title": "Industrial and production engineers",
+      "isco": [
+        "2141"
+      ],
+      "extra_terms": {
+        "ca": [
+          "enginyer industrial",
+          "enginyera industrial",
+          "enginyer de producció",
+          "enginyera de producció",
+          "enginyer d'organització industrial",
+          "enginyer d'automatització",
+          "enginyera d'automatització",
+          "enginyer de manteniment",
+          "enginyera de manteniment"
+        ]
+      },
+      "not_terms": {
+        "nl": [
+          "logistiek medewerker"
+        ]
+      }
+    },
+    {
+      "id": "2142",
+      "group": "engineers",
+      "label": "Civil",
+      "es": "Civiles",
+      "ca": "Civils",
+      "fr": "Génie civil",
+      "nl": "Civiel",
+      "de": "Bauingenieurwesen",
+      "it": "Civili",
+      "pl": "Budownictwo",
+      "isco_title": "Civil engineers",
+      "isco": [
+        "2142"
+      ],
+      "extra_terms": {
+        "ca": [
+          "enginyer civil",
+          "enginyera civil",
+          "enginyer de camins",
+          "enginyera de camins",
+          "enginyer de ponts i camins",
+          "enginyera de ponts i camins",
+          "enginyer d'obra civil",
+          "enginyera d'obra civil"
+        ],
+        "it": [
+          "progettista strutturale",
+          "progettista strutture"
+        ],
+        "es": [
+          "ingeniero técnico de obras públicas",
+          "ingeniera técnica de obras públicas",
+          "ingeniero de obras públicas",
+          "ingeniera de obras públicas",
+          "ingeniero de caminos",
+          "ingeniera de caminos"
+        ]
+      }
+    },
+    {
+      "id": "2143",
+      "group": "engineers",
+      "label": "Environmental",
+      "es": "Medioambientales",
+      "ca": "Mediambientals",
+      "fr": "Environnement",
+      "nl": "Milieu",
+      "de": "Umwelt",
+      "it": "Ambientali",
+      "pl": "Inżynieria środowiska",
+      "isco_title": "Environmental engineers",
+      "isco": [
+        "2143"
+      ],
+      "extra_terms": {
+        "ca": [
+          "enginyer ambiental",
+          "enginyera ambiental"
+        ]
+      },
+      "not_terms": {
+        "nl": [
+          "it manager",
+          "ICT manager"
+        ]
+      }
+    },
+    {
+      "id": "2144",
+      "group": "engineers",
+      "label": "Mechanical",
+      "es": "Mecánicos",
+      "ca": "Mecànics",
+      "fr": "Mécaniciens",
+      "nl": "Werktuigbouwkundig",
+      "de": "Maschinenbau",
+      "it": "Meccanici",
+      "pl": "Mechanika",
+      "isco_title": "Mechanical engineers",
+      "isco": [
+        "2144"
+      ],
+      "extra_terms": {
+        "en": [
+          "mooring engineer",
+          "mooring analyst",
+          "mooring designer"
+        ],
+        "ca": [
+          "enginyer mecànic",
+          "enginyera mecànica"
+        ],
+        "it": [
+          "progettista meccanico",
+          "progettista meccanica"
+        ]
+      }
+    },
+    {
+      "id": "2145",
+      "group": "engineers",
+      "label": "Chemical",
+      "es": "Químicos",
+      "ca": "Químics",
+      "fr": "Chimistes",
+      "nl": "Chemisch",
+      "de": "Chemie",
+      "it": "Chimici",
+      "pl": "Chemia",
+      "isco_title": "Chemical engineers",
+      "isco": [
+        "2145"
+      ],
+      "extra_terms": {
+        "ca": [
+          "enginyer químic",
+          "enginyera química"
+        ]
+      },
+      "not_terms": {
+        "de": [
+          "bierbrauer",
+          "bierbrauerin"
+        ],
+        "fr": [
+          "sommelier",
+          "caviste",
+          "chef caviste",
+          "brasseur",
+          "brasseuse"
+        ]
+      }
+    },
+    {
+      "id": "2146",
+      "group": "engineers",
+      "label": "Mining and metallurgy",
+      "es": "Minas y metalurgia",
+      "ca": "Mines i metal·lúrgia",
+      "fr": "Mines et métallurgie",
+      "nl": "Mijnbouw en metallurgie",
+      "de": "Bergbau und Metallurgie",
+      "it": "Minerari e metallurgici",
+      "pl": "Górnictwo i metalurgia",
+      "isco_title": "Mining engineers, metallurgists and related professionals",
+      "isco": [
+        "2146"
+      ],
+      "extra_terms": {
+        "ca": [
+          "enginyer de mines",
+          "enginyera de mines"
+        ]
+      },
+      "not_terms": {
+        "nl": [
+          "keurmeester"
+        ],
+        "en": [
+          "gas engineer",
+          "development engineer",
+          "chemical engineer"
+        ]
+      }
+    },
+    {
+      "id": "2149",
+      "group": "engineers",
+      "label": "Other engineers",
+      "es": "Otros ingenieros",
+      "ca": "Altres enginyers",
+      "fr": "Autres ingénieurs",
+      "nl": "Overige ingenieurs",
+      "de": "Sonstige Ingenieure",
+      "it": "Altri ingegneri",
+      "pl": "Inni inżynierowie",
+      "isco_title": "Engineering professionals not elsewhere classified",
+      "isco": [
+        "2149"
+      ],
+      "extra_terms": {
+        "en": [
+          "release train engineer"
+        ],
+        "ca": [
+          "enginyer de qualitat",
+          "enginyera de qualitat",
+          "enginyer de projectes",
+          "enginyera de projectes",
+          "arquitecte tècnic",
+          "arquitecta tècnica",
+          "aparellador",
+          "aparelladora"
+        ],
+        "es": [
+          "ingeniero proyectista",
+          "ingeniera proyectista"
+        ]
+      }
+    },
+    {
+      "id": "2151",
+      "group": "engineers",
+      "label": "Electrical",
+      "es": "Eléctricos",
+      "ca": "Elèctrics",
+      "fr": "Électriciens",
+      "nl": "Elektrotechnisch",
+      "de": "Elektrotechnik",
+      "it": "Elettrici",
+      "pl": "Elektrotechnika",
+      "isco_title": "Electrical engineers",
+      "isco": [
+        "2151"
+      ],
+      "extra_terms": {
+        "ca": [
+          "enginyer elèctric",
+          "enginyera elèctrica"
+        ],
+        "it": [
+          "progettista elettrico",
+          "progettista elettrica"
+        ]
+      }
+    },
+    {
+      "id": "2152",
+      "group": "engineers",
+      "label": "Electronics",
+      "es": "Electrónicos",
+      "ca": "Electrònics",
+      "fr": "Électroniciens",
+      "nl": "Elektronica",
+      "de": "Elektronik",
+      "it": "Elettronici",
+      "pl": "Elektronika",
+      "isco_title": "Electronics engineers",
+      "isco": [
+        "2152"
+      ],
+      "extra_terms": {
+        "ca": [
+          "enginyer electrònic",
+          "enginyera electrònica"
+        ],
+        "it": [
+          "progettista elettronico",
+          "progettista elettronica",
+          "progettista hardware"
+        ]
+      }
+    },
+    {
+      "id": "2153",
+      "group": "engineers",
+      "label": "Telecommunications",
+      "es": "Telecomunicaciones",
+      "ca": "Telecomunicacions",
+      "fr": "Télécommunications",
+      "nl": "Telecommunicatie",
+      "de": "Telekommunikation",
+      "it": "Delle telecomunicazioni",
+      "pl": "Telekomunikacja",
+      "isco_title": "Telecommunications engineers",
+      "isco": [
+        "2153"
+      ],
+      "extra_terms": {
+        "ca": [
+          "enginyer de telecomunicacions",
+          "enginyera de telecomunicacions"
+        ]
+      }
+    },
+    {
+      "id": "2161",
+      "group": "architects-surveyors",
+      "label": "Building architects",
+      "es": "Arquitectos",
+      "ca": "Arquitectes",
+      "fr": "Architectes",
+      "nl": "Bouwkundig architecten",
+      "de": "Architekten",
+      "it": "Architetti",
+      "pl": "Architekci",
+      "isco_title": "Building architects",
+      "isco": [
+        "2161"
+      ],
+      "extra_terms": {
+        "ca": [
+          "arquitecte",
+          "arquitecta"
+        ]
+      }
+    },
+    {
+      "id": "2162",
+      "group": "architects-surveyors",
+      "label": "Landscape architects",
+      "es": "Arquitectos paisajistas",
+      "ca": "Arquitectes paisatgistes",
+      "fr": "Architectes paysagistes",
+      "nl": "Landschapsarchitecten",
+      "de": "Landschaftsarchitekten",
+      "it": "Paesaggisti",
+      "pl": "Architekci krajobrazu",
+      "isco_title": "Landscape architects",
+      "isco": [
+        "2162"
+      ],
+      "extra_terms": {
+        "fr": [
+          "concepteur paysagiste",
+          "conceptrice paysagiste",
+          "paysagiste concepteur",
+          "paysagiste conceptrice"
+        ],
+        "ca": [
+          "arquitecte paisatgista",
+          "arquitecta paisatgista"
+        ]
+      }
+    },
+    {
+      "id": "2164",
+      "group": "architects-surveyors",
+      "label": "Town and traffic planners",
+      "es": "Urbanistas y planificadores de tráfico",
+      "ca": "Urbanistes i planificadors de trànsit",
+      "fr": "Urbanistes et planificateurs de la circulation",
+      "nl": "Stedenbouwkundigen en verkeersplanners",
+      "de": "Stadt- und Verkehrsplaner",
+      "it": "Urbanisti e pianificatori del traffico",
+      "pl": "Urbaniści i inżynierowie ruchu",
+      "isco_title": "Town and traffic planners",
+      "isco": [
+        "2164"
+      ],
+      "extra_terms": {
+        "ca": [
+          "urbanista"
+        ]
+      }
+    },
+    {
+      "id": "2165",
+      "group": "architects-surveyors",
+      "label": "Surveyors and cartographers",
+      "es": "Topógrafos y cartógrafos",
+      "ca": "Topògrafs i cartògrafs",
+      "fr": "Géomètres et cartographes",
+      "nl": "Landmeters en cartografen",
+      "de": "Vermessungstechniker und Kartografen",
+      "it": "Topografi e cartografi",
+      "pl": "Geodeci i kartografowie",
+      "isco_title": "Cartographers and surveyors",
+      "isco": [
+        "2165"
+      ],
+      "extra_terms": {
+        "ca": [
+          "topògraf",
+          "topògrafa",
+          "enginyer geomàtic",
+          "enginyera geomàtica"
+        ]
+      }
+    },
+    {
+      "id": "3111",
+      "group": "technicians",
+      "label": "Chemical and physical science",
+      "es": "Ciencias físicas y químicas",
+      "ca": "Ciències físiques i químiques",
+      "fr": "Sciences physiques et chimiques",
+      "nl": "Natuur- en scheikunde",
+      "de": "Physik und Chemie",
+      "it": "Scienze chimiche e fisiche",
+      "pl": "Nauki chemiczne i fizyczne",
+      "isco_title": "Chemical and physical science technicians",
+      "isco": [
+        "3111"
+      ],
+      "extra_terms": {
+        "fr": [
+          "technicien de laboratoire",
+          "technicienne de laboratoire",
+          "technicien laboratoire",
+          "technicienne laboratoire",
+          "technicien de labo",
+          "technicienne de labo",
+          "laborantin",
+          "laborantine"
+        ],
+        "es": [
+          "analista de laboratorio"
+        ]
+      }
+    },
+    {
+      "id": "3112",
+      "group": "technicians",
+      "label": "Civil engineering",
+      "es": "Ingeniería civil",
+      "ca": "Enginyeria civil",
+      "fr": "Génie civil",
+      "nl": "Civiele techniek",
+      "de": "Bautechnik",
+      "it": "Costruzioni civili",
+      "pl": "Budownictwo",
+      "isco_title": "Civil engineering technicians",
+      "isco": [
+        "3112"
+      ],
+      "extra_terms": {
+        "nl": [
+          "werkvoorbereider"
+        ],
+        "ca": [
+          "tècnic d'obra",
+          "tècnica d'obra",
+          "arquitecte tècnic",
+          "arquitecta tècnica",
+          "aparellador",
+          "aparelladora"
+        ],
+        "es": [
+          "técnico de obra",
+          "técnica de obra"
+        ]
+      }
+    },
+    {
+      "id": "3113",
+      "group": "technicians",
+      "label": "Electrical engineering",
+      "es": "Ingeniería eléctrica",
+      "ca": "Enginyeria elèctrica",
+      "fr": "Électrotechnique",
+      "nl": "Elektrotechniek",
+      "de": "Elektrotechnik",
+      "it": "Elettrotecnica",
+      "pl": "Elektrotechnika",
+      "isco_title": "Electrical engineering technicians",
+      "isco": [
+        "3113"
+      ],
+      "extra_terms": {
+        "fr": [
+          "électrotechnicien",
+          "électrotechnicienne",
+          "technicien électrotechnique",
+          "technicienne électrotechnique",
+          "technicien en électrotechnique",
+          "technicienne en électrotechnique",
+          "technicien électricité",
+          "technicienne électricité",
+          "technicien en électricité",
+          "technicienne en électricité",
+          "technicien électrique",
+          "technicienne électrique",
+          "technicien électricien",
+          "technicienne électricienne"
+        ],
+        "ca": [
+          "tècnic elèctric",
+          "tècnica elèctrica"
+        ],
+        "es": [
+          "técnico eléctrico",
+          "técnica eléctrica",
+          "inspector eléctrico",
+          "inspectora eléctrica",
+          "inspector de instalaciones eléctricas",
+          "inspectora de instalaciones eléctricas",
+          "inspector instalaciones eléctricas",
+          "inspectora instalaciones eléctricas"
+        ],
+        "nl": [
+          "technicus hoogspanning",
+          "technicus middenspanning"
+        ]
+      },
+      "not_terms": {
+        "da": [
+          "elektriker"
+        ]
+      }
+    },
+    {
+      "id": "3114",
+      "group": "technicians",
+      "label": "Electronics engineering",
+      "es": "Ingeniería electrónica",
+      "ca": "Enginyeria electrònica",
+      "fr": "Électronique",
+      "nl": "Elektronica",
+      "de": "Elektronik",
+      "it": "Elettronica",
+      "pl": "Elektronika",
+      "isco_title": "Electronics engineering technicians",
+      "isco": [
+        "3114"
+      ],
+      "extra_terms": {
+        "ca": [
+          "tècnic electrònic",
+          "tècnica electrònica"
+        ],
+        "es": [
+          "técnico electrónico",
+          "técnica electrónica"
+        ],
+        "nl": [
+          "technicus plc",
+          "plc technicus",
+          "technicus plc/scada"
+        ]
+      }
+    },
+    {
+      "id": "3115",
+      "group": "technicians",
+      "label": "Mechanical engineering",
+      "es": "Ingeniería mecánica",
+      "ca": "Enginyeria mecànica",
+      "fr": "Mécanique",
+      "nl": "Werktuigbouwkunde",
+      "de": "Maschinenbau",
+      "it": "Meccanica",
+      "pl": "Mechanika",
+      "isco_title": "Mechanical engineering technicians",
+      "isco": [
+        "3115"
+      ],
+      "extra_terms": {
+        "ca": [
+          "tècnic mecànic",
+          "tècnica mecànica"
+        ],
+        "fr": [
+          "technicien hydraulique",
+          "technicienne hydraulique"
+        ]
+      },
+      "not_terms": {
+        "nl": [
+          "lasser",
+          "automonteur",
+          "autotechnicus",
+          "PE-lasser",
+          "fotolasser",
+          "lijmlasser",
+          "pijplasser",
+          "booglasser",
+          "CO2-lasser",
+          "TIG-lasser",
+          "MAG-lasser",
+          "buislasser",
+          "argonlasser",
+          "sigmalasser",
+          "hoofdlasser",
+          "poederlasser",
+          "plasmalasser",
+          "meesterlasser",
+          "autogeenlasser",
+          "vlambooglasser",
+          "hoeknaadlasser",
+          "lasser-monteur",
+          "manueel lasser",
+          "MIG-MAG-lasser",
+          "poederdeklasser",
+          "kunststoflasser",
+          "operator-lasser",
+          "lasser met vlam",
+          "elektrodelasser",
+          "betonstaallasser",
+          "onderwaterlasser",
+          "aanlasser metaal",
+          "lasser-helmduiker",
+          "lasser-soldeerder",
+          "constructielasser",
+          "microplasmalasser",
+          "halfautomaatlasser",
+          "puntlasser montage",
+          "plaatbewerker-lasser",
+          "lasser met gevulde draad",
+          "lasser halfautomatisch vlambooglassen",
+          "lasser op automatische booglasmachines",
+          "lasser op automatische puntlasmachines",
+          "lasser op automatische frictielasmachines",
+          "lasser op automatische sterktelasmachines",
+          "lasser op automatische elektronenstraalmachines"
+        ],
+        "sv": [
+          "fordonstekniker"
+        ]
+      }
+    },
+    {
+      "id": "3116",
+      "group": "technicians",
+      "label": "Chemical engineering",
+      "es": "Ingeniería química",
+      "ca": "Enginyeria química",
+      "fr": "Génie chimique",
+      "nl": "Chemische technologie",
+      "de": "Chemietechnik",
+      "it": "Chimica industriale",
+      "pl": "Technologia chemiczna",
+      "isco_title": "Chemical engineering technicians",
+      "isco": [
+        "3116"
+      ],
+      "extra_terms": {
+        "ca": [
+          "tècnic químic",
+          "tècnica química"
+        ]
+      }
+    },
+    {
+      "id": "3117",
+      "group": "technicians",
+      "label": "Mining and metallurgy",
+      "es": "Minas y metalurgia",
+      "ca": "Mines i metal·lúrgia",
+      "fr": "Mines et métallurgie",
+      "nl": "Mijnbouw en metallurgie",
+      "de": "Bergbau und Metallurgie",
+      "it": "Miniere e metallurgia",
+      "pl": "Górnictwo i metalurgia",
+      "isco_title": "Mining and metallurgical technicians",
+      "isco": [
+        "3117"
+      ]
+    },
+    {
+      "id": "3118",
+      "group": "technicians",
+      "label": "Draughtspersons",
+      "es": "Delineantes",
+      "ca": "Delineants",
+      "fr": "Dessinateurs",
+      "nl": "Tekenaars",
+      "de": "Technische Zeichner",
+      "it": "Disegnatori tecnici",
+      "pl": "Kreślarze",
+      "isco_title": "Draughtspersons",
+      "isco": [
+        "3118"
+      ],
+      "extra_terms": {
+        "en": [
+          "draughtsman",
+          "draftsman",
+          "cad technician",
+          "cad drafter",
+          "cad draughtsman",
+          "bim coordinator",
+          "bim modeller",
+          "bim modeler",
+          "bim engineer",
+          "bim manager",
+          "revit technician",
+          "revit modeller",
+          "revit modeler",
+          "structural technician"
+        ],
+        "fr": [
+          "technicien bureau d'études",
+          "technicienne bureau d'études",
+          "technicien bureau d'étude",
+          "technicienne bureau d'étude",
+          "technicien de bureau d'études",
+          "technicienne de bureau d'études",
+          "technicien en bureau d'études",
+          "technicienne en bureau d'études",
+          "technicien be",
+          "technicienne be",
+          "projeteur",
+          "projeteuse",
+          "dessinateur projeteur",
+          "dessinatrice projeteuse"
+        ],
+        "nl": [
+          "bim modelleur",
+          "bim coördinator",
+          "bim coordinator",
+          "bim engineer",
+          "bim tekenaar"
+        ],
+        "de": [
+          "elektroplaner",
+          "elektroplanerin"
+        ],
+        "ca": [
+          "delineant",
+          "delineant projectista",
+          "projectista"
+        ],
+        "es": [
+          "proyectista",
+          "modelador bim",
+          "modeladora bim"
+        ]
+      }
+    },
+    {
+      "id": "3119",
+      "group": "technicians",
+      "label": "Other technicians",
+      "es": "Otros técnicos",
+      "ca": "Altres tècnics",
+      "fr": "Autres techniciens",
+      "nl": "Overige technici",
+      "de": "Sonstige Techniker",
+      "it": "Altri tecnici",
+      "pl": "Inni technicy",
+      "isco_title": "Physical and engineering science technicians not elsewhere classified",
+      "isco": [
+        "3119"
+      ],
+      "extra_terms": {
+        "fr": [
+          "technicien méthodes",
+          "technicienne méthodes",
+          "technicien des méthodes",
+          "technicienne des méthodes",
+          "technicien méthode",
+          "technicienne méthode",
+          "préparateur méthodes",
+          "préparatrice méthodes",
+          "agent des méthodes",
+          "agent méthodes",
+          "technicien industrialisation",
+          "technicienne industrialisation",
+          "technicien process",
+          "technicienne process",
+          "technicien procédés",
+          "technicienne procédés",
+          "technicien procédé",
+          "technicienne procédé",
+          "technicien qualité",
+          "technicienne qualité",
+          "automaticien",
+          "automaticienne",
+          "technicien automaticien",
+          "technicienne automaticienne",
+          "technicien de service",
+          "technicienne de service",
+          "technicien automatisme",
+          "technicienne automatisme",
+          "technicien automatismes",
+          "technicienne automatismes",
+          "technicien en automatisme",
+          "technicienne en automatisme",
+          "technicien en automatismes",
+          "technicienne en automatismes"
+        ],
+        "nl": [
+          "servicetechnicus",
+          "service technicus",
+          "servicetechnieker",
+          "service technieker"
+        ],
+        "de": [
+          "servicetechniker",
+          "servicetechnikerin",
+          "service-techniker",
+          "service-technikerin",
+          "service techniker",
+          "qualitätstechniker",
+          "qualitätstechnikerin",
+          "kundendiensttechniker",
+          "kundendiensttechnikerin",
+          "kundendienst-techniker",
+          "kundendienst-technikerin",
+          "inbetriebnehmer",
+          "inbetriebnehmerin"
+        ],
+        "ca": [
+          "tècnic industrial",
+          "tècnica industrial"
+        ],
+        "en": [
+          "manufacturing technician",
+          "ndt inspector",
+          "ndt technician",
+          "non-destructive testing inspector",
+          "non-destructive testing technician"
+        ],
+        "es": [
+          "técnico de calidad",
+          "técnica de calidad",
+          "técnico de control de calidad",
+          "técnica de control de calidad",
+          "inspector de calidad",
+          "inspectora de calidad",
+          "inspector de ensayos no destructivos",
+          "inspectora de ensayos no destructivos",
+          "técnico de ensayos no destructivos",
+          "técnica de ensayos no destructivos",
+          "inspector end",
+          "inspectora end",
+          "inspector ndt",
+          "inspectora ndt"
+        ]
+      }
+    },
+    {
+      "id": "3121",
+      "group": "supervisors",
+      "label": "Mining",
+      "es": "Minería",
+      "ca": "Mineria",
+      "fr": "Mines",
+      "nl": "Mijnbouw",
+      "de": "Bergbau",
+      "it": "Miniere",
+      "pl": "Górnictwo",
+      "isco_title": "Mining supervisors",
+      "isco": [
+        "3121"
+      ],
+      "not_terms": {
+        "de": [
+          "schichtleiter"
+        ]
+      }
+    },
+    {
+      "id": "3122",
+      "group": "supervisors",
+      "label": "Manufacturing",
+      "es": "Industria manufacturera",
+      "ca": "Indústria manufacturera",
+      "fr": "Industrie manufacturière",
+      "nl": "Productie",
+      "de": "Fertigung",
+      "it": "Industria manifatturiera",
+      "pl": "Przemysł przetwórczy",
+      "isco_title": "Manufacturing supervisors",
+      "isco": [
+        "3122"
+      ],
+      "extra_terms": {
+        "ca": [
+          "encarregat de producció",
+          "encarregada de producció",
+          "cap de producció"
+        ],
+        "es": [
+          "encargado de soldadura",
+          "encargada de soldadura",
+          "encargado de mantenimiento",
+          "encargada de mantenimiento",
+          "coordinador de mantenimiento",
+          "coordinadora de mantenimiento"
+        ],
+        "de": [
+          "schichtleiter",
+          "schichtleiterin"
+        ]
+      },
+      "not_terms": {
+        "nl": [
+          "machinebediener",
+          "assemblagemonteur"
+        ],
+        "da": [
+          "produktionsmedarbejder"
+        ]
+      }
+    },
+    {
+      "id": "3123",
+      "group": "supervisors",
+      "label": "Construction",
+      "es": "Construcción",
+      "ca": "Construcció",
+      "fr": "Construction",
+      "nl": "Bouw",
+      "de": "Bau",
+      "it": "Edilizia",
+      "pl": "Budownictwo",
+      "isco_title": "Construction supervisors",
+      "isco": [
+        "3123"
+      ],
+      "extra_terms": {
+        "es": [
+          "jefe de obra",
+          "jefa de obra",
+          "encargado de edificación",
+          "encargada de edificación",
+          "encargado de instalaciones eléctricas",
+          "encargada de instalaciones eléctricas",
+          "encargado de instalaciones mecánicas",
+          "encargada de instalaciones mecánicas"
+        ],
+        "fr": [
+          "conducteur de travaux",
+          "conductrice de travaux",
+          "conducteur des travaux",
+          "conductrice des travaux",
+          "conducteur travaux",
+          "conductrice travaux",
+          "conducteur de chantier",
+          "conductrice de chantier",
+          "conducteur de chantiers",
+          "conductrice de chantiers",
+          "chef d'équipe vrd",
+          "cheffe d'équipe vrd"
+        ],
+        "nl": [
+          "uitvoerder",
+          "hoofduitvoerder",
+          "werfleider",
+          "werfleidster",
+          "ploegbaas metser",
+          "ploegbaas metsers",
+          "ploegbaas metselaar",
+          "ploegbaas metselaars",
+          "ploegbaas metselwerk",
+          "metser ploegbaas",
+          "metselaar ploegbaas",
+          "meestergast metser",
+          "voorman metser"
+        ],
+        "de": [
+          "bauleiter",
+          "bauleiterin",
+          "oberbauleiter",
+          "oberbauleiterin",
+          "polier",
+          "polierin"
+        ],
+        "ca": [
+          "cap d'obra",
+          "encarregat d'obra",
+          "encarregada d'obra"
+        ],
+        "en": [
+          "site supervisor",
+          "construction site supervisor"
+        ]
+      },
+      "not_terms": {
+        "nl": [
+          "metser",
+          "metselaar"
+        ]
+      }
+    },
+    {
+      "id": "3131",
+      "group": "plant-operators",
+      "label": "Power plants",
+      "es": "Centrales eléctricas",
+      "ca": "Centrals elèctriques",
+      "fr": "Centrales électriques",
+      "nl": "Energiecentrales",
+      "de": "Kraftwerke",
+      "it": "Centrali elettriche",
+      "pl": "Elektrownie",
+      "isco_title": "Power production plant operators",
+      "isco": [
+        "3131"
+      ],
+      "extra_terms": {
+        "es": [
+          "operador de planta fotovoltaica",
+          "operadora de planta fotovoltaica"
+        ]
+      }
+    },
+    {
+      "id": "3132",
+      "group": "plant-operators",
+      "label": "Water and waste plants",
+      "es": "Plantas de agua y residuos",
+      "ca": "Plantes d'aigua i residus",
+      "fr": "Usines de traitement des eaux et des déchets",
+      "nl": "Water- en afvalverwerking",
+      "de": "Wasser- und Abfallanlagen",
+      "it": "Impianti idrici e dei rifiuti",
+      "pl": "Uzdatnianie wody i odpady",
+      "isco_title": "Incinerator and water treatment plant operators",
+      "isco": [
+        "3132"
+      ],
+      "extra_terms": {
+        "es": [
+          "operador de planta de tratamiento de aguas",
+          "operadora de planta de tratamiento de aguas",
+          "operador de planta de tratamiento de residuos",
+          "operadora de planta de tratamiento de residuos",
+          "técnico de planta de tratamiento de aguas",
+          "técnica de planta de tratamiento de aguas",
+          "operador de depuradora",
+          "operadora de depuradora"
+        ]
+      }
+    },
+    {
+      "id": "3133",
+      "group": "plant-operators",
+      "label": "Chemical plants",
+      "es": "Plantas químicas",
+      "ca": "Plantes químiques",
+      "fr": "Usines chimiques",
+      "nl": "Chemische fabrieken",
+      "de": "Chemieanlagen",
+      "it": "Impianti chimici",
+      "pl": "Zakłady chemiczne",
+      "isco_title": "Chemical processing plant controllers",
+      "isco": [
+        "3133"
+      ]
+    },
+    {
+      "id": "3134",
+      "group": "plant-operators",
+      "label": "Oil and gas refineries",
+      "es": "Refinerías de petróleo y gas",
+      "ca": "Refineries de petroli i gas",
+      "fr": "Raffineries de pétrole et de gaz",
+      "nl": "Olie- en gasraffinaderijen",
+      "de": "Öl- und Gasraffinerien",
+      "it": "Raffinerie di petrolio e gas",
+      "pl": "Rafinerie ropy i gazu",
+      "isco_title": "Petroleum and natural gas refining plant operators",
+      "isco": [
+        "3134"
+      ],
+      "not_terms": {
+        "en": [
+          "supervisor",
+          "shift manager",
+          "shift supervisor",
+          "operations supervisor"
+        ]
+      }
+    },
+    {
+      "id": "3135",
+      "group": "plant-operators",
+      "label": "Metal production",
+      "es": "Producción de metales",
+      "ca": "Producció de metalls",
+      "fr": "Production de métaux",
+      "nl": "Metaalproductie",
+      "de": "Metallerzeugung",
+      "it": "Produzione di metalli",
+      "pl": "Produkcja metali",
+      "isco_title": "Metal production process controllers",
+      "isco": [
+        "3135"
+      ]
+    },
+    {
+      "id": "3139",
+      "group": "plant-operators",
+      "label": "Other plants",
+      "es": "Otras plantas",
+      "ca": "Altres plantes",
+      "fr": "Autres installations",
+      "nl": "Overige installaties",
+      "de": "Sonstige Anlagen",
+      "it": "Altri impianti",
+      "pl": "Inne instalacje",
+      "isco_title": "Process control technicians not elsewhere classified",
+      "isco": [
+        "3139"
+      ],
+      "not_terms": {
+        "nl": [
+          "assemblagemedewerker"
+        ]
+      }
+    },
+    {
+      "id": "3151",
+      "group": "crews",
+      "label": "Ships' engineers",
+      "es": "Oficiales de máquinas",
+      "ca": "Oficials de màquines",
+      "fr": "Officiers mécaniciens",
+      "nl": "Scheepswerktuigkundigen",
+      "de": "Schiffsingenieure",
+      "it": "Ufficiali di macchina",
+      "pl": "Mechanicy okrętowi",
+      "isco_title": "Ships’ engineers",
+      "isco": [
+        "3151"
+      ],
+      "extra_terms": {
+        "ca": [
+          "oficial de màquines",
+          "cap de màquines"
+        ]
+      },
+      "not_terms": {
+        "nl": [
+          "machinist"
+        ],
+        "it": [
+          "frigorista"
+        ]
+      }
+    },
+    {
+      "id": "3152",
+      "group": "crews",
+      "label": "Deck officers and pilots",
+      "es": "Oficiales de puente y prácticos",
+      "ca": "Oficials de pont i pràctics",
+      "fr": "Officiers de pont et pilotes maritimes",
+      "nl": "Stuurlieden en loodsen",
+      "de": "Nautische Offiziere und Lotsen",
+      "it": "Ufficiali di coperta e piloti",
+      "pl": "Oficerowie pokładowi i piloci",
+      "isco_title": "Ships' deck officers and pilots",
+      "isco": [
+        "3152"
+      ],
+      "extra_terms": {
+        "en": [
+          "mooring master"
+        ],
+        "ca": [
+          "oficial de pont",
+          "capità de vaixell",
+          "patró de vaixell"
+        ]
+      }
+    },
+    {
+      "id": "3153",
+      "group": "crews",
+      "label": "Aircraft pilots",
+      "es": "Pilotos de aviación",
+      "ca": "Pilots d'aviació",
+      "fr": "Pilotes d'avion",
+      "nl": "Piloten",
+      "de": "Piloten",
+      "it": "Piloti di aerei",
+      "pl": "Piloci samolotów",
+      "isco_title": "Aircraft pilots and related associate professionals",
+      "isco": [
+        "3153"
+      ],
+      "extra_terms": {
+        "ca": [
+          "pilot d'aviació",
+          "pilot comercial"
+        ]
+      }
+    },
+    {
+      "id": "3154",
+      "group": "crews",
+      "label": "Air traffic controllers",
+      "es": "Controladores aéreos",
+      "ca": "Controladors aeris",
+      "fr": "Contrôleurs aériens",
+      "nl": "Luchtverkeersleiders",
+      "de": "Fluglotsen",
+      "it": "Controllori del traffico aereo",
+      "pl": "Kontrolerzy ruchu lotniczego",
+      "isco_title": "Air traffic controllers",
+      "isco": [
+        "3154"
+      ],
+      "extra_terms": {
+        "ca": [
+          "controlador aeri",
+          "controladora aèria"
+        ]
+      }
+    },
+    {
+      "id": "3155",
+      "group": "crews",
+      "label": "Air traffic safety electronics",
+      "es": "Electrónica de seguridad aérea",
+      "ca": "Electrònica de seguretat aèria",
+      "fr": "Électronique de la sécurité aérienne",
+      "nl": "Luchtvaartveiligheidselektronica",
+      "de": "Flugsicherungselektronik",
+      "it": "Elettronica per la sicurezza aerea",
+      "pl": "Elektronika bezpieczeństwa lotniczego",
+      "isco_title": "Air traffic safety electronics technicians",
+      "isco": [
+        "3155"
+      ]
+    },
+    {
+      "id": "2511",
+      "group": "software-it",
+      "label": "Systems analysts",
+      "es": "Analistas de sistemas",
+      "ca": "Analistes de sistemes",
+      "fr": "Analystes systèmes",
+      "nl": "Systeemanalisten",
+      "de": "Systemanalytiker",
+      "it": "Analisti di sistema",
+      "pl": "Analitycy systemowi",
+      "isco_title": "Systems analysts",
+      "isco": [
+        "2511"
+      ],
+      "extra_terms": {
+        "en": [
+          "solutions architect",
+          "solution architect",
+          "software architect",
+          "cloud architect",
+          "enterprise architect",
+          "data architect",
+          "it architect",
+          "technical architect",
+          "business intelligence analyst",
+          "business intelligence specialist",
+          "bi analyst"
+        ],
+        "ca": [
+          "analista de sistemes",
+          "analista funcional",
+          "consultor informàtic",
+          "consultora informàtica"
+        ],
+        "fr": [
+          "consultant en système d'information",
+          "consultante en système d'information",
+          "consultant en systèmes d'information",
+          "consultante en systèmes d'information",
+          "consultant fonctionnel",
+          "consultante fonctionnelle"
+        ]
+      }
+    },
+    {
+      "id": "2512",
+      "group": "software-it",
+      "label": "Software developers",
+      "es": "Desarrolladores de software",
+      "ca": "Desenvolupadors de programari",
+      "fr": "Développeurs de logiciels",
+      "nl": "Softwareontwikkelaars",
+      "de": "Softwareentwickler",
+      "it": "Sviluppatori software",
+      "pl": "Programiści",
+      "isco_title": "Software developers",
+      "isco": [
+        "2512"
+      ],
+      "extra_terms": {
+        "en": [
+          "software engineer",
+          "backend developer",
+          "back-end developer",
+          "backend engineer",
+          "back-end engineer",
+          "frontend developer",
+          "front-end developer",
+          "frontend engineer",
+          "front-end engineer",
+          "full stack developer",
+          "full-stack developer",
+          "fullstack developer",
+          "full stack engineer",
+          "full-stack engineer",
+          "fullstack engineer",
+          "mobile developer",
+          "mobile engineer",
+          "ios developer",
+          "android developer",
+          "firmware engineer",
+          "devops engineer",
+          "site reliability engineer",
+          "platform engineer",
+          "cloud engineer",
+          "machine learning engineer",
+          "ml engineer",
+          "ai engineer",
+          "ai research engineer",
+          "compiler engineer",
+          "staff engineer",
+          "principal engineer"
+        ],
+        "es": [
+          "ingeniero de software",
+          "ingeniera de software",
+          "ingeniero informático",
+          "ingeniera informática",
+          "desarrollador de software",
+          "desarrolladora de software",
+          "programador",
+          "programadora",
+          "desarrollador",
+          "desarrolladora"
+        ],
+        "ca": [
+          "programador",
+          "programadora",
+          "desenvolupador",
+          "desenvolupadora",
+          "desenvolupador de software",
+          "enginyer de software",
+          "enginyera de software",
+          "enginyer informàtic",
+          "enginyera informàtica",
+          "analista programador",
+          "analista programadora"
+        ]
+      }
+    },
+    {
+      "id": "2513",
+      "group": "software-it",
+      "label": "Web and multimedia",
+      "es": "Web y multimedia",
+      "ca": "Web i multimèdia",
+      "fr": "Web et multimédia",
+      "nl": "Web en multimedia",
+      "de": "Web und Multimedia",
+      "it": "Web e multimedia",
+      "pl": "Web i multimedia",
+      "isco_title": "Web and multimedia developers",
+      "isco": [
+        "2513"
+      ],
+      "extra_terms": {
+        "ca": [
+          "desenvolupador web",
+          "desenvolupadora web",
+          "dissenyador web",
+          "dissenyadora web"
+        ]
+      }
+    },
+    {
+      "id": "2514",
+      "group": "software-it",
+      "label": "Applications programmers",
+      "es": "Programadores de aplicaciones",
+      "ca": "Programadors d'aplicacions",
+      "fr": "Programmeurs d'applications",
+      "nl": "Applicatieprogrammeurs",
+      "de": "Anwendungsprogrammierer",
+      "it": "Programmatori di applicazioni",
+      "pl": "Programiści aplikacji",
+      "isco_title": "Applications programmers",
+      "isco": [
+        "2514"
+      ]
+    },
+    {
+      "id": "2519",
+      "group": "software-it",
+      "label": "Data, AI and other software",
+      "es": "Datos, IA y otro software",
+      "ca": "Dades, IA i altre programari",
+      "fr": "Données, IA et autres logiciels",
+      "nl": "Data, AI en overige software",
+      "de": "Daten, KI und sonstige Software",
+      "it": "Dati, IA e altro software",
+      "pl": "Dane, AI i inne oprogramowanie",
+      "isco_title": "Software and applications developers and analysts not elsewhere classified",
+      "isco": [
+        "2519"
+      ],
+      "extra_terms": {
+        "en": [
+          "qa engineer",
+          "test automation engineer",
+          "software tester",
+          "data engineer",
+          "analytics engineer"
+        ],
+        "fr": [
+          "testeur automaticien",
+          "testeuse automaticienne"
+        ]
+      }
+    },
+    {
+      "id": "2521",
+      "group": "software-it",
+      "label": "Databases",
+      "es": "Bases de datos",
+      "ca": "Bases de dades",
+      "fr": "Bases de données",
+      "nl": "Databases",
+      "de": "Datenbanken",
+      "it": "Basi di dati",
+      "pl": "Bazy danych",
+      "isco_title": "Database designers and administrators",
+      "isco": [
+        "2521"
+      ],
+      "extra_terms": {
+        "en": [
+          "database administrator",
+          "dba"
+        ],
+        "ca": [
+          "administrador de bases de dades",
+          "administradora de bases de dades"
+        ]
+      }
+    },
+    {
+      "id": "2522",
+      "group": "software-it",
+      "label": "Systems administrators",
+      "es": "Administradores de sistemas",
+      "ca": "Administradors de sistemes",
+      "fr": "Administrateurs systèmes",
+      "nl": "Systeembeheerders",
+      "de": "Systemadministratoren",
+      "it": "Amministratori di sistema",
+      "pl": "Administratorzy systemów",
+      "isco_title": "Systems administrators",
+      "isco": [
+        "2522"
+      ],
+      "extra_terms": {
+        "en": [
+          "systems administrator",
+          "sysadmin",
+          "linux administrator"
+        ],
+        "ca": [
+          "administrador de sistemes",
+          "administradora de sistemes"
+        ],
+        "es": [
+          "administrador de sistemas",
+          "administradora de sistemas"
+        ]
+      }
+    },
+    {
+      "id": "2523",
+      "group": "software-it",
+      "label": "Networks",
+      "es": "Redes",
+      "ca": "Xarxes",
+      "fr": "Réseaux",
+      "nl": "Netwerken",
+      "de": "Netzwerke",
+      "it": "Reti",
+      "pl": "Sieci",
+      "isco_title": "Computer network professionals",
+      "isco": [
+        "2523"
+      ],
+      "extra_terms": {
+        "ca": [
+          "enginyer de xarxes",
+          "enginyera de xarxes"
+        ]
+      }
+    },
+    {
+      "id": "2529",
+      "group": "software-it",
+      "label": "Security and other IT",
+      "es": "Seguridad y otras TI",
+      "ca": "Seguretat i altres TI",
+      "fr": "Sécurité et autres métiers de l'informatique",
+      "nl": "Security en overige IT",
+      "de": "Sicherheit und sonstige IT",
+      "it": "Sicurezza e altri ruoli IT",
+      "pl": "Bezpieczeństwo i inne IT",
+      "isco_title": "Database and network professionals not elsewhere classified",
+      "isco": [
+        "2529"
+      ],
+      "extra_terms": {
+        "en": [
+          "security engineer",
+          "cybersecurity engineer",
+          "information security engineer",
+          "security analyst"
+        ]
+      }
+    },
+    {
+      "id": "3511",
+      "group": "it-technicians",
+      "label": "IT operations",
+      "es": "Operaciones de TI",
+      "ca": "Operacions de TI",
+      "fr": "Exploitation informatique",
+      "nl": "IT-operations",
+      "de": "IT-Betrieb",
+      "it": "Gestione dei sistemi IT",
+      "pl": "Eksploatacja IT",
+      "isco_title": "Information and communications technology operations technicians",
+      "isco": [
+        "3511"
+      ]
+    },
+    {
+      "id": "3512",
+      "group": "it-technicians",
+      "label": "User support",
+      "es": "Soporte al usuario",
+      "ca": "Suport a l'usuari",
+      "fr": "Support utilisateurs",
+      "nl": "Gebruikersondersteuning",
+      "de": "Anwendersupport",
+      "it": "Assistenza agli utenti",
+      "pl": "Wsparcie użytkowników",
+      "isco_title": "Information and communications technology user support technicians",
+      "isco": [
+        "3512"
+      ],
+      "extra_terms": {
+        "en": [
+          "it support engineer",
+          "it support technician",
+          "helpdesk technician",
+          "service desk analyst",
+          "technical support specialist",
+          "technical support analyst"
+        ],
+        "es": [
+          "técnico informático",
+          "técnica informática",
+          "técnico de sistemas",
+          "técnica de sistemas",
+          "técnico de soporte",
+          "técnica de soporte",
+          "técnico de microinformática",
+          "técnica de microinformática",
+          "técnico microinformática",
+          "técnica microinformática",
+          "técnico microinformático",
+          "técnico helpdesk",
+          "técnica helpdesk",
+          "técnico de helpdesk",
+          "técnica de helpdesk",
+          "técnico service desk",
+          "técnica service desk",
+          "técnico de service desk",
+          "técnica de service desk"
+        ],
+        "fr": [
+          "technicien support",
+          "technicienne support",
+          "technicien de support",
+          "technicienne de support",
+          "technicien support informatique",
+          "technicienne support informatique",
+          "technicien helpdesk",
+          "technicienne helpdesk",
+          "technicien help desk",
+          "technicienne help desk",
+          "technicien de proximité",
+          "technicienne de proximité",
+          "support informatique"
+        ],
+        "ca": [
+          "tècnic informàtic",
+          "tècnica informàtica",
+          "tècnic de suport",
+          "tècnica de suport",
+          "tècnic de sistemes",
+          "tècnica de sistemes"
+        ]
+      }
+    },
+    {
+      "id": "3513",
+      "group": "it-technicians",
+      "label": "Networks and systems",
+      "es": "Redes y sistemas",
+      "ca": "Xarxes i sistemes",
+      "fr": "Réseaux et systèmes",
+      "nl": "Netwerken en systemen",
+      "de": "Netzwerke und Systeme",
+      "it": "Reti e sistemi",
+      "pl": "Sieci i systemy",
+      "isco_title": "Computer network and systems technicians",
+      "isco": [
+        "3513"
+      ],
+      "extra_terms": {
+        "en": [
+          "network technician",
+          "systems technician",
+          "it systems technician"
+        ],
+        "ca": [
+          "tècnic de xarxes",
+          "tècnica de xarxes"
+        ]
+      }
+    },
+    {
+      "id": "3514",
+      "group": "it-technicians",
+      "label": "Web",
+      "es": "Web",
+      "ca": "Web",
+      "fr": "Web",
+      "nl": "Web",
+      "de": "Web",
+      "it": "Web",
+      "pl": "Web",
+      "isco_title": "Web technicians",
+      "isco": [
+        "3514"
+      ]
+    },
+    {
+      "id": "3521",
+      "group": "it-technicians",
+      "label": "Broadcasting and audiovisual",
+      "es": "Radiodifusión y audiovisual",
+      "ca": "Radiodifusió i audiovisual",
+      "fr": "Radiodiffusion et audiovisuel",
+      "nl": "Omroep en audiovisueel",
+      "de": "Rundfunk und Audiovisuelles",
+      "it": "Radiotelevisione e audiovisivi",
+      "pl": "Nadawanie i technika audiowizualna",
+      "isco_title": "Broadcasting and audiovisual technicians",
+      "isco": [
+        "3521"
+      ]
+    },
+    {
+      "id": "3522",
+      "group": "it-technicians",
+      "label": "Telecommunications",
+      "es": "Telecomunicaciones",
+      "ca": "Telecomunicacions",
+      "fr": "Télécommunications",
+      "nl": "Telecommunicatie",
+      "de": "Telekommunikation",
+      "it": "Telecomunicazioni",
+      "pl": "Telekomunikacja",
+      "isco_title": "Telecommunications engineering technicians",
+      "isco": [
+        "3522"
+      ]
+    },
+    {
+      "id": "7126",
+      "group": "trades",
+      "label": "Plumbers and pipefitters",
+      "es": "Fontaneros y tuberos",
+      "ca": "Lampistes i muntadors de canonades",
+      "fr": "Plombiers et tuyauteurs",
+      "nl": "Loodgieters en pijpfitters",
+      "de": "Installateure und Rohrschlosser",
+      "it": "Idraulici e tubisti",
+      "pl": "Hydraulicy i monterzy rurociągów",
+      "isco_title": "Plumbers and pipe fitters",
+      "isco": [
+        "7126"
+      ],
+      "extra_terms": {
+        "fr": [
+          "tuyauteur",
+          "tuyauteuse",
+          "tuyauteur industriel",
+          "tuyauteuse industrielle",
+          "technicien chauffage",
+          "technicienne chauffage"
+        ],
+        "nl": [
+          "installatiemonteur",
+          "installatiemonteur w",
+          "sanitair installateur",
+          "installateur sanitair",
+          "zwembadtechnieker"
+        ],
+        "de": [
+          "anlagenmechaniker shk",
+          "anlagenmechanikerin shk",
+          "anlagenmechaniker sanitär",
+          "anlagenmechanikerin sanitär",
+          "shk-monteur",
+          "shk-monteurin",
+          "shk monteur",
+          "sanitärinstallateur",
+          "sanitärinstallateurin",
+          "heizungsinstallateur",
+          "heizungsinstallateurin"
+        ],
+        "ca": [
+          "lampista",
+          "fontaner",
+          "fontanera",
+          "instal·lador de fontaneria"
+        ],
+        "es": [
+          "tubero",
+          "tubera",
+          "oficial de fontanería",
+          "oficiala de fontanería",
+          "oficial de instalaciones mecánicas",
+          "oficiala de instalaciones mecánicas",
+          "instalador de tuberías",
+          "instaladora de tuberías",
+          "instalador de sistemas de energía solar térmica",
+          "encargado de fontanería",
+          "encargada de fontanería"
+        ]
+      }
+    },
+    {
+      "id": "7127",
+      "group": "trades",
+      "label": "Air conditioning and refrigeration",
+      "es": "Climatización y refrigeración",
+      "ca": "Climatització i refrigeració",
+      "fr": "Climatisation et réfrigération",
+      "nl": "Airconditioning en koeltechniek",
+      "de": "Klima- und Kältetechnik",
+      "it": "Climatizzazione e refrigerazione",
+      "pl": "Klimatyzacja i chłodnictwo",
+      "isco_title": "Air conditioning and refrigeration mechanics",
+      "isco": [
+        "7127"
+      ],
+      "extra_terms": {
+        "en": [
+          "hvac technician",
+          "hvac service technician",
+          "refrigeration technician",
+          "air conditioning technician",
+          "heat pump installer",
+          "heat pump technician"
+        ],
+        "es": [
+          "mecánico frigorista",
+          "mecánica frigorista",
+          "técnico frigorista",
+          "técnica frigorista",
+          "frigorista",
+          "técnico de climatización",
+          "técnica de climatización",
+          "oficial de climatización",
+          "técnico de calderas",
+          "técnica de calderas",
+          "técnico de frío industrial",
+          "técnica de frío industrial",
+          "técnico de refrigeración",
+          "técnica de refrigeración",
+          "instalador de aire acondicionado",
+          "instalador de aerotermia",
+          "técnico en climatización",
+          "técnica en climatización",
+          "técnico en frío industrial",
+          "técnica en frío industrial",
+          "instalador de climatización",
+          "instaladora de climatización",
+          "instalador ajustador de instalaciones de refrigeración",
+          "instaladora ajustadora de instalaciones de refrigeración",
+          "instalador de conducciones de aire acondicionado",
+          "instaladora de conducciones de aire acondicionado",
+          "técnico en refrigeración",
+          "técnica en refrigeración",
+          "encargado de climatización",
+          "encargada de climatización"
+        ],
+        "fr": [
+          "technicien cvc",
+          "technicienne cvc",
+          "technicien de maintenance cvc",
+          "technicienne de maintenance cvc",
+          "technicien frigoriste",
+          "technicienne frigoriste",
+          "frigoriste",
+          "technicien climatisation",
+          "technicienne climatisation",
+          "technicien froid",
+          "technicienne froid",
+          "technicien froid et climatisation",
+          "technicienne froid et climatisation"
+        ],
+        "nl": [
+          "warmtepompmonteur",
+          "koeltechnicus",
+          "koeltechnieker",
+          "hvac technicus",
+          "hvac technieker",
+          "hvac monteur",
+          "installateur hvac",
+          "hvac installateur",
+          "brandertechnieker"
+        ],
+        "ca": [
+          "frigorista",
+          "tècnic de climatització",
+          "instal·lador de climatització",
+          "instal·lador ajustador de refrigeració",
+          "instal·ladora ajustadora de refrigeració"
+        ],
+        "de": [
+          "facharbeiter kälteanlagentechnik",
+          "facharbeiterin kälteanlagentechnik",
+          "monteur kälteanlagentechnik",
+          "chefmonteur hvac"
+        ]
+      }
+    },
+    {
+      "id": "7211",
+      "group": "trades",
+      "label": "Foundry moulders",
+      "es": "Moldeadores de fundición",
+      "ca": "Emmotlladors de foneria",
+      "fr": "Mouleurs de fonderie",
+      "nl": "Gietvormmakers",
+      "de": "Gießereiformer",
+      "it": "Formatori di fonderia",
+      "pl": "Formierze odlewniczy",
+      "isco_title": "Metal moulders and coremakers",
+      "isco": [
+        "7211"
+      ],
+      "not_terms": {
+        "it": [
+          "formatore"
+        ]
+      }
+    },
+    {
+      "id": "7212",
+      "group": "trades",
+      "label": "Welders",
+      "es": "Soldadores",
+      "ca": "Soldadors",
+      "fr": "Soudeurs",
+      "nl": "Lassers",
+      "de": "Schweißer",
+      "it": "Saldatori",
+      "pl": "Spawacze",
+      "isco_title": "Welders and flamecutters",
+      "isco": [
+        "7212"
+      ],
+      "extra_terms": {
+        "ca": [
+          "soldador",
+          "soldadora"
+        ],
+        "es": [
+          "operario de soldadura",
+          "operaria de soldadura",
+          "profesional de soldadura",
+          "oficial de soldadura",
+          "oficiala de soldadura",
+          "montador soldador",
+          "montadora soldadora",
+          "técnico en soldadura",
+          "técnica en soldadura",
+          "técnico de soldadura",
+          "técnica de soldadura",
+          "técnico en soldeo",
+          "técnica en soldeo"
+        ],
+        "nl": [
+          "PE-lasser",
+          "fotolasser",
+          "lijmlasser",
+          "pijplasser",
+          "booglasser",
+          "CO2-lasser",
+          "TIG-lasser",
+          "MAG-lasser",
+          "buislasser",
+          "argonlasser",
+          "sigmalasser",
+          "hoofdlasser",
+          "poederlasser",
+          "plasmalasser",
+          "meesterlasser",
+          "autogeenlasser",
+          "vlambooglasser",
+          "hoeknaadlasser",
+          "lasser-monteur",
+          "manueel lasser",
+          "MIG-MAG-lasser",
+          "poederdeklasser",
+          "kunststoflasser",
+          "operator-lasser",
+          "lasser met vlam",
+          "elektrodelasser",
+          "betonstaallasser",
+          "onderwaterlasser",
+          "aanlasser metaal",
+          "lasser-helmduiker",
+          "lasser-soldeerder",
+          "constructielasser",
+          "microplasmalasser",
+          "halfautomaatlasser",
+          "puntlasser montage",
+          "plaatbewerker-lasser",
+          "lasser met gevulde draad",
+          "lasser halfautomatisch vlambooglassen",
+          "lasser op automatische booglasmachines",
+          "lasser op automatische puntlasmachines",
+          "lasser op automatische frictielasmachines",
+          "lasser op automatische sterktelasmachines",
+          "lasser op automatische elektronenstraalmachines"
+        ]
+      },
+      "not_terms": {
+        "en": [
+          "maintenance technician",
+          "repair technician",
+          "fitter",
+          "repair fitter"
+        ]
+      }
+    },
+    {
+      "id": "7213",
+      "group": "trades",
+      "label": "Sheet metal workers",
+      "es": "Chapistas y caldereros",
+      "ca": "Xapistes i calderers",
+      "fr": "Tôliers et chaudronniers",
+      "nl": "Plaatwerkers",
+      "de": "Blechbearbeiter",
+      "it": "Lattonieri e calderai",
+      "pl": "Blacharze i kotlarze",
+      "isco_title": "Sheet-metal workers",
+      "isco": [
+        "7213"
+      ],
+      "extra_terms": {
+        "ca": [
+          "xapista",
+          "calderer",
+          "calderera"
+        ],
+        "es": [
+          "operario de chapa",
+          "operaria de chapa",
+          "calderero",
+          "calderera",
+          "oficial de calderería"
+        ]
+      }
+    },
+    {
+      "id": "7214",
+      "group": "trades",
+      "label": "Structural metal erectors",
+      "es": "Montadores de estructuras metálicas",
+      "ca": "Muntadors d'estructures metàl·liques",
+      "fr": "Monteurs de structures métalliques",
+      "nl": "Staalbouwmonteurs",
+      "de": "Stahlbaumonteure",
+      "it": "Montatori di carpenteria metallica",
+      "pl": "Monterzy konstrukcji stalowych",
+      "isco_title": "Structural-metal preparers and erectors",
+      "isco": [
+        "7214"
+      ],
+      "extra_terms": {
+        "es": [
+          "montador de estructuras metálicas",
+          "montador de grandes estructuras metálicas",
+          "montadora de grandes estructuras metálicas",
+          "montador grandes estructuras metálicas",
+          "montador de carpintería metálica",
+          "montadora de carpintería metálica",
+          "carpintero metálico",
+          "carpintera metálica",
+          "operario de carpintería metálica",
+          "operaria de carpintería metálica"
+        ]
+      }
+    },
+    {
+      "id": "7215",
+      "group": "trades",
+      "label": "Riggers and cable splicers",
+      "es": "Riggers y empalmadores de cables",
+      "ca": "Riggers i empalmadors de cables",
+      "fr": "Gréeurs et épisseurs de câbles",
+      "nl": "Riggers en kabelsplitsers",
+      "de": "Rigger und Kabelspleißer",
+      "it": "Attrezzatori e giuntisti di cavi",
+      "pl": "Takielarze i monterzy lin",
+      "isco_title": "Riggers and cable splicers",
+      "isco": [
+        "7215"
+      ],
+      "not_terms": {
+        "en": [
+          "assistant technician",
+          "assistant stage technician",
+          "assistant theater technician",
+          "assistant theatre technician",
+          "runner",
+          "installer",
+          "warehouse worker",
+          "stage assistant"
+        ],
+        "fr": [
+          "monteur",
+          "monteuse",
+          "machiniste"
+        ]
+      }
+    },
+    {
+      "id": "7221",
+      "group": "trades",
+      "label": "Forging",
+      "es": "Forja",
+      "ca": "Forja",
+      "fr": "Forge",
+      "nl": "Smeedwerk",
+      "de": "Schmieden",
+      "it": "Forgiatura",
+      "pl": "Kowalstwo",
+      "isco_title": "Blacksmiths, hammersmiths and forging press workers",
+      "isco": [
+        "7221"
+      ],
+      "extra_terms": {
+        "es": [
+          "forjador",
+          "forjadora"
+        ]
+      },
+      "not_terms": {
+        "pt": [
+          "ferreira"
+        ],
+        "pl": [
+          "kowale"
+        ]
+      }
+    },
+    {
+      "id": "7222",
+      "group": "trades",
+      "label": "Toolmakers",
+      "es": "Matriceros y ajustadores",
+      "ca": "Matricers i ajustadors",
+      "fr": "Outilleurs",
+      "nl": "Gereedschapmakers",
+      "de": "Werkzeugmacher",
+      "it": "Attrezzisti",
+      "pl": "Ślusarze narzędziowi",
+      "isco_title": "Toolmakers and related workers",
+      "isco": [
+        "7222"
+      ],
+      "extra_terms": {
+        "es": [
+          "mecánico de moldes",
+          "moldista",
+          "ajustador de moldes",
+          "ajustadora de moldes",
+          "ajustador de matrices",
+          "ajustadora de matrices",
+          "ajustador matricero",
+          "oficial de cerrajería",
+          "oficiala de cerrajería"
+        ]
+      },
+      "not_terms": {
+        "en": [
+          "joiner"
+        ]
+      }
+    },
+    {
+      "id": "7223",
+      "group": "trades",
+      "label": "Machinists and CNC",
+      "es": "Torneros, fresadores y CNC",
+      "ca": "Torners, fresadors i CNC",
+      "fr": "Usineurs et CNC",
+      "nl": "Verspaners en CNC",
+      "de": "Zerspaner und CNC",
+      "it": "Tornitori, fresatori e CNC",
+      "pl": "Operatorzy obrabiarek i CNC",
+      "isco_title": "Metal working machine tool setters and operators",
+      "isco": [
+        "7223"
+      ],
+      "extra_terms": {
+        "ca": [
+          "torner",
+          "tornera",
+          "fresador",
+          "fresadora",
+          "operari cnc",
+          "operària cnc"
+        ],
+        "fr": [
+          "opérateur de centre d'usinage",
+          "opératrice de centre d'usinage",
+          "opérateur sur centre d'usinage",
+          "opératrice sur centre d'usinage",
+          "opérateur usinage",
+          "opératrice usinage",
+          "opérateur d'usinage",
+          "opératrice d'usinage",
+          "agent d'usinage",
+          "agente d'usinage"
+        ],
+        "es": [
+          "operario de mecanizado",
+          "operaria de mecanizado",
+          "operador de cnc",
+          "operadora de cnc",
+          "operario de cnc",
+          "operaria de cnc",
+          "fresador",
+          "fresadora",
+          "fresador cnc",
+          "plegador",
+          "operario de plegadora",
+          "operaria de plegadora",
+          "operador de centro de mecanizado",
+          "operadora de centro de mecanizado",
+          "operador de torno",
+          "operadora de torno",
+          "preparador-ajustador de máquinas-herramientas",
+          "operador de máquina rectificadora",
+          "operadora de máquina rectificadora"
+        ]
+      },
+      "not_terms": {
+        "en": [
+          "operator",
+          "setter"
+        ]
+      }
+    },
+    {
+      "id": "7224",
+      "group": "trades",
+      "label": "Grinders and polishers",
+      "es": "Pulidores y afiladores",
+      "ca": "Polidors i esmoladors",
+      "fr": "Meuleurs et polisseurs",
+      "nl": "Slijpers en polijsters",
+      "de": "Schleifer und Polierer",
+      "it": "Smerigliatori e lucidatori",
+      "pl": "Szlifierze i polerowacze",
+      "isco_title": "Metal polishers, wheel grinders and tool sharpeners",
+      "isco": [
+        "7224"
+      ],
+      "not_terms": {
+        "en": [
+          "buffer"
+        ]
+      }
+    },
+    {
+      "id": "7231",
+      "group": "trades",
+      "label": "Vehicle mechanics",
+      "es": "Mecánicos de vehículos",
+      "ca": "Mecànics de vehicles",
+      "fr": "Mécaniciens automobiles",
+      "nl": "Voertuigmonteurs",
+      "de": "Kfz-Mechaniker",
+      "it": "Meccanici di veicoli",
+      "pl": "Mechanicy pojazdów",
+      "isco_title": "Motor vehicle mechanics and repairers",
+      "isco": [
+        "7231"
+      ],
+      "extra_terms": {
+        "en": [
+          "pdi technician",
+          "vehicle service technician",
+          "van technician",
+          "lcv technician",
+          "psv technician",
+          "trailer technician",
+          "hgv trailer technician"
+        ],
+        "fr": [
+          "mécanicien poids lourds",
+          "mécanicienne poids lourds",
+          "mécanicien pl",
+          "mécanicienne pl",
+          "mécanicien vl",
+          "mécanicienne vl",
+          "mécanicien automobile",
+          "mécanicienne automobile",
+          "mécanicien bus",
+          "mécanicienne bus",
+          "mécanicien autobus",
+          "mécanicienne autobus",
+          "mécanicien autocar",
+          "mécanicienne autocar"
+        ],
+        "nl": [
+          "vrachtwagenmonteur",
+          "truckmonteur",
+          "aflevermonteur",
+          "vrachtwagenmechanieker",
+          "vrachtwagentechnieker",
+          "diagnosetechnieker",
+          "autoschadetechnicus",
+          "autoschadetechnieker"
+        ],
+        "ca": [
+          "mecànic de vehicles",
+          "mecànic d'automoció",
+          "mecànica de vehicles"
+        ],
+        "es": [
+          "mecánico de vehículos",
+          "mecánico de automóviles",
+          "mecánico de camiones",
+          "mecánico de vehículos industriales",
+          "neumatiquero",
+          "neumatiquera"
+        ],
+        "de": [
+          "kfz-facharbeiter",
+          "kfz-facharbeiterin",
+          "kfz facharbeiter",
+          "kfz facharbeiterin"
+        ]
+      },
+      "not_terms": {
+        "en": [
+          "machinist",
+          "fitter and turner"
+        ]
+      }
+    },
+    {
+      "id": "7232",
+      "group": "trades",
+      "label": "Aircraft mechanics",
+      "es": "Mecánicos de aviones",
+      "ca": "Mecànics d'avions",
+      "fr": "Mécaniciens aéronautiques",
+      "nl": "Vliegtuigmonteurs",
+      "de": "Fluggerätmechaniker",
+      "it": "Meccanici aeronautici",
+      "pl": "Mechanicy lotniczy",
+      "isco_title": "Aircraft engine mechanics and repairers",
+      "isco": [
+        "7232"
+      ]
+    },
+    {
+      "id": "7233",
+      "group": "trades",
+      "label": "Industrial mechanics and maintenance",
+      "es": "Mecánicos industriales y de mantenimiento",
+      "ca": "Mecànics industrials i de manteniment",
+      "fr": "Mécaniciens industriels et maintenance",
+      "nl": "Industriële monteurs en onderhoud",
+      "de": "Industriemechaniker und Instandhaltung",
+      "it": "Meccanici industriali e manutenzione",
+      "pl": "Mechanicy przemysłowi i utrzymanie ruchu",
+      "isco_title": "Agricultural and industrial machinery mechanics and repairers",
+      "isco": [
+        "7233"
+      ],
+      "extra_terms": {
+        "en": [
+          "assembler technician",
+          "assembly technician",
+          "maintenance technician",
+          "maintenance mechanic",
+          "maintenance fitter",
+          "mechanical fitter",
+          "industrial mechanic"
+        ],
+        "es": [
+          "técnico de mantenimiento",
+          "técnica de mantenimiento",
+          "técnico de mantenimiento industrial",
+          "técnica de mantenimiento industrial",
+          "mecánico de mantenimiento",
+          "mecánica de mantenimiento",
+          "oficial de mantenimiento",
+          "electromecánico de mantenimiento",
+          "técnico mantenimiento",
+          "técnica mantenimiento",
+          "técnico en mantenimiento",
+          "técnica en mantenimiento",
+          "operario de mantenimiento",
+          "operaria de mantenimiento",
+          "técnico de instalaciones y mantenimiento",
+          "técnica de instalaciones y mantenimiento",
+          "mecánico de reparación de máquinas",
+          "mecánico de maquinaria",
+          "personal de mantenimiento",
+          "operario mecánico",
+          "operaria mecánica",
+          "montador mecánico",
+          "montadora mecánica",
+          "técnico mecánico",
+          "técnica mecánica",
+          "ajustador de maquinaria",
+          "ajustadora de maquinaria",
+          "montador ajustador",
+          "montadora ajustadora",
+          "especialista en mantenimiento",
+          "técnico de postventa",
+          "técnica de postventa",
+          "técnico postventa",
+          "técnica postventa",
+          "técnico de servicio postventa",
+          "técnica de servicio postventa",
+          "técnico de servicios postventa",
+          "técnica de servicios postventa",
+          "mecánico de mantenimiento industrial",
+          "instalador ajustador de máquinas",
+          "instaladora ajustadora de máquinas",
+          "técnico especialista de mantenimiento",
+          "técnica especialista de mantenimiento",
+          "especialista de mantenimiento",
+          "especialista mantenimiento"
+        ],
+        "fr": [
+          "technicien maintenance",
+          "technicienne maintenance",
+          "technicien en maintenance",
+          "technicienne en maintenance",
+          "technicien de maintenance industrielle",
+          "technicienne de maintenance industrielle",
+          "mécanicien de maintenance",
+          "mécanicienne de maintenance",
+          "mécanicien maintenance",
+          "mécanicienne maintenance",
+          "agent de maintenance industrielle",
+          "technicien multitechnique",
+          "technicienne multitechnique",
+          "mécanicien tp",
+          "mécanicienne tp",
+          "mécanicien engins",
+          "mécanicienne engins",
+          "mécanicien d'engins",
+          "mécanicienne d'engins",
+          "mécanicien engins tp",
+          "mécanicien engins de chantier"
+        ],
+        "nl": [
+          "monteur",
+          "servicemonteur",
+          "allround monteur",
+          "onderhoudsmonteur",
+          "storingsmonteur",
+          "werkplaatsmonteur",
+          "onderhoudsmechanieker",
+          "storingstechnicus",
+          "storingstechnieker",
+          "onderhoudsmecanicien",
+          "pomptechnieker"
+        ],
+        "de": [
+          "servicemonteur",
+          "servicemonteurin",
+          "service-monteur",
+          "service-monteurin",
+          "instandhalter",
+          "instandhalterin"
+        ],
+        "ca": [
+          "mecànic de manteniment",
+          "mecànica de manteniment",
+          "mecànic industrial",
+          "oficial de manteniment"
+        ],
+        "it": [
+          "manutentore",
+          "manutentrice",
+          "manutentore meccanico",
+          "manutentrice meccanica",
+          "manutentore industriale",
+          "manutentrice industriale",
+          "tecnico manutentore",
+          "tecnica manutentrice",
+          "tecnico di manutenzione",
+          "tecnica di manutenzione",
+          "tecnico manutenzione",
+          "tecnica manutenzione",
+          "meccanico manutentore",
+          "meccanica manutentrice"
+        ]
+      },
+      "not_terms": {
+        "en": [
+          "fitter"
+        ],
+        "nl": [
+          "monteur"
+        ]
+      }
+    },
+    {
+      "id": "7411",
+      "group": "trades",
+      "label": "Electricians",
+      "es": "Electricistas",
+      "ca": "Electricistes",
+      "fr": "Électriciens",
+      "nl": "Elektriciens",
+      "de": "Elektriker",
+      "it": "Elettricisti",
+      "pl": "Elektrycy",
+      "isco_title": "Building and related electricians",
+      "isco": [
+        "7411"
+      ],
+      "extra_terms": {
+        "en": [
+          "solar installer",
+          "solar panel installer",
+          "pv installer"
+        ],
+        "nl": [
+          "hoofdmonteur installatietechniek",
+          "monteur installatietechniek",
+          "installatiemonteur e",
+          "installatiemonteur elektrotechniek",
+          "elektromonteur",
+          "monteur elektrotechniek",
+          "servicemonteur elektrotechniek",
+          "onderhoudsmonteur elektrotechniek",
+          "hoofdmonteur elektrotechniek",
+          "chefmonteur elektrotechniek",
+          "projectmonteur elektrotechniek",
+          "installateur van laadpalen",
+          "laadpaalinstallateur",
+          "beveiligingstechnieker"
+        ],
+        "ca": [
+          "electricista",
+          "oficial electricista",
+          "instal·lador electricista",
+          "quadrista",
+          "instal·lador fotovoltaic",
+          "instal·ladora fotovoltaica",
+          "instal·lador de plaques solars",
+          "instal·ladora de plaques solars"
+        ],
+        "es": [
+          "instalador eléctrico",
+          "instaladora eléctrica",
+          "montador de cuadros eléctricos",
+          "montadora de cuadros eléctricos",
+          "cuadrista",
+          "oficial electricista",
+          "oficiala electricista",
+          "especialista eléctrico",
+          "especialista eléctrica",
+          "oficial de mantenimiento eléctrico",
+          "oficiala de mantenimiento eléctrico",
+          "oficial de primera de mantenimiento eléctrico",
+          "oficial de electricidad",
+          "oficiala de electricidad",
+          "oficial de instalaciones eléctricas",
+          "oficiala de instalaciones eléctricas",
+          "operario eléctrico",
+          "operaria eléctrica",
+          "instalador fotovoltaico",
+          "instaladora fotovoltaica",
+          "instalador de paneles fotovoltaicos",
+          "instaladora de paneles fotovoltaicos",
+          "instalador de placas solares",
+          "instaladora de placas solares",
+          "instalador de sistemas fotovoltaicos",
+          "instaladora de sistemas fotovoltaicos",
+          "instalador de energías renovables",
+          "instaladora de energías renovables"
+        ]
+      },
+      "not_terms": {
+        "en": [
+          "event"
+        ]
+      }
+    },
+    {
+      "id": "7412",
+      "group": "trades",
+      "label": "Electrical fitters",
+      "es": "Electromecánicos",
+      "ca": "Electromecànics",
+      "fr": "Électromécaniciens",
+      "nl": "Elektromonteurs",
+      "de": "Elektroanlagenmonteure",
+      "it": "Elettromeccanici",
+      "pl": "Elektromechanicy",
+      "isco_title": "Electrical mechanics and fitters",
+      "isco": [
+        "7412"
+      ],
+      "extra_terms": {
+        "nl": [
+          "onderhoudselektricien",
+          "onderhoudselektromecanicien",
+          "onderhoudselektromechanieker"
+        ],
+        "de": [
+          "facharbeiter mechatronik",
+          "facharbeiterin mechatronik",
+          "facharbeiter elektrik",
+          "facharbeiterin elektrik",
+          "elektroniker",
+          "elektronikerin"
+        ],
+        "ca": [
+          "electromecànic",
+          "electromecànica"
+        ],
+        "it": [
+          "manutentore elettrico",
+          "manutentrice elettrica",
+          "tecnico manutentore elettrico",
+          "tecnica manutentrice elettrica"
+        ],
+        "es": [
+          "técnico de ascensores",
+          "técnica de ascensores",
+          "montador de ascensores",
+          "montadora de ascensores",
+          "bobinador",
+          "bobinadora",
+          "bobinador de motores",
+          "bobinadora de motores",
+          "reparador de motores eléctricos",
+          "reparadora de motores eléctricos",
+          "montador eléctrico",
+          "montadora eléctrica",
+          "técnico de montaje de ascensores",
+          "técnica de montaje de ascensores",
+          "montador instalador de aparatos elevadores",
+          "montadora instaladora de aparatos elevadores"
+        ]
+      },
+      "not_terms": {
+        "es": [
+          "mecánico ajustador",
+          "mecánica ajustadora"
+        ]
+      }
+    },
+    {
+      "id": "7413",
+      "group": "trades",
+      "label": "Power line workers",
+      "es": "Instaladores de líneas eléctricas",
+      "ca": "Instal·ladors de línies elèctriques",
+      "fr": "Monteurs de lignes électriques",
+      "nl": "Hoogspanningsmonteurs",
+      "de": "Freileitungsmonteure",
+      "it": "Installatori di linee elettriche",
+      "pl": "Monterzy linii elektrycznych",
+      "isco_title": "Electrical line installers and repairers",
+      "isco": [
+        "7413"
+      ],
+      "extra_terms": {
+        "es": [
+          "instalador-reparador de líneas de energía eléctrica",
+          "instalador-reparador de líneas eléctricas de alta tensión",
+          "montador de líneas eléctricas",
+          "montadora de líneas eléctricas",
+          "liniero",
+          "liniera"
+        ],
+        "fr": [
+          "chef d'équipe réseaux électriques",
+          "chef d'équipe réseaux",
+          "monteur réseaux électriques"
+        ]
+      }
+    },
+    {
+      "id": "7421",
+      "group": "trades",
+      "label": "Electronics servicers",
+      "es": "Mecánicos y reparadores de electrónica",
+      "ca": "Mecànics i reparadors d'electrònica",
+      "fr": "Réparateurs en électronique",
+      "nl": "Elektronicamonteurs",
+      "de": "Elektroniktechniker im Service",
+      "it": "Riparatori di apparati elettronici",
+      "pl": "Serwisanci elektroniki",
+      "isco_title": "Electronics mechanics and servicers",
+      "isco": [
+        "7421"
+      ],
+      "extra_terms": {
+        "es": [
+          "electrónico de mantenimiento",
+          "electrónica de mantenimiento"
+        ]
+      },
+      "not_terms": {
+        "en": [
+          "line technician",
+          "consumer"
+        ],
+        "da": [
+          "tekniker"
+        ]
+      }
+    },
+    {
+      "id": "7422",
+      "group": "trades",
+      "label": "ICT and telecoms installers",
+      "es": "Instaladores de telecomunicaciones e informática",
+      "ca": "Instal·ladors de telecomunicacions i informàtica",
+      "fr": "Installateurs TIC et télécoms",
+      "nl": "ICT- en telecominstallateurs",
+      "de": "IT- und Telekommunikationsinstallateure",
+      "it": "Installatori ICT e telecomunicazioni",
+      "pl": "Monterzy instalacji teleinformatycznych",
+      "isco_title": "Information and communications technology installers and servicers",
+      "isco": [
+        "7422"
+      ],
+      "extra_terms": {
+        "ca": [
+          "instal·lador de telecomunicacions"
+        ],
+        "es": [
+          "instalador de fibra óptica",
+          "técnico de fibra óptica",
+          "fusionador de fibra óptica",
+          "instalador de telecomunicaciones",
+          "instaladora de telecomunicaciones",
+          "técnico instalador de telecomunicaciones",
+          "antenista",
+          "empalmador de fibra óptica",
+          "empalmadora de fibra óptica",
+          "técnico de fibra",
+          "técnica de fibra",
+          "oficial de telecomunicaciones",
+          "oficiala de telecomunicaciones",
+          "instalador de telefonía",
+          "instaladora de telefonía",
+          "instalador de equipos y sistemas de telecomunicación",
+          "instalador de alarmas",
+          "instaladora de alarmas",
+          "instalador de sistemas de seguridad",
+          "instaladora de sistemas de seguridad"
+        ]
+      },
+      "not_terms": {
+        "de": [
+          "elektroniker",
+          "elektronikerin"
+        ]
+      }
+    }
+  ]
+}

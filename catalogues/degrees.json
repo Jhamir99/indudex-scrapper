@@ -1,0 +1,246 @@
+{
+  "about": {
+    "description": "Degree families a visitor may hold, in a fixed order (the position is the bit in the profile code). es: the label in Spanish. stems: regex fragments over lower-case, accent-free text, used both to read the degrees a CV holds and the degree an advert demands. 'engineering-any' is the generic 'an engineering degree' an advert asks for without naming the field. APPEND ONLY.",
+    "sources": [
+      {
+        "name": "Indudex legacy project (JustJans/indudex), written by hand or by its tools",
+        "url": "https://github.com/JustJans/indudex",
+        "licence": "© 2026 JustJans and Jhamir99, all rights reserved (this repository's LICENSE)"
+      }
+    ],
+    "builtAt": "2026-11-15",
+    "builtBy": "by hand (legacy)",
+    "importedFrom": "JustJans/indudex@b0cd182"
+  },
+  "words": "degree|bachelor|master|msc|bsc|beng|meng|phd|diploma|licenciatura|licenciado|licenciada|grado en|graduado|graduada|ingenieria|titulacion|titulado|titulada|licence|diplome|ecole d ingenieur|diplome d ingenieur|abschluss|studium|studiengang|diplom|hbo|wo|universitair|hogeskole|hogskole|civilingenjor|hogskoleingenjor|sivilingenior|universitet|university|universidad|universite|universitat|enginyeria|formacion|formation|opleiding|utbildning|utdanning|bac ?[+] ?[2-8]|bac pro|bts|dut|bep|brevet de technicien|titre professionnel|certificat d aptitude professionnelle|ecole d ingenieurs|diplome d etat|ciclo formativo|ciclos formativos|grado superior|grado medio|formacion profesional|fp ?(?:i|ii|1|2)|tecnico superior en|cicle formatiu|cicles formatius|grau superior|grau mitja|formacio professional|ausbildung|berufsausbildung|studienabschluss|hochschulabschluss|fachhochschulabschluss|meisterbrief|meisterprufung|staatlich gepruft|mbo|laurea|laureato|laureata|diploma di perito|perito industriale|istituto tecnico|mestrado|bacharelado|curso tecnico|ensino superior|wykształcenie|wyksztalcenie|vzdelani|vysokoskolske|examen|uddannelse|utdannelse|tutkinto|vegzettseg|studii superioare|studii medii|licenta|absolvent|absolventen|absolventin|titulacio|grau en|titulat|titulada|tecnic superior en|tecnica superior en|tecnic de grau|cfgs|cfgm|fp (?:en|de|del|d)",
+  "degrees": [
+    {
+      "id": "mechanical",
+      "label": "Mechanical",
+      "es": "Mecánica",
+      "ca": "Mecànica",
+      "fr": "Mécanique",
+      "nl": "Werktuigbouwkunde",
+      "de": "Maschinenbau",
+      "it": "Meccanica",
+      "pl": "Mechanika",
+      "stems": "mechanical|mecanic|mecanique|maschinenbau|werktuigbouw|maskinteknik|maskiningenj|meccanic|mechanik|mechanicz|mekanik|(?!verfahrens)[a-z]*mechaniker|[a-z]*schlosser|zerspan|metallbau|(?:dut|but) gmp|bts (?:cpi|crci|ctm)"
+    },
+    {
+      "id": "electrical",
+      "label": "Electrical",
+      "es": "Eléctrica",
+      "ca": "Elèctrica",
+      "fr": "Électrique",
+      "nl": "Elektrotechniek",
+      "de": "Elektrotechnik",
+      "it": "Elettrica",
+      "pl": "Elektrotechnika",
+      "stems": "electrical|electricidad|electricitat|electrica|electrico|electrique|electrotech|elektrotechnik|elektrotechniek|elektroteknik|elkraft|elektro|electricite|elettric|elettrotecnic|elektry|elektrisk|[a-z]*elektriker|elektroinstallat|(?:bts|dut|but) (?:geii|ge2i)|geii"
+    },
+    {
+      "id": "electronics-telecom",
+      "label": "Electronics",
+      "es": "Electrónica",
+      "ca": "Electrònica",
+      "fr": "Électronique",
+      "nl": "Elektronica",
+      "de": "Elektronik",
+      "it": "Elettronica",
+      "pl": "Elektronika",
+      "stems": "electronic|electronica|telecom|nachrichtentechnik|elektronik|elettronic|electroniq|elektroni|bts (?:sn|systemes numeriques)|systemes numeriques"
+    },
+    {
+      "id": "civil",
+      "label": "Civil",
+      "es": "Civil",
+      "ca": "Civil",
+      "fr": "Génie civil",
+      "nl": "Civiele techniek",
+      "de": "Bauingenieurwesen",
+      "it": "Civile",
+      "pl": "Budownictwo",
+      "stems": "civil(?!ingenj)|caminos|genie civil|bauingenieur|bauwesen|civiele techniek|byggteknik|byggingenj|edificacion|obras publicas|budownictw|stavebn|travaux publics|bts (?:tp|batiment|bat)"
+    },
+    {
+      "id": "industrial",
+      "label": "Industrial",
+      "es": "Industrial",
+      "ca": "Industrial",
+      "fr": "Génie industriel",
+      "nl": "Industriële techniek",
+      "de": "Wirtschaftsingenieurwesen",
+      "it": "Industriale",
+      "pl": "Inżynieria produkcji",
+      "stems": "industrial|organizacion industrial|wirtschaftsingenieur|industriel|industriell ekonomi|produktionstechnik|przemysl|prumysl"
+    },
+    {
+      "id": "chemical",
+      "label": "Chemical",
+      "es": "Química",
+      "ca": "Química",
+      "fr": "Chimie",
+      "nl": "Chemische technologie",
+      "de": "Chemieingenieurwesen",
+      "it": "Chimica",
+      "pl": "Inżynieria chemiczna",
+      "stems": "chemical|chemistry|quimic|chimie|chimique|chemie|verfahrenstechnik|kemi|kjemi|chimic|chemiczn|process engineering"
+    },
+    {
+      "id": "aerospace",
+      "label": "Aerospace",
+      "es": "Aeroespacial",
+      "ca": "Aeroespacial",
+      "fr": "Aérospatiale",
+      "nl": "Lucht- en ruimtevaart",
+      "de": "Luft- und Raumfahrt",
+      "it": "Aerospaziale",
+      "pl": "Lotnictwo i kosmonautyka",
+      "stems": "aerospace|aeronautic|aerospatial|aeronautique|luftfahrt|raumfahrt|ruimtevaart|flygteknik|romfart"
+    },
+    {
+      "id": "naval",
+      "label": "Naval / marine",
+      "es": "Naval / marina",
+      "ca": "Naval / marina",
+      "fr": "Naval / maritime",
+      "nl": "Scheepsbouw / maritiem",
+      "de": "Schiffbau / Meerestechnik",
+      "it": "Navale",
+      "pl": "Okrętownictwo",
+      "stems": "naval|marine engineering|shipbuilding|schiffbau|scheepsbouw|skeppsbygg|skipsteknikk|nautic"
+    },
+    {
+      "id": "mining-metallurgy",
+      "label": "Mining / metallurgy",
+      "es": "Minas / metalurgia",
+      "ca": "Mines / metal·lúrgia",
+      "fr": "Mines / métallurgie",
+      "nl": "Mijnbouw / metallurgie",
+      "de": "Bergbau / Metallurgie",
+      "it": "Mineraria / metallurgica",
+      "pl": "Górnictwo / metalurgia",
+      "stems": "mining|minas|metallurg|bergbau|mijnbouw|gruvteknik|bergteknikk"
+    },
+    {
+      "id": "materials",
+      "label": "Materials",
+      "es": "Materiales",
+      "ca": "Materials",
+      "fr": "Matériaux",
+      "nl": "Materiaalkunde",
+      "de": "Werkstofftechnik",
+      "it": "Materiali",
+      "pl": "Inżynieria materiałowa",
+      "stems": "materials|materiales|materiaux|werkstoff|materiaal|materialteknik"
+    },
+    {
+      "id": "environmental",
+      "label": "Environmental",
+      "es": "Medioambiental",
+      "ca": "Mediambiental",
+      "fr": "Environnement",
+      "nl": "Milieutechniek",
+      "de": "Umwelttechnik",
+      "it": "Ambientale",
+      "pl": "Inżynieria środowiska",
+      "stems": "environmental|ambiental|environnement|umwelt|milieu|miljo"
+    },
+    {
+      "id": "energy",
+      "label": "Energy",
+      "es": "Energía",
+      "ca": "Energia",
+      "fr": "Énergie",
+      "nl": "Energie",
+      "de": "Energietechnik",
+      "it": "Energetica",
+      "pl": "Energetyka",
+      "stems": "energy|energetic|energie|energi|fluides energies|bts fed"
+    },
+    {
+      "id": "automation-mechatronics",
+      "label": "Automation / mechatronics",
+      "es": "Automática / mecatrónica",
+      "ca": "Automàtica / mecatrònica",
+      "fr": "Automatique / mécatronique",
+      "nl": "Automatisering / mechatronica",
+      "de": "Automatisierung / Mechatronik",
+      "it": "Automazione / meccatronica",
+      "pl": "Automatyka / mechatronika",
+      "stems": "automation|automatiz|automatitz|mechatronic|mecatronic|regelungstechnik|automatisering|automatique|mecatroniq|mechatroni|automatyk|automazione|automatik|automatisier|[a-z]*automatisierung|[a-z]*mechatroni|crsa|cira"
+    },
+    {
+      "id": "computer-science",
+      "label": "Computer science",
+      "es": "Informática",
+      "ca": "Informàtica",
+      "fr": "Informatique",
+      "nl": "Informatica",
+      "de": "Informatik",
+      "it": "Informatica",
+      "pl": "Informatyka",
+      "stems": "computer science|informatic|informatique|informatik|software|datateknik|datavetenskap|informatyk|data science|fachinformatik|bts sio|(?:dut|but) info"
+    },
+    {
+      "id": "physics-maths",
+      "label": "Physics / maths",
+      "es": "Física / matemáticas",
+      "ca": "Física / matemàtiques",
+      "fr": "Physique / mathématiques",
+      "nl": "Natuurkunde / wiskunde",
+      "de": "Physik / Mathematik",
+      "it": "Fisica / matematica",
+      "pl": "Fizyka / matematyka",
+      "stems": "physics|fisica|physique|physik|fysik|fysikk|mathematic|matematic|mathematik|wiskunde|matematyk|fizyk|mathematiq"
+    },
+    {
+      "id": "architecture",
+      "label": "Architecture",
+      "es": "Arquitectura",
+      "ca": "Arquitectura",
+      "fr": "Architecture",
+      "nl": "Architectuur",
+      "de": "Architektur",
+      "it": "Architettura",
+      "pl": "Architektura",
+      "stems": "(?<!naval )architect|arquitect(?:o|a|ura)?(?! naval)|architektur|arkitekt"
+    },
+    {
+      "id": "geomatics",
+      "label": "Surveying",
+      "es": "Topografía",
+      "ca": "Topografia",
+      "fr": "Topographie",
+      "nl": "Landmeetkunde",
+      "de": "Vermessungswesen",
+      "it": "Topografia",
+      "pl": "Geodezja",
+      "stems": "geomatic|topograf|geodes|geodas|vermessung|surveying|lantmat|landmal|cartograf"
+    },
+    {
+      "id": "business",
+      "label": "Business",
+      "es": "Empresa",
+      "ca": "Empresa",
+      "fr": "Commerce / gestion",
+      "nl": "Bedrijfskunde",
+      "de": "Betriebswirtschaft",
+      "it": "Economia",
+      "pl": "Ekonomia i zarządzanie",
+      "stems": "business|administracion de empresas|betriebswirtschaft|economics|econom|bedrijfskunde|ekonomi"
+    },
+    {
+      "id": "engineering-any",
+      "label": "Any engineering",
+      "es": "Cualquier ingeniería",
+      "ca": "Qualsevol enginyeria",
+      "fr": "Toute ingénierie",
+      "nl": "Elke ingenieursopleiding",
+      "de": "Beliebiges Ingenieurstudium",
+      "it": "Qualsiasi ingegneria",
+      "pl": "Dowolny kierunek inżynierski",
+      "stems": "engineering|ingenier|ingenieur|enginyer|ingenjor|ingenior|technische universit|technik|inzynier|ingegner"
+    }
+  ]
+}
