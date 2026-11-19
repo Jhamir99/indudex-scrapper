@@ -57,5 +57,6 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
       - `nva` and `mpsv`: villages under 1,000 people and addresses («Lidosta "Rīga"»), and 590 `mpsv` adverts that name only «Česko».
       - `hzz` gives counties only («Grad Zagreb» is the area HR050, not the town), and `cyprus` only «Κύπρος» (CY000, the whole island): placed by area, as the sources give no town.
 
-- [ ] **T011 — Close places** · FR: FR-1 to FR-9 · Depends: T001-T010
+- [x] **T011 — Close places** · FR: FR-1 to FR-9 · Depends: T001-T010
       Done when: `index.ts` exports only `createPlacer`, `Placement` and the list types; `CLAUDE.md` ("Intended structure") lists `src/features/places/`; `features/README.md` marks this feature done; the CI command is green.
+      2026-11-19: done. `index.ts` exports `createPlacer`, `PlaceCatalogues`, `Placement` and the input and list types; nothing outside the feature imports its internals.
