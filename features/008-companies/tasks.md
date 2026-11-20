@@ -48,8 +48,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part D — Joining and cards
 
-- [ ] **T011 — Registers joined** · FR: FR-7 · Depends: T007, T008
+- [x] **T011 — Registers joined** · FR: FR-7 · Depends: T007, T008
       Done when: `register-join.ts` holds `registerJoin` and `withRegisters`, and tests pass on legacy examples (the same key and its size and length rules, «META» of Paris, Airbus of Blagnac, a company that belongs to an employer, «ABB AS», generic words, another country's legal form, the largest of a key kept, the employer's town from its main country).
+      2026-11-20: done. The legacy's lists extracted, the two functions rewritten with types over named row fields; every case of the legacy's `test/companies.test.mjs` for them passes. A company with no stated size counts as 0 people, as the legacy's `Number(people) || 0` did.
 - [ ] **T012 — Company cards** · FR: FR-8 · Depends: T011
       Done when: `cards.ts` holds `companyCards` without careers pages, and tests pass on legacy examples (groups, occupations, towns and their count, the pay range with five adverts or more and fewer, a ceiling's top, work modes, register fields from the main country, belonging companies, a register company's employer, its offers in its town and website, no empty card); `index.ts` exports only the reader, the directory, the joining, the cards and their types.
 - [ ] **T013 — Measurement and equivalence** · FR: spec section 5 · Depends: T005, T007, T012
