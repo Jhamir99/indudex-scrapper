@@ -41,8 +41,10 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T009 — Brønnøysund and Sirene** · FR: FR-6 · Depends: T008
       Done when: `brreg.ts` and `sirene.ts` turn records into companies as the legacy did (its relevant activities, ten people, the size bands, legal forms that are people, withheld records, struck-off and bankrupt companies left out) and read their bulk files as streams; tests on saved records (the legacy's `test/registers.test.mjs` cases) pass.
       2026-11-19: done. The legacy's cases (`test/registers.test.mjs`) pass, plus each bulk file read end to end: a gzipped JSON array for Brønnøysund, two zipped CSVs for Sirene (zipped and read with the system's `zip` and `unzip`, as the legacy read them; GitHub's Ubuntu runners have both).
-- [ ] **T010 — Barcelona's census and the tool** · FR: FR-6 · Depends: T009
+- [x] **T010 — Barcelona's census and the tool** · FR: FR-6 · Depends: T009
       Done when: `diba.ts` reads the census through the polite client (ten seconds apart, robots.txt first) and keeps companies as the legacy did (a person's tax number left out, the activity by CCAE class or industrial mark); `pnpm registers` runs each register into the store; tests with a fake client and saved answers pass; a live run of `brreg` and `diba` into a temporary store is recorded here (counts kept and placed).
+
+      2026-11-20: done. Live, into a temporary store, with Eurostat's LAU 2024 / NUTS 2024 table (its workbook's NO, FR and ES sheets turned into the tool's TSV in the scratchpad: 379, 34,946 and 8,132 municipalities): `brreg` read Brønnøysund's bulk file (211 MB, downloaded once; a first download cut at 84 MB was refused by the tool as a broken gzip, nothing written) and kept 12,655 companies, 12,593 placed, in 16.5 s (the legacy: 12,705 and 12,646 in October); `diba` read Barcelona's census through the polite client at its robots.txt's ten seconds (43,911 activities, 7.4 minutes) and kept 4,192 companies, 4,189 placed (the legacy: 4,103). Sirene's bulk files (several GB) were not downloaded: its reading is tested on records and zipped files only. The operator downloads the LAU workbook and turns it into the TSV; a reader for the workbook itself is not part of this feature.
 
 ## Part D — Joining and cards
 
