@@ -54,7 +54,29 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T012 — Company cards** · FR: FR-8 · Depends: T011
       Done when: `cards.ts` holds `companyCards` without careers pages, and tests pass on legacy examples (groups, occupations, towns and their count, the pay range with five adverts or more and fewer, a ceiling's top, work modes, register fields from the main country, belonging companies, a register company's employer, its offers in its town and website, no empty card); `index.ts` exports only the reader, the directory, the joining, the cards and their types.
       2026-11-20: done. The legacy's card cases pass, its short keys as named fields (`groups`, `families`, `towns`, `townCount`, `pay`, `modes`, `activity`, `register`, `people`, `companies`, `employer`, `offersInTown`, `website`). Cards are returned by card key; their 512 files are the publication's. A campaign's other towns (the legacy's `m`) count for a register company's town once dedupe (009) gives them.
-- [ ] **T013 — Measurement and equivalence** · FR: spec section 5 · Depends: T005, T007, T012
+- [x] **T013 — Measurement and equivalence** · FR: spec section 5 · Depends: T005, T007, T012
       Done when: a pass over the fresh store records here the share of adverts with an employer and with an agency's per source, the directory's size, the registers' companies kept and joined, and the time (under a minute); the legacy's functions, run on the same adverts and offers, give the same employer, key, agency flag and directory rows (differences explained here if any).
+      2026-11-20: done. A pass over the fresh store of 005 to 007 (190,653 adverts that had not expired on 20 November 2026), each placed by places and gated by the gate, gives:
+
+      | source | adverts | with an employer % | an agency's % |
+      | --- | --: | --: | --: |
+      | vdab | 119,132 | 99.9 | 30.6 |
+      | upsvr | 12,103 | 100 | 0.5 |
+      | jobtech | 9,567 | 100 | 6.4 |
+      | anofm | 8,739 | 100 | 0.1 |
+      | mpsv | 6,277 | 100 | 0.2 |
+      | feinaactiva | 4,195 | 99.2 | 3.1 |
+      | infopraca | 2,905 | 100 | 0.2 |
+      | solidjobs | 1,760 | 100 | 0.3 |
+      | kuntarekry | 1,561 | 99.7 | 0 |
+      | trento | 705 | 100 | 22.7 |
+      | emilia | 577 | 100 | 5.9 |
+      | bolzano | 862 | 99.8 | 4.2 |
+      | the other 13 with employers | 2,466 | 99.8 | 0.2 |
+      | the 13 that name none | 19,804 | 0 | 0 |
+      | all | 190,653 | 89.5 | 19.7 |
+
+      The sources that name no employer are public services that hide it (actiris, hzz, iefp, nva, sne, sae, sef, madrid, cyprus, brescia, emcan, hungary, spin), as in the legacy. Reading the employer of every advert took 4.5 s and the directory 0.3 s on the development Mac (Node 26), not yet measured on the server. The directory of the kept offers holds 11,380 employers. The legacy's functions (its `writtenNames`, `companyOfAdvert`, `spelledCompany`, the town rule of `normalise.mjs`, `companyKey`, `isAgency`, `updateCompanies`, `withRegisters`), run in the scratchpad on the same adverts, the same towns and the same gated offers, give the same employer, key and agency flag for every advert, the same 11,380 rows, and the same join with the live registers of T010 (16,782 companies: 5 joined as an employer, none belonging to one, 16,728 listed alone): no difference. Few join because the store's adverts are mostly Belgian, Swedish, Slovak and Czech, while the registers are Norway's and Barcelona's.
+
 - [ ] **T014 — Close companies** · FR: FR-1 to FR-9 · Depends: T001-T013
       Done when: nothing outside the features imports past `src/features/companies/index.ts` but tests (checked with a search); `CLAUDE.md` lists both folders, `pnpm registers`, the state folder and the registers' files; `MEMORY.md` is updated; `features/README.md` marks this feature done; the CI command is green.
