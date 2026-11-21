@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { goldenTitles } from "../../../test/dedupe/golden.js";
 import { shownTitle, withoutBoardTail, withoutCodes } from "./shown-title.js";
 
 // The legacy's examples (test/tidy-names.test.mjs, test/builder.test.mjs).
@@ -115,5 +116,15 @@ describe("the title as published (dedupe FR-1)", () => {
     expect(shown.length).toBeLessThanOrEqual(250);
     expect(title.startsWith(shown)).toBe(true);
     expect(shown.endsWith("Elektroniker")).toBe(true);
+  });
+});
+
+describe("the titles' golden set", () => {
+  it("publishes every title of a real store as the legacy did", async () => {
+    const cases = await goldenTitles();
+    expect(cases.length).toBeGreaterThan(4000);
+    expect(
+      cases.filter(({ s, t }) => shownTitle(s) !== t).map(({ s }) => s),
+    ).toEqual([]);
   });
 });
