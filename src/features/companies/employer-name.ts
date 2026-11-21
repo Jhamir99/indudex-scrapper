@@ -1,4 +1,4 @@
-import { withoutClutter } from "./clutter.js";
+import { withoutClutter } from "../../shared/kit/clutter.js";
 
 // What the name readers read of an advert.
 export interface CompanyAdvert {

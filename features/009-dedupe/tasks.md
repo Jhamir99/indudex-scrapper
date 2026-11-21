@@ -9,8 +9,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T001 — One address rule** · FR: FR-2 · Depends: companies T014
       Done when: `src/shared/kit/advert-address.ts` holds `advertAddress` (the legacy's `normUrl`, its tracking list extracted), tests pass on legacy examples (a `utm_source` and a `#top` dropped, `id` kept, Lanbide's `IDRG` kept, Latvia's `#/pub/vakances/…` kept, a trailing slash and an empty query dropped, an address that is not a URL trimmed), and the scrapper's takedowns read addresses through it (their tests pass; a test shows a `ref` dropped).
       2026-11-22: done. `advertAddress` replaces the takedowns' `advertUrlKey`, which dropped `utm_*` alone; the takedowns' address test gains a `ref` and a `gclid`. The tracking list is the legacy's, eleven entries short enough to copy and checked against it.
-- [ ] **T002 — Clutter, shared** · FR: FR-1 · Depends: T001
+- [x] **T002 — Clutter, shared** · FR: FR-1 · Depends: T001
       Done when: `clutter.ts` lives in `src/shared/kit/`, companies imports it from there, and every test passes unchanged.
+      2026-11-22: done. Moved with `git mv`; `src/shared/kit/clutter.test.ts` gains the legacy's own examples of `withoutPictures` and `withoutClutter` (the phone numbers and the contact of its test made up, as they came from real adverts).
 - [ ] **T003 — The title as published** · FR: FR-1 · Depends: T002
       Done when: `src/shared/kit/shown-title.ts` holds `shownTitle` and its steps (Argus's `cleanTitle`, `withoutBoardTail`, `withoutCodes`, the invisible characters, composed letters, 250 letters at a word; patterns extracted, not retyped), and tests pass on legacy examples (LilyLifestyle's tail, «Architektur Stellen», «Obserwuj ofertę», «Job | … | Bruxelles», Talent Partners, a UK place repeated; «169. ##6497 Electricista Industrial», «1. Offizier (m/w/d)» kept, «- ID:15080», «Ref: 2609», «DevOps_31001», «#2026-59», «Graduate Programme: 2026» and «C# Developer» kept; a zero-width space in «(d/m/f)»; decomposed accents).
 - [ ] **T004 — The titles' golden set** · FR: FR-1 · Depends: T003

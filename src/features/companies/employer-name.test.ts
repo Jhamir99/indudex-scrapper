@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { goldenNames } from "../../../test/companies/golden.js";
-import { withoutClutter } from "./clutter.js";
+import { withoutClutter } from "../../shared/kit/clutter.js";
 import {
   companyName,
   companyOfAdvert,
