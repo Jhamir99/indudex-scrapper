@@ -216,3 +216,106 @@ describe("one copy of each advert (dedupe FR-2, FR-3, FR-5)", () => {
     expect([a, b]).toEqual(before);
   });
 });
+
+// EWOR's remote co-founder, filed in a town of a country.
+const ewor = (i: number, town: string, country: string) =>
+  advert(`https://x.example/${i}`, {
+    company: "EWOR GmbH",
+    title: "SaaS Co-Founder / CCO (100 % remote)",
+    town,
+    country,
+  });
+
+// One deepset job, at an address, in a town, with the work mode its copy names.
+const deepset = (url: string, town: string, workMode?: string) =>
+  advert(url, {
+    company: "deepset",
+    title: "Senior Backend Engineer",
+    town,
+    country: "de",
+    posted: "2026-10-22",
+    workMode,
+  });
+
+// How many copies of a job with this title, in Madrid and Sevilla, are kept.
+const keptOf = (title: string) =>
+  dedupe([
+    advert("https://a/1", { title, town: "Madrid" }),
+    advert("https://a/2", { title, town: "Sevilla" }),
+  ]).kept.length;
+
+describe("campaigns and remote jobs (dedupe FR-4)", () => {
+  const campaign = Array.from({ length: 12 }, (_, i) =>
+    advert(`https://c/${i}`, {
+      town: `Town ${i}`,
+      country: i < 8 ? "nl" : "be",
+    }),
+  );
+
+  it("keeps a company and title in more than ten towns once per country, with the copies of its other towns", () => {
+    const { kept } = dedupe(campaign);
+    expect(kept.map(({ advert: one }) => one.country).toSorted()).toEqual([
+      "be",
+      "nl",
+    ]);
+    expect(
+      kept.find(({ advert: one }) => one.country === "nl")?.alsoAt,
+    ).toHaveLength(7);
+    expect(dedupe(campaign.slice(0, 3)).kept).toHaveLength(3);
+  });
+
+  it("keeps a fully remote job once wherever its copies are filed, the same job on site in two towns twice", () => {
+    const { kept } = dedupe([
+      ewor(1, "Rohrbach", "de"),
+      ewor(2, "Warsaw", "pl"),
+      ewor(3, "Pristina", "xk"),
+      advert("https://y.example/1", {
+        title: "Elektriker",
+        town: "Berlin",
+        country: "de",
+      }),
+      advert("https://y.example/2", {
+        title: "Elektriker",
+        town: "Köln",
+        country: "de",
+      }),
+    ]);
+    expect([kept.length, kept[0]?.alsoAt.length]).toEqual([3, 2]);
+  });
+
+  it("joins a copy naming no mode to a remote copy in its place, not one elsewhere nor one on site", () => {
+    const same = dedupe([
+      deepset("https://jobs.ashbyhq.com/deepsetai/1", "Berlin", "remote"),
+      deepset("https://noordt.co/jobs/1", "Berlin"),
+    ]);
+    expect([same.kept.length, same.kept[0]?.advert.workMode]).toEqual([
+      1,
+      "remote",
+    ]);
+    expect(
+      dedupe([
+        deepset("https://jobs.ashbyhq.com/deepsetai/1", "Berlin", "remote"),
+        deepset("https://deepset.ai/jobs/2", "Hamburg"),
+      ]).kept,
+    ).toHaveLength(2);
+    expect(
+      dedupe([
+        deepset("https://jobs.ashbyhq.com/deepsetai/1", "Berlin", "remote"),
+        deepset("https://deepset.ai/jobs/3", "Berlin", "onsite"),
+      ])
+        .kept.map(({ advert: one }) => one.workMode)
+        .toSorted(),
+    ).toEqual(["onsite", "remote"]);
+  });
+
+  it("reads a remote job in its title, in the sources' languages", () => {
+    expect(
+      [
+        "Ingeniero de datos (100 % remoto)",
+        "Data Engineer - full remote",
+        "Ingénieur DevOps - télétravail complet",
+        "Data Engineer",
+      ].map(keptOf),
+    ).toEqual([1, 1, 1, 2]);
+  });
+});

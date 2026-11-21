@@ -62,6 +62,17 @@ export const placeKey = ({
 }): string =>
   geonameId ? `#${geonameId}` : `${country}|${town.toLowerCase()}`;
 
+// A company and title in more towns than this is one campaign an agency runs everywhere
+// ("in any of our locations"), not that many jobs: it stays once per country, and the copies
+// it stands for go with it (`alsoAt`) so the place search finds it in each of their towns.
+export const CAMPAIGN_TOWNS = 10;
+// A job done from anywhere: its source says remote (its work mode), or its title does ("100 % remote", «100 % remoto», «full
+// remote», «télétravail complet»).
+const REMOTE_TITLE =
+  /\b(?:100\s?%\s?(?:remote|remoto|remota|télétravail|teletrabajo|en remoto)|fully remote|full remote|remote only|vollständig remote|komplett remote|télétravail complet|teletrabajo 100)\b/i;
+const remoteJob = (advert: DedupeAdvert) =>
+  advert.workMode === "remote" || REMOTE_TITLE.test(advert.title);
+
 interface Copy<T> {
   readonly advert: T;
   readonly address: string;
@@ -96,6 +107,13 @@ function inheriting<T extends DedupeAdvert>(best: T, copies: readonly T[]): T {
   return advert;
 }
 
+// A place added to a role's set.
+const add = (sets: Map<string, Set<string>>, role: string, place: string) => {
+  const set = sets.get(role);
+  if (set) set.add(place);
+  else sets.set(role, new Set([place]));
+};
+
 export function dedupe<T extends DedupeAdvert>(
   adverts: readonly T[],
 ): Deduped<T> {
@@ -113,29 +131,51 @@ export function dedupe<T extends DedupeAdvert>(
     }
     byAddress.set(address, { advert, address });
   }
-  const kept: KeptAdvert<T>[] = [];
-  const groups = new Map<string, Copy<T>[]>();
+  // Each role's places, and the places a remote copy of it is filed in.
+  const roles = new Map<Copy<T>, string>();
+  const towns = new Map<string, Set<string>>();
+  const remoteAt = new Map<string, Set<string>>();
   for (const copy of byAddress.values()) {
     const role = jobKey(copy.advert);
+    roles.set(copy, role);
+    if (!role) continue;
+    add(towns, role, copy.advert.place);
+    if (remoteJob(copy.advert)) add(remoteAt, role, copy.advert.place);
+  }
+  const kept: KeptAdvert<T>[] = [];
+  const groups = new Map<string, { campaign: boolean; copies: Copy<T>[] }>();
+  for (const copy of byAddress.values()) {
+    const role = roles.get(copy) ?? "";
     if (!role) {
       kept.push({ advert: copy.advert, alsoAt: [] });
       continue;
     }
-    const key = `${role}@${copy.advert.place}`;
+    // A fully remote job is one job wherever its copies are filed: EWOR's "SaaS Co-Founder / CCO
+    // (100 % remote)" stood in fourteen places (1 November 2026). A copy that names no mode, in the
+    // place a remote copy of the same job names, is that job: Ashby said remote and the employer's
+    // site only Berlin (549 such pairs, 1 November 2026). One that says on site or hybrid is not
+    // that remote job (NOA-23).
+    const remote =
+      remoteJob(copy.advert) ||
+      (!copy.advert.workMode &&
+        (remoteAt.get(role)?.has(copy.advert.place) ?? false));
+    const campaign = remote || (towns.get(role)?.size ?? 0) > CAMPAIGN_TOWNS;
+    const key = `${role}@${remote ? "remote" : campaign ? `country ${copy.advert.country}` : copy.advert.place}`;
     const group = groups.get(key);
-    if (group) group.push(copy);
-    else groups.set(key, [copy]);
+    if (group) group.copies.push(copy);
+    else groups.set(key, { campaign, copies: [copy] });
   }
   let sameRole = 0;
-  for (const copies of groups.values()) {
+  for (const { campaign, copies } of groups.values()) {
     const best = copies.reduce((a, b) => (better(b, a) ? b : a));
     sameRole += copies.length - 1;
+    const others = copies.filter((copy) => copy !== best);
     kept.push({
       advert: inheriting(
         best.advert,
         copies.map((copy) => copy.advert),
       ),
-      alsoAt: [],
+      alsoAt: campaign ? others.map((copy) => copy.advert) : [],
     });
   }
   return { kept, sameUrl, sameRole };
