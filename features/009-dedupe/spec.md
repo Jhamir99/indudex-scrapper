@@ -38,7 +38,7 @@ Two adverts at the same address shall be one: the address without its tracking p
 _Acceptance:_ Tests on the legacy's examples (a `utm_source` and a `#top` dropped, Lanbide's `IDRG` kept, Latvia's `#/pub/vakances/…` kept); the takedowns' tests pass with the shared rule.
 
 **FR-3 — The same role in the same place.**
-Two adverts shall be one when their company and title are the same role in the same place: the company read as one name (an ATS's code before it, a legal form, the country, «Group», a careers page's word or a web ending after it, «The» or «Grupo» before it, never cut to a word that names no one), the title without gender marks, percentages of time, odd dashes and trailing signs, a Catalan title read in Spanish; the place the GeoNames town, else the country and the town as written. An advert whose company names no one («(m/w/d)», a pay, Adzuna, LinkedIn) is never joined by its role.
+Two adverts shall be one when their company and title are the same role in the same place: the company read as one name (an ATS's code before it, a legal form, the country, «Group», a careers page's word or a web ending after it, «The» or «Grupo» before it, never cut to a word that names no one), the title without gender marks, percentages of time, odd dashes and trailing signs, a Catalan title read in Spanish; the place the GeoNames town, else the country and the town as written. An advert whose company names no one (none, «(m/w/d)», Adzuna, LinkedIn) is never joined by its role.
 _Acceptance:_ Tests on the legacy's examples (Munich and München one place; Madrid and München two offers; «3530 Kyndryl España, S.A.U.» is kyndryl; «The Company» stays).
 
 **FR-4 — A campaign and a remote job.**
