@@ -2,12 +2,7 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import {
-  advertUrlKey,
-  companyKey,
-  loadTakedowns,
-  type TakedownList,
-} from "./takedowns.js";
+import { companyKey, loadTakedowns, type TakedownList } from "./takedowns.js";
 
 const sample = `
 sources:
@@ -80,6 +75,7 @@ describe("takedowns (FR-8)", () => {
       "https://JOBS.example.com/vacancy/4711/?utm_source=feed",
       "https://jobs.example.com/vacancy/4711#apply",
       "https://jobs.example.com/vacancy/4711?utm_source=a&utm_medium=b&utm_campaign=c",
+      "https://jobs.example.com/vacancy/4711?ref=board&gclid=1",
     ]) {
       expect(takedowns.reasonFor(advert({ url }))).toBe("employer's request");
     }
@@ -115,12 +111,6 @@ describe("keys", () => {
   it("folds company names", () => {
     expect(companyKey(" Ingeniería  Pérez, S.L. ")).toBe(
       "ingenieria perez s l",
-    );
-  });
-
-  it("keeps a single-page app route", () => {
-    expect(advertUrlKey("https://example.com/#/jobs/7")).toBe(
-      "https://example.com/#/jobs/7",
     );
   });
 });

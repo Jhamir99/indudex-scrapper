@@ -6,8 +6,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part A — The title as published, and the shared pieces
 
-- [ ] **T001 — One address rule** · FR: FR-2 · Depends: companies T014
+- [x] **T001 — One address rule** · FR: FR-2 · Depends: companies T014
       Done when: `src/shared/kit/advert-address.ts` holds `advertAddress` (the legacy's `normUrl`, its tracking list extracted), tests pass on legacy examples (a `utm_source` and a `#top` dropped, `id` kept, Lanbide's `IDRG` kept, Latvia's `#/pub/vakances/…` kept, a trailing slash and an empty query dropped, an address that is not a URL trimmed), and the scrapper's takedowns read addresses through it (their tests pass; a test shows a `ref` dropped).
+      2026-11-22: done. `advertAddress` replaces the takedowns' `advertUrlKey`, which dropped `utm_*` alone; the takedowns' address test gains a `ref` and a `gclid`. The tracking list is the legacy's, eleven entries short enough to copy and checked against it.
 - [ ] **T002 — Clutter, shared** · FR: FR-1 · Depends: T001
       Done when: `clutter.ts` lives in `src/shared/kit/`, companies imports it from there, and every test passes unchanged.
 - [ ] **T003 — The title as published** · FR: FR-1 · Depends: T002

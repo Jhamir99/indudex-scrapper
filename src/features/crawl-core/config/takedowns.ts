@@ -1,6 +1,7 @@
 import { z } from "@hono/zod-openapi";
 import { SourceId } from "../../../shared/schemas/source.js";
 import { loadConfig } from "../../../shared/config/load-config.js";
+import { advertAddress } from "../../../shared/kit/advert-address.js";
 
 // Why the takedown was done ("employer's request, 2026-11-15"). Never a person's name or address.
 const Reason = z.string().min(1);
@@ -32,23 +33,6 @@ export function companyKey(name: string): string {
     .trim();
 }
 
-// One page under several addresses: tracking parameters, a fragment and a trailing slash
-// do not make another advert. A "#/" fragment is a single-page app's route and is kept.
-export function advertUrlKey(url: string): string {
-  let parsed: URL;
-  try {
-    parsed = new URL(url.trim());
-  } catch {
-    return url.trim();
-  }
-  // A copy of the keys: deleting while walking the live iterator skips the next key.
-  for (const key of Array.from(parsed.searchParams.keys())) {
-    if (/^utm_/i.test(key)) parsed.searchParams.delete(key);
-  }
-  if (!parsed.hash.startsWith("#/")) parsed.hash = "";
-  return parsed.toString().replace(/\?$/, "").replace(/\/$/, "");
-}
-
 export class TakedownList {
   private readonly sources: Map<string, string>;
   private readonly companies: Map<string, string>;
@@ -60,7 +44,7 @@ export class TakedownList {
       takedowns.companies.map((t) => [companyKey(t.name), t.reason]),
     );
     this.adverts = new Map(
-      takedowns.adverts.map((t) => [advertUrlKey(t.url), t.reason]),
+      takedowns.adverts.map((t) => [advertAddress(t.url), t.reason]),
     );
   }
 
@@ -75,7 +59,7 @@ export class TakedownList {
       (advert.company
         ? this.companies.get(companyKey(advert.company))
         : undefined) ??
-      this.adverts.get(advertUrlKey(advert.url))
+      this.adverts.get(advertAddress(advert.url))
     );
   }
 }
