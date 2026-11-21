@@ -12,8 +12,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T002 — Clutter, shared** · FR: FR-1 · Depends: T001
       Done when: `clutter.ts` lives in `src/shared/kit/`, companies imports it from there, and every test passes unchanged.
       2026-11-22: done. Moved with `git mv`; `src/shared/kit/clutter.test.ts` gains the legacy's own examples of `withoutPictures` and `withoutClutter` (the phone numbers and the contact of its test made up, as they came from real adverts).
-- [ ] **T003 — The title as published** · FR: FR-1 · Depends: T002
+- [x] **T003 — The title as published** · FR: FR-1 · Depends: T002
       Done when: `src/shared/kit/shown-title.ts` holds `shownTitle` and its steps (Argus's `cleanTitle`, `withoutBoardTail`, `withoutCodes`, the invisible characters, composed letters, 250 letters at a word; patterns extracted, not retyped), and tests pass on legacy examples (LilyLifestyle's tail, «Architektur Stellen», «Obserwuj ofertę», «Job | … | Bruxelles», Talent Partners, a UK place repeated; «169. ##6497 Electricista Industrial», «1. Offizier (m/w/d)» kept, «- ID:15080», «Ref: 2609», «DevOps_31001», «#2026-59», «Graduate Programme: 2026» and «C# Developer» kept; a zero-width space in «(d/m/f)»; decomposed accents).
+      2026-11-22: done. Extracted by a scratchpad script from the legacy's `normalise.mjs` (the board tails, the invisible characters, `withoutCodes`) and Argus v1.11.0's `notify.mjs` (`cleanTitle`), located by their first lines, not by line numbers; `wholeWords` and the order of the steps are `toRecord`'s. Tests carry the legacy's examples, and a few of the whole title.
 - [ ] **T004 — The titles' golden set** · FR: FR-1 · Depends: T003
       Done when: `test/fixtures/dedupe/titles.json` holds the legacy's readings of the store's distinct titles (a sample of a few thousand, built in the scratchpad from the legacy's own steps) and of its tests' titles, and every reading of `shownTitle` matches.
 - [ ] **T005 — Catalan, shared** · FR: FR-3 · Depends: T001
