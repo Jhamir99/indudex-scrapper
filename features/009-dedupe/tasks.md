@@ -36,8 +36,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T009 — The copies of an advert taken down** · FR: FR-6 · Depends: T006
       Done when: `taken.ts` holds `withoutTaken` and tests pass on the legacy's example (Acme's Process Engineer in Madrid taken down, its copy from another source gone, the one in Bilbao kept; nothing taken changes nothing).
       2026-11-22: done. One departure from the legacy, in the spirit of FR-6 ("every copy of the same role"): an advert taken down whose employer names no one has no role, so it takes no copy; the legacy keyed it as `@<place>` and took every advert of that place that named no employer. A test shows it.
-- [ ] **T010 — The public entry** · FR: FR-7 · Depends: T007, T008, T009
+- [x] **T010 — The public entry** · FR: FR-7 · Depends: T007, T008, T009
       Done when: `index.ts` exports `dedupe`, `withoutTaken`, `placeKey` and the types (`DedupeAdvert`, `KeptAdvert`, `TakenAdvert`), tests show the same output twice and copies of one role shuffled keeping the same copy, and nothing in the feature reads the network or another feature.
+      2026-11-22: done. `index.ts` also exports `CAMPAIGN_TOWNS` and the `Deduped` type. The order test shuffles seven adverts eight ways with a fixed generator; the imports test reads the feature's files and allows only its own and `src/shared/`. What a kept copy inherits is the first copy's that states it, in the order given, as in the legacy.
 
 ## Part C — Measured and closed
 
