@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { realGate } from "../../../test/gate/catalogues.js";
 import { gateGolden } from "../../../test/gate/golden.js";
 import { classifier } from "./classifier.js";
-import { catalanToo, markedFor, markedToo } from "./markets.js";
+import { catalanToo } from "../../shared/words/catalan.js";
+import { markedFor, markedToo } from "./markets.js";
 
 const gate = await realGate();
 const classify = classifier(gate);

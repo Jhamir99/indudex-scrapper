@@ -18,8 +18,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T004 — The titles' golden set** · FR: FR-1 · Depends: T003
       Done when: `test/fixtures/dedupe/titles.json` holds the legacy's readings of the store's distinct titles (a sample of a few thousand, built in the scratchpad from the legacy's own steps), and every reading of `shownTitle` matches.
       2026-11-22: done. `test/fixtures/dedupe/titles.json` (read by `test/dedupe/golden.ts`): 4,500 of the store's 92,534 distinct titles, 3,000 of the 3,977 a step changes and 1,500 that none changes; titles with an e-mail address or a phone left out. The legacy's tests' titles are in the unit tests already, so the set holds the store's only (the Done when changed so). Over all 92,534 titles, `shownTitle` and the legacy differ on none.
-- [ ] **T005 — Catalan, shared** · FR: FR-3 · Depends: T001
+- [x] **T005 — Catalan, shared** · FR: FR-3 · Depends: T001
       Done when: `catalanToo` and its tables live in `src/shared/words/catalan.ts`, generic over `{ title, lang?, hintLangs? }`; the gate imports it from there, and every gate test and its golden set pass unchanged.
+      2026-11-22: done. The Catalan table, `CATALAN_ONLY` and `catalanToo` moved out of the gate's `markets.ts` as they were (a Python split by line, nothing retyped); `catalanToo` is generic over `CatalanTitle`, so the gate keeps its `GateRaw`. The gate's tests and golden set pass unchanged; `catalan.test.ts` adds the module's own.
 
 ## Part B — One copy of each advert
 

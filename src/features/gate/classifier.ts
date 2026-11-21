@@ -7,7 +7,8 @@ import {
   languagesOf,
   occupationsOf,
 } from "./families-of.js";
-import { catalanToo, markedToo } from "./markets.js";
+import { catalanToo } from "../../shared/words/catalan.js";
+import { markedToo } from "./markets.js";
 import { matchableTitle } from "./matchable-title.js";
 import {
   compoundFitter,
