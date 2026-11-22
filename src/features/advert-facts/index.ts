@@ -2,3 +2,10 @@
 export { AdvertFacts, createFactReader, type FactSources } from "./facts.js";
 export type { Contract, ContractKind, WorkingTime } from "./contract.js";
 export type { WorkMode } from "./work-mode.js";
+export {
+  agencyWorkCode,
+  contractAndTime,
+  type WrittenAdvert,
+  writtenFacts,
+} from "./written-facts.js";
+export { contractCode, workingTimeCode } from "./contract.js";

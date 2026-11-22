@@ -108,6 +108,21 @@ const FULL =
 const PART =
   /\b(part time|parttime|part-time|temps partiel|temps parcial|deltid|teilzeit|tempo parziale|tiempo parcial|media jornada|jornada parcial|zkraceny uvazek|skrateny uvazok|ciastocny uvazok|deeltijds|deeltijd|minijob|beperkte tewerkstelling|osa aikatyo|osa aikainen|niepełny etat|nepuno radno vrijeme|timp partial|marginal employment|reszmunkaido)\b/;
 
+// Any word of a permanent or temporary contract or of full or part time, in a text folded as
+// `clean` folds it but its lines kept: a quick look at a whole text before its lines are read one by
+// one (written-facts.ts).
+export const KIND_OR_TIME = new RegExp(
+  KINDS.filter(([kind]) => kind === "i" || kind === "t")
+    .map(([, rule]) => rule.source)
+    .concat(FULL.source, PART.source)
+    .join("|"),
+);
+// A text folded as `clean` folds a value, its lines kept.
+export const foldedLines = (s: string): string =>
+  fold(String(s || ""))
+    .replace(/["'“”«»]/g, " ")
+    .replace(/[ \t_-]+/g, " ");
+
 // The words for hours, and for a week («wk», «w» too, in a field's short form).
 const HOUR = anyOf(words("hour", { folded: true }), "\\w*");
 const WEEK = anyOf([...words("week", { folded: true }), "wk", "w"], "\\w*");
@@ -208,6 +223,10 @@ export function oneOf(values: readonly string[]): string {
   return figures.size === 1 ? [...figures][0]! : kind;
 }
 
+// The value a map of values found says, by the one kind its keys name ("" when none or two).
+export const oneSaid = (found: ReadonlyMap<string, string>): string =>
+  found.get(oneOf([...found.keys()])) ?? "";
+
 export type ContractKind =
   | "permanent"
   | "temporary"
@@ -237,19 +256,31 @@ const CONTRACT_KINDS: Readonly<Record<string, ContractKind>> = {
   a: "freelance",
 };
 
-function contractOfCode(code: string): Contract | null {
+export function contractOfCode(code: string): Contract | null {
   const match = /^([a-z]+)(\d*)$/.exec(code);
   const kind = match ? CONTRACT_KINDS[match[1] ?? ""] : undefined;
   if (!kind) return null;
   return match?.[2] ? { kind, months: Number(match[2]) } : { kind };
 }
 
-function workingTimeOfCode(code: string): WorkingTime | null {
+export function workingTimeOfCode(code: string): WorkingTime | null {
   const match = /^([cp])(\d*)$/.exec(code);
   if (!match) return null;
   const kind = match[1] === "c" ? "full" : "part";
   return match[2] ? { kind, hours: Number(match[2]) } : { kind };
 }
+
+// The legacy's codes of a contract and a working time ("t6", "p20"), as the published offer writes them.
+export const contractCode = (contract: Contract | null): string => {
+  if (!contract) return "";
+  const code =
+    Object.entries(CONTRACT_KINDS).find(
+      ([, kind]) => kind === contract.kind,
+    )?.[0] ?? "";
+  return contract.months ? `${code}${contract.months}` : code;
+};
+export const workingTimeCode = (time: WorkingTime | null): string =>
+  time ? `${time.kind === "full" ? "c" : "p"}${time.hours ?? ""}` : "";
 
 // An advert's contract and working time, each only when its source's fields say it.
 export function contractOf(

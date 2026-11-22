@@ -14,7 +14,7 @@ src/shared/kit/mended-text.ts     # mendedText and the field limits (atMost)
 src/features/publication/         # processor: the only feature that imports the others' index.ts
   index.ts          # runPublication(dependencies) → the version written, or why none was
   read-store.ts     # FR-2: the sources listed, takedowns, stale sources, expired, old, no link; mended and cut
-  labels/           # FR-3, FR-4: days.ts (posted, last day), written-facts.ts (contract, working time), agency-work.ts
+  labels/days.ts    # FR-3: the days posted and the last day
   offer.ts          # FR-5: the offer from each step's output; offerId; campaignPlaces; entities unescaped
   build.ts          # the steps in order over the store, the stages timed, the counts
   shards.ts         # FR-6: buildShards, latestOf, occupationCounts
@@ -26,6 +26,7 @@ src/features/publication/         # processor: the only feature that imports the
 src/bin/process.ts                # `pnpm process [-- --force] [-- --explain]`
 ```
 
+- FR-4's reading (`writtenFacts`, the agency-work rule, `contractAndTime`) lives in `src/features/advert-facts/written-facts.ts`: it needs the contract readers there, and the publication reads it through advert-facts' `index.ts` (T006).
 - `runPublication` takes its dependencies (store reader, catalogues, rates, takedowns, untranslated sources, registry definitions, state folder, dataset writer, clock, log) so tests run it on temporary folders and a fixed day.
 - The takedowns' loader moves to `src/shared/config/` (MEMORY.md foresaw it: "moves to shared when the processor applies takedowns"); crawl-core imports it from there.
 - `pnpm gate:explain` stays; `--explain` of the entry writes the same report into the version.
