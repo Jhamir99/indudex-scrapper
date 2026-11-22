@@ -56,7 +56,11 @@ export function createPlacer(catalogues: PlaceCatalogues) {
         readonly country: string;
         readonly nuts: string | null;
       }[],
-    ) => regionsInUse(catalogues.nuts, placed),
+      also: readonly {
+        readonly country: string;
+        readonly nuts: string | null;
+      }[] = [],
+    ) => regionsInUse(catalogues.nuts, placed, also),
     // The town names the search bar must not take for a town unless marked as one.
     ambiguousNames: (
       towns: readonly TownInUse[],

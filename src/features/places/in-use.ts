@@ -101,6 +101,11 @@ export interface RegionsInUse {
 export function regionsInUse(
   nuts: NutsTables,
   placed: readonly { readonly country: string; readonly nuts: string | null }[],
+  // Places that hold no offer but must be listed (the registers' companies): counted 0, after.
+  also: readonly {
+    readonly country: string;
+    readonly nuts: string | null;
+  }[] = [],
 ): RegionsInUse {
   const otherNamesOf = (
     country: string,
@@ -114,22 +119,26 @@ export function regionsInUse(
       .map(([name]) => name);
   const count = (tables: NutsTables["regions"]) => {
     const out: Record<string, Record<string, AreaInUse>> = {};
-    for (const { country, nuts: code } of placed) {
-      if (!code) continue;
-      const all = tables?.[country] ?? {};
-      const area = Object.keys(all).find((candidate) =>
-        code.startsWith(candidate),
-      );
-      if (!area) continue;
-      const shelf = (out[country] ??= {});
-      const names = all[area] ?? [];
-      const was = shelf[area];
-      shelf[area] = {
-        names,
-        otherNames: was?.otherNames ?? otherNamesOf(country, area, names),
-        offers: (was?.offers ?? 0) + 1,
-      };
-    }
+    for (const [list, add] of [
+      [placed, 1],
+      [also, 0],
+    ] as const)
+      for (const { country, nuts: code } of list) {
+        if (!code) continue;
+        const all = tables?.[country] ?? {};
+        const area = Object.keys(all).find((candidate) =>
+          code.startsWith(candidate),
+        );
+        if (!area) continue;
+        const shelf = (out[country] ??= {});
+        const names = all[area] ?? [];
+        const was = shelf[area];
+        shelf[area] = {
+          names,
+          otherNames: was?.otherNames ?? otherNamesOf(country, area, names),
+          offers: (was?.offers ?? 0) + add,
+        };
+      }
     return out;
   };
   return { regions: count(nuts.regions), provinces: count(nuts.provinces) };
