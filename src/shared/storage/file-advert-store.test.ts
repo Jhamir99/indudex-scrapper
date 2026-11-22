@@ -290,3 +290,16 @@ describe("FileAdvertStore source memory (public-feeds FR-4)", () => {
     ).toBe("{ broken");
   });
 });
+
+describe("FileAdvertStore for the processor (publication FR-2)", () => {
+  it("lists the sources with adverts and reads a source's pass with when it was stored", async () => {
+    expect(await store.storedSources()).toEqual([]);
+    await store.replaceAdverts("linz", [advert("linz", "9")]);
+    await store.replaceAdverts("brz", [advert("brz", "1")]);
+    expect(await store.storedSources()).toEqual(["brz", "linz"]);
+    const pass = await store.readPass("brz");
+    expect(pass.savedAt).toBe(clock.now().toISOString());
+    expect(sourceIds(pass.adverts)).toEqual(["1"]);
+    expect(await store.readPass("sae")).toEqual({ savedAt: "", adverts: [] });
+  });
+});

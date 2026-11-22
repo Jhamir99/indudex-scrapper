@@ -37,8 +37,11 @@ export class TakedownList {
   private readonly sources: Map<string, string>;
   private readonly companies: Map<string, string>;
   private readonly adverts: Map<string, string>;
+  // The employers' names as the list writes them, for the processor's own reading of a name.
+  readonly companyNames: readonly string[];
 
   constructor(takedowns: Takedowns) {
+    this.companyNames = takedowns.companies.map((t) => t.name);
     this.sources = new Map(takedowns.sources.map((t) => [t.id, t.reason]));
     this.companies = new Map(
       takedowns.companies.map((t) => [companyKey(t.name), t.reason]),
@@ -50,6 +53,11 @@ export class TakedownList {
 
   sourceReason(source: string): string | undefined {
     return this.sources.get(source);
+  }
+
+  // The reason an advert's address is taken down, or undefined.
+  advertReason(url: string): string | undefined {
+    return this.adverts.get(advertAddress(url));
   }
 
   // The reason an advert is taken down, or undefined when it is not.

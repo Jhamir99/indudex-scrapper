@@ -33,8 +33,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part C — The offers
 
-- [ ] **T008 — Reading the store** · FR: FR-2 · Depends: T003, T004
+- [x] **T008 — Reading the store** · FR: FR-2 · Depends: T003, T004
       Done when: `read-store.ts` gives each listed source's adverts mended and cut, and leaves out (counted as the legacy's status counts them) a source taken down or stale (last stored pass over nine days old), an advert taken down by address or employer, one with no `http(s)` address; tests on a temporary store for each rule.
+      2026-11-22: done. `read-store.ts`: `readStore` over a `StoreReader` (the store gains `storedSources` and `readPass`, its adverts not expired with `savedAt`) and a `Takedowns` view; `readable` cuts and mends the four fields. The legacy matched a taken-down employer by dedupe's `companyOf`, so dedupe's index exports it and the list gives its names (`companyNames`, `advertReason`). The store already hides expired adverts, so the status counts as expired only those whose last day passed by the text's day. A gap found on the way, kept for the build (T010): the scrapper sweeps an advert taken down from the store at its next run, so the processor sees it only until then; it will remember the role and place of each one it sees in its state, so its copies stay out after the sweep.
 - [ ] **T009 — The offer** · FR: FR-5 · Depends: T005, T006
       Done when: `offer.ts` builds an offer from the steps' outputs as `toRecord` did (`offerId` as the legacy's `idFor`; `nt` and the calm title; entities unescaped; each field only when said; `m` from a campaign's other copies, `campaignPlaces`), validated by the Offer schema, and tests pass on legacy examples for each field.
 - [ ] **T010 — The build** · FR: FR-1, FR-2, FR-5, FR-12 · Depends: T008, T009

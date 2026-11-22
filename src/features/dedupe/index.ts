@@ -10,3 +10,6 @@ export {
   placeKey,
 } from "./dedupe.js";
 export { type TakenAdvert, withoutTaken } from "./taken.js";
+// A company read as one name (an ATS code, a legal form, the country off): the takedowns' companies
+// are matched so, as the legacy did.
+export { companyOf } from "./role.js";

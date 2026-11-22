@@ -117,6 +117,35 @@ export class FileAdvertStore {
     return states;
   }
 
+  // The sources with an adverts file, for the processor.
+  async storedSources(): Promise<string[]> {
+    let names: string[];
+    try {
+      names = await readdir(join(this.directory, "adverts"));
+    } catch (error) {
+      if (isMissing(error)) return [];
+      throw error;
+    }
+    return names
+      .filter((name) => name.endsWith(".json"))
+      .map((name) => name.slice(0, -".json".length))
+      .filter((source) => SourceId.safeParse(source).success)
+      .toSorted();
+  }
+
+  // A source's adverts not expired, with when its last pass was stored ("" for none): the
+  // processor leaves a source out whose last pass is too old.
+  async readPass(
+    source: string,
+  ): Promise<{ readonly savedAt: string; readonly adverts: StoredAdvert[] }> {
+    const file = await this.readAdvertsFile(source);
+    const today = this.today();
+    return {
+      savedAt: file.savedAt,
+      adverts: file.adverts.filter((advert) => !isExpired(advert, today)),
+    };
+  }
+
   async readMemory(source: string): Promise<SourceMemory | undefined> {
     const path = this.path("memory", source);
     const file = await this.readJson(path, MemoryFile);
