@@ -6,3 +6,6 @@ test/fixtures/**/*
 
 # Catalogues: generated data, written byte for byte by its import.
 catalogues/
+
+# Vendored files, kept byte for byte as their authors wrote them.
+vendor/

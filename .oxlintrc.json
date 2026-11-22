@@ -10,5 +10,5 @@
     "builtin": true,
     "node": true
   },
-  "ignorePatterns": ["dist"]
+  "ignorePatterns": ["dist", "vendor"]
 }

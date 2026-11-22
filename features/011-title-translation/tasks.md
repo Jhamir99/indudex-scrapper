@@ -6,8 +6,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part A — The data and the shared pieces
 
-- [ ] **T001 — The method's data** · FR: FR-6 · Depends: publication T018
+- [x] **T001 — The method's data** · FR: FR-6 · Depends: publication T018
       Done when: `catalogues/translation/` holds the legacy's `dict/vocab-<lang>.json`, `case-en.json` and `spellings.json` byte for byte (their SHA-256 recorded here), `vendor/bergamot/` the loader and its LICENSE, `vendor/aina/aina_worker.py`; `data.ts` reads them once through the path guard, and tests read each.
+      2026-11-22: done. Fetched from JustJans/indudex@b0cd182 with `gh api` (raw, as `spellings.json` is past the API's 1 MB and was empty in the scratchpad's copy, now restored there too; every other file of `builder/mt` there matches the repo). SHA-256: `case-en.json` e8c40a66…, `spellings.json` e8ac021b…, `vocab-ca` 789653eb…, `vocab-de` b90f2765…, `vocab-en` 16e45e16…, `vocab-es` eeeac755…, `vocab-fr` 73fbf680…, `vocab-nl` e2806d66…, `bergamot-translator.js` faff1ef6…, its `LICENSE` 1f256eca…, `aina_worker.py` 838cd7c9…. `trades-firefox.json`, which `trades.mjs` reads when present, is in neither repo nor copy: read as empty, as the legacy did. `vendor/` is out of oxlint and Prettier (kept byte for byte). `data.ts` reads synchronously, as the method reads its tables.
 - [ ] **T002 — Patterns, marks, places, Catalan spelling, companies, genders** · FR: FR-2, FR-6 · Depends: T001
       Done when: `method/patterns.ts`, `marks.ts`, `places.ts`, `catalan-spelling.ts`, `companies.ts`, `genders.ts` are extracted from the legacy, and its tests pass (`test/mt-marks`, `mt-places`, `mt-catalan`, `mt-companies`).
 - [ ] **T003 — The language a title is written in** · FR: FR-1 · Depends: T002
