@@ -15,8 +15,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T003 — Takedowns, shared** · FR: FR-2 · Depends: T001
       Done when: the takedowns' loader lives in `src/shared/config/takedowns.ts`, crawl-core imports it from there, and every test passes unchanged.
       2026-11-22: done. Moved with `git mv` with its tests; its imports, crawl-core's runner and `src/bin/crawl.ts` point to `src/shared/config/takedowns.ts`. `CLAUDE.md` is updated at the close.
-- [ ] **T004 — Mended and cut** · FR: FR-2 · Depends: T001
+- [x] **T004 — Mended and cut** · FR: FR-2 · Depends: T001
       Done when: `src/shared/kit/mended-text.ts` holds `mendedText` (patterns extracted) and the field limits (`atMost`), and tests pass on legacy examples («München» from a JSON escape, «SetÃºbal», «â€“», «"Erlangen"», «Famalicãƒo», «CAFÉ’S» kept, «DIRECCIÓ TÈCNICA» not made Cyrillic; a field cut at a word).
+      2026-11-22: done. Extracted by a scratchpad script from `normalise.mjs` (`mendedText` and its patterns) and `build-pile.mjs` (`FIELD_MAX`, `atMost`); the windows-1252 table is Node's decoder's, as the legacy's `lib/windows-1252.ts`. Tests carry the legacy's examples written with escapes. Over the store's 135,037 distinct titles, employers and places, 6 are mended and none differs from the legacy.
 
 ## Part B — What the text states
 
