@@ -20,6 +20,18 @@
         "unicorn/consistent-function-scoping": "off",
         "unicorn/no-array-reverse": "off"
       }
+    },
+    {
+      "files": ["src/features/title-translation/method/**"],
+      "rules": {
+        "unicorn/no-array-sort": "off",
+        "unicorn/prefer-string-starts-ends-with": "off",
+        "no-misleading-character-class": "off",
+        "unicorn/consistent-function-scoping": "off",
+        "no-shadow": "off",
+        "no-control-regex": "off",
+        "no-useless-escape": "off"
+      }
     }
   ]
 }

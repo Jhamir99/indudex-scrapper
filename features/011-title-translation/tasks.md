@@ -27,8 +27,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part C — The method
 
-- [ ] **T006 — The trades and the method's tables** · FR: FR-6 · Depends: T002
+- [x] **T006 — The trades and the method's tables** · FR: FR-6 · Depends: T002
       Done when: the trade tables are extracted to `catalogues/translation/trades.json`, `method/trades.ts`, `method-tables.ts`, `jobdash.ts`, `jobdash-fr.ts`, `english-tidy.ts` are extracted, and the legacy's tests pass (`test/mt-trades`, `mt-english-tidy`).
+      2026-11-22: done. `catalogues/translation/trades.json`: the legacy's `SPOKEN` (22) and `TRADES` (832) as its `trades-data.mjs` computed them (exported by running the module, since it adds forms to its tables as it loads). `method/trades.ts`, `method-tables.ts`, `jobdash.ts` converted from the legacy's JavaScript (the scratchpad's `to-ts.py` for comments and imports, `annotate.py` for the parameters `tsc` found untyped, by name, then the rest by hand), `jobdash-fr.ts` and `english-tidy.ts` copied (TypeScript already); their tables read through `data.ts`. A lint override for `src/features/title-translation/method/**` (and one for `test/legacy/**`) turns off style rules the legacy's code breaks on purpose or harmlessly (in-place sorts of fresh arrays, `endsWith`, combining marks in character classes, function scoping, shadowing); correctness rules stay on. `mt-english-tidy` passes; `mt-trades` comes with T007, as it reads `checks`.
 - [ ] **T007 — Before the engine** · FR: FR-6 · Depends: T006
       Done when: `method/before.ts`, `checks.ts`, `levels.ts` are extracted and the legacy's tests pass (`test/mt-before`, `mt-ukrainian`, `mt-tidy-and-names`).
 - [ ] **T008 — After the engine** · FR: FR-6 · Depends: T007
