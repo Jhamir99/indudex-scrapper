@@ -230,7 +230,7 @@ describe("the build (publication FR-1, FR-2, FR-5)", () => {
         "R&D Engineer",
       ]),
     );
-    expect(built.offers.every((offer) => built.placements.has(offer))).toBe(
+    expect(built.offers.every((offer) => built.placements.has(offer.id))).toBe(
       true,
     );
   });

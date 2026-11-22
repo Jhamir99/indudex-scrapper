@@ -19,6 +19,11 @@ import type { GateDecision, GateInput } from "../gate/index.js";
 import type { AdvertPay, PayInput } from "../pay/index.js";
 import type { PlaceInput, Placement } from "../places/index.js";
 import { advertDays } from "./labels/days.js";
+import {
+  applyTitles,
+  LANGUAGES,
+  TITLE_FIELD,
+} from "../title-translation/index.js";
 import { campaignPlaces, located, offerOf, unescaped } from "./offer.js";
 import type { StoreReading } from "./read-store.js";
 
@@ -62,6 +67,8 @@ export interface BuildInput {
   readonly today: string;
   // Called at the end of each stage, for the log.
   readonly stage?: (name: string) => void;
+  // Each language's cache of translated titles (the translator's), by language.
+  readonly caches?: Readonly<Record<string, ReadonlyMap<string, string>>>;
 }
 
 export interface BuildCounts {
@@ -80,8 +87,8 @@ export interface BuildCounts {
 export interface Built {
   // Every offer kept, the skilled trades' too, in dedupe's order.
   readonly offers: readonly Offer[];
-  // Each offer's placement, and those of the copies a campaign stands for: the towns in use.
-  readonly placements: ReadonlyMap<Offer, Placement>;
+  // Each offer's placement by its id, and those of the copies a campaign stands for: the towns in use.
+  readonly placements: ReadonlyMap<string, Placement>;
   readonly campaignPlacements: readonly Placement[];
   // The offers as the directory and the cards read them.
   readonly directory: readonly DirectoryOffer[];
@@ -272,7 +279,7 @@ export function build(input: BuildInput): Built {
 
   // The copy kept with what it inherits (in the legacy's order: mode, pay, last day, years), and a
   // campaign's other towns.
-  const placements = new Map<Offer, Placement>();
+  const placements = new Map<string, Placement>();
   const campaignPlacements: Placement[] = [];
   let offers = deduped.kept.map(({ advert, alsoAt }) => {
     let offer = advert.read.offer;
@@ -296,28 +303,44 @@ export function build(input: BuildInput): Built {
       if (m.length) offer = { ...offer, m };
       for (const copy of alsoAt) campaignPlacements.push(copy.read.placement);
     }
-    placements.set(offer, advert.read.placement);
+    placements.set(offer.id, advert.read.placement);
     return offer;
   });
 
-  // What one reading left escaped written out, then the titles in capitals brought down by how the
-  // build's other titles write each word; a source that forbids altering its content keeps its own.
-  offers = offers.map((offer) => {
-    const out = unescaped(offer);
-    if (out !== offer) {
-      placements.set(out, placements.get(offer) as Placement);
-      placements.delete(offer);
-    }
-    return out;
-  });
-  const spellings = spellingsOf(offers.map((offer) => offer.t));
+  // Each title in the site's languages from the caches (a copy of each offer, which applyTitles
+  // fills), then what one reading left escaped written out, then the titles in capitals brought
+  // down by how the build's titles, in every language, write each word; a source that forbids
+  // altering its content keeps its own (the legacy's applyTitles, unescapeRecords, calmTitles).
+  const copies = offers.map(
+    (offer) => ({ ...offer }) as Offer & Record<string, unknown>,
+  );
+  for (const target of LANGUAGES)
+    applyTitles(copies, {
+      target,
+      cache: input.caches?.[target] ?? new Map(),
+      untranslated: input.untranslated,
+    });
+  offers = copies.map(unescaped);
+  const titleFields = [
+    "t",
+    ...LANGUAGES.map((language) => TITLE_FIELD[language]),
+  ] as const;
+  const spellings = spellingsOf(
+    offers.flatMap((offer) =>
+      titleFields
+        .map((field) => offer[field])
+        .filter((title): title is string => Boolean(title)),
+    ),
+  );
   offers = offers.map((offer) => {
     if (input.untranslated.has(offer.s)) return offer;
-    const t = calmTitle(offer.t, spellings);
-    if (t === offer.t) return offer;
-    const out = { ...offer, t };
-    placements.set(out, placements.get(offer) as Placement);
-    placements.delete(offer);
+    let out = offer;
+    for (const field of titleFields) {
+      const title = offer[field];
+      if (!title) continue;
+      const calm = calmTitle(title, spellings);
+      if (calm !== title) out = { ...out, [field]: calm };
+    }
     return out;
   });
   input.stage?.("titles");

@@ -1,4 +1,5 @@
-import { mkdtemp, readdir, readFile, rm } from "node:fs/promises";
+import { readFileSync } from "node:fs";
+import { mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
@@ -143,6 +144,7 @@ describe("the processor's run (publication FR-1, FR-10, FR-11, FR-12)", () => {
     });
     expect((await readdir(join(directory, "state"))).toSorted()).toEqual([
       "companies.json",
+      "mt-wanted.json",
       "pile-history.json",
       "taken.json",
     ]);
@@ -174,6 +176,48 @@ describe("the processor's run (publication FR-1, FR-10, FR-11, FR-12)", () => {
       version: "20261122T120000Z",
     });
     expect(forced.log.some((line) => line.includes("forced"))).toBe(true);
+  }, 60_000);
+
+  it("applies the caches' titles, lists the titles they lack, and gives each language its ten", async () => {
+    const state = join(directory, "state");
+    await writeFile(
+      join(state, "titles-en.json"),
+      JSON.stringify({ Maschinenbauingenieur: "Mechanical engineer" }),
+    );
+    const adverts = Array.from({ length: 10 }, (_, i) => advert(i));
+    const { result } = await run(adverts, "2026-11-22T14:00:00.000Z", {
+      force: true,
+    });
+    expect(result).toMatchObject({ published: true });
+    const version = join(directory, "published", "20261122T140000Z");
+    const offers = (await readdir(join(version, "offers"))).flatMap(
+      (name) =>
+        JSON.parse(readFileSync(join(version, "offers", name), "utf8"))
+          .offers as { t: string; te?: string; tl?: string }[],
+    );
+    expect(
+      offers.find((offer) => offer.t === "Maschinenbauingenieur")?.te,
+    ).toBe("Mechanical engineer");
+    const wanted = JSON.parse(
+      await readFile(join(state, "mt-wanted.json"), "utf8"),
+    ) as { t: string; into: string[] }[];
+    expect(wanted.find((w) => w.t === "Maschinenbauingenieur")?.into).toEqual([
+      "es",
+      "ca",
+      "fr",
+      "nl",
+    ]);
+    const today = JSON.parse(
+      await readFile(join(version, "today.json"), "utf8"),
+    );
+    expect(Object.keys(today.latest).toSorted()).toEqual([
+      "ca",
+      "de",
+      "en",
+      "es",
+      "fr",
+      "nl",
+    ]);
   }, 60_000);
 
   it("never publishes an empty pile", async () => {

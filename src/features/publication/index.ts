@@ -50,6 +50,17 @@ import { buildShards } from "./shards.js";
 import { guard, pileCounts, remember } from "./shrink-guard.js";
 import { readState, writeState } from "./state.js";
 import { buildWordIndex } from "./word-index.js";
+import {
+  readCache,
+  readTranslatorFile,
+  writeTranslatorFile,
+} from "../../shared/storage/title-caches.js";
+import {
+  LANGUAGES,
+  languageOf,
+  latestPicks,
+  wantedTitles,
+} from "../title-translation/index.js";
 
 export { DatasetError } from "../../shared/storage/published-dataset.js";
 
@@ -171,9 +182,23 @@ export async function runPublication(
   };
   const remembered =
     (await readState(deps.stateDirectory, "taken.json"))?.taken ?? [];
+  // Each language's cache of translated titles; one that cannot be read leaves its language's
+  // titles as written this time, with an alert: the build only reads them.
+  const caches: Record<string, Map<string, string>> = {};
+  for (const language of LANGUAGES) {
+    try {
+      caches[language] = await readCache(deps.stateDirectory, language);
+    } catch (error) {
+      deps.log(
+        `ALERT ${error instanceof Error ? error.message : String(error)}: its titles stay as written`,
+      );
+      caches[language] = new Map();
+    }
+  }
   stage("steps compiled");
 
   const built = build({
+    caches,
     reading,
     steps: { gate, placer, facts, pay: createPayReader({ rates: deps.rates }) },
     kinds,
@@ -252,7 +277,7 @@ export async function runPublication(
     const ambiguous = placer.ambiguousNames(
       towns,
       offers.flatMap((offer) => {
-        const placement = built.placements.get(offer);
+        const placement = built.placements.get(offer.id);
         return placement
           ? [{ title: offer.t, company: offer.c, placement }]
           : [];
@@ -273,7 +298,7 @@ export async function runPublication(
     await json("today.json", Today, {
       v: 1,
       offers: backdropOffers(main, isVia),
-      latest: {},
+      latest: latestPicks(main, { isVia, languageOf }),
     });
     stage("places");
 
@@ -378,6 +403,20 @@ export async function runPublication(
   await writeState(deps.stateDirectory, "taken.json", {
     taken: [...built.taken],
   });
+  // The titles the caches lack, for the translator; a title to translate anew asked for again.
+  const redo = new Set(
+    await readTranslatorFile<string[]>(deps.stateDirectory, "redo", []).catch(
+      () => [],
+    ),
+  );
+  const wanted = wantedTitles(offers, caches, {
+    untranslated: deps.untranslated,
+    redo,
+  });
+  await writeTranslatorFile(deps.stateDirectory, "wanted", wanted);
+  deps.log(
+    `titles: ${wanted.length} titles (${wanted.reduce((n, w) => n + w.n, 0)} offers) left for the translator`,
+  );
 
   const c = built.counts;
   deps.log(
