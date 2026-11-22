@@ -10,5 +10,16 @@
     "builtin": true,
     "node": true
   },
-  "ignorePatterns": ["dist", "vendor"]
+  "ignorePatterns": ["dist", "vendor"],
+  "overrides": [
+    {
+      "files": ["test/legacy/**"],
+      "rules": {
+        "unicorn/no-array-sort": "off",
+        "no-shadow": "off",
+        "unicorn/consistent-function-scoping": "off",
+        "unicorn/no-array-reverse": "off"
+      }
+    }
+  ]
 }
