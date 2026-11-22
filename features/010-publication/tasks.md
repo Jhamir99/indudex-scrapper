@@ -21,8 +21,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part B — What the text states
 
-- [ ] **T005 — The days** · FR: FR-3 · Depends: T004
+- [x] **T005 — The days** · FR: FR-3 · Depends: T004
       Done when: `labels/days.ts` holds the legacy's `postedInText`, `deadlineInText` and the day rules of `toRecord` (a past day only; the earlier of the text's and the first seen; `fs`; the last day's limits), patterns extracted, and tests pass on legacy examples.
+      2026-11-22: done. Extracted by a scratchpad script from `labels.mjs` (`DEADLINE`, `MONTHS`, `dayInWords`, `POSTED`) and `normalise.mjs` (`isoDay`); `foldedLines` from `contract.mjs` on the shared `fold`; `advertDays` is `toRecord`'s day rules with today as an input. The operator chose (2026-11-22) to read the store's `firstSeen` as the legacy's `first` only: it goes to `fs` and is never a posting day, since our store sets it on a source's first pass for adverts up long before; the legacy's `seen` (the day an advert was seen appear) has no counterpart in the store.
 - [ ] **T006 — The labelled contract and working time** · FR: FR-4 · Depends: T004
       Done when: `labels/written-facts.ts` and `labels/agency-work.ts` hold `writtenFacts` (labelled lines, inline labels, the title's contract and hours) and the agency-work rule, extracted, and tests pass on legacy examples (each label in each language the legacy reads; «Arbeitnehmerüberlassung» as a field; «keine Zeitarbeit»; «mit der Chance auf Übernahme»).
 - [ ] **T007 — The labels' golden set** · FR: FR-3, FR-4 · Depends: T005, T006
