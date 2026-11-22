@@ -59,7 +59,7 @@ const round = (degrees: number) => Math.round(degrees * 100) / 100;
 // The town the place itself names, known or not: the adapter's city, else the location's first
 // piece that is not the country's own name (legacy placeOfAdvert's city). "" when it names only
 // its country.
-function namedTown(gazetteer: Gazetteer, place: PlaceText): string {
+export function namedTown(gazetteer: Gazetteer, place: PlaceText): string {
   const own = gazetteer.countryNames.get(place.country);
   return (
     [place.city, ...pieces(place.location)].find(

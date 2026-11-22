@@ -5,6 +5,9 @@ import {
   type NutsTables,
 } from "./gazetteer.js";
 import {
+  atMost,
+  FIELD_LIMITS,
+  namedTown,
   placeAdvert,
   type PlaceInput,
   type Placement,
@@ -36,6 +39,14 @@ export function createPlacer(catalogues: PlaceCatalogues) {
   );
   return {
     place: (input: PlaceInput): Placement => placeAdvert(gazetteer, input),
+    // The town the place names, known or not ("" when it names only its country): what an offer
+    // shows when no town of the gazetteer was found.
+    townNamed: (input: Pick<PlaceInput, "country" | "location" | "city">) =>
+      namedTown(gazetteer, {
+        country: input.country,
+        location: atMost(input.location, FIELD_LIMITS.location),
+        city: atMost(input.city, FIELD_LIMITS.city),
+      }),
     // The towns that hold offers, from the placements of every published offer.
     townsInUse: (placements: readonly Placement[]) =>
       townsInUse(gazetteer, placements),

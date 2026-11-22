@@ -52,8 +52,16 @@ export const Offer = z
     g: z.tuple([z.number(), z.number()]).optional(),
     /** The place's region code in Eurostat's NUTS, as precise as the place allows ("ES511"). */
     n: z.string().min(2).optional(),
-    /** The other places of one vacancy offered in several: town, latitude, longitude. */
-    m: z.array(z.tuple([z.string(), z.number(), z.number()])).optional(),
+    /** The other places of one vacancy offered in several: town, latitude, longitude; the town alone when it is not on
+     *  the map. */
+    m: z
+      .array(
+        z.union([
+          z.tuple([z.string(), z.number(), z.number()]),
+          z.tuple([z.string()]),
+        ]),
+      )
+      .optional(),
     /** The day it was posted, else the day the crawler first saw it ("" when neither is known). */
     d: z.union([PublishedDay, z.literal("")]),
     /** With no day: the day it was first in the store, for the date filters only (the card shows no day). */
