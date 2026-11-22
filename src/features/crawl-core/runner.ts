@@ -7,7 +7,7 @@ import {
 } from "../../shared/schemas/advert.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
 import type { SourceState } from "../../shared/schemas/source.js";
-import type { TakedownList } from "./config/takedowns.js";
+import type { TakedownList } from "../../shared/config/takedowns.js";
 import { checkCredentials, type Environment } from "./credentials.js";
 import {
   afterDisallowed,

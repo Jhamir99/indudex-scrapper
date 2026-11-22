@@ -12,8 +12,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T002 — Versions and the pointer** · FR: FR-10 · Depends: T001
       Done when: `src/shared/storage/published-dataset.ts` writes a version into `<version>.partial/`, renames it whole, then writes `current.json` atomically, keeps three versions (never the current), removes a `.partial` left behind, and refuses a pointer that names a missing version with its path; tests on temporary folders for each case; `published/` is ignored by git and `PUBLISHED_DIR` documented.
       2026-11-22: done. `PublishedDataset` (`current`, `versions`, `start`, `prune`) and `VersionWriter` (`write`, kept inside its version; `finish`; `abandon`); `publishedDirectory` reads `PUBLISHED_DIR`; `versionOf` names a version by its UTC second, and a version published already is refused. `.env.example` documents `PUBLISHED_DIR` and `PROCESSOR_STATE_DIR` (missing since 008). A held build writes no version at all: the guard runs before the files.
-- [ ] **T003 — Takedowns, shared** · FR: FR-2 · Depends: T001
+- [x] **T003 — Takedowns, shared** · FR: FR-2 · Depends: T001
       Done when: the takedowns' loader lives in `src/shared/config/takedowns.ts`, crawl-core imports it from there, and every test passes unchanged.
+      2026-11-22: done. Moved with `git mv` with its tests; its imports, crawl-core's runner and `src/bin/crawl.ts` point to `src/shared/config/takedowns.ts`. `CLAUDE.md` is updated at the close.
 - [ ] **T004 — Mended and cut** · FR: FR-2 · Depends: T001
       Done when: `src/shared/kit/mended-text.ts` holds `mendedText` (patterns extracted) and the field limits (`atMost`), and tests pass on legacy examples («München» from a JSON escape, «SetÃºbal», «â€“», «"Erlangen"», «Famalicãƒo», «CAFÉ’S» kept, «DIRECCIÓ TÈCNICA» not made Cyrillic; a field cut at a word).
 

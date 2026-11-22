@@ -11,7 +11,7 @@ import { advertId, DESCRIPTION_LIMIT } from "../../shared/schemas/advert.js";
 import type { AdapterContext, AdvertStore, SourceAdapter } from "./ports.js";
 import { FakeStopSwitch } from "../../../test/fakes/stop-switch.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
-import { TakedownList } from "./config/takedowns.js";
+import { TakedownList } from "../../shared/config/takedowns.js";
 import type { SourceState } from "../../shared/schemas/source.js";
 import type { Environment } from "./credentials.js";
 import { runDue, runSource, runSources } from "./runner.js";

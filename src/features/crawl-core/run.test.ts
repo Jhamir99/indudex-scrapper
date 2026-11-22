@@ -12,7 +12,7 @@ import { FakeStopSwitch } from "../../../test/fakes/stop-switch.js";
 import { ECB_URL } from "../../shared/rates/ecb.js";
 import { CrawlConfig, scheduleRules } from "./config/crawl-config.js";
 import { loadConfig } from "../../shared/config/load-config.js";
-import { TakedownList } from "./config/takedowns.js";
+import { TakedownList } from "../../shared/config/takedowns.js";
 import { crawl, parseCrawlArguments, UsageError } from "./run.js";
 
 async function fakeRun() {
