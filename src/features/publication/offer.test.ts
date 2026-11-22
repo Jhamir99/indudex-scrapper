@@ -3,6 +3,7 @@ import type { StoredAdvert } from "../../shared/schemas/advert.js";
 import { Offer } from "../../shared/schemas/published/offer.js";
 import {
   campaignPlaces,
+  located,
   offerId,
   offerOf,
   type OfferInput,
@@ -64,7 +65,7 @@ const input: OfferInput = {
 
 describe("the published offer (publication FR-5)", () => {
   it("gives every field in the legacy's order, each only when there is something to say", () => {
-    const offer = offerOf(input);
+    const offer = located(offerOf(input), input.placement);
     expect(Offer.parse(offer)).toEqual(offer);
     expect(Object.keys(offer)).toEqual([
       "id",
@@ -133,7 +134,9 @@ describe("the published offer (publication FR-5)", () => {
       days: { d: "", fs: "2026-11-01" },
       pay: null,
     });
-    expect(offer).toMatchObject({
+    expect(
+      located(offer, { town: null, nuts: "ES51", from: "area" }),
+    ).toMatchObject({
       ci: "Comarques de Barcelona",
       n: "ES51",
       ag: 1,

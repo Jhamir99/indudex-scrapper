@@ -19,7 +19,7 @@ import type { GateDecision, GateInput } from "../gate/index.js";
 import type { AdvertPay, PayInput } from "../pay/index.js";
 import type { PlaceInput, Placement } from "../places/index.js";
 import { advertDays } from "./labels/days.js";
-import { campaignPlaces, offerOf, unescaped } from "./offer.js";
+import { campaignPlaces, located, offerOf, unescaped } from "./offer.js";
 import type { StoreReading } from "./read-store.js";
 
 // The steps in the legacy's order over what the store gave (plan section 2): each advert placed,
@@ -287,10 +287,11 @@ export function build(input: BuildInput): Built {
     }
     if (!offer.x && advert.expires) offer = { ...offer, x: advert.expires };
     if (!offer.y && advert.years) offer = { ...offer, y: advert.years };
+    offer = located(offer, advert.read.placement);
     if (alsoAt.length) {
       const m = campaignPlaces(
         offer,
-        alsoAt.map((copy) => copy.read.offer),
+        alsoAt.map((copy) => located(copy.read.offer, copy.read.placement)),
       );
       if (m.length) offer = { ...offer, m };
       for (const copy of alsoAt) campaignPlacements.push(copy.read.placement);

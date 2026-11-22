@@ -99,6 +99,7 @@ const codeOf = (codes: StoredAdvert["occupationCodes"]): string =>
 
 export function offerOf(input: OfferInput): Offer {
   const { advert, placement, facts, days } = input;
+  // The town shown; its position and code come with `located`.
   const offer: Record<string, unknown> = {
     id: offerId(advert.url),
     t: input.title,
@@ -157,10 +158,17 @@ export function offerOf(input: OfferInput): Offer {
   if (facts.degrees.length) offer["dg"] = [...facts.degrees];
   if (facts.languages.length) offer["lg"] = [...facts.languages];
   if (input.occupations.length) offer["e"] = [...input.occupations];
-  if (placement.town)
-    offer["g"] = [placement.town.latitude, placement.town.longitude];
-  if (placement.nuts) offer["n"] = placement.nuts;
   return offer as Offer;
+}
+
+// The offer on the map: its town's position and its NUTS code. Added after dedupe, as the legacy
+// located its records once the copies kept had taken what the others said.
+export function located(offer: Offer, placement: Placement): Offer {
+  const out: Offer = { ...offer };
+  if (placement.town)
+    out.g = [placement.town.latitude, placement.town.longitude];
+  if (placement.nuts) out.n = placement.nuts;
+  return out;
 }
 
 // The other towns of a campaign kept once per country, once each, as [town, lat, lon], or [town]
