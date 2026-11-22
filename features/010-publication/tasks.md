@@ -45,8 +45,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part D — The files
 
-- [ ] **T011 — Shards and the newest** · FR: FR-6 · Depends: T010
+- [x] **T011 — Shards and the newest** · FR: FR-6 · Depends: T010
       Done when: `shards.ts` holds `buildShards`, `latestOf` and `occupationCounts`, and tests pass on legacy examples (parts past four million characters; newest first, ties by id; three growing latest parts; the skilled trades apart; `xx` and `zz` kept); the same offers give the same bytes.
+      2026-11-22: done. `shards.ts`: `shardKey`, `latestOf`, `occupationCounts`, `buildShards` (files as a `Map`, `now` as a number); the legacy's tests carried over, plus a split past four million characters and the same bytes in any order.
 - [ ] **T012 — The word index** · FR: FR-7 · Depends: T010
       Done when: `word-index.ts` holds `buildWordIndex` with `encodeNumbers`, `pairsOf`, `haystack`, `bucketOf`, `piecesOf` and `companyToken` (extracted), and tests pass on legacy examples («c#», «ab/cd», the intermediaries last, blocks capped at 2,000); a golden set of the legacy's files for a sample of offers matches byte for byte.
 - [ ] **T013 — The front page's rows** · FR: FR-8 · Depends: T010
