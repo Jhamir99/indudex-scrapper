@@ -63,8 +63,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part E — The entry, measured and closed
 
-- [ ] **T016 — The processor's entry** · FR: FR-1, FR-10, FR-12 · Depends: T002, T014, T015
+- [x] **T016 — The processor's entry** · FR: FR-1, FR-10, FR-12 · Depends: T002, T014, T015
       Done when: `index.ts` (`runPublication`) and `src/bin/process.ts` (`pnpm process [-- --force] [-- --explain]`) run the build, write the version, check it against the schemas, move the pointer and log each stage; a test runs it on a temporary store and finds a whole version and the pointer, and a held build leaves the pointer; nothing reads the network.
+      2026-11-22: done. `index.ts` (`runPublication(dependencies)`) and `src/bin/process.ts` (`pnpm process [-- --force] [-- --explain]`, exits 1 when nothing is published). The run: the store read, the steps compiled, `build`, every offer checked against the schema, the guard (before any file), then the version: shards (each part checked), word index, places, regions, today, the directory (its state updated) with the registers and cards, the catalogues, `explain.txt.gz` with `--explain`, status and index last; `finish` moves the pointer; a failure abandons the version. The state written after: the directory, the pile's history (restarted after a fall published), the adverts taken down seen. A trial on a copy of the fresh store published 74,835 offers (33,677 in the main occupations) in 53 s, peak 1.8 GB, 81 MB on disk. `readCatalogue`'s `CatalogueOf` type is exported for the dependencies' types.
 - [ ] **T017 — Measured on a real store, against the legacy** · NFR: Equivalence, Speed and memory · Depends: T016
       Done when: a scratchpad script runs the fresh store through `pnpm process` and through the legacy's `toRecord` and pile steps on the same adverts, and records here: the offers kept and the fields that differ (each explained), the files that differ, each stage's time, the whole build's time and peak memory.
 - [ ] **T018 — Close** · Depends: T017

@@ -53,7 +53,7 @@ export function readCatalogueFile<Schema extends z.ZodType>(
   return reading;
 }
 
-type CatalogueOf<Name extends CatalogueName> = z.output<
+export type CatalogueOf<Name extends CatalogueName> = z.output<
   (typeof CATALOGUES)[Name]["schema"]
 >;
 

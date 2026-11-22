@@ -9,6 +9,7 @@
     "crawl:status": "tsx src/bin/crawl-status.ts",
     "gate:explain": "tsx src/bin/gate-explain.ts",
     "registers": "tsx src/bin/registers.ts",
+    "process": "tsx src/bin/process.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:run": "vitest run",
