@@ -697,4 +697,4 @@ function sayOnce(out: string) {
 // The method's steps on lists of titles, one entry per title and in order, as builder/mt/legs.mjs runs them
 // around Firefox's passes. Each answers new lists and leaves those it was given as they were; what one step
 // hands the next goes through JSON, as it went through a file when the steps were separate commands.
-export const copy = (x: string) => JSON.parse(JSON.stringify(x));
+export const copy = <T>(x: T): T => JSON.parse(JSON.stringify(x)) as T;

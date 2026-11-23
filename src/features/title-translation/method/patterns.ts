@@ -1,5 +1,12 @@
 // Legacy builder/mt/patterns.ts (JustJans/indudex@b0cd182), word for word but for lint and paths.
 // The patterns the title method builds its rules from: a term as a word of its own, built once and kept.
+import { setFlagsFromString } from "node:v8";
+
+// The method keeps thousands of patterns (every trade of every pair as a word of its own). Node 26's V8 compiles a
+// pattern run often into machine code, and with these that code filled the heap: the legacy's own tests ran out of
+// memory at 400 MB on Node 26 (23 November 2026), and pass with the patterns kept in V8's bytecode. Set before any
+// pattern of the method is built; it holds for every pattern of the process.
+setFlagsFromString("--no-regexp-tier-up");
 
 const BS = String.fromCharCode(92);
 const L = "[" + BS + "p{L}" + BS + "p{N}]";
