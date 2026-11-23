@@ -132,7 +132,7 @@ const titleWords = (s: string) =>
     .toLowerCase()
     .match(/\p{L}[\p{L}'’·-]*/gu) || [];
 // The jobs a product or code may be left in front of, by language (after).
-export const JOB_AFTER = {
+export const JOB_AFTER: Readonly<Record<string, string>> = {
   es: "Desarrollador(?:a|es)?|Ingeniero(?:s)?|Consultor(?:es)?|Arquitecto(?:s)?|Administrador(?:es)?|Programador(?:es)?",
   ca: "Desenvolupador(?:a|s)?|Enginyer(?:s)?|Consultor(?:s)?|Arquitecte(?:s)?|Administrador(?:s)?|Programador(?:s)?",
   fr: "Développeur(?:se|s)?|Ingénieur(?:s)?|Consultant(?:e|s)?|Architecte(?:s)?|Administrateur(?:s)?|Programmeur(?:s)?",
@@ -140,19 +140,20 @@ export const JOB_AFTER = {
   it: "Sviluppatore|Sviluppatori|Ingegnere|Ingegneri|Consulente|Consulenti|Architetto|Architetti|Amministratore|Programmatore|Programmatori|Responsabile|Tecnico|Specialista",
 };
 // "Backend", "Frontend" or "Full Stack" Firefox left in front of the job, with the tech names after it (after).
-export const STACK_BEFORE_JOB = Object.fromEntries(
-  Object.entries(JOB_AFTER).map(([l, job]) => [
-    l,
-    new RegExp(
-      "(^|[–|(/:]\\s*)((?:" +
-        STACK_EN +
-        ")(?:\\s+(?:[.\\p{Lu}][\\p{L}\\d.#+]*|\\p{L}*[#+][\\p{L}\\d.#+]*)){0,2})\\s+(" +
-        job +
-        ")(?![\\p{L}])",
-      "iu",
-    ),
-  ]),
-);
+export const STACK_BEFORE_JOB: Readonly<Record<string, RegExp>> =
+  Object.fromEntries(
+    Object.entries(JOB_AFTER).map(([l, job]) => [
+      l,
+      new RegExp(
+        "(^|[–|(/:]\\s*)((?:" +
+          STACK_EN +
+          ")(?:\\s+(?:[.\\p{Lu}][\\p{L}\\d.#+]*|\\p{L}*[#+][\\p{L}\\d.#+]*)){0,2})\\s+(" +
+          job +
+          ")(?![\\p{L}])",
+        "iu",
+      ),
+    ]),
+  );
 // A word of a product's name: digits, a slash or a hyphen inside it too ("SAP S/4HANA", "SAP IS-U", "FI/CO"); not a
 // level after the slash ("Systemheld/Sénior Ingeniero de Sistemas").
 export const NAME_WORD =

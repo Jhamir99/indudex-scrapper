@@ -307,7 +307,7 @@ export function completeCut(t: string, lang: string) {
     )
     .trim();
 }
-export const ICS = {
+export const ICS: Readonly<Record<string, Readonly<Record<string, string>>>> = {
   es: {
     electronics: "electrónica",
     mechanics: "mecánica",

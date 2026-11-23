@@ -93,7 +93,9 @@ export const NAMES = [
 export const TITLE_DE =
   /(?<=[\p{L}\d)] )(?:Für|Mit|Und|Als|Im|Am|In|An|Zur|Zum|Zu|Bei|Von|Vom|Der|Die|Das|Den|Dem|Des|Ein|Eine|Einen|Einer|Auf|Aus|Nach|Oder|Sowie|Bis|Ab|Über|Unter|Ohne|Befristet|Zunächst|Vorerst)(?= [\p{L}\d])/u;
 // A language's name standing on its own in an English title, as each language writes it (before).
-export const LANGUAGES = {
+export const LANGUAGES: Readonly<
+  Record<string, Readonly<Record<string, string>>>
+> = {
   English: {
     es: "inglés",
     ca: "anglès",
@@ -401,7 +403,7 @@ export const ENGLISH_PLACE = new RegExp(
   "gu",
 );
 // The language each target is written in, as LANGUAGES names it (after).
-export const OWN = {
+export const OWN: Readonly<Record<string, string>> = {
   es: "Spanish",
   ca: "Catalan",
   fr: "French",
@@ -413,7 +415,7 @@ export const HYPHEN_JOB =
   /(\p{Ll})-(?=(?:Administrator|Manager|Engineer|Consultant|Developer|Designer|Specialist|Analyst|Controller|Architect)(?![\p{Ll}]))/gu;
 // "Agentic" on its own; "Agentic AI" is a name (NAMES).
 export const AGENTIC = /(?<![\p{L}])agentic(?![\p{L}])(?!\s+AI(?![\p{L}]))/iu;
-export const BACK = {
+export const BACK: Readonly<Record<string, string>> = {
   robótic: "agéntic",
   robòtic: "agèntic",
   robòtiq: "agèntiq",
@@ -523,7 +525,9 @@ export const STACK_AFTER_WORD = new RegExp(
 // An English job word Firefox left in front of them, with up to two names before it (after).
 export const STACK_JOB_EN =
   /(?<![\p{L}])((?:\p{Lu}[\p{L}\d.#+]*\s+){0,2}?)(Developer|Engineer)(s?)\s+((?:[Bb]ack|[Ff]ront)(?:-?[Ee]nd|\s+[Ee]nd)|[Ff]ull[- ]?[Ss]tack)(?![\p{L}])/gu;
-export const JOB_EN_TO = {
+export const JOB_EN_TO: Readonly<
+  Record<string, Readonly<Record<string, string>>>
+> = {
   es: {
     developer: "desarrollador",
     developers: "desarrolladores",
