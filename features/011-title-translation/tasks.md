@@ -42,8 +42,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 - [x] **T010 — The method's golden set** · FR: FR-6 · Depends: T009
       Done when: `test/fixtures/title-translation/method.json` holds the legacy's `translateTitles` of a sample of the store's titles in each language with a stand-in engine (made in the scratchpad), and ours gives the same; the whole store's titles compared in the scratchpad, the differences recorded here.
       2026-11-22: done. The scratchpad's `compare-method.mts` runs the legacy's `translateTitles` and ours with the same two stand-in engines ("same": the text back as given; "turned": its words reversed and the target's code added) and no Aina, over the published titles of 010's trial version by their language (21 languages): 20 titles a language, 4,248 outputs, 0 differing. `test/fixtures/title-translation/method.json` (read by `legs.test.ts`): the legacy's outputs for 8 titles a language with both engines (1,788 outputs), each with its offer's town but not its employer (one may name a person; the company path is the legacy's `mt-companies` test's); ours gives every one the same (27 s).
-- [ ] **T011 — Catalan from Spanish** · FR: FR-7 · Depends: T009
+- [x] **T011 — Catalan from Spanish** · FR: FR-7 · Depends: T009
       Done when: `aina.ts` is extracted, `legs.ts` uses it where Aina is installed, and the legacy's tests pass with a stand-in worker (`test/mt-aina`); with no Aina nothing changes.
+      2026-11-22: done. `aina.ts` came with T009 (`legs` imports it); its worker is `vendor/aina/aina_worker.py`, its data `data.ts`'s vocabularies and our places' catalogue. The legacy's `mt-aina` passes (a stand-in translator: Catalan kept only when whole, the names and towns kept, not made up). `aina.test.ts` checks the worker's wiring with a stand-in `python` in a temporary `AINA_DIR` (each line in, its answer out, in order) and that with no model in `AINA_DIR` Aina is not used, so the route through English stands.
 
 ## Part D — The translator
 
