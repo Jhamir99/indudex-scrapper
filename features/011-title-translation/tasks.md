@@ -48,8 +48,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part D — The translator
 
-- [ ] **T012 — The engine and its models** · FR: FR-5 · Depends: T009
+- [x] **T012 — The engine and its models** · FR: FR-5 · Depends: T009
       Done when: `engine.ts` runs the vendored loader in worker threads as the legacy (tested with a stand-in loader), and `src/bin/translate-fetch.ts` (`pnpm translate:fetch`) fetches the engine and models with their SHA-256 checked (tested on saved answers of Remote Settings).
+      2026-11-22: done. `engine.ts` (ported with T009) runs the vendored loader in worker threads as the legacy did, its WebAssembly bindings declared as the small interface the worker uses; `engine.test.ts` checks no text starts no worker, a worker that cannot load the engine fails the call naming the file (Node 26 runs the `.ts` worker with its own type stripping), and `MT_DIR`. `fetch-models.ts` (the legacy's `fetch.mjs`, `fetch` injectable) and `src/bin/translate-fetch.ts` (`pnpm translate:fetch [pair …]`); tested against a made-up Remote Settings of small files compressed with Zstandard with their real SHA-256 (the newest version of a direction, `files.json`, a file already there kept, a tampered file and a missing engine version refused). The real Remote Settings and models are fetched in T015.
 - [ ] **T013 — The queue and the caches' merge** · FR: FR-8 · Depends: T004
       Done when: `queue.ts` and `merge.ts` are extracted and the legacy's tests pass (`test/mt-queue`); a cache is merged by a child process.
 - [ ] **T014 — The translator's run** · FR: FR-8, FR-9 · Depends: T011, T012, T013

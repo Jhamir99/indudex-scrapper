@@ -10,6 +10,7 @@
     "gate:explain": "tsx src/bin/gate-explain.ts",
     "registers": "tsx src/bin/registers.ts",
     "process": "tsx src/bin/process.ts",
+    "translate:fetch": "tsx src/bin/translate-fetch.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:run": "vitest run",
