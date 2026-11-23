@@ -1,6 +1,6 @@
 import { z } from "@hono/zod-openapi";
 import type { StoredAdvert } from "../../shared/schemas/advert.js";
-import { titleCalmer } from "./calm-titles.js";
+import { titleCalmer } from "../../shared/kit/calm-titles.js";
 import { contractOf } from "./contract.js";
 import {
   compileScreens,

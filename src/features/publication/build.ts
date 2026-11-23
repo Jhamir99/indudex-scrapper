@@ -2,11 +2,8 @@ import { shownTitle } from "../../shared/kit/shown-title.js";
 import type { StoredAdvert } from "../../shared/schemas/advert.js";
 import type { Offer } from "../../shared/schemas/published/offer.js";
 import type { SourceKind } from "../../shared/schemas/source.js";
-import {
-  type AdvertFacts,
-  calmTitle,
-  spellingsOf,
-} from "../advert-facts/index.js";
+import type { AdvertFacts } from "../advert-facts/index.js";
+import { calmTitle, spellingsOf } from "../../shared/kit/calm-titles.js";
 import type { DirectoryOffer } from "../companies/index.js";
 import { createEmployerReader } from "../companies/index.js";
 import {

@@ -334,7 +334,7 @@ export function dutchOr(t: string) {
 // A level opening an English title (before): see the words in OPENING.
 export const OPENING_RE =
   /^(\((?:junior|senior)\)|junior|senior|medior|mid-level|middle(?!\s+(?:office|east|management|school|age)(?![\p{L}]))|founding|experienced(?!\s+(?:and|or|&)(?![\p{L}]))|graduate(?!\s+(?:\p{L}+\s+)?(?:schemes?|programmes?|programs?)(?![\p{L}]))|chartered|lead(?!\s+(?:generation|gen|times?|paint|acid|free|fitters?|electrical\s+fitters?|technicians?)(?![\p{L}]))|principal|intermediate|assistant(?=\s+(?:[\p{L}&-]+\s+){0,3}(?:managers?|directors?|engineers?|surveyors?|architects?|planners?|designers?|consultants?|estimators?|buyers?|controllers?|accountants?|coordinators?|superintendents?|inspectors?|advisors?|advisers?|officers?)(?![\p{L}]))|deputy|interim|associate(?!\s+(?:degree|of|to)(?![\p{L}]))|regional|multi[\s-]?skilled|(?:junior|senior|lead|principal|associate|intermediate)\s*\/\s*(?:senior|lead|principal|associate)|skilled(?!\s+trades(?:person|people|man|men|woman|women)?(?![\p{L}]))|(?:commercial|domestic)(?=\s+(?:gas|heating|plumbing|plumber|refrigeration|ventilation|air\s+conditioning|boiler|catering|kitchen|estimators?)(?![\p{L}]))|(?:foot[\s-])?mobile(?=\s+(?:hgv|hose|repair|hydraulic|maintenance|service|electrical|mechanical|multi-?skilled|hvac|air\s+conditioning|fabric|gas|plumbing|tyre|tire|vehicle|lift|fire|security|refrigeration|technician|electrician|mechanic|fitter|plumber|welder)(?![\p{L}])))\s+(?=\p{L}|\.NET\b)/iu;
-export const OPENING = {
+export const OPENING: Readonly<Record<string, string>> = {
   "(junior)": "Junior-or-not",
   "(senior)": "Senior-or-not",
   junior: "Junior",
@@ -602,7 +602,9 @@ export const capital = (tr: string, like: string) =>
     ? tr.replace(/^./, (c: string) => c.toUpperCase())
     : tr;
 // Spanish and Catalan job words often written without accents.
-export const ACCENTS = {
+export const ACCENTS: Readonly<
+  Record<string, Readonly<Record<string, string>>>
+> = {
   es: Object.fromEntries(
     "tecnico:técnico tecnicos:técnicos tecnica:técnica tecnicas:técnicas mecanico:mecánico mecanicos:mecánicos mecanica:mecánica electromecanico:electromecánico electromecanicos:electromecánicos electronico:electrónico electronica:electrónica electrico:eléctrico electrica:eléctrica electricos:eléctricos informatico:informático informatica:informática quimico:químico ingenieria:ingeniería fontaneria:fontanería calefaccion:calefacción climatizacion:climatización produccion:producción instalacion:instalación automatizacion:automatización reparacion:reparación construccion:construcción maquinas:máquinas almacen:almacén camion:camión carpinteria:carpintería tecnologia:tecnología energia:energía gestion:gestión administracion:administración logistica:logística telecomunicacion:telecomunicación"
       .split(" ")
@@ -817,7 +819,7 @@ export const installsOf = (x: string) =>
     : /W/.test(x)
       ? "werktuigbouwkundige"
       : "elektrotechnische";
-export const INFRA = {
+export const INFRA: Readonly<Record<string, string>> = {
   nl: "nfrastructuur",
   en: "nfrastructure",
   fr: "nfrastructure",
@@ -827,7 +829,7 @@ export const INFRA = {
 };
 // A French job followed by its technologies, written the English way ("Développeur Python" came back "Developer –
 // Python", "Développeur C#" "Developer C#"); French "IA" is AI.
-export const FR_JOB_EN = {
+export const FR_JOB_EN: Readonly<Record<string, string>> = {
   développeur: "Developer",
   developpeur: "Developer",
   ingénieur: "Engineer",
@@ -927,7 +929,8 @@ export function apartGlued(t: string, lang: string) {
 }
 // How many words of an output no job title of its language uses (dict/vocab.mjs: a word of four letters or
 // more seen fewer than three times in the published titles and their translations), not copied from the input.
-export const VOCABS = {};
+export const VOCABS: Record<string, Readonly<Record<string, number>> | null> =
+  {};
 // English fields ending in "-ics" Firefox leaves in small letters inside a Spanish or Catalan title (after).
 // Adjectives with no adjective ending, which a trade behind a stand-in does not take as nouns after it (lostNames):
 // "Fast mechanical fitter" came back "Muntador mecànic – Fast".
