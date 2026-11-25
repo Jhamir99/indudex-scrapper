@@ -139,6 +139,29 @@ describe("the title translator's run (title translation FR-8, FR-9)", () => {
     ).toEqual(["Monteur"]);
   });
 
+  it("starts no further chunk once STOP is in place (012 FR-4)", async () => {
+    await write("mt-wanted.json", [
+      wanted("Elektriker"),
+      wanted("Monteur", ["en"]),
+    ]);
+    let stop = false;
+    const stopping: Engine = {
+      translate: async (_pair, texts) => {
+        stop = true;
+        return texts.map((t) => t.toUpperCase());
+      },
+      aina: null,
+    };
+    const { result, log } = await run(stopping, {
+      stopped: async () => stop,
+    });
+    expect(result).toMatchObject({ titles: 1, left: 1, failed: false });
+    expect(log).toContain("mt: STOP is in place: no further chunk");
+    expect(
+      (await read("mt-wanted.json")).map((w: { t: string }) => w.t),
+    ).toEqual(["Monteur"]);
+  });
+
   it("fails when the engine gives no answer for most titles", async () => {
     await write("mt-wanted.json", [wanted("Elektriker"), wanted("Monteur")]);
     // An engine that fails on every text: a title it fails on alone gets no translation this time.

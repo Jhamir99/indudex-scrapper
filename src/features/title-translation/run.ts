@@ -54,6 +54,8 @@ export interface TranslatorRun {
   readonly engine?: Engine;
   readonly now?: () => number;
   readonly log?: (line: string) => void;
+  // The stop switch (STOP in the store, 012): asked before each chunk; once it answers true, no further chunk starts.
+  readonly stopped?: () => Promise<boolean>;
 }
 
 export interface TranslatorResult {
@@ -188,9 +190,16 @@ export async function runTranslator(
 
   let titles = 0,
     unanswered = 0;
+  const stopNow = async () => {
+    if (!(await run.stopped?.())) return false;
+    log("mt: STOP is in place: no further chunk");
+    return true;
+  };
   for (
     let next;
-    now() - started <= minutes * 60_000 && (next = nextChunk(groups));
+    now() - started <= minutes * 60_000 &&
+    !(await stopNow()) &&
+    (next = nextChunk(groups));
   ) {
     const { g, chunk } = next;
     const list = chunk.map((w) => w.t);

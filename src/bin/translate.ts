@@ -2,11 +2,13 @@
 // through the titles the last publication found its caches lacking (state/mt-wanted.json) with Firefox's models
 // (MT_DIR, fetched with `pnpm translate:fetch`) and Aina where it is installed (AINA_DIR), into the caches the next
 // publication applies. Starts no chunk after its minutes. Exits 1 when it fails (no models, or no answer for most
-// titles). The host's cron runs it (012-operations).
+// titles). Starts no further chunk once STOP is in place in the store. The host's cron runs it (012-operations).
 import { parseArgs } from "node:util";
 import { mtDir } from "../features/title-translation/engine.js";
 import { runTranslator } from "../features/title-translation/run.js";
+import { FileStopSwitch } from "../shared/storage/file-stop-switch.js";
 import { processorStateDirectory } from "../shared/storage/processor-state.js";
+import { storeDirectory } from "./store-directory.js";
 
 const number = (value: string | undefined, fallback: number) =>
   value ? Number(value) : fallback;
@@ -35,6 +37,8 @@ try {
     strict: true,
     allowPositionals: false,
   });
+  // STOP in the store stops the translator between chunks, as it stops the crawl (012).
+  const stopSwitch = new FileStopSwitch(storeDirectory());
   const result = await runTranslator({
     stateDirectory: processorStateDirectory(),
     mtDirectory: mtDir(),
@@ -42,6 +46,7 @@ try {
     workers: number(values.workers, 2),
     group: number(values.group, 400),
     log,
+    stopped: () => stopSwitch.isActive(),
   });
   if (result.failed) process.exitCode = 1;
 } catch (error) {
