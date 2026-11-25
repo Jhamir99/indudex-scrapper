@@ -45,5 +45,6 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part D — Measured and closed
 
-- [ ] **T011 — Close** · NFR: Measured · Depends: T003, T006, T007, T008, T009, T010
+- [x] **T011 — Close** · NFR: Measured · Depends: T003, T006, T007, T008, T009, T010
       Done when: `CLAUDE.md` names `ops.js` and the deploy, `OPS_DIR` and the feature's modules; `features/README.md` marks 012 done (or "in progress" until the server's day is recorded); `MEMORY.md` updated; the server's day (each job's outcomes and times, the notices received, one backup's size) recorded here, or why it could not be done yet (the operator runs the deploy on the server).
+      2026-11-25: done but for the server's day. `CLAUDE.md` names `ops/deploy.sh`, `ops.js` and its subcommands, `OPS_DIR`, `NTFY_TOPIC`, `BACKUP_REPO` and the feature's modules; `MEMORY.md` records the decisions and what the first deploy needs. **Not measured yet:** the schedule has not run on the server; the operator's first `sh ops/deploy.sh` (setup in `ops/README.md`) and one day of its runs, notices and one backup's size are to be recorded here. Until then `features/README.md` keeps 012 "in progress". The three tests with the real `flock` run only on CI's Ubuntu.
