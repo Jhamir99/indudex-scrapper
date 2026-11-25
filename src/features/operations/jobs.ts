@@ -98,7 +98,9 @@ export const ALL_LOCKS: readonly string[] = [
 ];
 
 // The repo's root, the same from src (tsx) and dist (node).
-export const REPO_ROOT = fileURLToPath(new URL("../../../", import.meta.url));
+export const REPO_ROOT = resolve(
+  fileURLToPath(new URL("../../../", import.meta.url)),
+);
 
 // The operations' own folder (logs, locks, the problems told): OPS_DIR when set, else `var/` at the repo root (git
 // ignores it).

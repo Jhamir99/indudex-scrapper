@@ -1,3 +1,4 @@
+import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { JOBS } from "./jobs.js";
 
@@ -46,4 +47,44 @@ export function mergedCrontab(
 // A word for sh, in single quotes; cron reads a bare % as a line break, so it is escaped too.
 function quoted(word: string): string {
   return `'${word.replaceAll("'", `'\\''`).replaceAll("%", "\\%")}'`;
+}
+
+// The user's crontab, read and written with `crontab` (a user without one has none: read as empty).
+export interface Crontab {
+  read(): string;
+  write(text: string): void;
+}
+
+export const systemCrontab: Crontab = {
+  read() {
+    const answer = spawnSync("crontab", ["-l"], { encoding: "utf8" });
+    if (answer.status === 0) return answer.stdout;
+    if (/no crontab/i.test(answer.stderr)) return "";
+    throw new Error(
+      `crontab -l failed: ${answer.stderr.trim() || answer.error?.message}`,
+    );
+  },
+  write(text) {
+    const answer = spawnSync("crontab", ["-"], {
+      input: text,
+      encoding: "utf8",
+    });
+    if (answer.status !== 0)
+      throw new Error(
+        `crontab - failed: ${answer.stderr.trim() || answer.error?.message}`,
+      );
+  },
+};
+
+// The deploy's last step (FR-12): the project's lines written into the crontab, every other line kept. Answers the
+// lines written.
+export function installSchedule(
+  where: ScheduleWhere,
+  crontab: Crontab,
+): string[] {
+  const lines = scheduleLines(where);
+  const current = crontab.read();
+  const merged = mergedCrontab(current, lines);
+  if (merged !== current) crontab.write(merged);
+  return lines;
 }

@@ -1,10 +1,11 @@
-// `node dist/bin/ops.js job <name> | watch | backup`: the server's operations (012).
+// `node dist/bin/ops.js job <name> | watch | backup | schedule`: the server's operations (012).
 //   job <name>  what the crontab's lines (written by the deploy) run: STOP first, then the job's locks and command,
 //               its output into its log, then the alerts (a failure told once, and its end). Always exits 0 (the
 //               alerts are the channel, not cron's mail). After a good publication, the summary.
 //   watch       the quarter-hourly watch (run by `job watch`, under its lock): STOP, late jobs, logs, disk, SSD.
 //   backup      the nightly copy (run by `job backup`): what only the server holds, to BACKUP_REPO's release. Exits 1
 //               when it was not sent.
+//   schedule    the deploy's last step: the project's lines written into the crontab, every other line kept.
 // Exits 2 on a usage error.
 import { mkdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -12,6 +13,7 @@ import { join } from "node:path";
 import {
   afterJob,
   backup,
+  installSchedule,
   jobNamed,
   JOBS,
   lockedCommand,
@@ -21,6 +23,7 @@ import {
   REPO_ROOT,
   runJob,
   serverMachine,
+  systemCrontab,
   Told,
   watch,
 } from "../features/operations/index.js";
@@ -32,7 +35,7 @@ import { publishedDirectory } from "../shared/storage/published-dataset.js";
 import { environmentWithDotEnv } from "./dot-env.js";
 import { storeDirectory } from "./store-directory.js";
 
-const USAGE = `usage: ops.js job <${JOBS.map((job) => job.name).join("|")}> | watch | backup`;
+const USAGE = `usage: ops.js job <${JOBS.map((job) => job.name).join("|")}> | watch | backup | schedule`;
 
 const [command, name] = process.argv.slice(2);
 const environment = environmentWithDotEnv();
@@ -108,6 +111,14 @@ if (command === "job" && name && jobNamed(name)) {
     console.error(error instanceof Error ? error.message : String(error));
     process.exitCode = 1;
   }
+} else if (command === "schedule") {
+  // cron opens the jobs' log before ops.js runs: the folder must be there.
+  await mkdir(join(ops, "logs"), { recursive: true });
+  const lines = installSchedule(
+    { repo: REPO_ROOT, node: process.execPath, opsDirectory: ops },
+    systemCrontab,
+  );
+  console.log(`this project's lines in the crontab:\n${lines.join("\n")}`);
 } else {
   console.error(USAGE);
   process.exitCode = 2;
