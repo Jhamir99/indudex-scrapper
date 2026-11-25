@@ -42,6 +42,7 @@ import { upsvr } from "../public-feeds/adapters/upsvr/upsvr.js";
 import { uzt } from "../public-feeds/adapters/uzt/uzt.js";
 import { valtiolle } from "../public-feeds/adapters/valtiolle/valtiolle.js";
 import { vdab } from "../public-feeds/adapters/vdab/vdab.js";
+import { nav } from "../credentialed-sources/adapters/nav/nav.js";
 import type { SourceAdapter } from "./ports.js";
 
 // Every source the scrapper runs, in no particular order (the runner decides when each runs).
@@ -78,6 +79,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   linz,
   madrid,
   mpsv,
+  nav,
   netempregos,
   nva,
   ooe,

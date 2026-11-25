@@ -1,0 +1,40 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "arbeidsplassen.no Job Vacancy Feed",
+  "home_page_url": "https://arbeidsplassen.nav.no/stillinger",
+  "feed_url": "https://pam-stilling-feed.nav.no/api/v1/feed/2f6a1c3e-0000-4000-8000-000000000002",
+  "description": "Made up for indudex-scrapper's tests in the feed's documented shape; no real ad.",
+  "id": "2f6a1c3e-0000-4000-8000-000000000002",
+  "items": [
+    {
+      "id": "a0000000-0000-4000-8000-000000000004",
+      "url": "https://pam-stilling-feed.nav.no/api/v1/feedentry/a0000000-0000-4000-8000-000000000004",
+      "title": "Prosessingeniør",
+      "content_text": "Prosessingeniør",
+      "date_modified": "2026-11-14T12:00:00.000Z",
+      "_feed_entry": {
+        "uuid": "6b1d2e3f-1111-4aaa-8bbb-000000000002",
+        "status": "INACTIVE",
+        "title": "Prosessingeniør",
+        "businessName": "Nordkapp Prosess AS",
+        "municipal": "BÆRUM",
+        "sistEndret": "2026-11-14T12:00:00.000Z"
+      }
+    },
+    {
+      "id": "a0000000-0000-4000-8000-000000000005",
+      "url": "https://pam-stilling-feed.nav.no/api/v1/feedentry/a0000000-0000-4000-8000-000000000005",
+      "title": "Ingeniør",
+      "content_text": "Ingeniør",
+      "date_modified": "2026-11-15T07:45:00.000Z",
+      "_feed_entry": {
+        "uuid": "6b1d2e3f-1111-4aaa-8bbb-000000000004",
+        "status": "INACTIVE",
+        "title": "Ingeniør",
+        "businessName": "Tromsø Bygg AS",
+        "municipal": "TROMSØ",
+        "sistEndret": "2026-11-15T07:45:00.000Z"
+      }
+    }
+  ]
+}

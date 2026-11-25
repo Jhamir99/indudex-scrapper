@@ -1,0 +1,57 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "arbeidsplassen.no Job Vacancy Feed",
+  "home_page_url": "https://arbeidsplassen.nav.no/stillinger",
+  "feed_url": "https://pam-stilling-feed.nav.no/api/v1/feed",
+  "description": "Job Vacancy Feed from arbeidsplassen.no. Made up for indudex-scrapper's tests in the feed's documented shape (pam-stilling-feed's API documentation); no real ad.",
+  "next_url": "/api/v1/feed/2f6a1c3e-0000-4000-8000-000000000002",
+  "id": "2f6a1c3e-0000-4000-8000-000000000001",
+  "next_id": "2f6a1c3e-0000-4000-8000-000000000002",
+  "items": [
+    {
+      "id": "a0000000-0000-4000-8000-000000000001",
+      "url": "https://pam-stilling-feed.nav.no/api/v1/feedentry/a0000000-0000-4000-8000-000000000001",
+      "title": "Elektriker",
+      "content_text": "Elektriker",
+      "date_modified": "2026-11-12T08:15:00.000Z",
+      "_feed_entry": {
+        "uuid": "6b1d2e3f-1111-4aaa-8bbb-000000000001",
+        "status": "ACTIVE",
+        "title": "Elektriker",
+        "businessName": "Fjordkraft Elektro AS",
+        "municipal": "SØR-ODAL",
+        "sistEndret": "2026-11-12T08:15:00.000Z"
+      }
+    },
+    {
+      "id": "a0000000-0000-4000-8000-000000000002",
+      "url": "https://pam-stilling-feed.nav.no/api/v1/feedentry/a0000000-0000-4000-8000-000000000002",
+      "title": "Prosessingeniør",
+      "content_text": "Prosessingeniør",
+      "date_modified": "2026-11-10T09:00:00.000Z",
+      "_feed_entry": {
+        "uuid": "6b1d2e3f-1111-4aaa-8bbb-000000000002",
+        "status": "ACTIVE",
+        "title": "Prosessingeniør",
+        "businessName": "Nordkapp Prosess AS",
+        "municipal": "BÆRUM",
+        "sistEndret": "2026-11-10T09:00:00.000Z"
+      }
+    },
+    {
+      "id": "a0000000-0000-4000-8000-000000000003",
+      "url": "https://pam-stilling-feed.nav.no/api/v1/feedentry/a0000000-0000-4000-8000-000000000003",
+      "title": "Automasjonstekniker",
+      "content_text": "Automasjonstekniker",
+      "date_modified": "2026-11-11T10:30:00.000Z",
+      "_feed_entry": {
+        "uuid": "6b1d2e3f-1111-4aaa-8bbb-000000000003",
+        "status": "ACTIVE",
+        "title": "",
+        "businessName": "Vestland Automasjon AS",
+        "municipal": "?",
+        "sistEndret": "2026-11-11T10:30:00.000Z"
+      }
+    }
+  ]
+}

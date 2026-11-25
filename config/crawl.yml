@@ -78,6 +78,8 @@ pace:
     empleacantabria.es: 10000
     # Barcelona's Escola del Treball: its department lists and the page of each new offer.
     apps.escoladeltreball.org: 1500
+    # NAV's job feed for Norway: about 380 pages of its log of changes, read every hour.
+    pam-stilling-feed.nav.no: 100
 
 run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.
@@ -111,6 +113,9 @@ sources:
   # Jobindex: robots.txt lets in only each category's first page, so it is read every hour and
   # each advert is kept until its own last day.
   jobindex:
+    cadenceHours: 1
+  # NAV's job feed (credentialed): its terms ask that an ad marked inactive leave the site at once.
+  nav:
     cadenceHours: 1
   # Iceland's State and Directorate of Labour vacancies, two calls.
   island:
