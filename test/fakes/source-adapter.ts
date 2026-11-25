@@ -90,6 +90,7 @@ export function fakeContext(
     isOurs: () => true,
     pageBudget: UNLIMITED,
     backlog: () => {},
+    pageFacts: () => ({}),
     ...overrides,
   };
 }

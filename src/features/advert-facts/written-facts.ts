@@ -1,3 +1,4 @@
+import { decodeEntities } from "../../shared/kit/entities.js";
 import { sentences } from "../../shared/kit/sentences.js";
 import {
   type Contract,
@@ -523,5 +524,58 @@ export function contractAndTime(
   return {
     contract: ct ? contractOfCode(ct) : null,
     workingTime: wt ? workingTimeOfCode(wt) : null,
+  };
+}
+
+// A vacancy's page as "label | value |" runs: menus, headers, footers, forms, lists of choices and scripts out, every
+// block's end a bar, a label's colon kept (the legacy's builder/lib/labels.ts `fieldText`; job portals T003).
+export function fieldText(html: string): string {
+  return decodeEntities(
+    html
+      .replace(
+        /<(script|style|noscript|nav|header|footer|form|select|template|svg)[\s\S]*?<\/\1>/gi,
+        " ",
+      )
+      .replace(
+        /<\/(?:p|div|li|dt|dd|td|th|tr|h\d|span|label|strong|b)>|<br\s*\/?>/gi,
+        " | ",
+      )
+      .replace(/<[^>]+>/g, " "),
+  )
+    .replace(/[ \t\u00a0]+/g, " ")
+    .replace(/(?:\s*\|\s*)+/g, " | ")
+    .slice(0, 400_000);
+}
+
+// The contract, hours and years a page writes as labelled fields beside its text («Contrat : CDI», «Beschäftigungsart:
+// Vollzeit», «Werkervaring: 3-5 jaar»), each only when every field of it agrees.
+export const labelledFacts = (html: string): LabelledFacts =>
+  factsOf(fieldText(html));
+
+// A contract or working time shown as a field of its own with no label («Full-time · Amersfoort», «Permanent»); links
+// (menus, filters) are not read.
+export const loneFacts = (html: string): LabelledFacts =>
+  loneOf(
+    fieldText(html.replace(/<a\b[\s\S]*?<\/a>/gi, " ")).split("|"),
+    /\s[·•|/–—-]\s|\s·\s|,\s/,
+  );
+
+// What a vacancy's page says beside its block, for the scrapper's readers (job portals FR-3; the legacy's
+// `withLabels`): the labelled fields first, a lone field where they say nothing, and the page's fields as lines, in which
+// the pay and the last day are read.
+export function factsOfPage(html: string): LabelledFacts & { fields: string } {
+  const labelled = labelledFacts(html);
+  const lone = labelled.contract && labelled.hours ? {} : loneFacts(html);
+  const contract = labelled.contract ?? lone.contract;
+  const hours = labelled.hours ?? lone.hours;
+  return {
+    ...(contract ? { contract } : {}),
+    ...(hours ? { hours } : {}),
+    ...(labelled.years !== undefined ? { years: labelled.years } : {}),
+    fields: fieldText(html)
+      .split("|")
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .join("\n"),
   };
 }

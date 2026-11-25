@@ -1,4 +1,5 @@
 import type { PageBudget } from "./page-budget.js";
+import type { PageFacts } from "./page-facts.js";
 import type {
   HttpRequestOptions,
   HttpResponse,
@@ -36,7 +37,11 @@ export interface AdapterContext {
   readonly pageBudget: PageBudget;
   // Pages of ours the pass left to read: the source is due again sooner (job portals FR-5).
   backlog(pages: number): void;
+  // What a vacancy's page says in labelled fields beside its block (job portals FR-3); nothing when none is given.
+  pageFacts(html: string): PageFacts;
 }
+
+export type { PageFacts };
 
 export type { PageBudget };
 

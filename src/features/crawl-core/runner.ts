@@ -10,6 +10,7 @@ import type { SourceState } from "../../shared/schemas/source.js";
 import type { TakedownList } from "../../shared/config/takedowns.js";
 import { checkCredentials, type Environment } from "./credentials.js";
 import { type PageBudget, UNLIMITED } from "./page-budget.js";
+import { NO_PAGE_FACTS, type PageFacts } from "./page-facts.js";
 import {
   afterDisallowed,
   afterFailure,
@@ -79,6 +80,7 @@ export interface SourceRunDependencies {
   // The gate's reading of a title, and the run's page budget (job portals FR-4, FR-5).
   readonly isOurs?: (title: string, country: string) => boolean;
   readonly pageBudget?: PageBudget;
+  readonly pageFacts?: (html: string) => PageFacts;
 }
 
 class RunStopped extends Error {
@@ -167,6 +169,7 @@ export async function runSource(
       },
       isOurs: dependencies.isOurs ?? (() => true),
       pageBudget: dependencies.pageBudget ?? UNLIMITED,
+      pageFacts: dependencies.pageFacts ?? NO_PAGE_FACTS,
       backlog: (pages) => {
         backlog = Math.max(0, Math.round(pages));
       },
@@ -244,6 +247,7 @@ export interface RunDependencies {
   // The gate's reading of a title, and the run's page budget, shared by its sources (job portals FR-4, FR-5).
   readonly isOurs?: (title: string, country: string) => boolean;
   readonly pageBudget?: PageBudget;
+  readonly pageFacts?: (html: string) => PageFacts;
   // Sources read at once (default 1). The polite client behind `http` is shared, so the pace of
   // each host, server and provider and the connection caps hold however many run.
   readonly concurrency?: number;

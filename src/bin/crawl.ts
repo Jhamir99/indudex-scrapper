@@ -22,6 +22,7 @@ import { FileAdvertStore } from "../shared/storage/file-advert-store.js";
 import { FileStopSwitch } from "../shared/storage/file-stop-switch.js";
 import { FileRatesKeeper } from "../shared/storage/kept-rates.js";
 import { environmentWithDotEnv } from "./dot-env.js";
+import { readPageFacts } from "./page-facts.js";
 import { storeDirectory } from "./store-directory.js";
 
 const clock: Clock = {
@@ -59,6 +60,7 @@ try {
         confirmedTitles: await readCatalogue("confirmedTitles"),
       }),
       pageBudget: pageBudget(config.run.pageBudget),
+      pageFacts: readPageFacts,
       rates: new FileRatesKeeper(directory, clock),
     });
     const counts = new Map<string, number>();

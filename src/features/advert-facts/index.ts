@@ -5,6 +5,9 @@ export type { WorkMode } from "./work-mode.js";
 export {
   agencyWorkCode,
   contractAndTime,
+  factsOfPage,
+  labelledFacts,
+  loneFacts,
   type WrittenAdvert,
   writtenFacts,
 } from "./written-facts.js";

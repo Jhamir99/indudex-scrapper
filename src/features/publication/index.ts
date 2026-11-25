@@ -63,6 +63,8 @@ import {
 } from "../title-translation/index.js";
 
 export { DatasetError } from "../../shared/storage/published-dataset.js";
+// The last day a text writes, for the scrapper's readers of a page's labelled fields (job portals T003).
+export { deadlineInText } from "./labels/days.js";
 
 // The catalogues the steps read, as `readCatalogue` gives them.
 export interface PublicationCatalogues {
