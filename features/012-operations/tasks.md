@@ -18,8 +18,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part B — Alerts
 
-- [ ] **T004 — One notice** · FR: FR-7, FR-10 · Depends: T001
+- [x] **T004 — One notice** · FR: FR-7, FR-10 · Depends: T001
       Done when: `ntfy.ts` sends a notice as plan section 3 says (body, title, priority, tags, retries, quiet hours) and writes it to the alerts' log first; no topic, no request; `told.ts` reads and sets the flag files; tests with a stand-in `fetch` and clock.
+      2026-11-25: done. `ntfy.ts` (`ntfyNotifier`): the title, priority and tags go in ntfy's query string rather than headers (a header carries Latin-1 at best; «…» and the like would be mangled), the message as the body, as the legacy's; four tries 20 s apart, 20 s each; a notice that cannot be sent is noted in the alerts' log (without the topic, the channel's secret) and never throws. `spanish.ts`: `number`, `plural`, `clock`, `dayAndClock`, `lasting`. `told.ts` (`Told`): one flag file per thing told, its time the moment it was set.
 - [ ] **T005 — A job's failure told once, and its end** · FR: FR-6, FR-10 · Depends: T002, T004
       Done when: `alerts.ts` `afterJob` tells a failure once with the log's last five lines (stack frames out, 200 characters each), its end once, and nothing for skipped or stopped; `runJob` calls it; tests for fail, fail, good, skipped, stopped.
 - [ ] **T006 — The watch** · FR: FR-8, FR-10 · Depends: T005
