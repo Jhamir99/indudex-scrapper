@@ -3,7 +3,14 @@ import type { Countries } from "../../shared/catalogues/schemas.js";
 import { compileGate, type GateCatalogues } from "./compile.js";
 import { decider, type GateDecision, type GateInput } from "./decide.js";
 
-export { GateDecision, type GateInput } from "./decide.js";
+export { saysClosed } from "./closed.js";
+export {
+  CLOSED,
+  GateDecision,
+  HYGIENE,
+  OUTSIDE_EUROPE,
+  type GateInput,
+} from "./decide.js";
 export {
   explainLine,
   type ExplainedAdvert,

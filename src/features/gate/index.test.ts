@@ -19,7 +19,55 @@ const advert = (fields: Partial<GateInput>): GateInput => ({
   occupationCodes: {},
   country: "es",
   url: "https://example.com/jobs/1",
+  description: "",
   ...fields,
+});
+
+describe("a closed advert (closed adverts FR-3)", () => {
+  const closed = "Let op! Deze vacature is niet meer actief.";
+
+  it("is left out as closed after the families and hygiene, before Europe", () => {
+    expect(gate.decide(advert({ description: closed }))).toEqual({
+      kept: false,
+      reason: "closed",
+    });
+    expect(
+      gate.decide(
+        advert({
+          title: "Technische/r Zeichner/in – bereits besetzt",
+          language: "de",
+          country: "de",
+        }),
+      ),
+    ).toEqual({ kept: false, reason: "closed" });
+    expect(gate.decide(advert({ description: closed, country: "us" }))).toEqual(
+      { kept: false, reason: "closed" },
+    );
+  });
+
+  it("keeps the earlier reasons of an advert outside the vertical or failing hygiene", () => {
+    expect(
+      gate.decide(advert({ title: "Bakery assistant", description: closed })),
+    ).toEqual({ kept: false, reason: "outside the vertical" });
+    const hygiene = gate.decide(
+      advert({
+        title: "Mechanical Engineer position filled",
+        description: closed,
+      }),
+    );
+    expect(hygiene.kept).toBe(false);
+    expect(!hygiene.kept && hygiene.reason.startsWith("hygiene")).toBe(true);
+  });
+
+  it("reads only the top of the text", () => {
+    expect(
+      gate.decide(
+        advert({
+          description: `${"We build turbines. ".repeat(120)}${closed}`,
+        }),
+      ).kept,
+    ).toBe(true);
+  });
 });
 
 describe("the gate's decision (gate FR-7 to FR-10)", () => {

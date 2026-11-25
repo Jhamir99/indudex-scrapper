@@ -98,6 +98,22 @@ describe("the explain report (gate FR-9)", () => {
     );
   });
 
+  it("lists an advert left out as closed (closed adverts FR-4)", async () => {
+    const summary = await writeExplainReport(
+      [
+        advert("1", "Ingeniero mecánico", {
+          description: "Esta oferta ya no está disponible.",
+        }),
+      ],
+      gate.decide,
+      outDirectory,
+    );
+    expect(summary.reasons).toEqual([["closed", 1]]);
+    expect(gunzipSync(await readFile(summary.path)).toString("utf8")).toBe(
+      "[closed] Ingeniero mecánico | Acme | Madrid, España (sne)\n",
+    );
+  });
+
   it("writes an empty report when nothing is left out", async () => {
     const summary = await writeExplainReport(
       [advert("1", "Ingeniero mecánico")],

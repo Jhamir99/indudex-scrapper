@@ -43,11 +43,13 @@ const TOWNS: Record<string, number> = {
 const steps: BuildSteps = {
   gate: {
     decide: (a) =>
-      /engineer/i.test(a.title)
-        ? { kept: true, families: ["2144"], occupations: [], trade: false }
-        : /elektriker/i.test(a.title)
-          ? { kept: true, families: ["7411"], occupations: [], trade: true }
-          : { kept: false, reason: "outside the vertical" },
+      /besetzt/.test(a.description)
+        ? { kept: false, reason: "closed" }
+        : /engineer/i.test(a.title)
+          ? { kept: true, families: ["2144"], occupations: [], trade: false }
+          : /elektriker/i.test(a.title)
+            ? { kept: true, families: ["7411"], occupations: [], trade: true }
+            : { kept: false, reason: "outside the vertical" },
   },
   placer: {
     place: (input): Placement => {
@@ -136,6 +138,15 @@ describe("the build (publication FR-1, FR-2, FR-5)", () => {
       town: "Berlin",
       nuts: "DE300",
     });
+  });
+
+  it("counts an advert the gate leaves out as closed (closed adverts FR-4)", () => {
+    const built = run([
+      advert("brz"),
+      advert("brz", { description: "Diese Stelle ist bereits besetzt." }),
+    ]);
+    expect(built.offers).toHaveLength(1);
+    expect([built.counts.closed, built.counts.outsideVertical]).toEqual([1, 0]);
   });
 
   it("leaves out an offer whose last day passed and one over a year old", () => {

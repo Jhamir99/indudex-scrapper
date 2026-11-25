@@ -232,3 +232,28 @@ describe("the processor's run (publication FR-1, FR-10, FR-11, FR-12)", () => {
     });
   }, 60_000);
 });
+
+describe("a closed advert (closed adverts FR-4)", () => {
+  it("is left out by the gate and counted in status.json", async () => {
+    const fresh = join(directory, "closed");
+    const adverts = [
+      ...Array.from({ length: 4 }, (_, i) => advert(100 + i)),
+      advert(104, {
+        description:
+          "Maschinenbauingenieur (m/w/d) Diese Stelle ist bereits besetzt.",
+      }),
+    ];
+    const { result } = await run(adverts, NOW, {
+      dataset: new PublishedDataset(join(fresh, "published")),
+      stateDirectory: join(fresh, "state"),
+    });
+    expect(result).toMatchObject({ published: true, offers: 4 });
+    const status = JSON.parse(
+      await readFile(
+        join(fresh, "published", "20261122T100000Z", "status.json"),
+        "utf8",
+      ),
+    );
+    expect(status.dropped.closed).toBe(1);
+  });
+});

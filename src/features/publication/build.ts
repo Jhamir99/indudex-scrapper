@@ -12,7 +12,13 @@ import {
   placeKey,
   withoutTaken,
 } from "../dedupe/index.js";
-import type { GateDecision, GateInput } from "../gate/index.js";
+import {
+  CLOSED,
+  HYGIENE,
+  OUTSIDE_EUROPE,
+  type GateDecision,
+  type GateInput,
+} from "../gate/index.js";
 import type { AdvertPay, PayInput } from "../pay/index.js";
 import type { PlaceInput, Placement } from "../places/index.js";
 import { advertDays } from "./labels/days.js";
@@ -188,8 +194,9 @@ export function build(input: BuildInput): Built {
     for (const advert of pass.adverts) {
       const decision = steps.gate.decide(advert);
       if (!decision.kept) {
-        if (decision.reason.startsWith("hygiene")) counts.hygiene++;
-        else if (decision.reason === "outside Europe") counts.outsideEurope++;
+        if (decision.reason.startsWith(HYGIENE)) counts.hygiene++;
+        else if (decision.reason === CLOSED) counts.closed++;
+        else if (decision.reason === OUTSIDE_EUROPE) counts.outsideEurope++;
         else counts.outsideVertical++;
         continue;
       }
