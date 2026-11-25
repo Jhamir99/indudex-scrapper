@@ -28,6 +28,11 @@ MEMORY.md
 /store/
 /published/
 /state/
+# the operations' logs, locks and alerts (OPS_DIR)
+/var/
+# the deploy's build before it is swapped in
+dist.next/
+dist.old/
 
 # logs
 logs/

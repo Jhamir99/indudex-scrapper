@@ -10,7 +10,7 @@
     "builtin": true,
     "node": true
   },
-  "ignorePatterns": ["dist", "vendor"],
+  "ignorePatterns": ["dist", "dist.next", "dist.old", "vendor"],
   "overrides": [
     {
       "files": ["test/legacy/**"],

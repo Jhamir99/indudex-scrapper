@@ -27,6 +27,8 @@ COPY --from=build --chown=node:node /app/dist ./dist
 COPY --from=build --chown=node:node /app/config ./config
 # Read by the processor's steps through src/shared/catalogues: occupations, towns, NUTS, ...
 COPY --from=build --chown=node:node /app/catalogues ./catalogues
+# Read by the title translator: Firefox's engine loader and Aina's worker (the models are fetched into MT_DIR).
+COPY --from=build --chown=node:node /app/vendor ./vendor
 USER node
 EXPOSE 4000
 CMD ["node", "dist/index.js"]
