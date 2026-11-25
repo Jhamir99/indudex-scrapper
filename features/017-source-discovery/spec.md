@@ -24,6 +24,7 @@ The legacy finds sources by the thousand instead of by name: scouts read public 
 ## Legacy reference
 
 - `builder/tools/{scout,scout-wdc,scout-careers,hunt,discover,domains-wdc,domains-wikidata,platforms,providers}.mjs`, `builder/config/*-found.yml`, `builder/config/hunted.yml`, `ops/server-discover.sh`.
+- `docs/CERRADAS.md` and `builder/tools/closed-register.ts` (with `test/closed-register.test.mjs`): the register of sources we do not read and exactly why (terms, robots.txt, walls), each row with its quotation, address and day; moved here from 013 on 2026-11-25 (it lists sources, not adverts).
 
 ## Open questions
 

@@ -1,0 +1,12 @@
+# Tasks: Closed adverts
+
+Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have a verifiable "Done when". Every task ends with `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:run && pnpm build` green.
+
+**Depends:** `operations` built (its T011; its server day is the operator's).
+
+- [ ] **T001 — The notices** · FR: FR-1, FR-2 · Depends: operations T011
+      Done when: `src/features/gate/closed.ts` holds `saysClosed` with the legacy's two patterns extracted by script (compared with the legacy's file as text), and the legacy's `test/closed.test.mjs` passes in `test/legacy/`.
+- [ ] **T002 — Left out by the gate, counted and explained** · FR: FR-3, FR-4 · Depends: T001
+      Done when: the gate's input carries the description, `decide` leaves a closed advert out with `closed` after hygiene and before Europe (tests for each order), the publication counts it in `closed` (a test with one closed advert), `--explain` lists it (a test), and the gate's golden set still matches.
+- [ ] **T003 — Measured and closed** · NFR: Equivalence, Cost, Measured · Depends: T002
+      Done when: over the store copy of 2026-11-19 ours and the legacy's rule read the same adverts as closed and the gate's time before and after is recorded here; `CLAUDE.md` names `closed.ts`; `features/README.md` marks 013 done; `MEMORY.md` records that the rule must be measured again with 015 and 016, and that the sources register goes to 017.

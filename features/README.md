@@ -24,7 +24,7 @@ A feature starts when the ones before it are closed. The order reaches a first p
 | 010 | [publication](010-publication/)                   | processor | done        | Processor entry, shards, indexes, metadata, versioned dataset, shrink guard              |
 | 011 | [title-translation](011-title-translation/)       | processor | done        | Titles into every locale on our own server, cached per title                             |
 | 012 | [operations](012-operations/)                     | both      | in progress | Cron, locks, alerts, backups, stop file                                                  |
-| 013 | [closed-adverts](013-closed-adverts/)             | scrapper  | outline     | Adverts whose page or title says the job is filled                                       |
+| 013 | [closed-adverts](013-closed-adverts/)             | processor | in progress | Adverts whose page or title says the job is filled                                       |
 | 014 | [credentialed-sources](014-credentialed-sources/) | scrapper  | planned     | Sources behind a key (Adzuna, Jooble, France Travail), delivered disabled                |
 | 015 | [job-portals](015-job-portals/)                   | scrapper  | planned     | Commercial portals whose terms allow it, with a backlog between runs                     |
 | 016 | [career-sites](016-career-sites/)                 | scrapper  | planned     | Employers' careers sites (sitemap + `JobPosting`) and ATS platforms, as data             |
