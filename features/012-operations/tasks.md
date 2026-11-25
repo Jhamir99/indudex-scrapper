@@ -33,8 +33,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part C — Backup and deploy
 
-- [ ] **T008 — The nightly copy** · FR: FR-11 · Depends: T004
+- [x] **T008 — The nightly copy** · FR: FR-11 · Depends: T004
       Done when: `backup.ts` packs what plan section 4 lists (and leaves out the rest), creates the release when missing, refuses an archive under half the largest, uploads, checks the size; no `BACKUP_REPO` fails; `ops.ts job backup` runs it; tests with a stand-in runner over a temporary store and state, one test packing for real with `tar` to check the archive's entries; `ops/README.md` documents the restore.
+      2026-11-25: done. `backup.ts` (`backup`, `tarArguments`, `commandRunner`): `state-<weekday>.tar.gz` of the processor's state (the models' folder left out when it lies inside, `*.tmp` and `*.lock` everywhere) and the store's `state/`, `memory/`, `registers/`, `rates/` that exist, each from its parent; the exclusions before the paths (GNU tar ignores those after); tar's 1 (a file changed while read) is good. The release is created as a pre-release when `gh release view` cannot find it; the largest asset's size is read before the upload, the uploaded one after. The archive is made in the system's temporary folder and removed whatever happens. `ops.js backup` exits 1 when nothing was sent. The real-tar test runs the Mac's bsdtar; the server's GNU tar reads the same arguments. `ops/README.md`: the schedule, the server's setup (sudoers line for smartctl, `gh auth login`, `BACKUP_REPO` needing one commit), deploying, STOP, the notices and the restore.
 - [ ] **T009 — The deploy** · FR: FR-12 · Depends: T001
       Done when: `ops/deploy.sh` takes every job's lock and runs `deploy.ts` (pull with retries, frozen install, build into `dist.next`, swap, `ops.js schedule`); `ops.ts schedule` writes the merged crontab; tests with a stand-in runner: the order, a failed build leaves `dist` as it was, a failed pull stops before anything else.
 - [ ] **T010 — The image, the examples and the ignore list** · FR: FR-13 · Depends: T001

@@ -17,3 +17,4 @@ export { Told } from "./told.js";
 export { serverMachine, type Machine } from "./machine.js";
 export { watch } from "./watch.js";
 export { publicationSummary } from "./summary.js";
+export { backup } from "./backup.js";

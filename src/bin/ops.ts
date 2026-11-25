@@ -1,13 +1,17 @@
-// `node dist/bin/ops.js job <name> | watch`: the server's operations (012).
+// `node dist/bin/ops.js job <name> | watch | backup`: the server's operations (012).
 //   job <name>  what the crontab's lines (written by the deploy) run: STOP first, then the job's locks and command,
 //               its output into its log, then the alerts (a failure told once, and its end). Always exits 0 (the
 //               alerts are the channel, not cron's mail). After a good publication, the summary.
 //   watch       the quarter-hourly watch (run by `job watch`, under its lock): STOP, late jobs, logs, disk, SSD.
+//   backup      the nightly copy (run by `job backup`): what only the server holds, to BACKUP_REPO's release. Exits 1
+//               when it was not sent.
 // Exits 2 on a usage error.
 import { mkdir } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
   afterJob,
+  backup,
   jobNamed,
   JOBS,
   lockedCommand,
@@ -20,13 +24,15 @@ import {
   Told,
   watch,
 } from "../features/operations/index.js";
+import { mtDir } from "../features/title-translation/engine.js";
 import { FileAdvertStore } from "../shared/storage/file-advert-store.js";
 import { FileStopSwitch } from "../shared/storage/file-stop-switch.js";
+import { processorStateDirectory } from "../shared/storage/processor-state.js";
 import { publishedDirectory } from "../shared/storage/published-dataset.js";
 import { environmentWithDotEnv } from "./dot-env.js";
 import { storeDirectory } from "./store-directory.js";
 
-const USAGE = `usage: ops.js job <${JOBS.map((job) => job.name).join("|")}> | watch`;
+const USAGE = `usage: ops.js job <${JOBS.map((job) => job.name).join("|")}> | watch | backup`;
 
 const [command, name] = process.argv.slice(2);
 const environment = environmentWithDotEnv();
@@ -88,6 +94,20 @@ if (command === "job" && name && jobNamed(name)) {
     notifier,
     machine: serverMachine,
   });
+} else if (command === "backup") {
+  try {
+    await backup({
+      repo: environment["BACKUP_REPO"],
+      stateDirectory: processorStateDirectory(environment),
+      // MT_DIR reaches this process: `job backup` passes .env to its command.
+      mtDirectory: mtDir(),
+      storeDirectory: store,
+      workDirectory: tmpdir(),
+    });
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  }
 } else {
   console.error(USAGE);
   process.exitCode = 2;
