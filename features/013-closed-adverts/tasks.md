@@ -4,8 +4,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 **Depends:** `operations` built (its T011; its server day is the operator's).
 
-- [ ] **T001 — The notices** · FR: FR-1, FR-2 · Depends: operations T011
+- [x] **T001 — The notices** · FR: FR-1, FR-2 · Depends: operations T011
       Done when: `src/features/gate/closed.ts` holds `saysClosed` with the legacy's two patterns extracted by script (compared with the legacy's file as text), and the legacy's `test/closed.test.mjs` passes in `test/legacy/`.
+      2026-11-25: done. `src/features/gate/closed.ts` (`saysClosed`): the legacy's `CLOSED` and `CLOSED_TITLE` cut from its file by a scratchpad script; their `source` and flags compared with the legacy's own module: the same. Folded with `shared/kit`'s `fold`, the description's first 2,000 characters. The legacy's test carried in `test/legacy/closed.test.mjs` (its five checks pass).
 - [ ] **T002 — Left out by the gate, counted and explained** · FR: FR-3, FR-4 · Depends: T001
       Done when: the gate's input carries the description, `decide` leaves a closed advert out with `closed` after hygiene and before Europe (tests for each order), the publication counts it in `closed` (a test with one closed advert), `--explain` lists it (a test), and the gate's golden set still matches.
 - [ ] **T003 — Measured and closed** · NFR: Equivalence, Cost, Measured · Depends: T002
