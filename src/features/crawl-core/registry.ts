@@ -42,6 +42,7 @@ import { upsvr } from "../public-feeds/adapters/upsvr/upsvr.js";
 import { uzt } from "../public-feeds/adapters/uzt/uzt.js";
 import { valtiolle } from "../public-feeds/adapters/valtiolle/valtiolle.js";
 import { vdab } from "../public-feeds/adapters/vdab/vdab.js";
+import { adzuna } from "../credentialed-sources/adapters/adzuna/adzuna.js";
 import { jobtome } from "../credentialed-sources/adapters/jobtome/jobtome.js";
 import { jooble } from "../credentialed-sources/adapters/jooble/jooble.js";
 import { nav } from "../credentialed-sources/adapters/nav/nav.js";
@@ -54,6 +55,7 @@ import type { SourceAdapter } from "./ports.js";
 // (`registry.test.ts`) with its saved responses in `test/fixtures/<id>/` (FR-12).
 export const registeredAdapters: readonly SourceAdapter[] = [
   actiris,
+  adzuna,
   anofm,
   bolzano,
   brandenburg,

@@ -1,0 +1,4 @@
+{
+  "https://api.adzuna.com/v1/api/jobs/es/search/1?app_id=test-ADZUNA_APP_ID&app_key=test-ADZUNA_APP_KEY&results_per_page=50&max_days_old=30&sort_by=date&category=engineering-jobs&content-type=application%2Fjson": "es-engineering.json",
+  "https://api.adzuna.com/v1/api/jobs/de/search/1?app_id=test-ADZUNA_APP_ID&app_key=test-ADZUNA_APP_KEY&results_per_page=50&max_days_old=3&sort_by=date&category=it-jobs&content-type=application%2Fjson": "de-it.json"
+}

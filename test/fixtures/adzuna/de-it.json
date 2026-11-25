@@ -1,0 +1,18 @@
+{
+  "__CLASS__": "Adzuna::API::Response::JobSearchResults",
+  "count": 1,
+  "results": [
+    {
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "id": "4900000001",
+      "title": "Embedded Softwareentwickler (m/w/d)",
+      "description": "Made up for indudex-scrapper's tests. Entwicklung von Firmware für Steuergeräte.",
+      "created": "2026-11-16T09:30:00Z",
+      "redirect_url": "https://www.adzuna.de/land/ad/4900000001?se=ghi&utm_medium=api",
+      "company": { "__CLASS__": "Adzuna::API::Response::Company", "display_name": "Neckar Steuerungstechnik GmbH" },
+      "location": { "__CLASS__": "Adzuna::API::Response::Location", "display_name": "Stuttgart, Baden-Württemberg", "area": ["Deutschland", "Baden-Württemberg", "Stuttgart"] },
+      "category": { "__CLASS__": "Adzuna::API::Response::Category", "tag": "it-jobs", "label": "IT-Jobs" },
+      "salary_is_predicted": "1"
+    }
+  ]
+}

@@ -82,6 +82,8 @@ pace:
     pam-stilling-feed.nav.no: 100
     # Jooble's partner API (credentialed): its searches, once a day, within 200 calls.
     jooble.org: 1200
+    # Adzuna's API (credentialed, flagged off): the legacy stayed under 25 calls a minute.
+    api.adzuna.com: 2500
 
 run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.
