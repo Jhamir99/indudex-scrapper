@@ -22,7 +22,7 @@ Since October 2026 the legacy project also reads the commercial job portals whos
 ## 4. Functional requirements
 
 **FR-1 — Coverage.**
-The scraper shall support every portal in the legacy portal list and the legacy `boards`, `jobfeed` and `remote` sources, each classified first (a source that turns out to be a feed or a keyed API moves to that feature).
+The scraper shall support every portal in the legacy portal list and the legacy `boards`, `jobfeed` and `remote` sources, each classified first (a source that turns out to be a feed or a keyed API moves to that feature). It also takes `francetravail` (moved from 014 on 2026-11-25): the legacy reads France Travail's public site without a key, its listings per occupation and département named by its sitemaps, a seventh of them each hour, and each offer's own data through the API its robots.txt leaves open (`builder/adapters/francetravail.ts`).
 _Acceptance:_ Each one is verified against a saved sample of its real response.
 
 **FR-2 — Portals as data.**
