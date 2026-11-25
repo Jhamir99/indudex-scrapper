@@ -1,6 +1,10 @@
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
-import { checkWholePass, publicFeed, withDetailPages } from "../../family.js";
+import {
+  checkWholePass,
+  publicFeed,
+  withDetailPages,
+} from "../../../crawl-core/feed-family.js";
 import { stated } from "../../stated.js";
 
 // Portugal: IEFP, the public employment service, read through its own search on IEFPonline. Its

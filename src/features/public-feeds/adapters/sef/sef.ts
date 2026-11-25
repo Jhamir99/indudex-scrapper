@@ -2,7 +2,7 @@ import type { AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Region of Murcia: the regional employment service's open offers, a JSON on the region's
 // open-data portal (reuse for any purpose under Spain's Law 37/2007, the source cited; no key).

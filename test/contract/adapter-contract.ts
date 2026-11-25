@@ -72,11 +72,12 @@ export async function checkAdapterContract(
   const credentials = Object.fromEntries(
     credentialNames(definition.data).map((name) => [name, `test-${name}`]),
   );
+  const logged: string[] = [];
   const result = await runSource(adapter, {
     http: new FakeHttpClient(routes),
     store,
     credentials,
-    log: () => {},
+    log: (line) => logged.push(line),
     today: CONTRACT_DAY,
   });
   if (result.outcome !== "stored") {
@@ -86,6 +87,18 @@ export async function checkAdapterContract(
   }
   for (const { sourceId, reason } of result.rejected) {
     problems.push(`advert ${sourceId}: ${reason}`);
+  }
+
+  // A key, token or feed address never leaves the run (FR-9; credentialed sources FR-2): not in a
+  // log line, a failure reason or a stored advert.
+  const stored = JSON.stringify(await store.readAdverts(definition.data.id));
+  for (const [name, value] of Object.entries(credentials)) {
+    if (logged.some((line) => line.includes(value)))
+      problems.push(`credential ${name} in a log line`);
+    if (result.reason?.includes(value))
+      problems.push(`credential ${name} in the failure reason`);
+    if (stored.includes(value))
+      problems.push(`credential ${name} in a stored advert`);
   }
 
   for (const advert of await store.readAdverts(definition.data.id)) {

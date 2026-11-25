@@ -2,7 +2,7 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Basque Country: Lanbide's open-data JSON of the vacancies it manages (CC BY 4.0, no key). DISABLED
 // AND FLAGGED (public-feeds FR-6): its host's robots.txt closes everything ("Disallow: /", read 17

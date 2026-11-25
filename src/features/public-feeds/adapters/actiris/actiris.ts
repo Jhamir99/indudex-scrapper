@@ -2,7 +2,11 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
-import { checkWholePass, publicFeed, withDetailPages } from "../../family.js";
+import {
+  checkWholePass,
+  publicFeed,
+  withDetailPages,
+} from "../../../crawl-core/feed-family.js";
 import { stated } from "../../stated.js";
 
 // Brussels: Actiris, the region's public employment service, through the list its own search

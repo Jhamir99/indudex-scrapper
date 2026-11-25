@@ -1,4 +1,4 @@
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 import { parseSyndication } from "../../syndication.js";
 
 // Austria: the City of Linz and its companies, through the feed of their vacancies that the city

@@ -6,7 +6,7 @@ import {
   titleCase,
 } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 import { stated } from "../../stated.js";
 import { townName } from "../../spanish.js";
 

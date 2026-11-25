@@ -5,7 +5,7 @@ import {
   plainText,
 } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
-import { checkWholePass, publicFeed } from "../../family.js";
+import { checkWholePass, publicFeed } from "../../../crawl-core/feed-family.js";
 import { stated } from "../../stated.js";
 
 // South Tyrol: the offers on eJob, the Province of Bolzano's job exchange, through the search its

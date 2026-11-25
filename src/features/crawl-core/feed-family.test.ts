@@ -7,7 +7,7 @@ import {
   readDrafts,
 } from "../../../test/fakes/source-adapter.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
-import { publicFeed, stillOpen } from "./family.js";
+import { publicFeed, stillOpen } from "./feed-family.js";
 
 const FEED = "https://feed.example/jobs.xml";
 const PAGE_1 = "https://feed.example/jobs?category=1";

@@ -2,7 +2,10 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { parseXml, pickAll, pickText } from "../../../../shared/kit/pick.js";
 import { plainText } from "../../../../shared/kit/text.js";
-import { publicFeed, withDetailPages } from "../../family.js";
+import {
+  publicFeed,
+  withDetailPages,
+} from "../../../crawl-core/feed-family.js";
 
 // Germany's public service: the vacancies of federal, state and local administrations that the
 // federal portal service.bund.de publishes as an RSS feed. DISABLED AND FLAGGED (public-feeds

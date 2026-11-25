@@ -3,7 +3,10 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { parseXml, pickAll, pickText } from "../../../../shared/kit/pick.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
-import { publicFeed, UNDATED_OPEN_DAYS } from "../../family.js";
+import {
+  publicFeed,
+  UNDATED_OPEN_DAYS,
+} from "../../../crawl-core/feed-family.js";
 
 // Portugal: Net-Empregos, the country's biggest job site, through the RSS feeds its robots.txt
 // names to crawlers. DISABLED AND FLAGGED (public-feeds FR-6): its terms forbid any commercial end,

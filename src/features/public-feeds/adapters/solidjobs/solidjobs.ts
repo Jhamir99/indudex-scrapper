@@ -1,7 +1,7 @@
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Poland: Solid.Jobs, through its public API, which it opens to aggregators in so many words
 // ("Czy mogę pokazać oferty na własnej stronie lub w aplikacji? Tak — możesz zbudować własny

@@ -6,7 +6,7 @@ import {
   plainText,
 } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Lombardy, Province of Brescia: the offers of its job centres, all on one page of its job site,
 // each card with its day, title, text, number and town. The province's legal notes release its

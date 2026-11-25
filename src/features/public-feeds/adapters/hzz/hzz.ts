@@ -3,7 +3,7 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { parseXml, pickAll, pickText } from "../../../../shared/kit/pick.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Croatia: every vacancy the public employment service (HZZ) registers, as open data on
 // data.gov.hr under the Croatian Open Licence: one RSS feed per county, in ISO-8859-2, refreshed

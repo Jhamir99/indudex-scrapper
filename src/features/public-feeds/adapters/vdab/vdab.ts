@@ -3,7 +3,11 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText, titleCase } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
-import { type DetailPages, publicFeed, withDetailPages } from "../../family.js";
+import {
+  type DetailPages,
+  publicFeed,
+  withDetailPages,
+} from "../../../crawl-core/feed-family.js";
 import { stated } from "../../stated.js";
 
 // Flanders: every vacancy VDAB, its public employment service, shows (its own, the agencies' and

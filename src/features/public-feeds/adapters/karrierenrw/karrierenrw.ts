@@ -1,7 +1,7 @@
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { plainText } from "../../../../shared/kit/text.js";
-import { checkWholePass, publicFeed } from "../../family.js";
+import { checkWholePass, publicFeed } from "../../../crawl-core/feed-family.js";
 
 // North Rhine-Westphalia: the vacancies of the state and of its towns and public bodies on
 // Karriere.NRW, the state's employer portal, through its open API (Open.NRW, Datenlizenz

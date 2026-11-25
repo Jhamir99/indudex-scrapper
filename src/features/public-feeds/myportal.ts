@@ -8,7 +8,7 @@ import type { Licence } from "../../shared/schemas/source.js";
 import { parseDay } from "../../shared/kit/dates.js";
 import { fromCapitals, pageText, plainText } from "../../shared/kit/text.js";
 import { withoutContacts } from "./contacts.js";
-import { checkWholePass, publicFeed } from "./family.js";
+import { checkWholePass, publicFeed } from "../crawl-core/feed-family.js";
 
 // MyPortal, the job-portal platform Emilia-Romagna's "Lavoro per Te" and Trento's job portal
 // run: their public search, no sign-in. The search lives in a server session (the form's address

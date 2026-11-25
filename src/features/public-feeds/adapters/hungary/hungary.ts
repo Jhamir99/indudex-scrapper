@@ -1,7 +1,7 @@
 import { z } from "@hono/zod-openapi";
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { plainText } from "../../../../shared/kit/text.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Hungary: the National Employment Service's vacancies on its Virtual Labour Market Portal
 // (vmp.munka.hu), through its public search: our categories, each split by region when the

@@ -2,7 +2,7 @@ import * as cheerio from "cheerio";
 import type { AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Denmark: Jobindex, read as search engines read it. Its robots.txt lets in the first page of
 // each listing but not the next ones ("page=" is closed), so the first page of each of its ten

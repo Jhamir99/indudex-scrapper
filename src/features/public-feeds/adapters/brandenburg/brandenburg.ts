@@ -1,6 +1,6 @@
 import type { AdvertDraft } from "../../../crawl-core/ports.js";
 import { plainText } from "../../../../shared/kit/text.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Brandenburg: the Land's careers portal (its ministries, districts and towns), through the list
 // its own page draws (/api/offers, every offer in one answer). robots.txt closes only /admin and

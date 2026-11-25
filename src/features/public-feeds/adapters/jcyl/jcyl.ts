@@ -2,7 +2,7 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Castilla y León: the Junta's open-data feed of job offers (CC BY 4.0, no key). DISABLED AND
 // FLAGGED (public-feeds FR-6): the dataset's address redirects to the Junta's analysis portal

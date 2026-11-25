@@ -7,7 +7,7 @@ import type { Licence } from "../../shared/schemas/source.js";
 import { parseDay } from "../../shared/kit/dates.js";
 import { jobPostings } from "../../shared/kit/job-posting.js";
 import { plainText } from "../../shared/kit/text.js";
-import { publicFeed, withDetailPages } from "./family.js";
+import { publicFeed, withDetailPages } from "../crawl-core/feed-family.js";
 import { stated } from "./stated.js";
 
 // Finland's public-sector job platform, run for the municipalities and wellbeing services

@@ -1,7 +1,10 @@
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { jobPostings } from "../../../../shared/kit/job-posting.js";
 import { plainText } from "../../../../shared/kit/text.js";
-import { publicFeed, withDetailPages } from "../../family.js";
+import {
+  publicFeed,
+  withDetailPages,
+} from "../../../crawl-core/feed-family.js";
 import { stated } from "../../stated.js";
 
 // Poland: Infopraca, read through its own search. Its terms name no bots and ask no leave, its

@@ -8,7 +8,11 @@ import {
   sentenceCase,
 } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
-import { checkWholePass, publicFeed, withDetailPages } from "../../family.js";
+import {
+  checkWholePass,
+  publicFeed,
+  withDetailPages,
+} from "../../../crawl-core/feed-family.js";
 import { townName } from "../../spanish.js";
 
 // Cantabria: the Servicio Cántabro de Empleo's (EMCAN) public offers, through the list its own

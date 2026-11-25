@@ -2,7 +2,11 @@ import * as cheerio from "cheerio";
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { plainText } from "../../../../shared/kit/text.js";
-import { checkWholePass, publicFeed, withDetailPages } from "../../family.js";
+import {
+  checkWholePass,
+  publicFeed,
+  withDetailPages,
+} from "../../../crawl-core/feed-family.js";
 import { stated } from "../../stated.js";
 
 // Slovakia: ÚPSVaR, the public employment service, through the list its own search draws

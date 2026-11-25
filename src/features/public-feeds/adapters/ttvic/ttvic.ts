@@ -1,7 +1,10 @@
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
-import { publicFeed, withDetailPages } from "../../family.js";
+import {
+  publicFeed,
+  withDetailPages,
+} from "../../../crawl-core/feed-family.js";
 
 // Catalonia: TT Vic (Treball Temporal, Vic, Osona), a temporary-work agency: its list of offers,
 // twenty-one a page followed through its "next" link, and each offer's page for its text.

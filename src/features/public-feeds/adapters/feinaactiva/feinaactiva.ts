@@ -7,7 +7,7 @@ import {
   plainText,
   titleCase,
 } from "../../../../shared/kit/text.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 import { stated } from "../../stated.js";
 
 // Catalonia: the Feina Activa XML of the Generalitat's employment service (open data, attribution

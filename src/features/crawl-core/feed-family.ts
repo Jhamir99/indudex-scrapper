@@ -3,8 +3,13 @@ import type {
   AdvertDraft,
   HttpRequestOptions,
   SourceAdapter,
-} from "../crawl-core/ports.js";
+} from "./ports.js";
 import type { SourceDefinition } from "../../shared/schemas/source.js";
+
+// The feed family every source feature builds on (public feeds, credentialed sources, …): a list of
+// addresses or a read of the source's own, one draft per source id, the earlier adverts kept while
+// open, the empty feed failed. In crawl-core since 2026-11-25 (credentialed sources T001): a source
+// feature imports only crawl-core, and the family uses crawl-core's ports.
 
 // How long an advert seen earlier stays when the feed no longer lists it and it names no last
 // day (legacy UNDATED_OPEN_DAYS).

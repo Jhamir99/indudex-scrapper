@@ -1,7 +1,7 @@
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { plainText, titleCase } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Spain: the Sistema Nacional de Empleo's offers (sistemanacionalempleo.es, run by the SEPE), the
 // only open door for several regions' public employment services. Each region's offers come as

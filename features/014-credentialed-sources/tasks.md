@@ -4,8 +4,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 **Depends:** `closed-adverts` closed (its T003).
 
-- [ ] **T001 — The feed family into crawl-core, and keyed sources in the contract** · FR: FR-2, FR-7 · Depends: closed-adverts T003
+- [x] **T001 — The feed family into crawl-core, and keyed sources in the contract** · FR: FR-2, FR-7 · Depends: closed-adverts T003
       Done when: `family.ts` lives in `crawl-core/feed-family.ts` (public-feeds' adapters import it there, their tests unchanged and green); the contract test gives a source's declared variables stand-in values and checks no value reaches a log line or a stored advert; a crawl-core test shows a keyed source with a blank variable is disabled, makes zero requests and is named in the status.
+      2026-11-25: done. `family.ts` and its test moved with `git mv` to `crawl-core/feed-family.ts` (only its ports import changed; the 42 importers in public-feeds point there now). The contract test now collects the run's log lines and fails a source whose stand-in key (`test-<NAME>`) shows in a log line, the failure reason or a stored advert. The disabled-without-key case was already crawl-core's (`runner.test.ts`, zero requests, and `status.test.ts`, the variables named): nothing new needed there.
 - [ ] **T002 — nav** · FR: FR-1, FR-3, FR-7 · Depends: T001
       Done when: the standard adapter check passes (the feed's pages followed by `next_url`, the token as a bearer header, the last item of each ad decides, inactive left out, towns in title case), cadence 1 h and NAV's host pace are in `crawl.yml`, and with no `NAV_TOKEN` the source is disabled.
 - [ ] **T003 — jooble** · FR: FR-1, FR-4, FR-7 · Depends: T001

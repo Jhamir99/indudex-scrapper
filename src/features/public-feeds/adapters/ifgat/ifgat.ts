@@ -1,7 +1,7 @@
 import type { AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { plainText } from "../../../../shared/kit/text.js";
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Austria: the vacancies public bodies publish on data.gv.at under the Freedom of Information Act
 // (datasets tagged "IFG-Stellenausschreibungen", CC BY 4.0): today Carinthia's Land, whose own site

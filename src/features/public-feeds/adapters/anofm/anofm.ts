@@ -2,7 +2,7 @@ import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { pageText, plainText } from "../../../../shared/kit/text.js";
 import { withoutContacts } from "../../contacts.js";
-import { checkWholePass, publicFeed } from "../../family.js";
+import { checkWholePass, publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Romania: ANOFM, the public employment service, through the list its own job search draws
 // (mediere.anofm.ro). No robots.txt and no terms beyond cookies; public information is reusable

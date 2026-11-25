@@ -1,7 +1,7 @@
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { plainText } from "../../../../shared/kit/text.js";
-import { checkWholePass, publicFeed } from "../../family.js";
+import { checkWholePass, publicFeed } from "../../../crawl-core/feed-family.js";
 
 // Iceland: the State's vacancies (Starfatorg, from the data its page carries) and the
 // Directorate of Labour's (Vinnumálastofnun, from the list its page asks island.is's API for).

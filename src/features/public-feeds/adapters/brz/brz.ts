@@ -1,4 +1,4 @@
-import { publicFeed } from "../../family.js";
+import { publicFeed } from "../../../crawl-core/feed-family.js";
 import { parseSyndication } from "../../syndication.js";
 
 // Austria: the Bundesrechenzentrum (the federal IT centre), through the feed of its vacancies

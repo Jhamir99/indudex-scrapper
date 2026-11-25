@@ -1,7 +1,7 @@
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import { parseDay } from "../../../../shared/kit/dates.js";
 import { fromCapitals, plainText } from "../../../../shared/kit/text.js";
-import { checkWholePass, publicFeed } from "../../family.js";
+import { checkWholePass, publicFeed } from "../../../crawl-core/feed-family.js";
 import { stated } from "../../stated.js";
 
 // Castilla-La Mancha: the regional employment service's public offers, a JSON API read whole (pages
