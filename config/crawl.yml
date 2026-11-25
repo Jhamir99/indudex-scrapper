@@ -80,6 +80,8 @@ pace:
     apps.escoladeltreball.org: 1500
     # NAV's job feed for Norway: about 380 pages of its log of changes, read every hour.
     pam-stilling-feed.nav.no: 100
+    # Jooble's partner API (credentialed): its searches, once a day, within 200 calls.
+    jooble.org: 1200
 
 run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.

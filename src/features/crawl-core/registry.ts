@@ -42,6 +42,7 @@ import { upsvr } from "../public-feeds/adapters/upsvr/upsvr.js";
 import { uzt } from "../public-feeds/adapters/uzt/uzt.js";
 import { valtiolle } from "../public-feeds/adapters/valtiolle/valtiolle.js";
 import { vdab } from "../public-feeds/adapters/vdab/vdab.js";
+import { jooble } from "../credentialed-sources/adapters/jooble/jooble.js";
 import { nav } from "../credentialed-sources/adapters/nav/nav.js";
 import type { SourceAdapter } from "./ports.js";
 
@@ -73,6 +74,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   jcyl,
   jobindex,
   jobtech,
+  jooble,
   karrierenrw,
   kuntarekry,
   lanbide,

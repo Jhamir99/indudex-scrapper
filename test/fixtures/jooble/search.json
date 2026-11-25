@@ -1,0 +1,53 @@
+{
+  "totalCount": 4,
+  "jobs": [
+    {
+      "title": "Ingeniero de procesos",
+      "location": "Zaragoza",
+      "snippet": "&nbsp;...buscamos un <b>ingeniero</b> de procesos para planta de automoción...&nbsp;",
+      "salary": "",
+      "source": "made up for indudex-scrapper's tests in the API's documented shape",
+      "type": "Full-time",
+      "link": "https://jooble.org/desc/-7000000000000000001",
+      "company": "Ebro Componentes SL",
+      "updated": "2026-11-14T00:00:00.0000000",
+      "id": -7000000000000000001
+    },
+    {
+      "title": "Técnico de mantenimiento industrial",
+      "location": "Valencia",
+      "snippet": "...mantenimiento preventivo y correctivo de líneas de envasado...",
+      "salary": "",
+      "source": "made up",
+      "type": "Full-time",
+      "link": "https://jooble.org/desc/-7000000000000000002",
+      "company": "Levante Envases SA",
+      "updated": "2026-11-02T00:00:00.0000000",
+      "id": -7000000000000000002
+    },
+    {
+      "title": "Desarrollador backend",
+      "location": "Madrid",
+      "snippet": "...sin fecha de publicación...",
+      "salary": "",
+      "source": "made up",
+      "type": "",
+      "link": "https://jooble.org/desc/-7000000000000000003",
+      "company": "Meseta Software SL",
+      "updated": "",
+      "id": -7000000000000000003
+    },
+    {
+      "title": "Ingeniero eléctrico",
+      "location": "Sevilla",
+      "snippet": "...publicada hace más de un mes...",
+      "salary": "",
+      "source": "made up",
+      "type": "Full-time",
+      "link": "https://jooble.org/desc/-7000000000000000004",
+      "company": "Guadalquivir Energía SL",
+      "updated": "2026-10-01T00:00:00.0000000",
+      "id": -7000000000000000004
+    }
+  ]
+}
