@@ -128,6 +128,40 @@ describe("jooble (credentialed sources FR-4)", () => {
       language: "es",
     });
     expect(toDraft({ id: 1 }, "fi").language).toBe("en");
+    // The legacy's own case (test/builder.test.mjs): the snippet as text, the day, the link to Jooble.
+    const legacy = toDraft(
+      {
+        id: "-123",
+        title: "Ingeniero de procesos",
+        location: "Getafe, Madrid",
+        snippet: "Planta de <b>procesos</b>&nbsp;químicos",
+        link: "https://es.jooble.org/desc/-123",
+        company: "Acme SL",
+        updated: "2026-09-05T10:00:00.0000000",
+      },
+      "es",
+    );
+    expect([
+      legacy.sourceId,
+      legacy.title,
+      legacy.company,
+      legacy.location,
+      legacy.country,
+      legacy.url,
+      legacy.description,
+      legacy.posted,
+      legacy.language,
+    ]).toEqual([
+      "-123",
+      "Ingeniero de procesos",
+      "Acme SL",
+      "Getafe, Madrid",
+      "es",
+      "https://es.jooble.org/desc/-123",
+      "Planta de procesos químicos",
+      "2026-09-05",
+      "es",
+    ]);
   });
 
   it("asks the second page only after a full first one", async () => {

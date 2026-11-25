@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Made up for indudex-scrapper's tests in the publisher feeds' usual <job> schema; no real advert. -->
+<source>
+  <publisher>Talent.com</publisher>
+  <job>
+    <title><![CDATA[Site Engineer]]></title>
+    <date><![CDATA[Fri, 13 Nov 2026 08:00:00 GMT]]></date>
+    <referencenumber>tc-1001</referencenumber>
+    <url><![CDATA[https://www.talent.com/view?id=tc-1001]]></url>
+    <company><![CDATA[Maas Baggerwerken BV]]></company>
+    <city>Rotterdam</city>
+    <state>Zuid-Holland</state>
+    <country>NL</country>
+    <description><![CDATA[<p>Dredging &amp; reclamation works.</p>]]></description>
+    <jobtype>fulltime</jobtype>
+  </job>
+  <job>
+    <title><![CDATA[Elektrotechniker (m/w/d)]]></title>
+    <date><![CDATA[Thu, 12 Nov 2026 08:00:00 GMT]]></date>
+    <referencenumber>tc-1002</referencenumber>
+    <url><![CDATA[https://de.talent.com/view?id=tc-1002]]></url>
+    <company><![CDATA[Rhein Anlagenbau GmbH]]></company>
+    <city>Köln</city>
+    <country>DE</country>
+    <description><![CDATA[Wartung und Instandhaltung elektrischer Anlagen.]]></description>
+    <jobtype>Homeoffice möglich</jobtype>
+  </job>
+</source>

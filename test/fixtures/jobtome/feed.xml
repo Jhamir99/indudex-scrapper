@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Made up for indudex-scrapper's tests: a country written as a name, one http address and one unknown country, both left out; no real advert. -->
+<feed>
+  <job>
+    <reference>jt-7</reference>
+    <title>Técnico de mantenimiento</title>
+    <joburl>https://www.jobtome.com/job/jt-7</joburl>
+    <employer>Navarra Componentes SL</employer>
+    <town>Pamplona</town>
+    <country>España</country>
+    <dateposted>2026-11-11</dateposted>
+    <snippet>Mantenimiento de líneas de estampación.</snippet>
+  </job>
+  <job>
+    <reference>jt-8</reference>
+    <title>Ingeniero de calidad</title>
+    <joburl>http://www.jobtome.com/job/jt-8</joburl>
+    <employer>Ebro Calidad SL</employer>
+    <town>Zaragoza</town>
+    <country>Spain</country>
+    <dateposted>2026-11-11</dateposted>
+  </job>
+  <job>
+    <reference>jt-9</reference>
+    <title>Process Engineer</title>
+    <joburl>https://www.jobtome.com/job/jt-9</joburl>
+    <town>Poseidonis</town>
+    <country>Atlantis</country>
+  </job>
+</feed>

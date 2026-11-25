@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Made up for indudex-scrapper's tests in the affiliate feeds' usual <job> schema, its other field names; no real advert. -->
+<jobs>
+  <job>
+    <jobid>wj-55</jobid>
+    <title>Maintenance Technician</title>
+    <link>https://www.whatjobs.com/job/wj-55</link>
+    <companyname>Shannon Process Ltd</companyname>
+    <location>Limerick</location>
+    <region>Munster</region>
+    <countrycode>IE</countrycode>
+    <pubdate>2026-11-10</pubdate>
+    <expirationdate>2026-12-10</expirationdate>
+    <summary>PLC fault finding &amp; preventive maintenance.</summary>
+  </job>
+</jobs>

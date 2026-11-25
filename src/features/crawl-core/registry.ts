@@ -42,8 +42,11 @@ import { upsvr } from "../public-feeds/adapters/upsvr/upsvr.js";
 import { uzt } from "../public-feeds/adapters/uzt/uzt.js";
 import { valtiolle } from "../public-feeds/adapters/valtiolle/valtiolle.js";
 import { vdab } from "../public-feeds/adapters/vdab/vdab.js";
+import { jobtome } from "../credentialed-sources/adapters/jobtome/jobtome.js";
 import { jooble } from "../credentialed-sources/adapters/jooble/jooble.js";
 import { nav } from "../credentialed-sources/adapters/nav/nav.js";
+import { talentcom } from "../credentialed-sources/adapters/talentcom/talentcom.js";
+import { whatjobs } from "../credentialed-sources/adapters/whatjobs/whatjobs.js";
 import type { SourceAdapter } from "./ports.js";
 
 // Every source the scrapper runs, in no particular order (the runner decides when each runs).
@@ -74,6 +77,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   jcyl,
   jobindex,
   jobtech,
+  jobtome,
   jooble,
   karrierenrw,
   kuntarekry,
@@ -90,10 +94,12 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   sne,
   solidjobs,
   spin,
+  talentcom,
   trento,
   ttvic,
   upsvr,
   uzt,
   valtiolle,
   vdab,
+  whatjobs,
 ];

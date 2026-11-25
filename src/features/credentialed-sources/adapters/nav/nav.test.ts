@@ -81,6 +81,47 @@ describe("nav (credentialed sources FR-3)", () => {
     ]);
   });
 
+  it("passes the legacy's own case (test/builder.test.mjs)", () => {
+    const ads = activeAds([
+      {
+        date_modified: "2026-10-01T10:00:00+02:00",
+        _feed_entry: {
+          uuid: "a",
+          status: "ACTIVE",
+          title: "Elektriker",
+          businessName: "Acme AS",
+          municipal: "BERGEN",
+        },
+      },
+      {
+        date_modified: "2026-10-02T10:00:00+02:00",
+        _feed_entry: {
+          uuid: "b",
+          status: "ACTIVE",
+          title: "Ingeniør",
+          businessName: "Bcme AS",
+          municipal: "OSLO",
+        },
+      },
+      {
+        date_modified: "2026-10-03T10:00:00+02:00",
+        _feed_entry: {
+          uuid: "b",
+          status: "INACTIVE",
+          title: "",
+          businessName: "",
+          municipal: "",
+        },
+      },
+    ]);
+    expect([ads.length, ads[0]?.title, ads[0]?.location, ads[0]?.url]).toEqual([
+      1,
+      "Elektriker",
+      "Bergen, Norway",
+      "https://arbeidsplassen.nav.no/stillinger/stilling/a",
+    ]);
+  });
+
   it("is a keyed feed, read with NAV_TOKEN", () => {
     expect(nav.definition).toMatchObject({
       kind: "feed",
