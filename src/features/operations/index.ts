@@ -16,3 +16,4 @@ export { ntfyNotifier, type Notice, type Notifier } from "./ntfy.js";
 export { Told } from "./told.js";
 export { serverMachine, type Machine } from "./machine.js";
 export { watch } from "./watch.js";
+export { publicationSummary } from "./summary.js";

@@ -1,8 +1,8 @@
-import { open } from "node:fs/promises";
 import type { Job } from "./jobs.js";
 import type { Notifier } from "./ntfy.js";
 import type { Outcome } from "./run-job.js";
 import { clock } from "./spanish.js";
+import { tailOf } from "./tail.js";
 import type { Told } from "./told.js";
 
 export interface AfterJob {
@@ -47,21 +47,7 @@ export async function afterJob(after: AfterJob): Promise<void> {
 // The log's last five lines without a stack trace's frames (they say where, not what), each cut to 200 characters so
 // the notice stays under ntfy's 4,096 bytes. Only the log's end is read: a log may be 20 MB.
 export async function lastLines(path: string): Promise<string> {
-  let text = "";
-  try {
-    const file = await open(path, "r");
-    try {
-      const { size } = await file.stat();
-      const length = Math.min(size, 64 * 1024);
-      const buffer = Buffer.alloc(length);
-      await file.read(buffer, 0, length, size - length);
-      text = buffer.toString("utf8");
-    } finally {
-      await file.close();
-    }
-  } catch {
-    return "";
-  }
+  const text = await tailOf(path, 64 * 1024);
   return text
     .split("\n")
     .filter(
