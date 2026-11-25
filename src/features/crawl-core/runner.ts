@@ -9,6 +9,7 @@ import { HttpFailure } from "../../shared/http/http-failure.js";
 import type { SourceState } from "../../shared/schemas/source.js";
 import type { TakedownList } from "../../shared/config/takedowns.js";
 import { checkCredentials, type Environment } from "./credentials.js";
+import { type PageBudget, UNLIMITED } from "./page-budget.js";
 import {
   afterDisallowed,
   afterFailure,
@@ -60,6 +61,8 @@ export interface SourceRunResult {
   readonly reason?: string;
   // The read was a suspect drop, held as a failure (FR-4).
   readonly heldDrop?: true;
+  // Pages of ours the pass left to read (job portals FR-5).
+  readonly backlog?: number;
 }
 
 export interface SourceRunDependencies {
@@ -73,6 +76,9 @@ export interface SourceRunDependencies {
   // The run's day, YYYY-MM-DD; today by the system clock when not given.
   readonly today?: string;
   readonly log: (message: string) => void;
+  // The gate's reading of a title, and the run's page budget (job portals FR-4, FR-5).
+  readonly isOurs?: (title: string, country: string) => boolean;
+  readonly pageBudget?: PageBudget;
 }
 
 class RunStopped extends Error {
@@ -148,6 +154,7 @@ export async function runSource(
   try {
     const previous = await store.readAdverts(source);
     let remembered: { readonly memory: SourceMemory } | undefined;
+    let backlog = 0;
     const context: AdapterContext = {
       http,
       credentials,
@@ -157,6 +164,11 @@ export async function runSource(
       memory: await store.readMemory(source),
       remember: (memory) => {
         remembered = { memory };
+      },
+      isOurs: dependencies.isOurs ?? (() => true),
+      pageBudget: dependencies.pageBudget ?? UNLIMITED,
+      backlog: (pages) => {
+        backlog = Math.max(0, Math.round(pages));
       },
     };
     // Only a pass that stored or found nothing to store is the source's word for next time.
@@ -210,7 +222,10 @@ export async function runSource(
     log(
       `${source}: ${valid.size} adverts${rejected.length > 0 ? `, ${rejected.length} rejected` : ""}`,
     );
-    return result("stored", { stored: valid.size, changed });
+    return {
+      ...result("stored", { stored: valid.size, changed }),
+      ...(backlog > 0 ? { backlog } : {}),
+    };
   } catch (error) {
     return failed(error);
   }
@@ -226,6 +241,9 @@ export interface RunDependencies {
   // Where credentials are read from: process.env in a real run (FR-9).
   readonly environment: Environment;
   readonly log: (message: string) => void;
+  // The gate's reading of a title, and the run's page budget, shared by its sources (job portals FR-4, FR-5).
+  readonly isOurs?: (title: string, country: string) => boolean;
+  readonly pageBudget?: PageBudget;
   // Sources read at once (default 1). The polite client behind `http` is shared, so the pace of
   // each host, server and provider and the connection caps hold however many run.
   readonly concurrency?: number;
@@ -439,7 +457,12 @@ function nextState(
   }
   return afterSuccess(
     previous,
-    { at, advertCount: result.stored, changed: result.changed },
+    {
+      at,
+      advertCount: result.stored,
+      changed: result.changed,
+      ...(result.backlog ? { backlog: result.backlog } : {}),
+    },
     rules,
   );
 }

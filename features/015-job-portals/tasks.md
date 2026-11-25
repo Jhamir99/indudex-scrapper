@@ -6,8 +6,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part A — crawl-core and the rule
 
-- [ ] **T001 — The rule, the backlog, the run's page budget, and the gate's reading as a port** · FR: FR-1, FR-4, FR-5 · Depends: credentialed-sources T006
+- [x] **T001 — The rule, the backlog, the run's page budget, and the gate's reading as a port** · FR: FR-1, FR-4, FR-5 · Depends: credentialed-sources T006
       Done when: `AGENTS.md` states the portal rule; `AdapterContext` has `isOurs`, `pageBudget` and `backlog`; a source that reports a backlog is due again after `portalBacklogHours`; the run's sources share one page budget; `src/bin/crawl.ts` builds `isOurs` from the gate; tests with stand-ins for each, and one with the real gate on the legacy's `namesOurs` cases.
+      2026-11-25: done. `AGENTS.md`'s crawling rules now state the portal rule ("no commercial job boards" replaced; robots.txt still with no exception; no LinkedIn ever). crawl-core: `AdapterContext` gains `isOurs(title, country)` (every title is ours when the run gives none), `pageBudget` (`page-budget.ts`: `pageBudget(n)`, `UNLIMITED`) and `backlog(pages)`; a stored pass that reports a backlog writes it into the state (`backlog`, optional: no format bump) and is due again after `cadence.backlogHours` (1) when that is sooner; `crawl:status` shows `backlog: N pages of ours to read`; `run.pageBudget` (30,000) is one counter for the run's sources. The gate exposes `createTitleReader(catalogues)` (its classifier with the country's languages as hints, the legacy's `namesOurs`), and `src/bin/crawl.ts` builds it and the budget. `shared/kit/address-words.ts`: the legacy's `addressWords`. Tests: backlog and its end, the budget shared by two sources, the reading handed in, the status line, and the legacy's four `namesOurs` cases with the real gate (same answers). Cost: a crawl run now loads the gate's catalogues, 840 MB resident at most with an otherwise empty run (4.8 s with tsx's start and the ECB's rates); the legacy loaded them too.
 
 ## Part B — Reading a vacancy page (shared with 016)
 

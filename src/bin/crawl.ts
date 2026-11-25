@@ -8,7 +8,10 @@ import {
 import { loadConfig } from "../shared/config/load-config.js";
 import { loadTakedowns } from "../shared/config/takedowns.js";
 import type { Clock } from "../features/crawl-core/ports.js";
+import { pageBudget } from "../features/crawl-core/page-budget.js";
 import { registeredAdapters } from "../features/crawl-core/registry.js";
+import { createTitleReader } from "../features/gate/index.js";
+import { readCatalogue } from "../shared/catalogues/read-catalogue.js";
 import {
   crawl,
   parseCrawlArguments,
@@ -46,6 +49,16 @@ try {
       environment,
       log,
       concurrency: config.run.concurrency,
+      // The gate's reading, so a portal reads only the vacancy pages of ours (job portals FR-4). An entry point may import
+      // any feature; the sources get it through crawl-core.
+      isOurs: createTitleReader({
+        families: await readCatalogue("families"),
+        isco: await readCatalogue("isco"),
+        ssykIsco: await readCatalogue("ssykIsco"),
+        titles: await readCatalogue("titles"),
+        confirmedTitles: await readCatalogue("confirmedTitles"),
+      }),
+      pageBudget: pageBudget(config.run.pageBudget),
       rates: new FileRatesKeeper(directory, clock),
     });
     const counts = new Map<string, number>();

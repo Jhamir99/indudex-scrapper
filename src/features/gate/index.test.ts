@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { gateCatalogues } from "../../../test/gate/catalogues.js";
 import { readCatalogue } from "../../shared/catalogues/read-catalogue.js";
+import { addressWords } from "../../shared/kit/address-words.js";
 import {
   createGate,
+  createTitleReader,
   explainLine,
   GateDecision,
   type GateInput,
@@ -137,5 +139,31 @@ describe("the gate's decision (gate FR-7 to FR-10)", () => {
     ).toBe(
       "[outside the vertical] Marketing Specialist | Acme | Madrid, España (sne)",
     );
+  });
+});
+
+describe("the gate's reading for the scrapper (job portals FR-4)", () => {
+  it("reads only the vacancy pages whose address names a job of ours (the legacy's namesOurs cases)", async () => {
+    const isOurs = createTitleReader(await gateCatalogues());
+    const namesOurs = (url: string, country: string) =>
+      isOurs(addressWords(url), country);
+    expect([
+      namesOurs(
+        "https://justjoin.it/job-offer/kyp-ai-devops-engineer-katowice-devops",
+        "pl",
+      ),
+      namesOurs(
+        "https://www.stellenanzeigen.de/job/erzieher-in-bzw-kinderpfleger-in-m-w-d-martinsried-16422684/",
+        "de",
+      ),
+      namesOurs(
+        "https://emploi.batiactu.com/offre-emploi/aia-ingenierie-ingenieur-cvc-f-h-bordeaux-926181.php",
+        "fr",
+      ),
+      namesOurs(
+        "https://emploi.batiactu.com/offre-emploi/delegation-ile-de-france-normandie-chauffeur-camion-benne-93-f-h-livry-gargan-930765.php",
+        "fr",
+      ),
+    ]).toEqual([true, false, true, false]);
   });
 });

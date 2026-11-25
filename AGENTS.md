@@ -95,8 +95,9 @@ The scrapper handles no user data at all. The rules below bind the product and t
 
 Carried over from the legacy project:
 
-- Obey `robots.txt`. Use only documented public APIs, employers' own pages (sitemap + schema.org `JobPosting`) and partner feeds whose terms allow republishing.
-- No LinkedIn and no commercial job boards.
+- Obey `robots.txt`, with no per-source exception. Read documented public APIs, employers' own pages (sitemap + schema.org `JobPosting`), partner feeds whose terms allow republishing, and job portals and agencies as search engines read them.
+- **Portals** (the legacy owner's rule of 9 October 2026, adopted for this repo on 2026-11-25): a portal or agency site is read only while its robots.txt lets the crawler in, no bot wall stands in front of it, and its terms hold no clause against robots, scraping, crawling, data mining or automated extraction; personal-use, non-commercial or no-copying clauses are no reason to leave it out. One that breaks the rule stays in `config/portals.yml` switched off with its reason.
+- No LinkedIn, ever.
 - Keep each source's **licence and required attribution** (e.g. "Jobs by Adzuna") with its adverts, so the frontend can show it.
 - Honour takedown requests (legacy `builder/config/takedowns.yml`).
 - Be polite: per-host rate limits, a cadence per source, and a manual stop switch.

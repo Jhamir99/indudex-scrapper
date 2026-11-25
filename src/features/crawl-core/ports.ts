@@ -1,3 +1,4 @@
+import type { PageBudget } from "./page-budget.js";
 import type {
   HttpRequestOptions,
   HttpResponse,
@@ -27,7 +28,17 @@ export interface AdapterContext {
   readonly memory: SourceMemory | undefined;
   // What to remember for the next pass; kept only if this pass is stored or empty.
   remember(memory: SourceMemory): void;
+  // Whether a title (or the words of a vacancy's address) names a job of ours, read in a country's languages: the gate's
+  // own reading, handed in by the entry point, so a reader asks before reading a page (job portals FR-4). Every title
+  // is ours when none is given.
+  isOurs(title: string, country: string): boolean;
+  // The pages the run may still read across its sources (job portals FR-5).
+  readonly pageBudget: PageBudget;
+  // Pages of ours the pass left to read: the source is due again sooner (job portals FR-5).
+  backlog(pages: number): void;
 }
+
+export type { PageBudget };
 
 export type { SourceMemory };
 

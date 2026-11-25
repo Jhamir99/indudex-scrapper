@@ -14,6 +14,7 @@ import { HttpFailure } from "../../shared/http/http-failure.js";
 import { TakedownList } from "../../shared/config/takedowns.js";
 import type { SourceState } from "../../shared/schemas/source.js";
 import type { Environment } from "./credentials.js";
+import { pageBudget } from "./page-budget.js";
 import { runDue, runSource, runSources } from "./runner.js";
 
 function setup() {
@@ -753,6 +754,63 @@ describe("runDue: gates (FR-5, FR-7, FR-8, FR-9)", () => {
     expect(second.runs).toBe(0);
     expect(store.adverts).toEqual(adverts);
     expect(store.states).toEqual(states);
+  });
+
+  it("brings a source that left pages of ours back after backlogHours, and shows its backlog (job portals FR-5)", async () => {
+    const { clock, store, dependencies } = runSetup();
+    let pending = 40;
+    const portal: SourceAdapter = {
+      definition: fakeDefinition("portal"),
+      async *fetchAdverts(context) {
+        context.backlog(pending);
+        yield fakeDraft("portal", "1");
+      },
+    };
+    const withBacklog = {
+      ...dependencies,
+      rulesFor: () => ({ ...rules, cadenceHours: 6, backlogHours: 1 }),
+    };
+    await runDue([portal], withBacklog);
+    expect(await store.readState("portal")).toMatchObject({
+      status: "enabled",
+      backlog: 40,
+      nextDueAt: "2026-11-16T09:00:00.000Z",
+    });
+    pending = 0;
+    clock.advance(3_600_000);
+    await runDue([portal], withBacklog);
+    const state = await store.readState("portal");
+    expect(state).not.toHaveProperty("backlog");
+    expect(state?.nextDueAt).toBe("2026-11-16T15:00:00.000Z");
+  });
+
+  it("shares one page budget across a run's sources, and hands them the gate's reading (job portals FR-4, FR-5)", async () => {
+    const { dependencies } = runSetup();
+    const read: Record<string, number> = {};
+    const reader = (id: string): SourceAdapter => ({
+      definition: fakeDefinition(id),
+      async *fetchAdverts(context) {
+        read[id] = 0;
+        for (let page = 0; page < 10 && context.pageBudget.take(); page++)
+          read[id]++;
+        yield fakeDraft(
+          id,
+          context.isOurs("Process Engineer", "de") ? "ours" : "not",
+        );
+      },
+    });
+    const result = await runSources([reader("a"), reader("b")], {
+      ...dependencies,
+      pageBudget: pageBudget(5),
+      isOurs: (title) => /engineer/i.test(title),
+    });
+    expect(read).toEqual({ a: 5, b: 0 });
+    expect(result.sources.map((source) => source.outcome)).toEqual([
+      "stored",
+      "stored",
+    ]);
+    await runSources([reader("c")], dependencies);
+    expect(read["c"]).toBe(10);
   });
 
   it("keeps a source without its credentials disabled, with zero requests, until they are set", async () => {

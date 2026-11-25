@@ -9,6 +9,7 @@ describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
     expect(config.cadence).toEqual({
       defaultHours: 24,
       unchangedMaxHours: 168,
+      backlogHours: 1,
     });
     expect(config.backoff).toEqual({
       hours: [24, 72, 168],
@@ -20,7 +21,7 @@ describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
     expect(config.pace.perHost).toEqual({ gapMs: 3000, inFlight: 1 });
     expect(config.connections).toEqual({ maxOpen: 16, newPerSecond: 2 });
     expect(config.errorBudget).toEqual({ errors: 3, windowMinutes: 10 });
-    expect(config.run).toEqual({ concurrency: 4 });
+    expect(config.run).toEqual({ concurrency: 4, pageBudget: 30_000 });
   });
 
   it("takes per-source cadences", () => {
@@ -51,6 +52,7 @@ describe("scheduleRules (FR-6)", () => {
       backoffHours: [24, 72, 168],
       parkAfterFailures: 6,
       parkedHours: 720,
+      backlogHours: 1,
     });
     expect(scheduleRules(config, "other").cadenceHours).toBe(24);
   });

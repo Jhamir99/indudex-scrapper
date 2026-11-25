@@ -27,7 +27,11 @@ export function formatStatus(
       state.lastRunAt ? minute(state.lastRunAt) : "-",
       String(state.advertCount),
       state.nextDueAt ? minute(state.nextDueAt) : "due",
-      "reason" in state ? state.reason : "",
+      "reason" in state
+        ? state.reason
+        : state.backlog
+          ? `backlog: ${state.backlog} pages of ours to read`
+          : "",
     ];
   });
   const widths = header.map((_, column) =>

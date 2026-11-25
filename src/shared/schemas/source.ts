@@ -66,6 +66,8 @@ const StateFields = {
   unchangedPasses: z.int().nonnegative().default(0),
   // Reads in a row held as suspect drops (FR-4); added after format version 1, hence the default.
   heldDrops: z.int().nonnegative().default(0),
+  // Pages of ours the last pass left to read (job portals FR-5); absent when none.
+  backlog: z.int().positive().optional(),
   nextDueAt: Timestamp.nullable(),
 };
 

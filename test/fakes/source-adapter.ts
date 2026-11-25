@@ -4,6 +4,7 @@ import type {
   SourceAdapter,
 } from "../../src/features/crawl-core/ports.js";
 import type { SourceDefinition } from "../../src/shared/schemas/source.js";
+import { UNLIMITED } from "../../src/features/crawl-core/page-budget.js";
 
 export function fakeDefinition(
   id: string,
@@ -86,6 +87,9 @@ export function fakeContext(
     today: "2026-11-16",
     memory: undefined,
     remember: () => {},
+    isOurs: () => true,
+    pageBudget: UNLIMITED,
+    backlog: () => {},
     ...overrides,
   };
 }

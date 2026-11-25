@@ -77,3 +77,26 @@ describe("formatStatus (FR-10)", () => {
     expect(formatStatus(new Map())).toBe("No sources yet.\n");
   });
 });
+
+describe("a source's backlog in the status (job portals FR-5)", () => {
+  it("says how many pages of ours an enabled source left to read", () => {
+    const states = new Map<string, SourceState>([
+      [
+        "free-work.com",
+        {
+          status: "enabled",
+          lastRunAt: "2026-11-16T08:00:12.000Z",
+          advertCount: 1500,
+          consecutiveFailures: 0,
+          unchangedPasses: 0,
+          heldDrops: 0,
+          backlog: 2311,
+          nextDueAt: "2026-11-16T09:00:12.000Z",
+        },
+      ],
+    ]);
+    expect(formatStatus(states)).toContain(
+      "backlog: 2311 pages of ours to read",
+    );
+  });
+});

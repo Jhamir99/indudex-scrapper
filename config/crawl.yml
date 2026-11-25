@@ -11,6 +11,8 @@ cadence:
   defaultHours: 24
   # A source that comes back unchanged waits half as long again each pass, up to a week.
   unchangedMaxHours: 168
+  # A source that left pages of ours to read (a job portal) is back in the next hourly run.
+  backlogHours: 1
 
 backoff:
   # A failing source waits a day, three, then a week; after 6 failures it is parked for a month.
@@ -89,6 +91,8 @@ run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.
   # Each site keeps its own pace whatever this is; mpsv alone peaks near 1.1 GB.
   concurrency: 4
+  # Pages a run may read across its sources: the legacy's 30,000 portal pages.
+  pageBudget: 30000
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.

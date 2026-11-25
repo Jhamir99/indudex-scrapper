@@ -8,6 +8,8 @@ export interface ScheduleRules {
   readonly backoffHours: readonly number[];
   readonly parkAfterFailures: number;
   readonly parkedHours: number;
+  // The wait of a source that left pages of ours to read (job portals FR-5).
+  readonly backlogHours?: number;
 }
 
 const HOUR = 3_600_000;
@@ -44,12 +46,16 @@ export function afterSuccess(
     readonly at: Date;
     readonly advertCount: number;
     readonly changed: boolean;
+    // Pages of ours left to read.
+    readonly backlog?: number;
   },
   rules: ScheduleRules,
 ): SourceState {
   const unchangedPasses = run.changed
     ? 0
     : (previous?.unchangedPasses ?? 0) + 1;
+  const wait = waitAfterSuccessHours(rules, unchangedPasses);
+  const backlog = run.backlog ?? 0;
   return {
     status: "enabled",
     lastRunAt: run.at.toISOString(),
@@ -57,7 +63,13 @@ export function afterSuccess(
     consecutiveFailures: 0,
     unchangedPasses,
     heldDrops: 0,
-    nextDueAt: later(run.at, waitAfterSuccessHours(rules, unchangedPasses)),
+    ...(backlog > 0 ? { backlog } : {}),
+    nextDueAt: later(
+      run.at,
+      backlog > 0 && rules.backlogHours !== undefined
+        ? Math.min(wait, rules.backlogHours)
+        : wait,
+    ),
   };
 }
 

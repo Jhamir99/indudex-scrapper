@@ -16,6 +16,8 @@ export const CrawlConfig = z.strictObject({
   cadence: z.strictObject({
     defaultHours: Hours,
     unchangedMaxHours: Hours,
+    // A source that left pages of ours to read is due again after this (job portals FR-5).
+    backlogHours: Hours.default(1),
   }),
   backoff: z.strictObject({
     hours: z.array(Hours).min(1),
@@ -40,8 +42,10 @@ export const CrawlConfig = z.strictObject({
       // Sources read at once. Each site keeps its own pace (`pace`, `connections`) however many
       // run; this only keeps one slow source (an hour's pass) from holding up the others.
       concurrency: z.int().positive(),
+      // Pages a run may read across its sources (job portals FR-5).
+      pageBudget: z.int().positive().default(30_000),
     })
-    .default({ concurrency: 4 }),
+    .default({ concurrency: 4, pageBudget: 30_000 }),
   // 4xx answers a server may give within the window before it is asked nothing more.
   errorBudget: z.strictObject({
     errors: z.int().positive(),
@@ -81,5 +85,6 @@ export function scheduleRules(
     backoffHours: config.backoff.hours,
     parkAfterFailures: config.backoff.parkAfterFailures,
     parkedHours: config.backoff.parkedHours,
+    backlogHours: config.cadence.backlogHours,
   };
 }
