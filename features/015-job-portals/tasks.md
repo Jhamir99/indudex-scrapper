@@ -12,8 +12,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part B — Reading a vacancy page (shared with 016)
 
-- [ ] **T002 — Sitemaps** · FR: FR-3 · Depends: T001
+- [x] **T002 — Sitemaps** · FR: FR-3 · Depends: T001
       Done when: `shared/kit/sitemap.ts` holds `parseSitemap`, `sitemapText` (gzip), `withScheme`, `looksLikeJob`, and the legacy tests pass.
+      2026-11-25: done. `src/shared/kit/sitemap.ts`: `elements` (linear on hostile pages), `parseSitemap` (sitemaps, indexes and RSS feeds; attributes on tags, days in milliseconds), `sitemapText` (now a pure function of the answer's bytes: the reader asks with `binary` and passes them; gzip unpacked to 50 MB at most), `withScheme`, `looksLikeJob`. The RSS item's day through our `parseDay` (the same day as the legacy's `day` on the legacy's cases). `JOBBY` and `NUMBERED` compared with the legacy's file as text by script: the same. The legacy's cases cut out by line range into `test/legacy/sitemap.test.mjs` (the RSS feed, attributes and milliseconds, the plain sitemap and the index, `looksLikeJob`'s four blocks, `withScheme`, the hostile-page timing).
 - [ ] **T003 — The completed block and the labelled facts** · FR: FR-3 · Depends: T002
       Done when: `wholeAdvert` joins `shared/kit/job-posting.ts` and `labels.ts` holds `withLabels`, ported by script where they are tables, and the legacy tests pass.
 - [ ] **T004 — The layout reader and the careers reader's helpers** · FR: FR-3 · Depends: T003
