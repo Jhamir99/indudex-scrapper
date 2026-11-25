@@ -6,8 +6,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part A — The jobs
 
-- [ ] **T001 — The job table and the schedule's lines** · FR: FR-1, FR-5 · Depends: title-translation T016
+- [x] **T001 — The job table and the schedule's lines** · FR: FR-1, FR-5 · Depends: title-translation T016
       Done when: `jobs.ts` holds the five jobs of plan section 2 (schedule, command, memory, priority, time limit, late hours, Spanish name); `schedule.ts` renders each crontab line with the repo's and Node's absolute paths and the project's mark, and merges them into a crontab text keeping every other line (comments that mention the project included); `src/bin/dot-env.ts` holds the `.env` reader, used by `crawl.ts`; tests check each line and the merge.
+      2026-11-25: done. `jobs.ts` (`JOBS`, `jobNamed`, `ALL_LOCKS`, `REPO_ROOT`, `opsDirectory`: `OPS_DIR`, default `var/`): the backup and the watch are run as `ops.js backup` and `ops.js watch` under their own lock, like the others, so every job goes through the same `flock` wrapper. `schedule.ts` (`scheduleLines`, `mergedCrontab`, `MARK`): words single-quoted for sh and `%` escaped for cron (the repo's path has a space); a comment line is never dropped, even one ending in the mark. `src/bin/dot-env.ts` holds `environmentWithDotEnv`, moved from `crawl.ts`.
 - [ ] **T002 — Running a job** · FR: FR-2, FR-3, FR-4, FR-5 · Depends: T001
       Done when: `locks.ts` gives each job's argv with its `flock` calls (tested exactly), `run-job.ts` runs a job (STOP first; the child's output appended to its log; exit 0 good, 75 skipped, other failed; the time limit ends the process group, failed) and writes its outcome line, and `src/bin/ops.ts job <name>` runs it and always exits 0; tests with stand-in commands and a stand-in `flock`, and with the real `flock` where it exists.
 - [ ] **T003 — The translator stops at STOP** · FR: FR-4 · Depends: T002

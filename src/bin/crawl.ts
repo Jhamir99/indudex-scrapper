@@ -1,9 +1,6 @@
 // `pnpm crawl [-- --source <id>]`: one crawl run, started hourly by the host's cron. Runs the
 // due sources (or the one asked for) and stores their adverts. Exits 0 when the run finished,
 // whatever the sources did; 2 on a usage error; 1 when it could not start.
-import { existsSync, readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
-import { parseEnv } from "node:util";
 import {
   CrawlConfig,
   scheduleRules,
@@ -21,14 +18,8 @@ import {
 import { FileAdvertStore } from "../shared/storage/file-advert-store.js";
 import { FileStopSwitch } from "../shared/storage/file-stop-switch.js";
 import { FileRatesKeeper } from "../shared/storage/kept-rates.js";
+import { environmentWithDotEnv } from "./dot-env.js";
 import { storeDirectory } from "./store-directory.js";
-
-// Keys from `.env` at the repo root (never committed); a variable already set wins.
-function environmentWithDotEnv(): Record<string, string | undefined> {
-  const file = fileURLToPath(new URL("../../.env", import.meta.url));
-  const fromFile = existsSync(file) ? parseEnv(readFileSync(file, "utf8")) : {};
-  return { ...fromFile, ...process.env };
-}
 
 const clock: Clock = {
   now: () => new Date(),
