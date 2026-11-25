@@ -5,7 +5,9 @@ import { setFlagsFromString } from "node:v8";
 // The method keeps thousands of patterns (every trade of every pair as a word of its own). Node 26's V8 compiles a
 // pattern run often into machine code, and with these that code filled the heap: the legacy's own tests ran out of
 // memory at 400 MB on Node 26 (23 November 2026), and pass with the patterns kept in V8's bytecode. Set before any
-// pattern of the method is built; it holds for every pattern of the process.
+// pattern of the method is built; it holds for every pattern of the process. Enough for the tests and the
+// publication; the translator, which runs every pattern over thousands of titles, starts Node with
+// --regexp-interpret-all as well (src/bin/translate.ts).
 setFlagsFromString("--no-regexp-tier-up");
 
 const BS = String.fromCharCode(92);

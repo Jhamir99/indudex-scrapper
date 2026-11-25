@@ -15,7 +15,16 @@ const log = (line: string) =>
     `[${new Date().toISOString().slice(0, 19).replace("T", " ")}] ${line}`,
   );
 
+// The method keeps thousands of patterns; compiled to machine code they fill V8's code space (256 MB on arm64) and
+// a run dies within a minute (23 November 2026). Interpreted they stay in the heap, so Node must start with the flag:
+// set once the method's patterns exist, V8 itself fails.
+const INTERPRETED = "--regexp-interpret-all";
+
 try {
+  if (!process.execArgv.includes(INTERPRETED))
+    throw new Error(
+      `start the translator as node ${INTERPRETED} (pnpm translate does)`,
+    );
   const { values } = parseArgs({
     args: process.argv.slice(2).filter((argument) => argument !== "--"),
     options: {
