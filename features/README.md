@@ -26,7 +26,7 @@ A feature starts when the ones before it are closed. The order reaches a first p
 | 012 | [operations](012-operations/)                     | both      | in progress | Cron, locks, alerts, backups, stop file                                                                   |
 | 013 | [closed-adverts](013-closed-adverts/)             | processor | done        | Adverts whose page or title says the job is filled                                                        |
 | 014 | [credentialed-sources](014-credentialed-sources/) | scrapper  | done        | Sources behind a key (NAV, Jooble, partner feeds; Adzuna flagged), delivered disabled                     |
-| 015 | [job-portals](015-job-portals/)                   | scrapper  | in progress | Portals and agencies under the legacy's rule (227), remote boards, France Travail; a backlog between runs |
+| 015 | [job-portals](015-job-portals/)                   | scrapper  | done        | Portals and agencies under the legacy's rule (227), remote boards, France Travail; a backlog between runs |
 | 016 | [career-sites](016-career-sites/)                 | scrapper  | planned     | Employers' careers sites (sitemap + `JobPosting`) and ATS platforms, as data                              |
 | 017 | [source-discovery](017-source-discovery/)         | scrapper  | outline     | Hunter and scouts that find new careers sites and boards                                                  |
 

@@ -50,5 +50,6 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part E — Close
 
-- [ ] **T010 — Close** · Depends: T007, T008, T009
+- [x] **T010 — Close** · Depends: T007, T008, T009
       Done when: `CLAUDE.md` names the feature's folders, the shared page readers and the ports; 016's spec takes `boards`; `MEMORY.md` updated; `features/README.md` marks 015 done.
+      2026-11-26: done. `CLAUDE.md` names `src/features/job-portals/`, the crawl-core ports and files (`page-budget.ts`, `page-facts.ts`, `cadence.byKind`), the page readers in `shared/kit` and `shared/catalogues/country-names.ts`; 016's spec took `boards` with the spec's rewrite; `MEMORY.md` records the decisions (the rule, xx and zz, the libraries approved) and what is owed (the resync with the legacy's later changes); `features/README.md` marks 015 done.
