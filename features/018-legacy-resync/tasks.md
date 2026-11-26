@@ -5,9 +5,10 @@ pnpm test:run && pnpm build` green; "carried" means the legacy's tests at the ta
 
 **Depends:** `job-portals` closed (its T010).
 
-- [ ] **T001 — Inventory** · FR-1 · Depends: job-portals T010
+- [x] **T001 — Inventory** · FR-1 · Depends: job-portals T010
       Done when: the map of our modules to the legacy's files and the list of their behavioural changes since
       `b0cd182` are recorded here.
+      2026-11-26: done. Snapshot `b0cd182` (#840, 2026-11-15), target `ec79858` (#1220, 2026-11-25): 379 commits, 313 files of `builder/`, `app/lib/`, `catalogues/` (the legacy's full history fetched into the scratchpad's clone). Lines changed by area, renames followed at 50 % (a file both moved to TypeScript and much changed counts twice, so these overstate): words, sentences and stance 5,000 (47 files; every language's table, `stance.ts` new); advert facts 4,199 (`screens`, `labels`, `work-mode`, `contract`, `years`); pay 1,159 (`text-pay`, `pay`); gate 371 (`gate`, `isco-esco`); places 998 (`normalise`, `towns`); companies 368 (`company-cards`, `companies`, `names`, `agencies`); dedupe 144; publication 1,179 (`build-pile`, `work-out`, `work-out-pool`, `translate`, `latest`, `tidy-titles`, `shard`, `word-index`); title translation 5,179 (37 files: `trades-data`, `corrections`, `levels`, `before`, `method-tables`, `after`, `level-words`); crawl and public feeds 3,242 (54 files: `http`, `crawl`, `servers`, adapters such as `sne`, `vdab`, `bund`); catalogues 1,384 (`occupations.json` 1,290, `degrees`, `families`, `titles`). Not ported yet, so not this feature's: 6,221 (`boards`, `careers`, `sources`, the discovery tools). Already current: what 012 to 015 ported this week came from the target. The legacy's tests that changed most: `every-language.json` (3,692), `sentences` (625 + 325), `builder.test.mjs` (502), the method's reviews (`mt-languages-review`, `mt-rule-review`, `mt-root-causes`), `words`, `readers-languages`, `labels`, `tidy-titles`. The scratchpad's `legacy-numstat.tsv` holds the list.
 - [ ] **T002 — Words, sentences, stance** · FR-2, FR-3 · Depends: T001
       Done when: `shared/words`, `shared/kit/sentences.ts` and the legacy's `stance.ts` (where its users need it) match
       the target; its `words`, `sentences`, `readers-languages` tests carried and passing.
