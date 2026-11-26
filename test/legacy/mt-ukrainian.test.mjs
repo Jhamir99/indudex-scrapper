@@ -1,5 +1,6 @@
-// The legacy's mt-ukrainian.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
-// Into Ukrainian (builder/mt/method.mjs): the stand-ins Firefox keeps in Latin letters, the towns it would write in
+// The legacy's test/mt-ukrainian.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
+// Into Ukrainian (builder/mt/method.ts): the stand-ins Firefox keeps in Latin letters, the towns it would write in
 // Cyrillic kept as names, and the English or code names it leaves in front of the job put after it.
 import { test } from "vitest";
 import assert from "node:assert/strict";

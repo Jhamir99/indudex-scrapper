@@ -1,6 +1,7 @@
-// The legacy's mt-marks.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
-// A Spanish or Catalan title's gender marks given back to its translation into the other (builder/mt/marks.ts), in the
-// shapes of Spain's published titles of 8 November 2026.
+// The legacy's test/mt-marks.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
+// ➤ A Spanish or Catalan title's gender marks given back to its translation into the other (builder/mt/marks.ts), in the
+// ➤ shapes of Spain's published titles of 8 November 2026.
 import { harness } from "./harness.mjs";
 import {
   MARKED,
@@ -61,7 +62,7 @@ eq(
   "a mark written in a title",
 );
 
-// The build marks a translation only where its Spanish or Catalan title wrote marks and it has none.
+// ➤ The build marks a translation only where its Spanish or Catalan title wrote marks and it has none.
 const recs = [
   { t: "Ingeniero/a de Procesos", cc: "es", l: "Tarragona" },
   { t: "Técnico de mantenimiento", cc: "es", l: "Madrid" },

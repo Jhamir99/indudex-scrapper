@@ -23,7 +23,7 @@ pnpm test:run && pnpm build` green; "carried" means the legacy's tests at the ta
 - [x] **T006 — Places** · FR-2, FR-3 · Depends: T005
 - [x] **T007 — Companies and dedupe** · FR-2, FR-3 · Depends: T006
 - [x] **T008 — Publication** · FR-2, FR-3 · Depends: T003 to T007
-- [ ] **T009 — Title translation** · FR-2, FR-3 · Depends: T008
+- [x] **T009 — Title translation** · FR-2, FR-3 · Depends: T008
 - [ ] **T010 — Crawl-core, public feeds, text helpers** · FR-2 · Depends: T001
       Done when: the HTTP client, robots, pacing, the public feeds' adapters and the text helpers match the target where
       ported; tests carried.
@@ -73,3 +73,14 @@ first (c4c209e1, `latest.ts`, `tk` and `x` in today's schema), and the agency sh
 pool of workers and its «too slow» advert (53813326, ce67b14b, d399229e, e79e7e23) change how fast it publishes, not
 what: left out. `KEPT_DAYS` is our year already. The legacy's false towns (`withoutFalseTown` and four commits on it)
 read the town and can change the country, which our places keep apart: T012.
+
+Notes on T009 (2026-11-26). The legacy's method (builder/mt) changed in about 80 commits since s139: its modules were
+copied whole into `method/` (new: contracts, countries, level-words, the two functions of towns-back), their data
+reads through our `data.ts`; `trades.json` regenerated from its `trades-data.ts` (872 trades, 40 more) and
+`spellings.json` taken. Its outer changes are ported into ours: `legs.ts` (contract names written through the
+glossary, a title naming a contract kept from Aina, capitals calmed before Aina, Aina's Catalan corrected), `aina.ts`
+(a town or a kept word under any of its names, a part lost at a conjunction), `translate.ts` (the towns a title names
+spelled as written, Catalan apostrophes). Its translation tests carried again, the three new ones too (languages
+review, root causes, rule review), the site's cases of translate.test (app/lib/i18n.ts) left out; the method's golden
+set remade (48 of 314 changed) and ours gives each the same. The legacy's own run needs Node's
+--regexp-interpret-all, as our translator does.

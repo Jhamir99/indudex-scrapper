@@ -1,5 +1,6 @@
-// The legacy's mt-aina.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
-// Catalan straight from Spanish with Aina's model (builder/mt/aina.mjs): which titles go to it, what is hidden and checked,
+// The legacy's test/mt-aina.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
+// Catalan straight from Spanish with Aina's model (builder/mt/aina.ts): which titles go to it, what is hidden and checked,
 // and when a title keeps the route through English. Aina is replaced by a stand-in translator, so these run without Python.
 import { test } from "vitest";
 import assert from "node:assert/strict";
@@ -247,4 +248,27 @@ test("a Spanish title's Catalan comes from Aina when it comes back whole, the re
     "Operador de producció",
     "a worker that fails keeps the usual route",
   );
+});
+
+test("Aina's Catalan gets the fixed corrections for Catalan", async () => {
+  const TABLE = {
+    "es-en": { "Ingeniero de procesos químicos": "Chemical process engineer" },
+    "en-ca": { "Chemical process engineer": "Enginyer de processos químics" },
+  };
+  const engine = {
+    translate: async (pair, texts) => texts.map((t) => TABLE[pair]?.[t] ?? t),
+    aina: (texts) =>
+      texts.map((t) =>
+        t === "Ingeniero de procesos químicos"
+          ? "Enginyeria de processos químics"
+          : t,
+      ),
+  };
+  const out = await translateTitles(
+    "es",
+    ["Ingeniero de procesos químicos"],
+    { into: ["ca"] },
+    engine,
+  );
+  assert.equal(out.ca[0], "Enginyer de processos químics");
 });

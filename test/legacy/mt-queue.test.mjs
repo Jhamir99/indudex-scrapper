@@ -1,6 +1,7 @@
-// The legacy's mt-queue.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
-// The translator's run without its engine (TRA-10): the queue grouped and handed out, a failing chunk done in halves,
-// what leaves the queue, the cache merge with a cut file, and the method's own steps on hostile titles, in time.
+// The legacy's test/mt-queue.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
+// ➤ The translator's run without its engine (TRA-10): the queue grouped and handed out, a failing chunk done in halves,
+// ➤ what leaves the queue, the cache merge with a cut file, and the method's own steps on hostile titles, in time.
 import { test } from "vitest";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
@@ -76,7 +77,7 @@ test("a title of a chunk a run never ended goes last, alone", () => {
 test("a chunk the engine fails on is done in halves, and a title failing alone gets nothing", async () => {
   const items = ["a", "b", "c", "d", "e"].map((t) => ({ t }));
   const failed = [];
-  // The engine fails on any batch of more than two, and on «d» alone.
+  // ➤ The engine fails on any batch of more than two, and on «d» alone.
   const engine = async (part) => {
     if (part.length > 2 || part.some((x) => x.t === "d"))
       throw new Error("aborted");
@@ -112,7 +113,9 @@ test("the merge adds to a cache, and a cache cut short stops it with the file ke
     spawnSync(
       process.execPath,
       ["src/features/title-translation/merge.ts", cache],
-      { input: JSON.stringify(input) },
+      {
+        input: JSON.stringify(input),
+      },
     );
   writeFileSync(cache, JSON.stringify({ Elektriker: "Electricista" }));
   assert.equal(merge([["Schweißer", "Soldador"]]).status, 0);
@@ -143,8 +146,8 @@ test("the method's own steps end in time on hostile titles", () => {
   ];
   for (const pair of ["de-en", "en-es", "en-ca", "es-en"]) {
     for (const t of hostile) {
-      // The first time a pattern meets a text it is compiled, a second or more: the second time is counted, which a
-      // pattern that backtracks without end would spend again.
+      // ➤ The first time a pattern meets a text it is compiled, a second or more: the second time is counted, which a
+      // ➤ pattern that backtracks without end would spend again.
       before(pair, t);
       const at = performance.now();
       before(pair, t);
@@ -152,4 +155,4 @@ test("the method's own steps end in time on hostile titles", () => {
       assert.ok(ms < 1000, `${pair} ${t.slice(0, 30)}: ${Math.round(ms)} ms`);
     }
   }
-}, 120_000);
+});

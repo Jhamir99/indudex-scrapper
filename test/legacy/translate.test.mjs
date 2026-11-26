@@ -1,8 +1,9 @@
-// The legacy's translate.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
-// Titles in the site's languages from the translator's caches (builder/translate.mjs): each title once, in the
-// language its letters say when they say another than its country's; a source that asks for its titles to be left
-// as written keeps them and says their language; and the titles the caches lack written down for the translator,
-// with the town and company the method reads beside them, Spain's first.
+// The legacy's test/translate.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo, the site's cases (app/lib/i18n.ts) left out.
+// ➤ Titles in the site's languages from the translator's caches (builder/translate.ts): each title once, in the
+// ➤ language its letters say when they say another than its country's; a source that asks for its titles to be left
+// ➤ as written keeps them and says their language; and the titles the caches lack written down for the translator,
+// ➤ with the town and company the method reads beside them, Spain's first.
 import { mkdirSync, rmSync, writeFileSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
@@ -77,14 +78,14 @@ const recs = () => [
   },
 ];
 
-// The language each title is written in.
+// ➤ The language each title is written in.
 eq(
   recs().map(languageOf),
   ["de", "de", "de", "es", "en", "ca", "de"],
   "the country says it, a Catalan title on a Spanish offer is Catalan, an English title of no country is English",
 );
 
-// A place that names no country: the offer's country says it (83,320 published offers had no language on 31 October 2026).
+// ➤ A place that names no country: the offer's country says it (83,320 published offers had no language on 31 October 2026).
 eq(
   [
     { t: "Explosionsschutz-Ingenieur", l: "München", cc: "de" },
@@ -96,7 +97,7 @@ eq(
   "the offer's country when the place names none, French on a Swiss offer, English with no country",
 );
 
-// The cache applied: a translation where the title is in another language; NOTHING shows the title as written.
+// ➤ The cache applied: a translation where the title is in another language; NOTHING shows the title as written.
 let rs = recs();
 const es = new Map([
   ["Elektriker", "Electricista"],
@@ -122,22 +123,22 @@ eq(
 );
 eq(t.translated, 4, "four records translated");
 
-// A title written in Catalan is its own Catalan title: the Catalan page shows it as written, not its Spanish
-// translation, with no original to switch to (the cards show one only for a title that differs from it).
+// ➤ A title written in Catalan is its own Catalan title: the Catalan page shows it as written, not its Spanish
+// ➤ translation, with no original to switch to (the cards show one only for a title that differs from it).
 rs = recs();
 applyTitles(rs, {
   target: "es",
   cache: new Map([[rs[5].t, "Montador/a en carpintería metálica y aluminio"]]),
 });
 applyTitles(rs, { target: "ca", cache: new Map() });
-// The Catalan page's title is the web's (app/lib/i18n.ts, not in this repo): here, what it reads.
+// The site's reading of the Catalan title (its app/lib/i18n.ts) is the web's: the cache's part of the case stays.
 eq(
-  [rs[5].ts, rs[5].tc, rs[0].tc],
-  ["Montador/a en carpintería metálica y aluminio", rs[5].t, undefined],
-  "the Catalan title keeps its Spanish translation for the Spanish page and is its own Catalan title; a German one with no Catalan gets none",
+  [rs[5].ts, rs[0].tc],
+  ["Montador/a en carpintería metálica y aluminio", undefined],
+  "the Catalan title keeps its Spanish translation for the Spanish page; a German one with no Catalan gets none",
 );
 
-// A source that asks for its titles to be left as written: no translation, its title's language said instead.
+// ➤ A source that asks for its titles to be left as written: no translation, its title's language said instead.
 rs = recs();
 t = applyTitles(rs, {
   target: "en",
@@ -150,7 +151,7 @@ eq(
   "the SNE offer keeps its Spanish title on the English site, marked as Spanish",
 );
 
-// What the caches lack, each title once, with the languages it lacks and what the method reads beside it.
+// ➤ What the caches lack, each title once, with the languages it lacks and what the method reads beside it.
 rs = recs();
 const caches = {
   en: new Map([["Elektriker", "Electrician"]]),
@@ -188,7 +189,7 @@ ok(
   "an English title lacks no English",
 );
 
-// A title to translate anew: asked for in every language while its old translations still show, after the others.
+// ➤ A title to translate anew: asked for in every language while its old translations still show, after the others.
 const again = wantedTitles(recs(), caches, {
   untranslated: new Set(["sne"]),
   redo: new Set(["Elektriker"]),
@@ -200,8 +201,8 @@ eq(
   "Elektriker asked for again in every language, after the titles no cache holds",
 );
 
-// A title only a coming language lacks (Romanian, say) waits for those a language of the site lacks, however many
-// its offers.
+// ➤ A title only a coming language lacks (Romanian, say) waits for those a language of the site lacks, however many
+// ➤ its offers.
 const site = Object.fromEntries(
   ["en", "es", "ca", "fr", "nl", "it", "pl"].map((l) => [
     l,
@@ -222,7 +223,7 @@ eq(
   "Elektriker, three offers, lacking only Romanian, comes after the titles of one offer the site lacks",
 );
 
-// The caches and the list of sources on disk.
+// ➤ The caches and the list of sources on disk.
 const dir = join(tmpdir(), `translate-test-${process.pid}`);
 mkdirSync(dir, { recursive: true });
 saveCache(join(dir, "titles-es.json"), es);
@@ -252,8 +253,8 @@ eq(
 );
 rmSync(dir, { recursive: true, force: true });
 
-// A Spanish offer's title in English only is English, and gets the Spanish title its cache holds; one that mixes in
-// Spanish words stays Spanish (8 November 2026: 6,694 of Spain's published offers showed an English title on the Spanish page).
+// ➤ A Spanish offer's title in English only is English, and gets the Spanish title its cache holds; one that mixes in
+// ➤ Spanish words stays Spanish (8 November 2026: 6,694 of Spain's published offers showed an English title on the Spanish page).
 const spanishOffers = [
   "Manufacturing Engineer",
   "Senior Civil Engineer",
@@ -286,8 +287,8 @@ eq(
   "the Spanish title of an English one",
 );
 
-// The offer's own town as its title writes it, where a translation renamed it (8 November 2026: 593 Spanish and 553 Catalan
-// titles, among others); not a link word read as a town («Java Oder JavaScript»), nor a town the title writes otherwise.
+// ➤ The offer's own town as its title writes it, where a translation renamed it (8 November 2026: 593 Spanish and 553 Catalan
+// ➤ titles, among others); not a link word read as a town («Java Oder JavaScript»), nor a town the title writes otherwise.
 const townOffers = [
   {
     t: "Bauingenieur/ Kalkulation Berlin Ingenieurbau",
@@ -337,7 +338,7 @@ eq(
   "the offer's own town written back",
 );
 
-// Catalan spelling leaves a town's name as written, and an older cache's respelled town is written back once (TB2-10).
+// ➤ Catalan spelling leaves a town's name as written, and an older cache's respelled town is written back once (TB2-10).
 const spainTowns = [
   "Torrejón de Ardoz",
   "Mairena del Aljarafe",
@@ -391,6 +392,6 @@ eq(
   "the spelling around a town, not in it: the «de» before it still takes its apostrophe",
 );
 
-// The English page's title case (WEB-07) is the web's (app/lib/i18n.ts): not in this repo.
+// The English page's capitals (its app/lib/i18n.ts, WEB-07) are the web's, left out here.
 
 done();

@@ -1,5 +1,6 @@
-// The legacy's mt-before.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
-// The step before Firefox (builder/mt/method.mjs, before): the title tidied, without the trades written in ("bare").
+// The legacy's test/mt-before.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
+// The step before Firefox (builder/mt/method.ts, before): the title tidied, without the trades written in ("bare").
 import { test } from "vitest";
 import assert from "node:assert/strict";
 import {
@@ -50,7 +51,7 @@ test('Spanish accents, "de", grades, public posts', () => {
     bare("es-en", "Tecnico Mantenimiento"),
     "Técnico de Mantenimiento",
   );
-  // An adjective in the plural takes no «de», a field that ends like one does (TB1-10).
+  // ➤ An adjective in the plural takes no «de», a field that ends like one does (TB1-10).
   assert.deepEqual(
     [
       "Mecánicos industriales",
@@ -136,7 +137,15 @@ test("gender endings out", () => {
     withoutGenders("Techniker/-in Elektrotechnik", "de"),
     "Techniker Elektrotechnik",
   );
-  // French marks in capitals, as in small letters.
+  assert.equal(
+    withoutGenders("Praktikum, WerkstudentInnen R&D", "de"),
+    "Praktikum, Werkstudent R&D",
+  );
+  assert.equal(
+    withoutGenders("PraktikantIn LinkedIn Marketing", "de"),
+    "Praktikant LinkedIn Marketing",
+  );
+  // ➤ French marks in capitals, as in small letters.
   assert.equal(
     withoutGenders("TECHNICIEN(NE) CONFIRME(E) VEHICULES LEGERS", "fr"),
     "TECHNICIEN CONFIRME VEHICULES LEGERS",
@@ -158,7 +167,7 @@ test("gender endings out", () => {
     "INGENIEUR CHEF DE PROJET",
   );
   assert.equal(withoutGenders("SOUDEUR (SE) TIG", "fr"), "SOUDEUR TIG");
-  // Not an acronym or a word after a slash.
+  // ➤ Not an acronym or a word after a slash.
   assert.equal(
     withoutGenders("EAUX DE VIENNE / S.I.V.E.E.R.", "fr"),
     "EAUX DE VIENNE / S.I.V.E.E.R.",
@@ -230,13 +239,13 @@ test("into Spanish, Catalan and French the English words in front of a trade go 
   assert.equal(before("en-es", "Fitter welder").text, "Montador soldador");
   assert.equal(
     before("en-es", "Team Leader Plumber – Heating").text,
-    "Líder de equipo Fontanero – Heating",
+    "Jefe de equipo Fontanero – Heating",
   );
   assert.equal(before("en-de", "Crane fitter").text, "Kranmonteur");
 });
 
 test("a trade said twice: the words in front of the second go after it, and the step ends", () => {
-  // It never ended on this title into Catalan (7 November 2026), and into Spanish took the first trade along.
+  // ➤ It never ended on this title into Catalan (7 November 2026), and into Spanish took the first trade along.
   const t = "Lf 253155 - maintenance worker and mechanical maintenance worker";
   assert.equal(
     before("en-ca", t).text,
@@ -253,7 +262,7 @@ test("a trade said twice: the words in front of the second go after it, and the 
 });
 
 test("a Spanish mechanic of a vehicle, written with no «de», is that mechanic", () => {
-  // Firefox read «MECÁNICO/A CAMIÓN» as «Mechanical Truck» and «DE CAMPO» as «– de Campo» (7 November 2026).
+  // ➤ Firefox read «MECÁNICO/A CAMIÓN» as «Mechanical Truck» and «DE CAMPO» as «– de Campo» (7 November 2026).
   assert.equal(
     before("es-en", "OFICIAL 1ª MECÁNICO/A CAMIÓN IGUALADA").text,
     "Truck mechanic Igualada",
@@ -270,7 +279,7 @@ test("a Spanish mechanic of a vehicle, written with no «de», is that mechanic"
 });
 
 test("a Swiss welding word takes its «ß» back, and an Italian shift leader is read", () => {
-  // Firefox read «Schweissfachmann» as «Sweat expert»; «CAPOTURNO» came back «CAPOTURNNO» (8 November 2026).
+  // ➤ Firefox read «Schweissfachmann» as «Sweat expert»; «CAPOTURNO» came back «CAPOTURNNO» (8 November 2026).
   assert.equal(
     before("de-en", "Schweissfachmann 100%").text,
     "Welding specialist 100%",
@@ -298,8 +307,8 @@ test("a leading Junior or Senior of the English is said after the job in those l
 test("a trade given back in the plural where the English was singular goes back as written", () => {
   const d = before("en-es", "HVAC fitter");
   assert.equal(
-    after("en-es", "HVAC fitter", "Montadores – HVAC", d.info),
-    "Montador – climatización",
+    after("en-es", "HVAC fitter", "Montadores – Climatización", d.info),
+    "Montador – Climatización",
   );
   assert.equal(
     after(
@@ -347,10 +356,8 @@ test("product names Firefox translated are kept", () => {
 
 test("the morning shift and the mechanic as a person", () => {
   assert.equal(
-    before("es-en", "Electricista - Jornada de mañana").bare.includes(
-      "Turno de mañana",
-    ),
-    true,
+    before("ca-en", "Electricista - Jornada de nit").text,
+    "Electrician - Night shift",
   );
   assert.equal(
     before("es-en", "Electricista - Jornada de mañana").text,
@@ -447,7 +454,7 @@ test("a fitter who leads the site, and an apprenticeship graduate after the job"
 test("a team or tech lead and its field, apart", () => {
   assert.equal(
     before("en-es", "Team Lead Java Development").text.startsWith(
-      "Líder de equipo – ",
+      "Jefe de equipo – ",
     ),
     true,
   );
@@ -517,7 +524,7 @@ test('"Agentic" through "Robotic" into Spanish, Catalan and French only (s106)',
       "Ingeniero de Producto Robótico",
       a.info,
     ),
-    "Ingeniero de Producto Agéntico",
+    "Ingeniero de producto agéntico",
   );
   assert.equal(before("en-es", "Agentic AI Engineer").info.agentic, false);
   assert.equal(
@@ -554,7 +561,7 @@ test("a star after a word out at the end only, and a level before a Swiss worklo
       "Ingeniero de Sistemas 80-100%",
       p.info,
     ),
-    "Ingeniero de Sistemas sénior 80-100%",
+    "Ingeniero de sistemas sénior 80-100%",
   );
 });
 
@@ -685,7 +692,7 @@ test('"(Senior)" opening a title said after the job in its brackets, little word
       "Ingeniero civil – Renovables y Almacenamiento",
       p.info,
     ),
-    "Ingeniero civil (sénior) – Renovables y Almacenamiento",
+    "Ingeniero civil (sénior) – Renovables y almacenamiento",
   );
   assert.equal(
     before("en-de", "(Senior) Software Engineer").text,
@@ -1348,7 +1355,7 @@ test("British surveyors, fire engineers, plant fitters, fabricators, safety advi
       "Welder TIG",
       before("es-en", "Soldadores por tig").info,
     ),
-    "TIG Welder",
+    "TIG welder",
   );
   assert.equal(
     bare("es-en", "Responsable de Proyecto SAP HR"),
@@ -1426,22 +1433,16 @@ test("French developers and their technologies, CVC and HVAC, Mécanicien Auto, 
     true,
   );
   assert.equal(
-    after(
-      "en-es",
-      "Technician HVAC",
-      "Técnico climatización",
-      before("en-es", "Technician HVAC").info,
-    ),
-    "Técnico de climatización",
+    before("en-es", "Site Manager HVAC").text,
+    "Jefe de obra de climatización",
   );
   assert.equal(
-    after(
-      "en-es",
-      "x",
-      "Jefe de obra climatización",
-      before("en-es", "x").info,
-    ),
-    "Jefe de obra de climatización",
+    before("en-es", "HVAC Service Engineer").text,
+    "Técnico de servicio de climatización",
+  );
+  assert.equal(
+    before("en-ca", "Site Manager HVAC").text,
+    "Cap d'obra de climatització",
   );
   assert.equal(
     after("en-es", "x", "Montador – Climatización", before("en-es", "x").info),
@@ -1461,7 +1462,7 @@ test("the English X Manager as Responsable, not Gerente or Gestionnaire (s125)",
   );
   assert.equal(
     at("en-es", "Technical Manager", "Gerente Técnico"),
-    "Responsable Técnico",
+    "Responsable técnico",
   );
   assert.equal(
     at("en-ca", "Warehouse Manager", "Gerent de magatzem"),
@@ -1472,8 +1473,8 @@ test("the English X Manager as Responsable, not Gerente or Gestionnaire (s125)",
     "Responsable d'ingénierie",
   );
   assert.equal(
-    at("en-fr", "IT Project Manager", "Gestionnaire de projet informatique"),
-    "Chef de projet informatique",
+    before("en-fr", "IT Project Manager").info.whole,
+    "Chef de projet IT",
   );
   assert.equal(
     at("en-fr", "Property Manager", "Gestionnaire immobilier"),
@@ -1496,7 +1497,7 @@ test("the English X Manager as Responsable, not Gerente or Gestionnaire (s125)",
       "Ingeniero de calidad de proveedores",
       lead.info,
     ),
-    "Ingeniero de calidad de proveedores líder",
+    "Ingeniero de calidad de proveedores principal",
   );
   assert.equal(before("en-es", "Lead Generation Specialist").info.said, "");
   assert.equal(
@@ -1706,7 +1707,10 @@ test("a slash after a job word gets spaces; trades from French and German (s129)
 });
 
 test("Assistant before a professional job is a level; Jobs after the job; trades of the fifth mining (s130)", () => {
-  assert.equal(before("en-es", "Assistant Site Manager").info.said, "Deputy");
+  assert.equal(
+    before("en-es", "Assistant Site Manager").info.whole,
+    "Ayudante de jefe de obra",
+  );
   assert.equal(before("en-ca", "Deputy Project Manager").info.said, "Deputy");
   assert.equal(
     before("en-es", "Assistant Quantity Surveyor").info.said,
@@ -1849,7 +1853,7 @@ test("the whole set todo1: German heads and fields, French repairs and cut title
     ).bare.endsWith("de maintenance"),
     true,
   );
-  // A piece that could be two words is dropped rather than guessed ("en élect": électricité or électricien).
+  // ➤ A piece that could be two words is dropped rather than guessed ("en élect": électricité or électricien).
   assert.equal(
     before(
       "fr-en",
@@ -1997,10 +2001,6 @@ test("the long tail todo2: shifts, rotas, contracts, German, French and Dutch wo
     "Maintenance Engineer (4 working days, 4 days off)",
   );
   assert.equal(
-    before("en-es", "Research Laboratory Technician (Fixed Term)").bare,
-    "Research Laboratory Technician (temporary contract)",
-  );
-  assert.equal(
     before("en-es", "Static Building Services Engineer").bare.startsWith(
       "Building Services Engineer",
     ),
@@ -2115,7 +2115,7 @@ test("todo1 through s138: electrical engineering left to Firefox, the agricultur
 });
 
 test('backend, frontend and full stack after the job, in small letters and with no "de" (s140)', () => {
-  // Into Spanish and Catalan moved after the job before Firefox, with the words between them; not into French.
+  // ➤ Into Spanish and Catalan moved after the job before Firefox, with the words between them; not into French.
   assert.equal(before("en-es", "Backend Developer").text, "Developer Backend");
   assert.equal(
     before("en-ca", "Front-end Software Engineer").text,
@@ -2138,7 +2138,7 @@ test('backend, frontend and full stack after the job, in small letters and with 
     "Front End Loader Driver",
   );
   assert.deepEqual(before("en-es", "Front-end loader operator").info.names, []);
-  // After Firefox: the "de" out, the word small after another, the part left in front put after the job.
+  // ➤ After Firefox: the "de" out, the word small after another, the part left in front put after the job.
   const fix = (pair, src, raw) => after(pair, src, raw, before(pair, src).info);
   assert.equal(
     fix("en-es", "Backend Developer", "Desarrollador de Backend"),
@@ -2168,7 +2168,7 @@ test('backend, frontend and full stack after the job, in small letters and with 
     fix("en-es", "BACKEND DEVELOPER", "DESARROLLADOR BACKEND"),
     "DESARROLLADOR BACKEND",
   );
-  // A second pass puts them behind stand-ins too, as it does the company.
+  // ➤ A second pass puts them behind stand-ins too, as it does the company.
   const info = before("en-fr", "Full-stack .NET Developer").info;
   assert.deepEqual(
     lostNames(
@@ -2251,6 +2251,15 @@ test("the day shift, a region, an expert technician, fully remote, presales and 
     before("nl-en", "Service Technieker België - Vending").info.firm,
     "",
   );
+  for (const [pair, title] of [
+    ["es-en", "Técnico Electricista España - Madrid"],
+    ["es-en", "Delegado Comercial España | Remoto"],
+    ["de-en", "Projektleiter Deutschland - Hamburg"],
+    ["de-en", "Leiter Vertrieb Österreich - Wien"],
+    ["fr-en", "Directeur Commercial France - Paris"],
+    ["nl-en", "Projectleider Nederland - Utrecht"],
+  ])
+    assert.equal(before(pair, title).info.firm, "", title);
   assert.equal(
     before("en-es", "The Netherlands - Meta must obtain a license").info.firm,
     "",
@@ -2275,7 +2284,7 @@ test("the day shift, a region, an expert technician, fully remote, presales and 
     "Electronics and automation technician",
   );
   assert.equal(text("fr-en", "Dessinateur-projeteur"), "Draughtsman designer");
-  // A title written with no accent at all takes them, but not in a town.
+  // ➤ A title written with no accent at all takes them, but not in a town.
   assert.equal(
     text("fr-en", "Ingenieur Systemes Embarques"),
     "Ingénieur Systèmes Embarqués",
@@ -2293,7 +2302,7 @@ test("the day shift, a region, an expert technician, fully remote, presales and 
     "Ingeniero de Procesos en Fábrica",
   );
   assert.equal(text("fr-en", "Ingénieur nucleaire"), "Ingénieur nucleaire");
-  // The CAD and BIM managers keep their English names into Spanish and Catalan.
+  // ➤ The CAD and BIM managers keep their English names into Spanish and Catalan.
   assert.equal(before("en-es", "CAD Manager").info.whole, "CAD Manager");
   assert.deepEqual(before("en-ca", "BIM manager").info.expect, ["BIM Manager"]);
 });
@@ -2342,7 +2351,7 @@ test("a trade's grade in Spain, «oficial de 1ª», is a level said in each lang
       "Welder",
       before("es-en", "Oficial 2ª soldador").info,
     ),
-    "Second-class Welder",
+    "Second-class welder",
   );
   const say = (pair, en, out, lv) =>
     after(pair, en, out, before(pair, en, "", lv).info);
@@ -2352,11 +2361,11 @@ test("a trade's grade in Spain, «oficial de 1ª», is a level said in each lang
   );
   assert.equal(
     say("en-fr", "First-class Electrician", "Électricien", "First-class"),
-    "Électricien de première classe",
+    "Électricien hautement qualifié",
   );
   assert.equal(
     say("en-nl", "First-class Electrician", "Elektricien", "First-class"),
-    "Eersteklas elektricien",
+    "Elektricien (niveau 1)",
   );
   assert.equal(
     say("en-ca", "First-class Boilermaker", "Calderer", "First-class"),
@@ -2367,12 +2376,9 @@ test("a trade's grade in Spain, «oficial de 1ª», is a level said in each lang
 test("an Italian title reads its trade from the table, as the other languages do", () => {
   assert.equal(
     before("it-en", "Carrellista esperto/a").text,
-    "Forklift operator esperto",
+    "Forklift operator",
   );
-  assert.equal(
-    before("it-en", "FRESATORE CNC JUNIOR").text,
-    "CNC miller Junior",
-  );
+  assert.equal(before("it-en", "FRESATORE CNC JUNIOR").text, "CNC miller");
   assert.equal(
     before("it-en", "Disegnatore tecnico").text,
     "Technical draughtsman",
@@ -2563,46 +2569,35 @@ test("a French «pôle» is a department, not Pôle emploi nor a name's (8 Novem
   assert.equal(bare("fr-en", "S.M.POLE EQUILIBRE"), "S.m.pole Équilibre");
 });
 
-test("a Spanish «Oficial» before its trade in the English shown (8 November 2026)", () => {
-  assert.equal(
-    polish("es-en", "Skilled tradesperson Electrician"),
-    "Skilled electrician",
-  );
-  assert.equal(
-    polish("es-en", "Skilled tradesperson – Vehicle fitter (EXPLUS 2023)"),
-    "Skilled vehicle fitter (EXPLUS 2023)",
-  );
-  assert.equal(
-    polish("es-en", "Skilled tradesperson of Locksmith"),
-    "Skilled locksmith",
-  );
-  assert.equal(
-    polish("es-en", "Skilled tradesperson of Electricity (6 C.o.l.)"),
-    "Skilled electrician (6 C.o.l.)",
-  );
-  assert.equal(
-    polish("es-en", "Skilled tradesperson of Plumbing"),
-    "Skilled plumber",
-  );
-  assert.equal(
-    polish("es-en", "Skilled tradesperson – Electric"),
-    "Skilled tradesperson – Electric",
-  );
-  assert.equal(
-    polish("es-en", "Body repairer First-class tradesperson"),
-    "First-class body repairer",
-  );
+test("a Spanish «Oficial» is a level before Firefox, with or without its grade or a dash (8 November 2026)", () => {
+  for (const [title, level, text] of [
+    ["Oficial electricista", "Qualified", "Electrician"],
+    [
+      "Oficial – Chapista (EXPLUS 2023)",
+      "Qualified",
+      "Body repairer (EXPLUS 2023)",
+    ],
+    [
+      "Oficial de electricidad (6 C.O.L.)",
+      "Qualified",
+      "Electrician (6 C.O.L.)",
+    ],
+    ["Chapista Oficial 1ª", "First-class", "Body repairer"],
+  ]) {
+    const r = before("es-en", title);
+    assert.deepEqual([r.info.level, r.text], [level, text], title);
+  }
 });
 
 test("an Italian «trasfertista» is itinerant, and more Italian trades are read (8 November 2026)", () => {
   assert.equal(
-    bare("it-en", "MANUTENTORE TRASFERTISTA"),
-    "Manutentore Itinerante",
+    before("it-en", "MANUTENTORE TRASFERTISTA").info.level,
+    "Itinerant",
   );
-  assert.equal(bare("it-en", "Tecnici trasfertisti"), "Tecnici itineranti");
+  assert.equal(bare("it-en", "Tecnici trasfertisti"), "Tecnici");
   assert.equal(
     before("it-en", "TECNICO FRIGORISTA SENIOR").text,
-    "Refrigeration technician Senior",
+    "Refrigeration technician",
   );
   assert.equal(
     before("it-en", "TUBISTA INDUSTRIALE").text,
@@ -2620,11 +2615,15 @@ test("Swedish trades read, «Ledig tjänst» and «sökes» out (8 November 2026
     before("sv-en", "Ledig tjänst - Montör till vår kund i Älmhult").text,
     "Fitter till vår kund i Älmhult",
   );
-  assert.equal(
-    before("sv-en", "Erfaren plåtslagare sökes till RC Solutions AB i Karlstad")
-      .text,
-    "Erfaren sheet metal worker till RC Solutions AB i Karlstad",
+  const plater = before(
+    "sv-en",
+    "Erfaren plåtslagare sökes till RC Solutions AB i Karlstad",
   );
+  assert.equal(
+    plater.text,
+    "Sheet metal worker till RC Solutions AB i Karlstad",
+  );
+  assert.equal(plater.info.level, "Experienced");
   assert.equal(before("sv-en", "Byggkalkylator").text, "Estimator");
   assert.equal(
     before("sv-en", "CNC-svarvare | Axido AB | Helsingborg").text,
@@ -2661,7 +2660,7 @@ test("Czech car mechanics and pipe fitters read; a job said twice across a bar o
     before("cs-en", "AUTOMECHANIK (m/ž)").text,
     "Car mechanic (m/ž)",
   );
-  // The marks written small, as «(m/ž)» is (NOA-10).
+  // ➤ The marks written small, as «(m/ž)» is (NOA-10).
   assert.equal(before("cs-en", "POTRUBÁŘI (M+Ž)").text, "Pipe fitter (m+ž)");
   assert.equal(
     after(
@@ -2677,7 +2676,7 @@ test("Czech car mechanics and pipe fitters read; a job said twice across a bar o
 test("Spanish and Catalan half-time, and two jobs glued by a hyphen apart (8 November 2026)", () => {
   assert.equal(
     bare("es-en", "Desarrollador/a sénior media jornada"),
-    "Desarrollador sénior a tiempo parcial",
+    "Desarrollador a tiempo parcial",
   );
   assert.equal(
     bare("es-en", "Mecánico/a de Automóviles (Media Jornada)"),
@@ -2716,7 +2715,7 @@ test("an adjective before a dash between spaces does not hang the translator (TR
   );
 });
 
-// What is no gender mark stays, and each rule does what its comment says (the audit's TRA-14 and TRA-15).
+// ➤ What is no gender mark stays, and each rule does what its comment says (the audit's TRA-14 and TRA-15).
 test("a pair of capitals, a licence class, a second town and «Innendienst» are no gender marks", () => {
   assert.deepEqual(
     [
@@ -2782,7 +2781,7 @@ test("«Oferta de Empleo Público», «Job Coach» and «meewerkend voorman» ar
       "Meewerkend voorman",
       "Elektricien",
       "Ingeniero Civil",
-      "Oficial Albañil",
+      "Albañil",
       "Técnico de Mantenimiento",
     ],
   );

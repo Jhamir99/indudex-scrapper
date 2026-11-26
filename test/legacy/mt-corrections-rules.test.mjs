@@ -1,6 +1,7 @@
-// The legacy's mt-corrections-rules.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
-// Every correction rule at work in at least one title, and the titles they must leave alone (TB2-02): a rule broken,
-// or one added with no case, fails here. The cases are in test/fixtures/mt-corrections.json.
+// The legacy's test/mt-corrections-rules.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
+// ➤ Every correction rule at work in at least one title, and the titles they must leave alone (TB2-02): a rule broken,
+// ➤ or one added with no case, fails here. The cases are in test/fixtures/mt-corrections.json.
 import { test } from "vitest";
 import assert from "node:assert/strict";
 import { readFileSync } from "fs";

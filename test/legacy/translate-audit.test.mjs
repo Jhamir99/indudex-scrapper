@@ -1,4 +1,5 @@
-// The legacy's translate-audit.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
+// The legacy's test/translate-audit.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
 // The translator's fixes from the audit (TRA-03 to TRA-16, TB2-01 to TB2-11): emojis that hung the method, entities, a
 // cache that cannot be read, company names cut short, words read as towns, Catalan towns, «wanted» and capitals' prefixes.
 import { test } from "vitest";
@@ -78,20 +79,18 @@ test("«wanted» as a board writes it, and capitals before a prefix stay joined 
 test("corrections touch only their own words: «Aîné», CDI and CDD (TB2-01, TB2-03)", async () => {
   const { correct } =
     await import("../../src/features/title-translation/method/corrections.ts");
+  const { contractsNamed } =
+    await import("../../src/features/title-translation/method/contracts.ts");
   assert.equal(
     correct("Ingénieur réseau Senior", "Ingénieur réseau Aîné", "fr"),
     "Ingénieur réseau Senior",
   );
   assert.equal(
-    correct("Formador CCI Lyon (CDI)", "Formador CCI Lyon (CDI)", "es"),
-    "Formador CCI Lyon (contrato indefinido)",
+    contractsNamed("Trainer CCI Lyon (CDI)", false),
+    "Trainer CCI Lyon (Permanent contract)",
   );
   assert.equal(
-    correct(
-      "Enginyer CI/CD - CDD 6 mesos",
-      "Enginyer CI/CD - CDD 6 mesos",
-      "ca",
-    ),
-    "Enginyer CI/CD - contracte temporal 6 mesos",
+    contractsNamed("CI/CD Engineer - CDD 6 months", false),
+    "CI/CD Engineer - Fixed-term contract 6 months",
   );
 });

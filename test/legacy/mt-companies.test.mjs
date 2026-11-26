@@ -1,4 +1,5 @@
-// The legacy's mt-companies.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
+// The legacy's test/mt-companies.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
 // The offer's company kept as the title writes it (builder/mt/companies.ts).
 import { test } from "vitest";
 import assert from "node:assert/strict";
@@ -121,4 +122,19 @@ test("the company is found with a dash put between its words", () => {
     ),
     "Vehicle damage assessor graduate - ALLIANCE EXPERTS NORD OUEST",
   );
+});
+
+test("a company field longer than the name the title uses: legal forms, country and line of business left out", () => {
+  for (const [title, field, span] of [
+    [
+      "Técnico de Mantenimiento - Leroy Merlin",
+      "Leroy Merlin España S.L.U.",
+      "Leroy Merlin",
+    ],
+    ["Técnico Aena", "AENA S.M.E., S.A.", "Aena"],
+    ["Ingeniero Indra", "Indra Sistemas S.A.", "Indra"],
+    ["Monteur Siemens AG", "Siemens Aktiengesellschaft", "Siemens AG"],
+    ["Operario Acciona", "ACCIONA CONSTRUCCION SA", "Acciona"],
+  ])
+    assert.equal(companySpan(title, field, 0), span, title);
 });

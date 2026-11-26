@@ -1,13 +1,18 @@
-// The legacy's mt-tidy-and-names.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
-// What the translator's tests ran without checking (TB2-20): the English made ready for the second leg, every cache
-// walked by towns-back, a town of several words, company names ending in a legal form's letters, and town names
-// through the Catalan spelling.
+// The legacy's test/mt-tidy-and-names.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
+// ➤ What the translator's tests ran without checking (TB2-20): the English made ready for the second leg, every cache
+// ➤ walked by towns-back, a town of several words, company names ending in a legal form's letters, and town names
+// ➤ through the Catalan spelling.
 import { test } from "vitest";
 import assert from "node:assert/strict";
 import {
   sentenceCaseEn,
   tidyEnglish,
 } from "../../src/features/title-translation/method/english-tidy.ts";
+import {
+  backAll,
+  withTownsBack,
+} from "../../src/features/title-translation/method/towns-back.ts";
 import {
   companyCore,
   companySpan,
@@ -53,7 +58,29 @@ test("Title Case lowered where English titles write the word small, names and ac
   assert.equal(sentenceCaseEn("SAP HANA Consultant"), "SAP HANA consultant");
 });
 
-// The legacy's two towns-back tests (builder/mt/towns-back.mjs, a tool over the caches) are out of this feature's scope.
+test("towns-back walks a whole cache, changes only the translations that renamed a town, and says which", () => {
+  const cache = new Map([
+    ["Metallbauer in Köln", "Metaalbouwer in Keulen"],
+    ["Elektriker", "Elektricien"],
+  ]);
+  const { fixed, shown } = backAll(cache);
+  assert.equal(fixed, 1);
+  assert.deepEqual(
+    [...cache.values()],
+    ["Metaalbouwer in Köln", "Elektricien"],
+  );
+  assert.match(shown[0], /Keulen → Metaalbouwer in Köln$/);
+});
+
+test("a town of several words is written back whole", () => {
+  assert.equal(
+    withTownsBack(
+      "Elektriker Frankfurt am Main",
+      "Electricista Fráncfort del Meno",
+    ),
+    "Electricista Frankfurt am Main",
+  );
+});
 
 test("a company's legal form comes off only as a word of its own; the title keeps it with the name", () => {
   assert.deepEqual(

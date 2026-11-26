@@ -1,4 +1,4 @@
-// Legacy builder/mt/legs.mjs (JustJans/indudex@b0cd182), word for word but for types, lint and paths.
+// Legacy builder/mt/legs.ts (JustJans/indudex@ec79858, legacy resync T009), word for word but for types, lint and paths.
 // A title through the method (builder/mt/method.mjs) and Firefox's models (builder/mt/engine.mjs). Every direction
 // goes through English, the only language Firefox's models pair with: the first leg into English, the English made
 // ready for the second (english-tidy.ts), the second leg into each language of the site. Each leg asks Firefox up to
@@ -25,6 +25,10 @@ import {
   keptWords,
 } from "./aina.js";
 import { companySpan } from "./method/companies.js";
+import { contractsNamed, namesContract } from "./method/contracts.js";
+import { correct } from "./method/corrections.js";
+import { spellings } from "./method/method-tables.js";
+import { calmTitle, shouting } from "../../shared/kit/calm-titles.js";
 import { placesIn } from "./method/places.js";
 
 const differs = (a: readonly string[], b: readonly string[]) =>
@@ -62,7 +66,12 @@ export async function leg(
     engine.translate
       ? engine.translate(pair, texts, engine)
       : translate(pair, texts, engine);
-  const b = beforeStep(pair, titles, { cities, levels, sources, firms });
+  const b = beforeStep(pair, [...titles], {
+    cities: [...cities],
+    levels: [...levels],
+    sources: [...sources],
+    firms: [...firms],
+  });
   let text = b.text,
     raw = await ff(text);
   if (differs(b.dash, text))
@@ -84,7 +93,7 @@ export async function leg(
   const raw2 = names.again.length
     ? await ff(names.again.map((a) => a.text))
     : [];
-  return afterStep(pair, titles, names.raw, b.info, raw2, names.again);
+  return afterStep(pair, [...titles], names.raw, b.info, raw2, names.again);
 }
 
 // Titles of one language into the site's languages. English titles go straight to the second leg; the others
@@ -107,13 +116,15 @@ export async function translateTitles(
   const out: Record<string, string[]> = {};
   const targets = into.filter((t) => t !== source && t !== "en");
   if (source === "en") {
+    const named = titles.map((t) => contractsNamed(t, false));
     for (const t of targets)
-      out[t] = (await leg(`en-${t}`, titles, { cities, firms }, engine)).out;
+      out[t] = (await leg(`en-${t}`, named, { cities, firms }, engine)).out;
     return out;
   }
   const first = await leg(`${source}-en`, titles, { cities, firms }, engine);
-  if (into.includes("en")) out["en"] = polishStep(`${source}-en`, first.out);
-  const english = tidyEnglish(first.out, first.levels, "dash");
+  const named = first.out.map((o) => contractsNamed(o, source === "fr"));
+  if (into.includes("en")) out["en"] = polishStep(`${source}-en`, named);
+  const english = tidyEnglish(named, first.levels, "dash");
   for (const t of targets)
     out[t] = (
       await leg(
@@ -143,19 +154,25 @@ function fromSpanish(
   if (!translator) return;
   const jobs: (AinaJob & { i: number })[] = [];
   titles.forEach((title, i) => {
-    if (!title || !writtenInSpanish(title, english[i] || "")) return;
+    if (
+      !title ||
+      namesContract(title) ||
+      !writtenInSpanish(title, english[i] || "")
+    )
+      return;
+    const text = shouting(title) ? calmTitle(title, spellings) : title;
     const [company, others] = String(firms[i] || "").split("\t");
     jobs.push({
       i,
-      text: title,
+      text,
       keep: [
-        companySpan(title, company || "", Number(others) || 0),
-        ...NAMES.filter((n) => title.includes(n)),
+        companySpan(text, company || "", Number(others) || 0),
+        ...NAMES.filter((n) => text.includes(n)),
       ],
-      towns: [...placesIn(title), cities[i]].filter((town): town is string =>
+      towns: [...placesIn(text), cities[i]].filter((town): town is string =>
         Boolean(town),
       ),
-      words: keptWords(title),
+      words: keptWords(text),
       route: ca[i] || "",
     });
   });
@@ -171,6 +188,6 @@ function fromSpanish(
   }
   jobs.forEach((j, k) => {
     const out = outs[k];
-    if (out !== null && out !== undefined) ca[j.i] = out;
+    if (out !== null && out !== undefined) ca[j.i] = correct(j.text, out, "ca");
   });
 }

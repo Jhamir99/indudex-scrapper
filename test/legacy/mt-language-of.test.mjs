@@ -1,4 +1,5 @@
-// The legacy's mt-language-of.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
+// The legacy's test/mt-language-of.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
 // Titles in another language than their country's (builder/mt/language-of.ts).
 import { test } from "vitest";
 import assert from "node:assert/strict";

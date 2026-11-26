@@ -13,6 +13,7 @@ import { homedir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { vocab } from "./data.js";
+import { otherNames } from "./method/places.js";
 
 const DIR = process.env.AINA_DIR || join(homedir(), "mt-aina");
 const PYTHON = join(
@@ -254,6 +255,13 @@ export interface AinaJob {
 }
 export type AinaTranslator = (texts: string[]) => string[];
 
+// A part the Catalan lost: a dash of the Spanish, or one of two things joined («Electricista y Mecánico» came back
+// «electricista» alone).
+const count = (t: string, re: RegExp): number => (t.match(re) || []).length;
+const lostParts = (text: string, out: string): boolean =>
+  count(out, DASHES) < count(text, DASHES) ||
+  count(out, /\s[io]\s/gu) < count(text, /\s[yoe]\s/gu);
+
 export function catalan(
   titles: readonly AinaJob[],
   translate: AinaTranslator = aina,
@@ -278,12 +286,14 @@ export function catalan(
       text.toLowerCase().replace(/\W+/g, "")
     )
       return null;
-    if (!towns.filter((t) => text.includes(t)).every((t) => out.includes(t)))
-      return null;
-    if (!kept.every((w) => out.toLowerCase().includes(w.toLowerCase())))
-      return null;
-    if ((out.match(DASHES) || []).length < (text.match(DASHES) || []).length)
-      return null;
+    // A town or a word kept counts under any of its names (the legacy's ec79858).
+    const holds = (w: string): boolean =>
+      [w, ...otherNames(w)].some((n) =>
+        out.toLowerCase().includes(n.toLowerCase()),
+      );
+    if (!towns.filter((t) => text.includes(t)).every(holds)) return null;
+    if (!kept.every(holds)) return null;
+    if (lostParts(text, out)) return null;
     if (route && likeness(text, route) - likeness(text, out) > UNLIKE)
       return null;
     // Under seven words in ten of the Spanish's, and fewer than the route's, is a title cut short («Técnico de

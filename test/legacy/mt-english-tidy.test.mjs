@@ -1,4 +1,5 @@
-// The legacy's mt-english-tidy.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
+// The legacy's test/mt-english-tidy.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
 // The English given to the second leg (builder/mt/english-tidy.ts): a dash after the job, so Firefox reads what follows as
 // a part of the title and not as words of the job.
 import { test } from "vitest";

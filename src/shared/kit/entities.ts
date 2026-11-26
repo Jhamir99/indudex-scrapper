@@ -186,6 +186,11 @@ const character = (n: number): string =>
     : n >= 0x80 && n <= 0x9f
       ? windows1252Char(n)
       : String.fromCodePoint(n);
+// Characters that show nothing: a soft hyphen, zero-width spaces and joiners (a joiner inside an emoji stays), the
+// byte-order mark (the legacy's builder/lib/entities.ts `INVISIBLE`).
+export const INVISIBLE =
+  /[\u00ad\u200b\u200c\u2060\ufeff]|\u200d(?!\p{Extended_Pictographic})/gu;
+
 export const decodeEntities = (s: unknown): string =>
   String(s || "")
     .replace(/&#x([0-9a-f]{1,8});/gi, (_, h: string) =>

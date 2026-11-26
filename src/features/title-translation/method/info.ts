@@ -1,11 +1,9 @@
-// What the step before the engine notes of each title for the steps after it (legacy builder/mt/
-// before.mjs's `info`): the emojis set aside at its ends and inside it, the names it holds and the
-// towns' other names, the company, the trades written in (expected in the output) with each one's
-// term, its capitalised name and its name, the head noun, the levels taken out and how they are
-// said, whether the title was English already and whether "Agentic" stood in for "Robotic".
-export type Span = [term: string, cap: string, tr: string];
-
-export interface TitleInfo {
+// ➤ What the steps after Firefox need to know of a title: the emojis set aside, the names to keep, the towns' other
+// ➤ names, the company, the trades written in (expect, spans: as found, as written, the table's name), the title
+// ➤ written whole or its opening trade, the levels taken out and those to say.
+// The legacy's builder/mt/info.ts (JustJans/indudex@ec79858), copied (legacy resync T009): only its imports and data reads
+// changed. Its own comments keep their marks.
+export type Info = {
   lead: string;
   trail: string;
   mid: string[];
@@ -15,9 +13,9 @@ export interface TitleInfo {
   expect: string[];
   whole: string;
   head: string;
-  spans: Span[];
+  spans: [string, string, string][];
   level: string;
   said: string;
   english: boolean;
   agentic: boolean;
-}
+};

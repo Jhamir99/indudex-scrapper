@@ -1,4 +1,5 @@
-// The legacy's mt-catalan.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
+// The legacy's test/mt-catalan.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
 // Catalan's apostrophes and contractions on a translated title (builder/mt/catalan-spelling.ts).
 import { test } from "vitest";
 import assert from "node:assert/strict";

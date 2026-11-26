@@ -1,5 +1,6 @@
-// The legacy's mt-trades.test.mjs (JustJans/indudex@b0cd182), its imports pointed at this repo.
-// The trades table (builder/mt/trades.mjs): which names a title in each language is read under, and what is written.
+// The legacy's test/mt-trades.test.mjs (JustJans/indudex@ec79858), carried whole (legacy resync T009): its imports pointed at
+// this repo.
+// The trades table (builder/mt/trades.ts): which names a title in each language is read under, and what is written.
 import { test } from "vitest";
 import assert from "node:assert/strict";
 import {
@@ -10,7 +11,7 @@ import {
 import {
   hasTrade,
   tradeWritten as written,
-} from "../../src/features/title-translation/method/checks.ts";
+} from "../../src/features/title-translation/method/method.ts";
 
 test("the German trades the mining by offers found wrong", () => {
   assert.equal(
@@ -50,8 +51,8 @@ test("French and Dutch names read", () => {
   assert.equal(written("nl-en", "Service Monteur"), "service technician");
 });
 
-// The table's shape (TB1-04): no name with stray spaces, none empty, none of under three letters, and no name a title is
-// read under that two entries give two trades for, but those of 15 November 2026, where the first entry wins.
+// ➤ The table's shape (TB1-04): no name with stray spaces, none empty, none of under three letters, and no name a title is
+// ➤ read under that two entries give two trades for, but those of 15 November 2026, where the first entry wins.
 const READ_TWICE = new Set([
   "fr:serrurier-métallier",
   "fr:serrurier métallier",
@@ -60,7 +61,6 @@ const READ_TWICE = new Set([
   "fr:dépanneur",
   "fr:dépanneuse",
   "de:bauzeichner",
-  "fr:soudeur par résistance",
   "nl:halfautomaatlasser",
   "nl:keurmeester",
   "fr:préparateur automobile",
@@ -141,7 +141,7 @@ test("German feminine forms are read as their trade", () => {
   assert.equal(written("de-en", "Monteurin Freileitungen"), "fitter");
   assert.equal(written("de-en", "Bauleiterin Hochbau"), "site manager");
   assert.equal(written("de-en", "Berlin"), null);
-  // On the word that names the person, as the masculine reads (TB1-11); none for a plural or an adjective.
+  // ➤ On the word that names the person, as the masculine reads (TB1-11); none for a plural or an adjective.
   assert.deepEqual(
     [
       "Elektrikerin Betriebstechnik",
@@ -159,7 +159,7 @@ test("German feminine forms are read as their trade", () => {
       /servicemonteurein|leitenderin|kältetechnikin/.test(re),
     ),
   );
-  assert.equal(written("fr-en", "Chef de chantier gros œuvre"), "site manager");
+  assert.equal(written("fr-en", "Chef de chantier gros œuvre"), "site foreman");
   assert.equal(written("en-nl", "Site foreman"), "voorman");
 });
 
@@ -257,4 +257,28 @@ test("Spanish and Catalan shifts, refrigeration technicians, public posts and jo
     written("en-ca", "Architect - competitive examination"),
     "concurs oposició",
   );
+});
+
+test("the glossary review of 16 November 2026", () => {
+  // ➤ Words that also name something else are not read as the trade.
+  assert.equal(
+    written("es-en", "Administrativo encargado de facturación"),
+    null,
+  );
+  assert.equal(written("es-en", "Encargado de almacén"), "supervisor");
+  assert.equal(written("en-es", "Sponsorship Manager"), null);
+  assert.equal(
+    written("en-es", "Engineer (visa sponsorship)"),
+    "patrocinio de visado",
+  );
+  assert.equal(written("fr-en", "Préparateur de véhicules"), null);
+  assert.equal(written("fr-en", "Ingénieur logiciel calculateur"), null);
+  assert.equal(written("de-en", "Maschinen- und Anlagenführer"), null);
+  assert.equal(written("de-en", "Projektleiter HKL"), "HVAC");
+  // ➤ Names a job seeker would not recognise, or of another trade.
+  assert.equal(written("de-en", "Maurermeister"), "master mason");
+  assert.equal(written("en-fr", "Solderer"), "soudeur à l'étain");
+  assert.equal(written("en-es", "Software tester"), "tester de software");
+  assert.equal(written("en-nl", "Cylindrical grinder"), "rondslijper");
+  assert.equal(written("de-es", "Rundschleifer"), "rectificador cilíndrico");
 });

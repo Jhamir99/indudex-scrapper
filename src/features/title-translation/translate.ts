@@ -12,7 +12,7 @@ import {
   catalanSpelling,
 } from "./method/catalan-spelling.js";
 import { MARKED, withMarks } from "./method/marks.js";
-import { otherNames, townsBack } from "./method/places.js";
+import { otherNames, placesIn, townsBack } from "./method/places.js";
 import { languagesOfCountry } from "../../shared/words/country-languages.js";
 
 // Titles in the site's six languages, from caches the site's own translator fills (legacy
@@ -118,9 +118,14 @@ export function applyTitles(
     // A Catalan title with today's apostrophes and contractions (builder/mt/catalan-spelling.ts), the cache holding
     // older ones («Mecànic d'taller», «per a el nostre»: 454 of 563,905 cached titles, 8 November 2026).
     if (out && fold(out) !== fold(rec.t)) {
+      // The offer's town and those its title names keep their own spelling; a Catalan title takes today's apostrophes
+      // and contractions too (the legacy's ec79858).
       const town = String(rec.ci || "").trim();
+      const towns = [town, ...placesIn(rec.t)];
       let shown =
-        target === "ca" ? besideTowns(out, [town], catalanSpelling) : out;
+        target === "ca"
+          ? besideTowns(out, towns, (x) => apostrophes(catalanSpelling(x)))
+          : out;
       // A Spanish or Catalan title's gender marks, given back to its translation into the other («Ingeniero/a de procesos»
       // → «Enginyer/a de processos»): the method writes it in the masculine (builder/mt/marks.ts).
       const lang = languageOf(rec);
