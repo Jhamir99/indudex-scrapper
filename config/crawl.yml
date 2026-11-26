@@ -91,6 +91,8 @@ pace:
     api.adzuna.com: 2500
     # Arbeitnow's job board API: pages of 250, the legacy's gap.
     www.arbeitnow.com: 600
+    # France Travail's public site: its listings and each offer's own data, the legacy's half second.
+    candidat.francetravail.fr: 500
 
 run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.
@@ -129,6 +131,9 @@ sources:
     cadenceHours: 1
   # NAV's job feed (credentialed): its terms ask that an ad marked inactive leave the site at once.
   nav:
+    cadenceHours: 1
+  # France Travail's public site: a seventh of its listings an hour, all of them in seven.
+  francetravail:
     cadenceHours: 1
   # Iceland's State and Directorate of Labour vacancies, two calls.
   island:

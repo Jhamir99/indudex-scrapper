@@ -50,6 +50,7 @@ import { talentcom } from "../credentialed-sources/adapters/talentcom/talentcom.
 import { whatjobs } from "../credentialed-sources/adapters/whatjobs/whatjobs.js";
 import {
   arbeitnow,
+  francetravail,
   jobicy,
   portalAdapters,
   remotive,
@@ -76,6 +77,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   escoladeltreball,
   feinaactiva,
   forem,
+  francetravail,
   gencat,
   hungary,
   hzz,
