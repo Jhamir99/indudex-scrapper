@@ -25,8 +25,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part C — The portals
 
-- [ ] **T005 — The portal list as data** · FR: FR-1, FR-2 · Depends: T001
+- [x] **T005 — The portal list as data** · FR: FR-1, FR-2 · Depends: T001
       Done when: `config/portals.yml` holds the legacy's 865 entries (enabled state and reasons kept, header crediting the legacy), `portal-list.ts` validates it, and a test checks the counts and that every switched-off entry has a reason.
+      2026-11-26: done. `config/portals.yml` made from the legacy's list by script: its 865 entries and comments, keys in camelCase (`readAll`, `listPages`, `pageParam`, `splitUrl`, `keepDays`, `gapSeconds`, `staleDays`, `placeInTitle`, `notEmployer`, `townInEmployer`), and each of the 638 switched-off entries' inline reason turned into data (`off: "…"`); its header credits the legacy; Prettier formats it like the other config files. `portal-list.ts`: `Portal` and `PortalList` (strict, patterns checked as regular expressions), `readPortalList` (synchronous, for the registry), `sourceOf` (the part's key, or the host without www). `SourceId` now allows a dot between letters or digits, since a portal is named by its host as the legacy named it (`free-work.com`); no `..` can reach a file name. 227 enabled, 227 distinct ids.
 - [ ] **T006 — The portal family** · FR: FR-3, FR-4, FR-5, FR-9 · Depends: T004, T005
       Done when: `portal.ts`, `page-layouts.ts` and `family.ts` read a portal as plan section 1 says; every enabled entry is registered with its host's gap; saved samples of six portals of different shapes pass the standard adapter check and give the legacy's adverts (compared in the scratchpad); the legacy tests of the portal reader pass.
 - [ ] **T007 — The live pass** · FR: FR-8 · Depends: T006

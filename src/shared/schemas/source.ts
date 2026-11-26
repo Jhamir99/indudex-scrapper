@@ -2,7 +2,12 @@ import { z } from "@hono/zod-openapi";
 
 export const SourceId = z
   .string()
-  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "lower-case letters, digits and dashes");
+  // A portal is named by its host ("free-work.com", job portals T005): a dot between letters or digits, so no ".." or
+  // leading dot ever reaches a file name in the store.
+  .regex(
+    /^[a-z0-9]+(?:[.-][a-z0-9]+)*$/,
+    "lower-case letters, digits, dashes and dots",
+  );
 
 // `credit` is the attribution the source requires next to its adverts ("Jobs by Adzuna");
 // null states explicitly that none is required (FR-2).
