@@ -11,8 +11,8 @@ import {
 import { bund } from "./bund.js";
 
 describe("bund (public-feeds FR-1, FR-6)", () => {
-  it("is ported disabled and flagged", () => {
-    expect(bund.definition.disabledReason).toMatch(/asks prior consent/);
+  it("is read, as the legacy reads it, its titles left untranslated (the operator's call, 2026-11-26)", () => {
+    expect(bund.definition.disabledReason).toBeUndefined();
   });
 
   it("maps the documented format into valid adverts", async () => {

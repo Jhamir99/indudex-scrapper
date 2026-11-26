@@ -14,8 +14,8 @@ const page = (n: number) =>
   `<h5 class="card-title"><a href="https://ttvic.com/ca/ofertes-de-treball-temporal/info/o-${n}">O ${n}</a></h5><li class="next page-item"><a class="page-link" href="${LIST}?page=${n + 1}">`;
 
 describe("ttvic (public-feeds FR-1, FR-6)", () => {
-  it("is ported disabled and flagged", () => {
-    expect(ttvic.definition.disabledReason).toMatch(/asks express leave/);
+  it("is read, as the legacy reads it: its notice forbids only robots that disturb the site (the operator's call, 2026-11-26)", () => {
+    expect(ttvic.definition.disabledReason).toBeUndefined();
   });
 
   it("maps the documented format into valid adverts", async () => {

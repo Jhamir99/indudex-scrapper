@@ -119,8 +119,6 @@ export const bund = publicFeed({
     },
     needsCredentials: false,
     credentialVariables: [],
-    disabledReason:
-      "its imprint asks prior consent to copy its texts; enable it only once service.bund.de gives it",
   },
   read: readBund,
   keepUnlisted: true,

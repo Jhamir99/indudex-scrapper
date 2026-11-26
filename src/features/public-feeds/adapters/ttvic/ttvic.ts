@@ -126,8 +126,6 @@ export const ttvic = publicFeed({
     },
     needsCredentials: false,
     credentialVariables: [],
-    disabledReason:
-      "its legal notice asks express leave to reproduce its offers; enable it only once TT Vic gives it",
   },
   read: readTtvic,
 });
