@@ -24,7 +24,7 @@ pnpm test:run && pnpm build` green; "carried" means the legacy's tests at the ta
 - [x] **T007 — Companies and dedupe** · FR-2, FR-3 · Depends: T006
 - [x] **T008 — Publication** · FR-2, FR-3 · Depends: T003 to T007
 - [x] **T009 — Title translation** · FR-2, FR-3 · Depends: T008
-- [ ] **T010 — Crawl-core, public feeds, text helpers** · FR-2 · Depends: T001
+- [x] **T010 — Crawl-core, public feeds, text helpers** · FR-2 · Depends: T001
       Done when: the HTTP client, robots, pacing, the public feeds' adapters and the text helpers match the target where
       ported; tests carried.
 - [ ] **T011 — Over the store, and close** · FR-4 · Depends: T008, T009, T010
@@ -84,3 +84,15 @@ spelled as written, Catalan apostrophes). Its translation tests carried again, t
 review, root causes, rule review), the site's cases of translate.test (app/lib/i18n.ts) left out; the method's golden
 set remade (48 of 314 changed) and ours gives each the same. The legacy's own run needs Node's
 --regexp-interpret-all, as our translator does.
+
+Notes on T010 (2026-11-26). Ported: a silent robots.txt read from its last copy, and a host silent thirty days with
+none open (4fbb1c49: the robots client's `RobotsMemory`, kept by `FileRobotsMemory` in `<store>/robots/`); a 503 with
+Retry-After held like a 429 (27c645f1); a 429 without one held ten minutes, not an hour (a7e3a449); a failing source
+with adverts due at most three days after its last try, parked or not (f09a65d9, e8030e63: `backoff.withAdvertsHours`);
+Escola del Treball's offers up to a year old (f09a65d9); `pageText` takes the space before punctuation off, as the
+legacy's `text()` (the layout case skipped since 015 now passes). Already in our copies: the six vacancy words of
+silent sites (ff4eff05) and the file links of a list page (41a2bfe2). The feed adapters' other change (#848) moved
+constants only. Left for 016: the careers sites' long-queue lanes (ffc94293, 7c98bf27), streamed job feeds (6aa9698e)
+and a platform tenant's move (3f1efb06, 7767f8fe). Not ours: the bot-check hold on a redirect's last server
+(a6b3fd47; our client has no bot-check hold), the legacy's machine split (f27b8731) and its late-source alerts
+(e398d60a; our watch judges jobs, not sources). MPSV's language note (f09a65d9): our adapter reads no languages.

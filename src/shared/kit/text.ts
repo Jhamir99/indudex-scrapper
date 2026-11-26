@@ -16,11 +16,19 @@ function textOf(html: string): string {
 }
 
 function tidy(text: string): string {
-  return text
-    .split("\n")
-    .map((line) => line.replace(/\s+/g, " ").trim())
-    .filter(Boolean)
-    .join("\n");
+  return (
+    text
+      .split("\n")
+      // The space before punctuation goes, as the legacy's text() takes it off («patrimoine : » is «patrimoine: »).
+      .map((line) =>
+        line
+          .replace(/\s+/g, " ")
+          .replace(/ +([.,;:!?])/g, "$1")
+          .trim(),
+      )
+      .filter(Boolean)
+      .join("\n")
+  );
 }
 
 // An advert's text from its HTML: entities decoded, scripts and tags removed, a line break where

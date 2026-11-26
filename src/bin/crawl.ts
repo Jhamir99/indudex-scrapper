@@ -20,6 +20,7 @@ import {
   UsageError,
 } from "../features/crawl-core/run.js";
 import { FileAdvertStore } from "../shared/storage/file-advert-store.js";
+import { FileRobotsMemory } from "../shared/storage/robots-memory.js";
 import { FileStopSwitch } from "../shared/storage/file-stop-switch.js";
 import { FileRatesKeeper } from "../shared/storage/kept-rates.js";
 import { environmentWithDotEnv } from "./dot-env.js";
@@ -53,7 +54,11 @@ try {
       adapter.definition.kind,
     ]),
   );
-  const { http, close } = politeHttpClient(config, clock);
+  const { http, close } = politeHttpClient(
+    config,
+    clock,
+    new FileRobotsMemory(directory),
+  );
   try {
     const result = await crawl(argumentsGiven, registeredAdapters, {
       http,

@@ -6,8 +6,9 @@ export interface ErrorBudget {
   readonly windowMs: number;
 }
 
-// A 429 without Retry-After holds its server this long; a longer Retry-After is cut to 48 hours.
-const RATE_LIMITED_DEFAULT_MS = 3_600_000;
+// A 429 without Retry-After holds its server ten minutes, as Akamai's and Imperva's blocks last by default (the legacy's
+// a7e3a449); a longer Retry-After is cut to 48 hours.
+const RATE_LIMITED_DEFAULT_MS = 600_000;
 const RATE_LIMITED_MAX_MS = 48 * 3_600_000;
 
 interface ServerRecord {

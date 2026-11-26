@@ -306,10 +306,15 @@ export async function runDue(
     if (gate(adapter, dependencies).allowed) allowed.push(adapter);
     else notAllowed.push(adapter);
   }
+  // The three-day rule is the backoff's, the same for every source.
+  const withAdvertsHours = dependencies.rulesFor(
+    allowed[0]?.definition.id ?? "",
+  ).withAdvertsHours;
   const due = selectDue(
     allowed.map((adapter) => ({ id: adapter.definition.id, adapter })),
     states,
     clock.now(),
+    withAdvertsHours,
   ).map((entry) => entry.adapter);
   log(`${due.length} of ${adapters.length} sources due`);
   return runSources([...unreadable, ...notAllowed, ...due], dependencies);

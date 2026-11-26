@@ -227,3 +227,62 @@ describe("suspect drops (FR-4)", () => {
     ).toBe(0);
   });
 });
+
+describe("a failing source with adverts (the legacy's three-day rule, f09a65d9 and e8030e63)", () => {
+  const capped = {
+    cadenceHours: 24,
+    unchangedMaxHours: 168,
+    backoffHours: [24, 168, 336],
+    parkAfterFailures: 5,
+    parkedHours: 720,
+    withAdvertsHours: 72,
+  };
+  const at = new Date("2026-11-20T00:00:00Z");
+  const failing = (advertCount: number, consecutiveFailures: number) =>
+    afterFailure(
+      {
+        status: "failed",
+        reason: "server-error",
+        lastRunAt: at.toISOString(),
+        advertCount,
+        consecutiveFailures,
+        unchangedPasses: 0,
+        heldDrops: 0,
+        nextDueAt: at.toISOString(),
+      },
+      { at, reason: "server-error" },
+      capped,
+    );
+
+  it("waits three days at most, parked or not; one with none waits its backoff", () => {
+    expect(failing(40, 1).nextDueAt).toBe("2026-11-23T00:00:00.000Z");
+    expect(failing(40, 5)).toMatchObject({
+      status: "parked",
+      nextDueAt: "2026-11-23T00:00:00.000Z",
+    });
+    expect(failing(0, 1).nextDueAt).toBe("2026-11-27T00:00:00.000Z");
+  });
+
+  it("is due three days after its last try whatever wait it was given before", () => {
+    const parked = {
+      status: "parked" as const,
+      reason: "server-error",
+      lastRunAt: at.toISOString(),
+      advertCount: 40,
+      consecutiveFailures: 6,
+      unchangedPasses: 0,
+      heldDrops: 0,
+      parkedUntil: "2026-12-20T00:00:00.000Z",
+      nextDueAt: "2026-12-20T00:00:00.000Z",
+    };
+    expect(isDue(parked, new Date("2026-11-23T00:00:00Z"), 72)).toBe(true);
+    expect(isDue(parked, new Date("2026-11-22T23:00:00Z"), 72)).toBe(false);
+    expect(
+      isDue(
+        { ...parked, advertCount: 0 },
+        new Date("2026-11-23T00:00:00Z"),
+        72,
+      ),
+    ).toBe(false);
+  });
+});

@@ -25,6 +25,8 @@ export const CrawlConfig = z.strictObject({
     hours: z.array(Hours).min(1),
     parkAfterFailures: z.int().positive(),
     parkedHours: Hours,
+    // A failing source with adverts waits at most this long (the legacy's backoff_with_adverts_h).
+    withAdvertsHours: Hours.optional(),
   }),
   pace: z.strictObject({
     perHost: Pace,
@@ -90,6 +92,9 @@ export function scheduleRules(
     backoffHours: config.backoff.hours,
     parkAfterFailures: config.backoff.parkAfterFailures,
     parkedHours: config.backoff.parkedHours,
+    ...(config.backoff.withAdvertsHours
+      ? { withAdvertsHours: config.backoff.withAdvertsHours }
+      : {}),
     backlogHours: config.cadence.backlogHours,
   };
 }

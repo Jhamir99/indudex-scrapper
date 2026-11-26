@@ -16,6 +16,7 @@ describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
       hours: [24, 72, 168],
       parkAfterFailures: 6,
       parkedHours: 720,
+      withAdvertsHours: 72,
     });
     expect(config.pace.perServer).toEqual({ gapMs: 5000, inFlight: 1 });
     expect(config.pace.perProvider).toEqual({ gapMs: 3000, inFlight: 1 });
@@ -53,6 +54,7 @@ describe("scheduleRules (FR-6)", () => {
       backoffHours: [24, 72, 168],
       parkAfterFailures: 6,
       parkedHours: 720,
+      withAdvertsHours: 72,
       backlogHours: 1,
     });
     expect(scheduleRules(config, "other").cadenceHours).toBe(24);

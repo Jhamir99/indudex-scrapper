@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { HttpClient } from "../../features/crawl-core/ports.js";
 import { FakeHttpClient } from "../../../test/fakes/http-client.js";
 import { HttpFailure } from "./http-failure.js";
-import { RobotsClient } from "./robots-client.js";
+import { RobotsClient, type RobotsMemory } from "./robots-client.js";
 
 const SITE = "https://jobs.example.com";
 
@@ -131,5 +131,93 @@ describe("RobotsClient onRobots", () => {
     });
     await client.request(`${SITE}/a`);
     expect(told).toEqual([["jobs.example.com", 7]]);
+  });
+});
+
+// A robots.txt memory in a map, as FileRobotsMemory keeps it on disk.
+function memoryOf(
+  copies: Record<string, string> = {},
+  silent: Record<string, number> = {},
+) {
+  const kept = new Map(Object.entries(copies));
+  const memory: RobotsMemory = {
+    heard: async (origin, text) => {
+      kept.set(origin, text);
+      delete silent[origin];
+    },
+    lastCopy: async (origin) => kept.get(origin),
+    silentSince: async (origin, now) => (silent[origin] ??= now),
+  };
+  return { memory, kept, silent };
+}
+const silentRobots = () =>
+  new HttpFailure("server-error", `${SITE}/robots.txt`, 3, 503);
+const DAY = 86_400_000;
+
+describe("a silent robots.txt (RFC 9309 2.3.1.4, the legacy's 4fbb1c49)", () => {
+  it("keeps each answer, and reads a silent one from its last copy", async () => {
+    const { memory, kept } = memoryOf();
+    await new RobotsClient(
+      new FakeHttpClient({
+        [`${SITE}/robots.txt`]: "User-agent: *\nDisallow: /private\n",
+        [`${SITE}/feed.xml`]: "<jobs/>",
+      }),
+      { memory },
+    ).request(`${SITE}/feed.xml`);
+    expect(kept.get(SITE)).toBe("User-agent: *\nDisallow: /private\n");
+
+    const client = new RobotsClient(
+      new FakeHttpClient({
+        [`${SITE}/robots.txt`]: silentRobots(),
+        [`${SITE}/feed.xml`]: "<jobs/>",
+      }),
+      { memory },
+    );
+    await expect(client.request(`${SITE}/feed.xml`)).resolves.toMatchObject({
+      body: "<jobs/>",
+    });
+    expect((await failureOf(client.request(`${SITE}/private/x`))).kind).toBe(
+      "disallowed",
+    );
+  });
+
+  it("closes a host with no copy until it has been silent thirty days, then opens it", async () => {
+    const http = new FakeHttpClient({
+      [`${SITE}/robots.txt`]: silentRobots(),
+      [`${SITE}/feed.xml`]: "<jobs/>",
+    });
+    const start = Date.parse("2026-11-01T00:00:00Z");
+    const { memory, silent } = memoryOf();
+    await failureOf(
+      new RobotsClient(http, { memory, now: () => start }).request(
+        `${SITE}/feed.xml`,
+      ),
+    );
+    expect(silent[SITE]).toBe(start);
+    await failureOf(
+      new RobotsClient(http, { memory, now: () => start + 29 * DAY }).request(
+        `${SITE}/feed.xml`,
+      ),
+    );
+    await expect(
+      new RobotsClient(http, { memory, now: () => start + 30 * DAY }).request(
+        `${SITE}/feed.xml`,
+      ),
+    ).resolves.toMatchObject({ body: "<jobs/>" });
+  });
+
+  it("never reads a copy past a server left alone", async () => {
+    const { memory } = memoryOf({ [SITE]: "" });
+    const http = new FakeHttpClient({
+      [`${SITE}/robots.txt`]: new HttpFailure("held", `${SITE}/robots.txt`, 0),
+      [`${SITE}/feed.xml`]: "<jobs/>",
+    });
+    expect(
+      (
+        await failureOf(
+          new RobotsClient(http, { memory }).request(`${SITE}/feed.xml`),
+        )
+      ).kind,
+    ).toBe("held");
   });
 });

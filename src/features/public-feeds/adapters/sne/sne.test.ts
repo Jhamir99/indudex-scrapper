@@ -70,7 +70,7 @@ describe("sne (public-feeds FR-1)", () => {
     const offers = parseOffers(await pdfPieces(await pdf()));
     expect(offers[0]?.text).not.toMatch(/@|941/);
     expect(offers[0]?.text).toMatch(/enviar currículum a o llamar al ,/);
-    expect(offers[1]?.text).toMatch(/Más información en la web \.$/);
+    expect(offers[1]?.text).toMatch(/Más información en la web\.$/);
     expect(offers[1]?.text).not.toMatch(/[<>"]|ejemplo\.test/);
   });
 

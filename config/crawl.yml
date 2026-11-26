@@ -22,6 +22,10 @@ backoff:
   hours: [24, 72, 168]
   parkAfterFailures: 6
   parkedHours: 720
+  # A source with adverts waits at most three days, parked or not, so it is tried three times before the publication
+  # drops its adverts at nine: on 24 November 2026 the legacy dropped 31,259 adverts of failing sources while they
+  # waited a week or a month, with their sites answering (its backoff_with_adverts_h).
+  withAdvertsHours: 72
 
 pace:
   perHost:

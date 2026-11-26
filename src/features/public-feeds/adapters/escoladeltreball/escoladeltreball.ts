@@ -27,8 +27,9 @@ export const DEPARTMENTS = [
   "QUI",
   "alt",
 ];
-// An offer older than this when the list shows it has closed: its page is not asked for.
-export const RECENT_DAYS = 120;
+// An offer over a year old is not asked for, as the publication drops it; a younger one's page says whether it closed.
+// Four months left out 19 of the 97 listed (24 November 2026; the legacy's f09a65d9).
+export const RECENT_DAYS = 365;
 export const listUrl = (department: string) =>
   `${BOARD}/consultar?departament=${department}`;
 export const offerUrl = (id: string) => `${BOARD}/ofertes/${id}`;

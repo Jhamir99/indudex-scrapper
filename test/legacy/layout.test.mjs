@@ -13,14 +13,7 @@ import {
   platformPosting,
 } from "../../src/shared/kit/vacancy-page.ts";
 
-// One case is left out, not dropped: the legacy's text() takes the space off before punctuation («patrimoine : » becomes
-// «patrimoine: »), which our `pageText` (cheerio, public feeds' T001) does not; the readers read both alike.
-const later = new Set([
-  "a Softy offer: its title, employer, place and texts from the page's data; no day, since it says only when it was last changed",
-]);
-const { eq: eqAll, done } = harness("layout");
-const eq = (got, want, label) =>
-  later.has(label) ? undefined : eqAll(got, want, label);
+const { eq, done } = harness("layout");
 {
   const fact = platformPosting(
     "<h1 class='x'>Ingeniero de procesos</h1><span class='inline-block align-middle mr-2 ml-2'>Mixto\n(Barcelona, Cataluña, España)\n</span><p>Funciones</p>",

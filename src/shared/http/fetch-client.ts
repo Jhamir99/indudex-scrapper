@@ -110,11 +110,17 @@ export class FetchClient {
       if (!response.ok) {
         // Let the error answer go, or its connection stays taken.
         await response.body?.cancel().catch(() => {});
-        if (response.status === 429)
+        // A 429, and a 503 that says when to come back, hold the server as asked (RFC 9110 10.2.3; the legacy's
+        // 27c645f1).
+        const retryAfter = response.headers.get("retry-after");
+        if (
+          response.status === 429 ||
+          (response.status === 503 && retryAfter !== null)
+        )
           return fail(
             "rate-limited",
-            429,
-            parseRetryAfter(response.headers.get("retry-after"), clock.now()),
+            response.status,
+            parseRetryAfter(retryAfter, clock.now()),
           );
         return fail(
           response.status >= 500 ? "server-error" : "client-error",

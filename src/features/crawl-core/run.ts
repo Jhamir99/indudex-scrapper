@@ -5,7 +5,10 @@ import {
 } from "../../shared/http/connection-gate.js";
 import { FetchClient } from "../../shared/http/fetch-client.js";
 import { PacedClient } from "../../shared/http/paced-client.js";
-import { RobotsClient } from "../../shared/http/robots-client.js";
+import {
+  RobotsClient,
+  type RobotsMemory,
+} from "../../shared/http/robots-client.js";
 import type { CrawlConfig } from "./config/crawl-config.js";
 import type { Clock, HttpClient, RatesKeeper, SourceAdapter } from "./ports.js";
 import { refreshRates } from "./rates.js";
@@ -91,6 +94,7 @@ function findAdapter(
 export function politeHttpClient(
   config: CrawlConfig,
   clock: Clock,
+  robotsMemory?: RobotsMemory,
 ): { readonly http: HttpClient; readonly close: () => void } {
   const fetchClient = new FetchClient({
     clock,
@@ -118,6 +122,9 @@ export function politeHttpClient(
     onRobots: (host, robots) => {
       if (robots.crawlDelay > 0) paced.slowHost(host, robots.crawlDelay);
     },
+    ...(robotsMemory
+      ? { memory: robotsMemory, now: () => clock.now().getTime() }
+      : {}),
   });
   return { http, close: unwatch };
 }

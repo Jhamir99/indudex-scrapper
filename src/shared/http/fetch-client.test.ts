@@ -173,6 +173,23 @@ describe("FetchClient (FR-3)", () => {
     });
   });
 
+  it("holds a 503 that says when to come back as a 429, and retries one that does not", async () => {
+    const said = fakeServer(
+      () => new Response("", { status: 503, headers: { "Retry-After": "60" } }),
+    );
+    expect(await failureOf(client(said.fetch).request(FEED))).toMatchObject({
+      kind: "rate-limited",
+      status: 503,
+      retryAfterMs: 60_000,
+      attempts: 1,
+    });
+    const silent = fakeServer(() => new Response("", { status: 503 }));
+    expect(await failureOf(client(silent.fetch).request(FEED))).toMatchObject({
+      kind: "server-error",
+      status: 503,
+    });
+  });
+
   it("reports a network error after its retries", async () => {
     const server = fakeServer("network-error");
     const failure = await failureOf(client(server.fetch).request(FEED));

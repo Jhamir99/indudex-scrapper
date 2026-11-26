@@ -8,6 +8,9 @@ export interface ScheduleRules {
   readonly backoffHours: readonly number[];
   readonly parkAfterFailures: number;
   readonly parkedHours: number;
+  // The longest wait of a failing source that has adverts, parked or not: it is tried again before the publication takes
+  // them for closed at nine days (the legacy's f09a65d9 and e8030e63).
+  readonly withAdvertsHours?: number;
   // The wait of a source that left pages of ours to read (job portals FR-5).
   readonly backlogHours?: number;
 }
@@ -19,10 +22,35 @@ const UNCHANGED_GROWTH = 1.5;
 const later = (from: Date, hours: number) =>
   new Date(from.getTime() + hours * HOUR).toISOString();
 
+// When a source is due: its own time, but a failing one with adverts at most `withAdvertsHours` after its last try,
+// whatever wait it was given before that rule (the legacy's `dueAt`: 6,285 sources and 159,070 adverts held past the
+// publication's nine days, 24 November 2026).
+export function dueAt(
+  state: SourceState | undefined,
+  withAdvertsHours?: number,
+): number {
+  if (!state?.nextDueAt) return -Infinity;
+  const next = new Date(state.nextDueAt).getTime();
+  if (
+    (state.status !== "failed" && state.status !== "parked") ||
+    !state.advertCount ||
+    !withAdvertsHours ||
+    !state.lastRunAt
+  )
+    return next;
+  return Math.min(
+    next,
+    new Date(state.lastRunAt).getTime() + withAdvertsHours * HOUR,
+  );
+}
+
 // A source never run is due at once; otherwise when its next-due time has come.
-export function isDue(state: SourceState | undefined, now: Date): boolean {
-  if (!state?.nextDueAt) return true;
-  return new Date(state.nextDueAt).getTime() <= now.getTime();
+export function isDue(
+  state: SourceState | undefined,
+  now: Date,
+  withAdvertsHours?: number,
+): boolean {
+  return dueAt(state, withAdvertsHours) <= now.getTime();
 }
 
 // Only sources read daily or less often stretch their wait, as in the legacy: a source with a
@@ -93,14 +121,23 @@ export function afterFailure(
     unchangedPasses: 0,
     heldDrops: run.heldDrop ? (previous?.heldDrops ?? 0) + 1 : 0,
   };
+  // A source with adverts waits at most `withAdvertsHours`, parked or not.
+  const most =
+    fields.advertCount > 0 && rules.withAdvertsHours
+      ? rules.withAdvertsHours
+      : Infinity;
   if (consecutiveFailures >= rules.parkAfterFailures) {
-    const parkedUntil = later(run.at, rules.parkedHours);
+    const parkedUntil = later(run.at, Math.min(rules.parkedHours, most));
     return { status: "parked", ...fields, parkedUntil, nextDueAt: parkedUntil };
   }
   const { backoffHours } = rules;
   const wait =
     backoffHours[Math.min(consecutiveFailures, backoffHours.length) - 1] ?? 0;
-  return { status: "failed", ...fields, nextDueAt: later(run.at, wait) };
+  return {
+    status: "failed",
+    ...fields,
+    nextDueAt: later(run.at, Math.min(wait, most)),
+  };
 }
 
 // The sources due at `now`, in a stable order: never-run sources first, then the longest
@@ -109,15 +146,13 @@ export function selectDue<Source extends { readonly id: string }>(
   sources: readonly Source[],
   states: ReadonlyMap<string, SourceState>,
   now: Date,
+  withAdvertsHours?: number,
 ): Source[] {
-  const dueAt = (source: Source) => {
-    const nextDueAt = states.get(source.id)?.nextDueAt;
-    return nextDueAt ? new Date(nextDueAt).getTime() : -Infinity;
-  };
+  const at = (source: Source) => dueAt(states.get(source.id), withAdvertsHours);
   return sources
-    .filter((source) => isDue(states.get(source.id), now))
+    .filter((source) => isDue(states.get(source.id), now, withAdvertsHours))
     .toSorted(
-      (a, b) => dueAt(a) - dueAt(b) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+      (a, b) => at(a) - at(b) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
     );
 }
 
