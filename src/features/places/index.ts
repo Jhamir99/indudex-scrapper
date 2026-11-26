@@ -7,7 +7,8 @@ import {
 import {
   atMost,
   FIELD_LIMITS,
-  namedTown,
+  namedPlace,
+  type NamedInput,
   placeAdvert,
   type PlaceInput,
   type Placement,
@@ -41,11 +42,11 @@ export function createPlacer(catalogues: PlaceCatalogues) {
   );
   return {
     place: (input: PlaceInput): Placement => placeAdvert(gazetteer, input),
-    // The town the place names, known or not ("" when it names only its country): what an offer
-    // shows when no town of the gazetteer was found.
-    townNamed: (input: Pick<PlaceInput, "country" | "location" | "city">) =>
-      namedTown(gazetteer, {
-        country: input.country,
+    // The town the place names, known or not ("" when it names only its country): what an offer shows when no town of
+    // the gazetteer was found; and the country it names, another European one when the town is that country's name.
+    namedPlace: (input: NamedInput) =>
+      namedPlace(gazetteer, {
+        ...input,
         location: atMost(input.location, FIELD_LIMITS.location),
         city: atMost(input.city, FIELD_LIMITS.city),
       }),

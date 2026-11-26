@@ -4,6 +4,8 @@ import { areaCode, areaOf, type PlaceText } from "./areas.js";
 import type { Gazetteer } from "./gazetteer.js";
 import { pieces, withArticle } from "./pieces.js";
 import { inNameLetters, shownName } from "./shown-name.js";
+import { type Everywhere, withoutFalseTown } from "./false-town.js";
+import { loose } from "./names.js";
 import {
   FOR_A_CLIENT,
   labelledTowns,
@@ -56,22 +58,124 @@ export function atMost(text: string, limit: number): string {
 
 const round = (degrees: number) => Math.round(degrees * 100) / 100;
 
-// The town the place itself names, known or not: the adapter's city, else the location's first
-// piece that is not the country's own name (legacy placeOfAdvert's city). "" when it names only
-// its country.
-export function namedTown(gazetteer: Gazetteer, place: PlaceText): string {
+// What the map knows, for the legacy's false-town reading: a town or an area of a country by a name, and the one of
+// our countries a town's name is in when it outweighs the others five times (the legacy's `countryOfTown`).
+const OUTWEIGHS = 5;
+const everywhereOf = (gazetteer: Gazetteer): Everywhere => ({
+  knows: (cc, city) => {
+    const towns = gazetteer.towns.get(cc);
+    return Boolean(
+      towns?.has(fold(city)) ||
+      towns?.has(loose(city)) ||
+      gazetteer.areas.get(cc)?.has(fold(city)),
+    );
+  },
+  countryOf: (city, allowed) => {
+    const biggest = new Map<string, number>();
+    for (const cc of allowed)
+      for (const town of gazetteer.towns.get(cc)?.get(fold(city)) ?? [])
+        biggest.set(cc, Math.max(biggest.get(cc) ?? 0, town.population));
+    const [first, second] = [...biggest].toSorted((a, b) => b[1] - a[1]);
+    return first && (!second || first[1] > OUTWEIGHS * second[1])
+      ? { cc: first[0] }
+      : null;
+  },
+});
+const everywhereFor = new WeakMap<Gazetteer, Everywhere>();
+const everywhere = (gazetteer: Gazetteer): Everywhere => {
+  let known = everywhereFor.get(gazetteer);
+  if (!known) {
+    known = everywhereOf(gazetteer);
+    everywhereFor.set(gazetteer, known);
+  }
+  return known;
+};
+
+// A town the map does not know that the advert writes as something else is that thing: the employer's name or its
+// site's («DISNEY» on disneycareers.com, «FERCHAU»), or the bracket that ends its title («(SAP)», «(SHK)»); nor is a town
+// of two to four capitals an office's code («MAD», «HKI»). The legacy's `echoesAdvert` (48ca26c1).
+const TITLE_BRACKET = /\(([^()]{2,40})\)\s*$/;
+const A_CODE = /^\p{Lu}{2,4}$/u;
+const letters = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replace(/ß/g, "ss")
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .replace(/[^a-z0-9]/g, "");
+const hostLetters = (url: string) => {
+  try {
+    return letters(new URL(url).hostname);
+  } catch {
+    return "";
+  }
+};
+
+// What the place names is read of: the place, and the title, employer and address it may echo.
+export interface NamedInput extends PlaceText {
+  readonly title?: string;
+  readonly company?: string;
+  readonly url?: string;
+}
+
+function echoesAdvert(city: string, advert: NamedInput): boolean {
+  const k = letters(city);
+  const name = ` ${fold(advert.company ?? "")} `;
+  return (
+    letters(TITLE_BRACKET.exec(advert.title ?? "")?.[1] ?? "") === k ||
+    name.includes(` ${fold(city)} `) ||
+    (k.length >= 3 && hostLetters(advert.url ?? "").includes(k))
+  );
+}
+
+// The town the place itself names, known or not: the adapter's city, else the location's first piece that is not the
+// country's own name (legacy placeOfAdvert's city), with its article put back, then read as the legacy's
+// `withoutFalseTown` reads it: no town when it is a form's word, a region larger than a country, a sentence, an address
+// or a firm; the country another European one when the town is that country's name (a Polish board's «Niemcy»); in a
+// name's letters when written in capitals. "" when it names only its country.
+export function namedPlace(
+  gazetteer: Gazetteer,
+  place: NamedInput,
+): { readonly country: string; readonly town: string } {
   const own = gazetteer.countryNames.get(place.country);
   const known = gazetteer.towns.get(place.country);
+  const map = everywhere(gazetteer);
+  const countries = [...gazetteer.countryNames.keys()].map((iso) => ({ iso }));
+  const read = (location: string) =>
+    withoutFalseTown(
+      {
+        cc: place.country,
+        city:
+          [place.city, ...pieces(location)].find(
+            (piece) => piece && !own?.has(fold(piece)),
+          ) ?? "",
+      },
+      countries,
+      map,
+    );
+  const echoed = (p: { cc: string; city: string }) =>
+    Boolean(p.city) &&
+    !map.knows(p.cc, p.city) &&
+    (echoesAdvert(p.city, place) || A_CODE.test(p.city));
   const location = withArticle(place.location, (key) =>
     Boolean(known?.has(key)),
   );
+  let found = read(location);
+  // The place the rest of the location names, if any («DISNEY, Marne-la-Vallée»).
+  if (echoed(found)) {
+    const rest = location.replace(found.city, "").replace(/^[\s,;|/–-]+/, "");
+    const again = rest ? read(rest) : found;
+    found = echoed(again) ? { ...again, city: "" } : again;
+  }
   // A town the map lacks, written in capitals, is shown in a name's letters.
-  return inNameLetters(
-    [place.city, ...pieces(location)].find(
-      (piece) => piece && !own?.has(fold(piece)),
-    ) ?? "",
-  );
+  return { country: found.cc, town: inNameLetters(found.city) };
 }
+
+export const namedTown = (gazetteer: Gazetteer, place: NamedInput): string =>
+  namedPlace(gazetteer, place).town;
 
 // The town the text gives (FR-6), for a place that names no town, or names a region or province
 // as its town («Bayern», «Limburg», «Île-de-France»: 8,061 published offers, 7 November 2026).

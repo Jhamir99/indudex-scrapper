@@ -30,7 +30,7 @@ pnpm test:run && pnpm build` green; "carried" means the legacy's tests at the ta
 - [ ] **T011 — Over the store, and close** · FR-4 · Depends: T008, T009, T010
       Done when: the processor's steps compared with the target's on a store copy, the differences recorded; `CLAUDE.md`,
       `MEMORY.md` and `features/README.md` updated.
-- [ ] **T012 — False towns** · FR-2, FR-3 · Depends: T008
+- [x] **T012 — False towns** · FR-2, FR-3 · Depends: T008
       Done when: the legacy's `withoutFalseTown` (normalise.ts, with 48ca26c1, 61f4ec6c, a9476d82, dbdfe934, 40c6ba72)
       reads the town an offer shows, the country it names included, in places; its cases carried.
 
@@ -96,3 +96,11 @@ constants only. Left for 016: the careers sites' long-queue lanes (ffc94293, 7c9
 and a platform tenant's move (3f1efb06, 7767f8fe). Not ours: the bot-check hold on a redirect's last server
 (a6b3fd47; our client has no bot-check hold), the legacy's machine split (f27b8731) and its late-source alerts
 (e398d60a; our watch judges jobs, not sources). MPSV's language note (f09a65d9): our adapter reads no languages.
+
+Notes on T012 (2026-11-26). The legacy's `withoutFalseTown` and what it reads are copied into places' `false-town.ts`,
+the map it asks being our gazetteer; with its `echoesAdvert` (the employer's name, the title's bracket, the site's
+name, an office's code), it reads the town an advert's place names when the gazetteer finds none: places'
+`namedPlace` gives that town and the country it names. The publication places and publishes the advert in that
+country, so a Polish board's «Niemcy» is in Germany with no town, as the legacy reads it. Its cases of 48ca26c1,
+a9476d82, 40c6ba72 and dbdfe934 carried into place-advert.test.ts (61f4ec6c's Dutch postcode is the legacy's
+`placeOf`, which our pieces read already).

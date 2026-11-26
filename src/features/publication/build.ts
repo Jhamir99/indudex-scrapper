@@ -48,7 +48,12 @@ export interface BuildSteps {
   readonly gate: { decide(advert: GateInput): GateDecision };
   readonly placer: {
     place(input: PlaceInput): Placement;
-    townNamed(input: Pick<PlaceInput, "country" | "location" | "city">): string;
+    namedPlace(
+      input: Pick<PlaceInput, "country" | "location" | "city" | "title"> & {
+        readonly company?: string;
+        readonly url?: string;
+      },
+    ): { readonly country: string; readonly town: string };
   };
   readonly facts: { facts(advert: StoredAdvert): AdvertFacts };
   readonly pay: { pay(advert: PayInput): AdvertPay | null };
@@ -163,11 +168,16 @@ export function build(input: BuildInput): Built {
 
   const read: Read[] = [];
   const taken: TakenRecord[] = [];
+  // The town the place names, and the country it names: the advert is placed and published in that one (the legacy's
+  // false towns: a Polish board's «Niemcy» is in Germany).
   const named = (advert: StoredAdvert) =>
-    steps.placer.townNamed({
+    steps.placer.namedPlace({
       country: advert.country,
       location: advert.location,
       city: advert.city,
+      title: advert.title,
+      company: advert.company,
+      url: advert.url,
     });
   const passOf = new Map(
     reading.passes.map((pass) => [pass.source, pass.adverts]),
@@ -181,8 +191,13 @@ export function build(input: BuildInput): Built {
   for (const [source, adverts] of takenBySource) {
     const employerOf = employerReader(source);
     for (const advert of adverts) {
-      const placement = steps.placer.place({ ...advert, agency: false });
-      const town = named(advert);
+      const where = named(advert);
+      const town = where.town;
+      const placement = steps.placer.place({
+        ...advert,
+        country: where.country,
+        agency: false,
+      });
       taken.push({
         url: advert.url,
         company: employerOf(advert, town).name,
@@ -193,7 +208,7 @@ export function build(input: BuildInput): Built {
             placement.from === "location"
               ? placement.town?.geonameId
               : undefined,
-          country: advert.country,
+          country: where.country,
           town: placement.town?.name ?? town,
         }),
       });
@@ -211,15 +226,20 @@ export function build(input: BuildInput): Built {
         else counts.outsideVertical++;
         continue;
       }
-      const town = named(advert);
+      const where = named(advert);
+      const town = where.town;
       const employer = employerOf(advert, town);
+      const placed =
+        where.country === advert.country
+          ? advert
+          : { ...advert, country: where.country };
       const placement = steps.placer.place({
-        ...advert,
+        ...placed,
         agency: employer.agency,
       });
       const facts = steps.facts.facts(advert);
       const offer = offerOf({
-        advert,
+        advert: placed,
         title: shownTitle(advert.title),
         employer,
         placement,

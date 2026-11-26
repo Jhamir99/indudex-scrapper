@@ -67,7 +67,7 @@ const steps: BuildSteps = {
           }
         : { town: null, nuts: null, from: null };
     },
-    townNamed: (input) => input.city,
+    namedPlace: (input) => ({ country: input.country, town: input.city }),
   },
   facts: {
     facts: (a): AdvertFacts => ({
