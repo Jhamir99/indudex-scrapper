@@ -36,6 +36,7 @@ import {
   TITLE_FIELD,
 } from "../title-translation/index.js";
 import { campaignPlaces, located, offerOf, unescaped } from "./offer.js";
+import { tidyTitle } from "./tidy-titles.js";
 import type { StoreReading } from "./read-store.js";
 
 // The steps in the legacy's order over what the store gave (plan section 2): each advert placed,
@@ -369,6 +370,19 @@ export function build(input: BuildInput): Built {
       if (!title) continue;
       const calm = calmTitle(title, spellings);
       if (calm !== title) out = { ...out, [field]: calm };
+    }
+    return out;
+  });
+  // Then every title without its gender mark or the advert's number, after the translations, which are cached by the
+  // title as written; a title that is only its mark or its number keeps them (the legacy's tidyTitles).
+  offers = offers.map((offer) => {
+    if (input.untranslated.has(offer.s)) return offer;
+    let out = offer;
+    for (const field of titleFields) {
+      const title = offer[field];
+      if (!title) continue;
+      const tidied = tidyTitle(title);
+      if (tidied && tidied !== title) out = { ...out, [field]: tidied };
     }
     return out;
   });

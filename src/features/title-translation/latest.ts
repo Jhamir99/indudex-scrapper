@@ -29,6 +29,9 @@ const NUTS_OF: Readonly<Record<string, string>> = { gr: "EL", gb: "UK" };
 // asked.
 const TAGS = ["p", "w", "ct", "wt", "y"] as const;
 const tagsOf = (r: Offer) => TAGS.filter((k) => r[k]).length;
+// The details a card opens that the page shows at least once: the tools named and the closing date (the legacy's
+// c4c209e1).
+const SHOWCASED = ["tk", "x"] as const;
 
 // A card fit to show: a title long enough to say the job and short enough for two lines on a phone, starting with a
 // capital, with no stop at its end, no pay and no bar in it, and not naming its own town ("Boekhouder - Zorg en IT -
@@ -67,8 +70,9 @@ const fitEmployer = (r: Offer) =>
 
 // Each page's ten, picked when the pile is built (builder/build-pile.mjs writes them into data/today.json): offers
 // fit to show from the employers' own boards and sites, written in the page's language (languageOf, from
-// builder/translate.mjs) in a country that speaks it, the most tags first, then the newest; one per employer. Each
-// card keeps its title in its page's field.
+// builder/translate.mjs) in a country that speaks it, the most tags first, then the newest; one per employer. The
+// first that names its tools and the first with a closing date lead, when there are any. Each card keeps its title
+// in its page's field.
 export type LatestPick = Pick<
   Offer,
   | "id"
@@ -83,6 +87,8 @@ export type LatestPick = Pick<
   | "ct"
   | "wt"
   | "y"
+  | "tk"
+  | "x"
   | "te"
   | "ts"
   | "tc"
@@ -141,9 +147,12 @@ export function latestPicks(
                 Number(CATALONIA.test(a.n ?? "")),
             )
           : fit;
+      const showcased = SHOWCASED.map((key) =>
+        ready.find((r) => r[key]?.length),
+      ).filter((r) => r !== undefined);
       const employers = new Set<string>(),
         out: LatestPick[] = [];
-      for (const r of ready) {
+      for (const r of new Set([...showcased, ...ready])) {
         if (employers.has(r.c)) continue;
         employers.add(r.c);
         out.push({
@@ -160,6 +169,8 @@ export function latestPicks(
           ct: r.ct,
           wt: r.wt,
           y: r.y,
+          tk: r.tk,
+          x: r.x,
         });
         if (out.length === SHOWN) break;
       }

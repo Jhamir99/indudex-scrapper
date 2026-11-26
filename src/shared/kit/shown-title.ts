@@ -22,6 +22,92 @@ const UK_POSTCODE = "[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}";
 // Each listed on purpose, each taken out on its own.
 // oxlint-disable-next-line no-misleading-character-class
 const INVISIBLE = /[\u00ad\u200b\u200c\u200d\u2060\ufeff]/g;
+// A label saying the title is a job offer, in the languages of the offers, which says nothing of the job: opening the
+// title before a colon, bar or dash («Job | Engineer Risk Systems | Bruxelles», «Praca: Inżynier procesu», «Gesucht:
+// Industrial Test Engineer»: about 1,750 published titles on 8 November 2026), or a part of it of its own between
+// dashes or bars («BFÚ – pracovní nabídka – Koordinátor/ka Open Science», the Czech Academy's institutes). The legacy's
+// feee7668.
+const JOB_OFFER_LABELS = [
+  "job",
+  "job offer",
+  "job opening",
+  "job vacancy",
+  "job advert",
+  "vacancy",
+  "open position",
+  "we're hiring",
+  "oferta de empleo",
+  "oferta de trabajo",
+  "oferta laboral",
+  "vacante",
+  "oferta de feina",
+  "oferta de treball",
+  "offre d'emploi",
+  "offre de poste",
+  "poste à pourvoir",
+  "nous recrutons",
+  "stellenangebot",
+  "stellenanzeige",
+  "stellenausschreibung",
+  "gesucht",
+  "wir suchen",
+  "vacature",
+  "wij zoeken",
+  "offerta di lavoro",
+  "annuncio di lavoro",
+  "posizione aperta",
+  "oferta de emprego",
+  "vaga de emprego",
+  "vaga",
+  "praca",
+  "oferta pracy",
+  "pracovní nabídka",
+  "nabídka práce",
+  "nabídka zaměstnání",
+  "volné místo",
+  "hledáme",
+  "pracovná ponuka",
+  "ponuka práce",
+  "voľné miesto",
+  "hľadáme",
+  "állásajánlat",
+  "álláshirdetés",
+  "ofertă de muncă",
+  "ofertă de angajare",
+  "loc de muncă",
+  "post vacant",
+  "oglas za posao",
+  "radno mjesto",
+  "natječaj",
+  "prosto delovno mesto",
+  "обява за работа",
+  "θέση εργασίας",
+  "вакансія",
+  "iş ilanı",
+  "njoftim pune",
+  "ledigt jobb",
+  "ledig tjänst",
+  "platsannons",
+  "ledig stilling",
+  "stillingsopslag",
+  "stillingsannonse",
+  "avoin työpaikka",
+  "tööpakkumine",
+  "vaba töökoht",
+  "darba piedāvājums",
+  "darbo skelbimas",
+  "laust starf",
+];
+// Letters, spaces and apostrophes only: a space matches any, an apostrophe either form.
+const JOB_OFFER_LABEL = `(?:${JOB_OFFER_LABELS.map((label) => label.replace(/'/g, "['’]").replace(/ /g, "\\s+")).join("|")})`;
+const LABEL_FIRST = new RegExp(
+  `^${JOB_OFFER_LABEL}\\s*[:|–—-]\\s+(?=\\S)`,
+  "iu",
+);
+const LABEL_PART = new RegExp(
+  `\\s+[|–—-]\\s+${JOB_OFFER_LABEL}(?=\\s+[|–—-]\\s|\\s*$)`,
+  "giu",
+);
 export const withoutBoardTail = (t: string): string =>
   String(t || "")
     .replace(/\.?\s+Jobs? in .+? LilyLifestyle Jobs$/u, "")
@@ -29,13 +115,8 @@ export const withoutBoardTail = (t: string): string =>
     // A Polish board's button read with the title («Obserwuj ofertę Inżynier budowy», follow the offer) and a recruiter's
     // list of what it does after it («Mechanik Maszyn - Oświęcim - Talent Partners, Skuteczna Rekrutacja, …»).
     .replace(/^Obserwuj ofertę\s+/iu, "")
-    // And a board's label opening the title before a colon, bar or dash («Job | Engineer Risk Systems | Bruxelles», «Praca:
-    // Inżynier procesu», «Gesucht: Industrial Test Engineer», «Vacature | Logistiek Medewerker», «Wir suchen: …»: about
-    // 1,750 published titles on 8 November 2026).
-    .replace(
-      /^(?:job|vacature|praca|gesucht|wir suchen|stellenangebot|stellenanzeige|offre d['’]emploi|oferta de empleo|oferta pracy)\s*[:|–-]\s+(?=\S)/iu,
-      "",
-    )
+    .replace(LABEL_FIRST, "")
+    .replace(LABEL_PART, "")
     .replace(/\s+[-–|]\s+Talent Partners(?:,\s*[^,]+){0,6}$/u, "")
     .replace(
       new RegExp(

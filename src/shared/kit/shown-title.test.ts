@@ -128,3 +128,27 @@ describe("the titles' golden set", () => {
     ).toEqual([]);
   });
 });
+
+describe("a job offer's label in a title (the legacy's feee7668)", () => {
+  it("leaves the title, opening it or as a part of its own, in the offers' languages", () => {
+    expect(
+      [
+        "Job | Engineer Risk Systems | Bruxelles",
+        "Praca: Inżynier procesu",
+        "Gesucht: Industrial Test Engineer",
+        "BFÚ – pracovní nabídka – Koordinátor/ka Open Science",
+        "We’re hiring: Welder",
+        "Oferta de treball - Tècnic de manteniment",
+        "Job Engineer",
+      ].map(withoutBoardTail),
+    ).toEqual([
+      "Engineer Risk Systems | Bruxelles",
+      "Inżynier procesu",
+      "Industrial Test Engineer",
+      "BFÚ – Koordinátor/ka Open Science",
+      "Welder",
+      "Tècnic de manteniment",
+      "Job Engineer",
+    ]);
+  });
+});

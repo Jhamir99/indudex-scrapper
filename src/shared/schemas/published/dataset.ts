@@ -133,6 +133,8 @@ export const Today = z
           ct: true,
           wt: true,
           y: true,
+          tk: true,
+          x: true,
         }),
       ),
     ),

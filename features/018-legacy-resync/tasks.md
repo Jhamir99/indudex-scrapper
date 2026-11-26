@@ -22,7 +22,7 @@ pnpm test:run && pnpm build` green; "carried" means the legacy's tests at the ta
       carried; golden sets made again.
 - [x] **T006 — Places** · FR-2, FR-3 · Depends: T005
 - [x] **T007 — Companies and dedupe** · FR-2, FR-3 · Depends: T006
-- [ ] **T008 — Publication** · FR-2, FR-3 · Depends: T003 to T007
+- [x] **T008 — Publication** · FR-2, FR-3 · Depends: T003 to T007
 - [ ] **T009 — Title translation** · FR-2, FR-3 · Depends: T008
 - [ ] **T010 — Crawl-core, public feeds, text helpers** · FR-2 · Depends: T001
       Done when: the HTTP client, robots, pacing, the public feeds' adapters and the text helpers match the target where
@@ -30,6 +30,9 @@ pnpm test:run && pnpm build` green; "carried" means the legacy's tests at the ta
 - [ ] **T011 — Over the store, and close** · FR-4 · Depends: T008, T009, T010
       Done when: the processor's steps compared with the target's on a store copy, the differences recorded; `CLAUDE.md`,
       `MEMORY.md` and `features/README.md` updated.
+- [ ] **T012 — False towns** · FR-2, FR-3 · Depends: T008
+      Done when: the legacy's `withoutFalseTown` (normalise.ts, with 48ca26c1, 61f4ec6c, a9476d82, dbdfe934, 40c6ba72)
+      reads the town an offer shows, the country it names included, in places; its cases carried.
 
 Notes on T002 to T004 (2026-11-26). The legacy's modules were copied whole, their imports pointed here, rather than
 our ports edited: `shared/words` (its tables and index, with its option names `langs` and `READ_BY_BOT`),
@@ -62,3 +65,11 @@ Notes on T007 (2026-11-26). Dedupe reads an employer by the shortest name its co
 as an agency every advert of an employer with five or more adverts, a fifth of them for a client (7c2bf8df:
 companies' `agenciesByShare`), its text read by places' `FOR_A_CLIENT`, now the legacy's from the word tables. The
 layout reader's list headings (the same 3c5b128e) were already in our copy of `layout.ts` (015).
+
+Notes on T008 (2026-11-26). The publication takes the legacy's title tidy (0c8e3524: gender marks and the advert's
+number off every shown title, after the translations and the capitals, `tidy-titles.ts` copied, its test carried),
+the wider job-offer labels of a title (feee7668, in `shownTitle`), the today picks that show tools and a closing date
+first (c4c209e1, `latest.ts`, `tk` and `x` in today's schema), and the agency share (T007). The legacy's caching, its
+pool of workers and its «too slow» advert (53813326, ce67b14b, d399229e, e79e7e23) change how fast it publishes, not
+what: left out. `KEPT_DAYS` is our year already. The legacy's false towns (`withoutFalseTown` and four commits on it)
+read the town and can change the country, which our places keep apart: T012.
