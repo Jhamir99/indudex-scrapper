@@ -51,6 +51,7 @@ const input: OfferInput = {
     years: { most: 3, least: 2 },
     degrees: [],
     languages: ["ca"],
+    tools: [],
   },
   pay: {
     low: 1900,

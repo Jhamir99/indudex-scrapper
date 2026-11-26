@@ -8,6 +8,7 @@ import {
   requiredLanguages,
   type Catalogues,
 } from "./screens.js";
+import { toolsOf } from "./tools.js";
 import { yearsRange } from "./years.js";
 
 export const AdvertFacts = z.strictObject({
@@ -40,6 +41,8 @@ export const AdvertFacts = z.strictObject({
   // Degree ids of the `degrees` catalogue and language codes of the `languages` one.
   degrees: z.array(z.string().min(1)),
   languages: z.array(z.string().min(1)),
+  // The tools it names, twelve at most, in the order it first names them (the legacy's builder/tools.ts).
+  tools: z.array(z.string().min(1)),
   // The title, brought down when written in capitals (FR-4).
   title: z.string().min(1),
 });
@@ -55,6 +58,7 @@ export interface FactSources extends Catalogues {
 type FactInput = Pick<
   StoredAdvert,
   | "source"
+  | "company"
   | "title"
   | "location"
   | "description"
@@ -87,6 +91,11 @@ export function createFactReader(sources: FactSources) {
         years: yearsOf(advert),
         degrees: requiredDegrees(advert.description, screens),
         languages: requiredLanguages(advert.description, screens),
+        tools: toolsOf({
+          title: advert.title,
+          description: advert.description,
+          company: advert.company,
+        }),
         title: calm(advert),
       };
     },

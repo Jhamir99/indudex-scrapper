@@ -31,7 +31,7 @@ A feature starts when the ones before it are closed. The order reaches a first p
 | 015 | [job-portals](015-job-portals/)                   | scrapper  | done        | Portals and agencies under the legacy's rule (211 of 865), remote boards, France Travail; a backlog between runs |
 | 016 | [career-sites](016-career-sites/)                 | scrapper  | planned     | Employers' careers sites (sitemap + `JobPosting`) and ATS platforms, as data                                     |
 | 017 | [source-discovery](017-source-discovery/)         | scrapper  | outline     | Hunter and scouts that find new careers sites and boards                                                         |
-| 018 | [legacy-resync](018-legacy-resync/)               | both      | in progress | Every ported module brought up to the legacy's current behaviour (done before 016)                               |
+| 018 | [legacy-resync](018-legacy-resync/)               | both      | done        | Every ported module brought up to the legacy's current behaviour (done before 016)                               |
 
 Later, not numbered yet (from 010's decisions of 2026-11-22): **tools** (the tools and technologies an advert names, the legacy's `builder/tools.mjs` and the offer's `tk`), after 011; **incremental builds** (the legacy's `builder/pile-cache.mjs`), only if the measured whole build calls for it (48 s on the Mac for the store of 2026-11-19).
 

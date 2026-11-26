@@ -87,7 +87,13 @@ export interface OfferInput {
   readonly occupations: readonly string[];
   readonly facts: Pick<
     AdvertFacts,
-    "workMode" | "contract" | "workingTime" | "years" | "degrees" | "languages"
+    | "workMode"
+    | "contract"
+    | "workingTime"
+    | "years"
+    | "degrees"
+    | "languages"
+    | "tools"
   >;
   readonly pay: AdvertPay | null;
   readonly days: AdvertDays;
@@ -158,6 +164,7 @@ export function offerOf(input: OfferInput): Offer {
   if (facts.degrees.length) offer["dg"] = [...facts.degrees];
   if (facts.languages.length) offer["lg"] = [...facts.languages];
   if (input.occupations.length) offer["e"] = [...input.occupations];
+  if (facts.tools.length) offer["tk"] = [...facts.tools];
   return offer as Offer;
 }
 

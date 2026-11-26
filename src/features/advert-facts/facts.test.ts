@@ -12,6 +12,7 @@ const reader = async (keptAsWritten: ReadonlySet<string> = new Set()) =>
 
 const advert = {
   source: "feinaactiva",
+  company: "Acme",
   title: "SAP DEVELOPER FOR LOGISTICS",
   location: "Barcelona, España",
   description:
@@ -30,6 +31,7 @@ describe("an advert's facts (FR-1 to FR-8)", () => {
       years: { most: 3, least: 3 },
       degrees: [],
       languages: ["en"],
+      tools: ["sap"],
       title: "SAP Developer for Logistics",
     });
     expect(AdvertFacts.parse(facts)).toEqual(facts);

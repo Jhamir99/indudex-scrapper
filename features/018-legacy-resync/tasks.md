@@ -27,7 +27,7 @@ pnpm test:run && pnpm build` green; "carried" means the legacy's tests at the ta
 - [x] **T010 — Crawl-core, public feeds, text helpers** · FR-2 · Depends: T001
       Done when: the HTTP client, robots, pacing, the public feeds' adapters and the text helpers match the target where
       ported; tests carried.
-- [ ] **T011 — Over the store, and close** · FR-4 · Depends: T008, T009, T010
+- [x] **T011 — Over the store, and close** · FR-4 · Depends: T008, T009, T010
       Done when: the processor's steps compared with the target's on a store copy, the differences recorded; `CLAUDE.md`,
       `MEMORY.md` and `features/README.md` updated.
 - [x] **T012 — False towns** · FR-2, FR-3 · Depends: T008
@@ -104,3 +104,13 @@ name, an office's code), it reads the town an advert's place names when the gaze
 country, so a Polish board's «Niemcy» is in Germany with no town, as the legacy reads it. Its cases of 48ca26c1,
 a9476d82, 40c6ba72 and dbdfe934 carried into place-advert.test.ts (61f4ec6c's Dutch postcode is the legacy's
 `placeOf`, which our pieces read already).
+
+Notes on T011 (2026-11-26). Ours and the target's steps over a store copy of 19 November 2026 (38 sources, 185,780
+adverts), the legacy's modules run in the scratchpad (compare-target.mts: its work-out, dedupe, agencies, locate,
+applyTitles, unescape, calm and tidy titles, shards and word index; our gate and our places fed to it, as in 004-011):
+both keep the same 70,439 offers. The comparison found two steps the port never had, now brought: the tools an advert
+names (`tk`, the legacy's builder/tools.ts, into advert facts, its test carried) and a town read off a false place put
+on the map as the legacy's `locate` puts it (only a town of that very name, inside the area the place named). The
+agency flag by share now lands where the legacy's does. What still differs: 7 pays («RAL 25000 - 30000») that the
+legacy's contact scrub (`withoutContacts`) takes for phone numbers before reading, where ours reads the pay; with them
+6 shard files and 7 word files. Not ported: ours reads those pays.

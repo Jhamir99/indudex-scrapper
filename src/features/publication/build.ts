@@ -1,3 +1,4 @@
+import { fold } from "../../shared/kit/fold.js";
 import { shownTitle } from "../../shared/kit/shown-title.js";
 import type { StoredAdvert } from "../../shared/schemas/advert.js";
 import type { Offer } from "../../shared/schemas/published/offer.js";
@@ -233,10 +234,31 @@ export function build(input: BuildInput): Built {
         where.country === advert.country
           ? advert
           : { ...advert, country: where.country };
-      const placement = steps.placer.place({
+      const first = steps.placer.place({
         ...placed,
         agency: employer.agency,
       });
+      // A town the place names once its false parts are read off («Gorzów Wielkopolski i okolice»), on the map as the
+      // legacy's locate puts it: only a town of that very name.
+      const placement =
+        first.town || !where.town
+          ? first
+          : (() => {
+              const again = steps.placer.place({
+                ...placed,
+                location: where.town,
+                city: "",
+                agency: employer.agency,
+              });
+              return again.from === "location" &&
+                again.town &&
+                fold(again.town.name) === fold(where.town) &&
+                // Inside the region or province the place named, if it named one.
+                (!first.nuts ||
+                  (again.town && (again.nuts ?? "").startsWith(first.nuts)))
+                ? again
+                : first;
+            })();
       const facts = steps.facts.facts(advert);
       const offer = offerOf({
         advert: placed,
@@ -318,7 +340,17 @@ export function build(input: BuildInput): Built {
   // campaign's other towns.
   const placements = new Map<string, Placement>();
   const campaignPlacements: Placement[] = [];
-  let offers = deduped.kept.map(({ advert, alsoAt }) => {
+  // The employers that place staff with clients, by the share of their adverts that say so (the legacy's agencies.ts),
+  // flagged before the offers go on the map, as the legacy's pile does.
+  const byShare = agenciesByShare(
+    deduped.kept.map(({ advert }) => ({
+      company: advert.read.offer.c,
+      agency: advert.read.offer.ag === 1,
+      forClient: advert.read.forClient,
+    })),
+    companyKey,
+  );
+  let offers = deduped.kept.map(({ advert, alsoAt }, at) => {
     let offer = advert.read.offer;
     const mode =
       advert.workMode === undefined
@@ -331,6 +363,8 @@ export function build(input: BuildInput): Built {
     }
     if (!offer.x && advert.expires) offer = { ...offer, x: advert.expires };
     if (!offer.y && advert.years) offer = { ...offer, y: advert.years };
+    // After what it inherits from its copies, as the legacy's dedupe comes before its agencies.
+    if (byShare.has(at)) offer = { ...offer, ag: 1 };
     offer = located(offer, advert.read.placement);
     if (alsoAt.length) {
       const m = campaignPlaces(
@@ -343,19 +377,6 @@ export function build(input: BuildInput): Built {
     placements.set(offer.id, advert.read.placement);
     return offer;
   });
-
-  // The employers that place staff with clients, by the share of their adverts that say so (the legacy's agencies.ts).
-  const byShare = agenciesByShare(
-    offers.map((offer, at) => ({
-      company: offer.c,
-      agency: offer.ag === 1,
-      forClient: deduped.kept[at]?.advert.read.forClient ?? false,
-    })),
-    companyKey,
-  );
-  offers = offers.map((offer, at) =>
-    byShare.has(at) ? { ...offer, ag: 1 } : offer,
-  );
 
   // Each title in the site's languages from the caches (a copy of each offer, which applyTitles
   // fills), then what one reading left escaped written out, then the titles in capitals brought

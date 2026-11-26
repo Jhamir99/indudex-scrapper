@@ -77,6 +77,7 @@ const steps: BuildSteps = {
       years: null,
       degrees: [],
       languages: [],
+      tools: [],
       title: a.title,
     }),
   },
@@ -251,5 +252,53 @@ describe("the build (publication FR-1, FR-2, FR-5)", () => {
       advert("brz", { url: "https://brz.example/jobs/77?utm_source=x" }),
     ]);
     expect(built.offers[0]?.id).toBe(offerId("https://brz.example/jobs/77"));
+  });
+});
+
+describe("a place that names its town or its country falsely (legacy resync T012, T011)", () => {
+  // The town the place names once its false parts are read off, and the country it names.
+  const where: Record<string, { country: string; town: string }> = {
+    "Köln und Umgebung": { country: "de", town: "Köln" },
+    Niemcy: { country: "pl", town: "" },
+  };
+  const falseSteps: BuildSteps = {
+    ...steps,
+    placer: {
+      place: (input) =>
+        steps.placer.place({ ...input, city: input.city || input.location }),
+      namedPlace: (input) =>
+        where[input.location]
+          ? {
+              town: where[input.location]!.town,
+              country: input.location === "Niemcy" ? "de" : input.country,
+            }
+          : { country: input.country, town: input.city },
+    },
+  };
+  it("places the advert by the town read off, and in the country its place names", () => {
+    const built = build({
+      reading: reading([
+        advert("brz", { location: "Köln und Umgebung", city: "" }),
+        advert("brz", {
+          location: "Niemcy",
+          city: "",
+          country: "pl",
+          title: "Process Engineer II",
+        }),
+      ]),
+      steps: falseSteps,
+      kinds: new Map(),
+      untranslated: new Set(),
+      optionalFamilies: new Set(["7411"]),
+      remembered: [],
+      stillTaken: () => true,
+      today: TODAY,
+    });
+    expect(
+      built.offers.map((offer) => [offer.cc, offer.ci, Boolean(offer.g)]),
+    ).toEqual([
+      ["de", "Köln", true],
+      ["de", "", false],
+    ]);
   });
 });

@@ -50,7 +50,9 @@
         "src/features/advert-facts/screens.ts",
         "src/features/advert-facts/labels.ts",
         "src/features/pay/pay.ts",
-        "src/features/pay/text-pay.ts"
+        "src/features/pay/text-pay.ts",
+        "src/features/advert-facts/tools.ts",
+        "src/features/places/false-town.ts"
       ],
       "rules": {
         "unicorn/consistent-function-scoping": "off",
@@ -58,7 +60,8 @@
         "unicorn/no-array-sort": "off",
         "unicorn/prefer-string-starts-ends-with": "off",
         "unicorn/no-useless-fallback-in-spread": "off",
-        "unicorn/no-useless-spread": "off"
+        "unicorn/no-useless-spread": "off",
+        "no-control-regex": "off"
       }
     }
   ]
