@@ -7,7 +7,7 @@ describe("the word tables", () => {
   });
 
   it("give a concept's words in the languages asked, each once", () => {
-    expect(words("year", { languages: ["en", "de"] })).toEqual([
+    expect(words("year", { langs: ["en", "de"] })).toEqual([
       "year",
       "years",
       "yr",
@@ -16,10 +16,10 @@ describe("the word tables", () => {
       "jahre",
       "jahren",
     ]);
-    expect(words("lessThan", { languages: ["de"], folded: true })).toEqual([
+    expect(words("lessThan", { langs: ["de"], folded: true })).toEqual([
       "weniger als",
     ]);
-    expect(words("moreThan", { languages: ["de"], bare: true })).toEqual([
+    expect(words("moreThan", { langs: ["de"], bare: true })).toEqual([
       "mehr als",
       "über",
       "uber",
@@ -37,7 +37,7 @@ describe("the word tables", () => {
   });
 
   it("give the numbers written in words, within bounds", () => {
-    expect(numbers({ languages: ["de"], folded: true, most: 2 })).toEqual({
+    expect(numbers({ langs: ["de"], folded: true, most: 2 })).toEqual({
       ein: 1,
       eine: 1,
       einen: 1,

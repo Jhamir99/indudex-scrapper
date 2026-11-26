@@ -1,5 +1,5 @@
 {
- "about": "The legacy's years readings (builder/years.mjs with Argus v1.11.0's reader, JustJans/indudex@b0cd182, 2026-11-19) of every text in its test/years.test.mjs and test/readers-languages.test.mjs, as a title and as a text: the port must read each the same.",
+ "about": "The legacy's years readings (builder/years.ts with Argus v1.11.0's reader, JustJans/indudex@ec79858, 2026-11-25) of every text in its test/years.test.mjs and test/readers-languages.test.mjs, as a title and as a text: the port must read each the same.",
  "cases": [
   {
    "title": "",

@@ -1,5 +1,5 @@
 {
- "about": "The legacy's work-mode readings of every text in its test/work-mode.test.mjs, as builder/work-mode.mjs gave them (JustJans/indudex@b0cd182, 2026-11-19): the port must read each the same.",
+ "about": "The legacy's work-mode readings of every text in its test/work-mode.test.mjs, as builder/work-mode.ts gave them (JustJans/indudex@ec79858, 2026-11-25): the port must read each the same.",
  "cases": [
   {
    "field": "description",
@@ -240,7 +240,7 @@
   {
    "field": "title",
    "text": "on site, however a source writes it",
-   "mode": null
+   "mode": "onsite"
   },
   {
    "field": "location",
@@ -367,12 +367,12 @@
   {
    "field": "description",
    "text": "Hybridarbete",
-   "mode": null
+   "mode": "hybrid"
   },
   {
    "field": "title",
    "text": "Hybridarbete",
-   "mode": null
+   "mode": "hybrid"
   },
   {
    "field": "location",
@@ -383,7 +383,7 @@
    "field": "description",
    "workMode": "remote",
    "text": "Hybridarbete",
-   "mode": "remote"
+   "mode": "hybrid"
   },
   {
    "field": "description",
@@ -438,7 +438,7 @@
   {
    "field": "title",
    "text": "Remote",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -471,7 +471,7 @@
   {
    "field": "title",
    "text": "ORA_REMOTE",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -504,7 +504,7 @@
   {
    "field": "title",
    "text": "#LI-Remote",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -537,7 +537,7 @@
   {
    "field": "title",
    "text": "Distansarbete",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -570,7 +570,7 @@
   {
    "field": "title",
    "text": "remote",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -801,7 +801,7 @@
   {
    "field": "title",
    "text": "#li-remote",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -999,7 +999,7 @@
   {
    "field": "title",
    "text": "Télétravail",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -1032,7 +1032,7 @@
   {
    "field": "title",
    "text": "Werk van thuis",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -1065,7 +1065,7 @@
   {
    "field": "title",
    "text": "Zdalnie",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -1098,7 +1098,7 @@
   {
    "field": "title",
    "text": "Home Office",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -1197,7 +1197,7 @@
   {
    "field": "title",
    "text": "x #LI-Remote",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -1786,7 +1786,7 @@
   {
    "field": "description",
    "text": "Ashby: workplaceType, not isRemote (true for hybrid jobs too)",
-   "mode": null
+   "mode": "hybrid"
   },
   {
    "field": "title",
@@ -1802,7 +1802,7 @@
    "field": "description",
    "workMode": "remote",
    "text": "Ashby: workplaceType, not isRemote (true for hybrid jobs too)",
-   "mode": "remote"
+   "mode": "hybrid"
   },
   {
    "field": "description",
@@ -3507,7 +3507,7 @@
   {
    "field": "title",
    "text": "Work Model: Hybrid – onsite and remote",
-   "mode": null
+   "mode": "hybrid"
   },
   {
    "field": "location",
@@ -3733,23 +3733,23 @@
   {
    "field": "description",
    "text": "Thuiswerken: in overleg",
-   "mode": null
+   "mode": "hybrid"
   },
   {
    "field": "title",
    "text": "Thuiswerken: in overleg",
-   "mode": null
+   "mode": "hybrid"
   },
   {
    "field": "location",
    "text": "Thuiswerken: in overleg",
-   "mode": "remote"
+   "mode": "hybrid"
   },
   {
    "field": "description",
    "workMode": "remote",
    "text": "Thuiswerken: in overleg",
-   "mode": "remote"
+   "mode": "hybrid"
   },
   {
    "field": "description",
@@ -3931,7 +3931,7 @@
   {
    "field": "description",
    "text": "Remote - Europe",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "title",
@@ -4134,12 +4134,12 @@
   {
    "field": "title",
    "text": "Flexible Arbeitszeiten und Möglichkeit für Home Office",
-   "mode": "hybrid"
+   "mode": "remote"
   },
   {
    "field": "location",
    "text": "Flexible Arbeitszeiten und Möglichkeit für Home Office",
-   "mode": "remote"
+   "mode": "hybrid"
   },
   {
    "field": "description",
@@ -4238,7 +4238,7 @@
   {
    "field": "location",
    "text": "Experience with hybrid cloud environments.",
-   "mode": "hybrid"
+   "mode": null
   },
   {
    "field": "description",
@@ -4271,7 +4271,7 @@
   {
    "field": "location",
    "text": "Remote support of our customers.",
-   "mode": "remote"
+   "mode": null
   },
   {
    "field": "description",
@@ -4436,7 +4436,7 @@
   {
    "field": "location",
    "text": "no mode from a cloud, a car, remote support or a denial",
-   "mode": "remote"
+   "mode": null
   },
   {
    "field": "description",
@@ -4667,7 +4667,7 @@
   {
    "field": "location",
    "text": "Erfahrung mit Exchange im Hybrid-Betrieb und mit Cloud-Migrationen",
-   "mode": "hybrid"
+   "mode": null
   },
   {
    "field": "description",
@@ -4700,7 +4700,7 @@
   {
    "field": "location",
    "text": "• Horario flexible y modalidad híbrida (según el puesto).",
-   "mode": null
+   "mode": "hybrid"
   },
   {
    "field": "description",
@@ -4832,7 +4832,7 @@
   {
    "field": "location",
    "text": "Ubicación híbrida en Madrid y horario de oficina.",
-   "mode": null
+   "mode": "hybrid"
   },
   {
    "field": "description",
@@ -4926,7 +4926,7 @@
   {
    "field": "title",
    "text": "⏰ Flexible working hours and hybrid work: 6 days/month from home.",
-   "mode": "hybrid"
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -5553,7 +5553,7 @@
   {
    "field": "title",
    "text": "Job Location Type: Remote",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -5822,7 +5822,7 @@
   {
    "field": "location",
    "text": "Location: Hybrid Cloud Team, Munich",
-   "mode": "hybrid"
+   "mode": null
   },
   {
    "field": "description",
@@ -6251,7 +6251,7 @@
   {
    "field": "location",
    "text": "Remote Sensing Specialist",
-   "mode": "remote"
+   "mode": null
   },
   {
    "field": "description",
@@ -6284,7 +6284,7 @@
   {
    "field": "location",
    "text": "Remote Support Engineer",
-   "mode": "remote"
+   "mode": null
   },
   {
    "field": "description",
@@ -6642,12 +6642,12 @@
   {
    "field": "title",
    "text": "Einsatzort: Düsseldorf mit hohem Remote-Anteil",
-   "mode": null
+   "mode": "hybrid"
   },
   {
    "field": "location",
    "text": "Einsatzort: Düsseldorf mit hohem Remote-Anteil",
-   "mode": "remote"
+   "mode": "hybrid"
   },
   {
    "field": "description",
@@ -6675,7 +6675,7 @@
   {
    "field": "title",
    "text": "Standort: Leipzig oder Remote",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -6840,7 +6840,7 @@
   {
    "field": "title",
    "text": "Hybridarbete: Arbeta från vårt huvudkontor i Stockholm minst 3 dagar i veckan.",
-   "mode": null
+   "mode": "hybrid"
   },
   {
    "field": "location",
@@ -7505,7 +7505,7 @@
   {
    "field": "location",
    "text": "Hybrid cloud experience required",
-   "mode": "hybrid"
+   "mode": null
   },
   {
    "field": "description",
@@ -7863,7 +7863,7 @@
   {
    "field": "title",
    "text": "Internet- en thuiswerkvergoeding;",
-   "mode": "hybrid"
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -8023,7 +8023,7 @@
   {
    "field": "description",
    "text": "emoji labels, hybrid roles, five days on site, French days, soft hyphens, allowances; a hybrid technical role names none",
-   "mode": "onsite"
+   "mode": "hybrid"
   },
   {
    "field": "title",
@@ -8039,7 +8039,7 @@
    "field": "description",
    "workMode": "remote",
    "text": "emoji labels, hybrid roles, five days on site, French days, soft hyphens, allowances; a hybrid technical role names none",
-   "mode": "remote"
+   "mode": "hybrid"
   },
   {
    "field": "description",
@@ -8132,7 +8132,7 @@
   {
    "field": "location",
    "text": "Remote sensing partly funded by ESA.",
-   "mode": "hybrid"
+   "mode": null
   },
   {
    "field": "description",
@@ -8660,7 +8660,7 @@
   {
    "field": "location",
    "text": "Flexible Arbeitszeitmodelle und Homeoffice-Möglichkeit.",
-   "mode": "remote"
+   "mode": "hybrid"
   },
   {
    "field": "description",
@@ -8688,7 +8688,7 @@
   {
    "field": "title",
    "text": "Wir bieten die Option auf Homeoffice.",
-   "mode": "hybrid"
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -8721,7 +8721,7 @@
   {
    "field": "title",
    "text": "Eine moderne Infrastruktur und Möglichkeit zum mobilen Arbeiten.",
-   "mode": "hybrid"
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -8881,12 +8881,12 @@
   {
    "field": "description",
    "text": "a label with a no-break space, days of presence, no remote role, daily at the office, a home office option, French hybrid posts, presence, days a month, a telework perk",
-   "mode": null
+   "mode": "onsite"
   },
   {
    "field": "title",
    "text": "a label with a no-break space, days of presence, no remote role, daily at the office, a home office option, French hybrid posts, presence, days a month, a telework perk",
-   "mode": null
+   "mode": "onsite"
   },
   {
    "field": "location",
@@ -9117,7 +9117,7 @@
   {
    "field": "title",
    "text": "Homeoffice",
-   "mode": null
+   "mode": "remote"
   },
   {
    "field": "location",
@@ -9254,7 +9254,7 @@
   {
    "field": "location",
    "text": "Flexible working hours and remote work possibilities;",
-   "mode": "remote"
+   "mode": "hybrid"
   },
   {
    "field": "description",
@@ -9386,7 +9386,7 @@
   {
    "field": "location",
    "text": "Hybrid work environment; A balance of in-office and remote work to foster collaboration and flexibility (for those located in the Denver/Boulder area)",
-   "mode": "hybrid"
+   "mode": "remote"
   },
   {
    "field": "description",

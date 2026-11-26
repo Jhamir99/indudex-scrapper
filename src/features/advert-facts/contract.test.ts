@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { contractKind, contractOf, oneOf, workingTime } from "./contract.js";
+import { statedContract as contractOf } from "./codes.js";
+import { contractKind, oneOf, workingTime } from "./contract.js";
 
 // The legacy's test/contract.test.mjs, values the sources wrote (30 October 2026).
 describe("the contract a source's field names (FR-2)", () => {
@@ -28,7 +29,7 @@ describe("the contract a source's field names (FR-2)", () => {
     ["Behovsanställning", "t"],
     ["Een tijdelijk contract met uitzicht op een vast dienstverband", "to"],
     ["CDI / CDD", ""],
-    ["CDD de 6 mois, possibilité de CDI", "t6"],
+    ["CDD de 6 mois, possibilité de CDI", "to"],
     ["CDD de 3 ans", "t36"],
     ["Regular", "i"],
     ["Regular travel to customer sites", ""],
@@ -37,9 +38,9 @@ describe("the contract a source's field names (FR-2)", () => {
   });
 
   it("reads Adzuna's «contract» as not permanent, an applicant-tracking system's as freelance", () => {
-    expect(contractKind("contract", "adzuna")).toBe("t");
-    expect(contractKind("contract", "ashby")).toBe("a");
-    expect(contractKind("permanent", "adzuna")).toBe("i");
+    expect(contractKind("contract", { source: "adzuna" })).toBe("t");
+    expect(contractKind("contract", { source: "ashby" })).toBe("a");
+    expect(contractKind("permanent", { source: "adzuna" })).toBe("i");
   });
 });
 

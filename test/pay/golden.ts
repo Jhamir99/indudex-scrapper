@@ -21,13 +21,3 @@ export async function goldenSet(name: "fields" | "text"): Promise<GoldenSet> {
     await readFile(join(FIXTURES_DIRECTORY, "pay", `${name}.json`), "utf8"),
   ) as GoldenSet;
 }
-
-// The legacy's period letters as the port's words.
-export const PERIOD_OF_LETTER: Readonly<Record<string, string>> = {
-  h: "hour",
-  d: "day",
-  w: "week",
-  m: "month",
-  y: "year",
-  "": "",
-};

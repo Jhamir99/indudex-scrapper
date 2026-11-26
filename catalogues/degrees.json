@@ -10,9 +10,9 @@
     ],
     "builtAt": "2026-11-15",
     "builtBy": "by hand (legacy)",
-    "importedFrom": "JustJans/indudex@b0cd182"
+    "importedFrom": "JustJans/indudex@ec79858"
   },
-  "words": "degree|bachelor|master|msc|bsc|beng|meng|phd|diploma|licenciatura|licenciado|licenciada|grado en|graduado|graduada|ingenieria|titulacion|titulado|titulada|licence|diplome|ecole d ingenieur|diplome d ingenieur|abschluss|studium|studiengang|diplom|hbo|wo|universitair|hogeskole|hogskole|civilingenjor|hogskoleingenjor|sivilingenior|universitet|university|universidad|universite|universitat|enginyeria|formacion|formation|opleiding|utbildning|utdanning|bac ?[+] ?[2-8]|bac pro|bts|dut|bep|brevet de technicien|titre professionnel|certificat d aptitude professionnelle|ecole d ingenieurs|diplome d etat|ciclo formativo|ciclos formativos|grado superior|grado medio|formacion profesional|fp ?(?:i|ii|1|2)|tecnico superior en|cicle formatiu|cicles formatius|grau superior|grau mitja|formacio professional|ausbildung|berufsausbildung|studienabschluss|hochschulabschluss|fachhochschulabschluss|meisterbrief|meisterprufung|staatlich gepruft|mbo|laurea|laureato|laureata|diploma di perito|perito industriale|istituto tecnico|mestrado|bacharelado|curso tecnico|ensino superior|wykształcenie|wyksztalcenie|vzdelani|vysokoskolske|examen|uddannelse|utdannelse|tutkinto|vegzettseg|studii superioare|studii medii|licenta|absolvent|absolventen|absolventin|titulacio|grau en|titulat|titulada|tecnic superior en|tecnica superior en|tecnic de grau|cfgs|cfgm|fp (?:en|de|del|d)",
+  "words": "degree|bachelier|bacheliere|graduaat|industrieel ingenieur|burgerlijk ingenieur|ingenieur industriel|[a-z]*ingenjorsexamen|ingenioruddannelse|diplomingenior|fagbrev|svendebrev|yrkesbevis|insinoori \\(?(?:amk|yamk)|diplomi.?insinoori|(?:nfq )?level [5-9](?: nfq)? (?:qualification|award|certificate)|third level (?:qualification|education)|bachelor|master|msc|bsc|beng|meng|phd|hnc|hnd|nvq|city and guilds|diploma|licenciatura|licenciado|licenciada|llicenciatura|llicenciat|llicenciada|grado en|graduado|graduada|ingenieria|ingenier[oa](?: ?[/(] ?[oa]\\)?)? tecnic[oa](?: ?[/(] ?[oa]\\)?)?|titulacion|titulado|titulada|licence|diplome|ecole d.?ingenieurs?|diplome d.?ingenieur|titre d.?ingenieur|abschluss|studium|[a-z]+studium|ingenieurstudium|studiengang|diplom|hbo|wo|universitair|hogeskole|hogskole|civilingenjor|ingenjorsutbildning|hogskoleingenjor|sivilingenior|ingeniorutdanning|hogskoleingenior|universitet|university|universidad|universite|universitat|enginyeria|enginyera?(?: ?[/(] ?a\\)?)? tecnica?(?: ?[/(] ?a\\)?)?|formacion|formation|opleiding|ingenieursopleiding|utbildning|gymnasieutbildning|yrkesutbildning|hogskoleutbildning|universitetsutbildning|utdanning|bac ?[+] ?[2-8]|bac pro|bts|dut|bep|brevet de technicien|titre professionnel|certificat d.?aptitude professionnelle|diplome d.?etat|ciclo formativo|ciclos formativos|grado superior|grado medio|formacion profesional|fp ?(?:i|ii|1|2)|tecnico superior en|cicle formatiu|cicles formatius|grau superior|grau mitja|formacio professional|ausbildung|berufsausbildung|studienabschluss|hochschulabschluss|fachhochschulabschluss|meisterbrief|meisterprufung|staatlich gepruft|mbo|laurea|laureato|laureata|diploma di perito|perito industriale|istituto tecnico|mestrado|bacharelado|curso tecnico|ensino superior|wykształcenie|wyksztalcenie|wyksztalceni[aeu]m?|vzdelani|vysokoskolske|examen|uddannelse|uddannet|utdannelse|[a-z]*tutkin[nt]o[a-z]*|vegzettseg[a-z]*|studii superioare|studii medii|licenta|absolvent|absolventen|absolventin|titulacio|grau en|titulat|titulada|tecnic superior en|tecnica superior en|tecnic de grau|cfgs|cfgm|qualifica professionale|studia (?:wyzsze|inzynierskie|magisterskie|techniczne)|efz|eba|cfc|afp|lehre|berufslehre|lehrabschluss|lehrabschlussprufung|berufliche grundbildung|fachausweis|eidg\\.? ?dipl(?:om)?|berufsprufung|hohere fachprufung|hohere fachschule|[a-z]*(?:techniker|informatiker|elektroniker|automatiker|wirtschafter)(?:in|/in)? hf|fh|eth|hes|htl|dipl\\.?[ -]?(?:ing|techniker[a-z]*)|fp (?:en|de|del|d)|vzdelanie|vss|zavrsen fakultet|magistar|magistra|prvostupnik|prvostupnica|mag\\.? ?ing|srednj[ae] (?:[a-z]+ )?skol[ae]|zavrseni fakultet|fakultetsko obrazovanje|visoka strucna sprema|strucni studij|sveucilisni studij|preddiplomski|diplomski studij|facultate|inginerie[i]?|dyplom|engenharia|formacao|[a-z]+examen|vocational (?:training|qualification|diploma)|vyucni list|vyucny list|vyucen[a-z]*|sss|szakkepesites|curso profissional|calificare|bachelorgrad|mastergrad|kandidatgrad|kandidatuddannelse|kandidatexamen|masterexamen|magisterexamen|diplom[ou]m?|diplomaval|diplomaja",
   "degrees": [
     {
       "id": "mechanical",
@@ -24,7 +24,7 @@
       "de": "Maschinenbau",
       "it": "Meccanica",
       "pl": "Mechanika",
-      "stems": "mechanical|mecanic|mecanique|maschinenbau|werktuigbouw|maskinteknik|maskiningenj|meccanic|mechanik|mechanicz|mekanik|(?!verfahrens)[a-z]*mechaniker|[a-z]*schlosser|zerspan|metallbau|(?:dut|but) gmp|bts (?:cpi|crci|ctm)"
+      "stems": "mechanical|mecanic|gepesz|strojar|electromecani|electromechani|elektromechani|werktuigkund|automocio|fahrzeugtechnik|mecanique|soldadura|caldereria|construcciones metalicas|construccions metal|fabricacion mecanica|fabricacio mecanica|chaudronn|maschinenbau|werktuigbouw|maskinteknik|maskiningenj|maskiningenior|strojiren|maskin(?:teknikk|fag|mester)?(?![a-z])|[a-z]*mekaniker|konetekni|kone[- ]+ja tuotantotekni|konemie|koneasentaj|meccanic|mechanik|mechanicz|strojn|mekanik|(?!verfahrens)[a-z]*mechaniker|[a-z]*schlosser|zerspan|metallbau|(?:dut|but) gmp|bts (?:cpi|crci|ctm)"
     },
     {
       "id": "electrical",
@@ -36,7 +36,7 @@
       "de": "Elektrotechnik",
       "it": "Elettrica",
       "pl": "Elektrotechnika",
-      "stems": "electrical|electricidad|electricitat|electrica|electrico|electrique|electrotech|elektrotechnik|elektrotechniek|elektroteknik|elkraft|elektro|electricite|elettric|elettrotecnic|elektry|elektrisk|[a-z]*elektriker|elektroinstallat|(?:bts|dut|but) (?:geii|ge2i)|geii"
+      "stems": "electrical|electricidad|villamos|(?:profil|inginer[a-z]*|specializar[a-z]*|domeniul) electric(?![a-z])|electromecani|electromechani|electriques|electrics|eletrotecni|eletric|electricitat|electrica|electrico|electrique|electrotech|electrotecn|elektrotechnik|elektrotechniek|elektroteknik|elkraft|staerkstrom|sterkstrom|sahkotekni|elektro(?!ni)|elektroniker|electricite|electricien|elettric|elettrotecnic|elektry|elektrisk|[a-z]*elektriker|elektroinstallat|elektricit|(?:bts|dut|but) (?:geii|ge2i)|geii|bts elt(?![a-z])|sahkoala|villanyszerel|electrician|elteknik|elektrikar"
     },
     {
       "id": "electronics-telecom",
@@ -48,7 +48,7 @@
       "de": "Elektronik",
       "it": "Elettronica",
       "pl": "Elektronika",
-      "stems": "electronic|electronica|telecom|nachrichtentechnik|elektronik|elettronic|electroniq|elektroni|bts (?:sn|systemes numeriques)|systemes numeriques"
+      "stems": "electronic|electronica|eletronic|telecom|nachrichtentechnik|telematic|elektronik|elettronic|electroniq|elektroni|bts (?:sn|systemes numeriques)|systemes numeriques"
     },
     {
       "id": "civil",
@@ -60,7 +60,7 @@
       "de": "Bauingenieurwesen",
       "it": "Civile",
       "pl": "Budownictwo",
-      "stems": "civil(?!ingenj)|caminos|genie civil|bauingenieur|bauwesen|civiele techniek|byggteknik|byggingenj|edificacion|obras publicas|budownictw|stavebn|travaux publics|bts (?:tp|batiment|bat)"
+      "stems": "civil(?!ingenj)|caminos|genie civil|bauingenieur|bauwesen|civiele techniek|bouwkund|byggteknik|byggingenj|bygg(?:teknikk|fag)?(?![a-z])|rakennustekni|edificacio|obras publicas|obres publiques|camins|budownictw|stavebn|travaux publics|bts (?:tp|batiment|bat)|samhallsbyggnad|bygningsingenior|byggingenior|budowlan|epitomernok|gradevinarstv"
     },
     {
       "id": "industrial",
@@ -72,7 +72,7 @@
       "de": "Wirtschaftsingenieurwesen",
       "it": "Industriale",
       "pl": "Inżynieria produkcji",
-      "stems": "industrial|organizacion industrial|wirtschaftsingenieur|industriel|industriell ekonomi|produktionstechnik|przemysl|prumysl"
+      "stems": "(?<!(?:electronica|mecatronica) )industrial|organizacion industrial|wirtschaftsingenieur|(?<!ingenieur )industriel|industriell ekonomi|produktionstechnik|produktionsteknik|przemysl|prumysl|ingegneria gestionale|bts (?:ms|mi|ati)(?![a-z])|maintenance des systemes|(?:dut|but) (?:gim|qlio)|produktionsingenior|tuotantotalou|inzynieria produkcji|priemyseln|ipari mernok|industrijsk"
     },
     {
       "id": "chemical",
@@ -84,7 +84,7 @@
       "de": "Chemieingenieurwesen",
       "it": "Chimica",
       "pl": "Inżynieria chemiczna",
-      "stems": "chemical|chemistry|quimic|chimie|chimique|chemie|verfahrenstechnik|kemi|kjemi|chimic|chemiczn|process engineering"
+      "stems": "chemical|chemistry|quimic|chimie|chimique|chemie|verfahrenstechnik|kemi|kjemi|chimic|chemiczn|process engineering|chimiste|chemisch|chemick|vegyeszmernok"
     },
     {
       "id": "aerospace",
@@ -96,7 +96,7 @@
       "de": "Luft- und Raumfahrt",
       "it": "Aerospaziale",
       "pl": "Lotnictwo i kosmonautyka",
-      "stems": "aerospace|aeronautic|aerospatial|aeronautique|luftfahrt|raumfahrt|ruimtevaart|flygteknik|romfart"
+      "stems": "aerospace|aeroespacial|aerospazial|aeronautic|aerospatial|aeronautique|luftfahrt|raumfahrt|ruimtevaart|flygteknik|romfart|luchtvaart|flyingenior|flyteknikk|lentokone|lotnict|letect|repulomernok|zrakoplov"
     },
     {
       "id": "naval",
@@ -108,7 +108,7 @@
       "de": "Schiffbau / Meerestechnik",
       "it": "Navale",
       "pl": "Okrętownictwo",
-      "stems": "naval|marine engineering|shipbuilding|schiffbau|scheepsbouw|skeppsbygg|skipsteknikk|nautic"
+      "stems": "naval|marine engineering|shipbuilding|schiffbau|scheepsbouw|skeppsbygg|skipsteknikk|nautic|skibsingenior|marin teknikk|laivanrakenn|budowy okret|stavba lodi|hajoepit|brodogradn"
     },
     {
       "id": "mining-metallurgy",
@@ -120,7 +120,7 @@
       "de": "Bergbau / Metallurgie",
       "it": "Mineraria / metallurgica",
       "pl": "Górnictwo / metalurgia",
-      "stems": "mining|minas|metallurg|bergbau|mijnbouw|gruvteknik|bergteknikk"
+      "stems": "mining|minas|mines(?![a-z])|mineri|minerari|minier|gornictw|hornictv|banyamern|rudarstv|kaivos|metallurg|bergbau|mijnbouw|gruvteknik|bergteknikk"
     },
     {
       "id": "materials",
@@ -132,7 +132,7 @@
       "de": "Werkstofftechnik",
       "it": "Materiali",
       "pl": "Inżynieria materiałowa",
-      "stems": "materials|materiales|materiaux|werkstoff|materiaal|materialteknik"
+      "stems": "materials|materiales|materiaux|werkstoff|materiaal|materialteknik|materiali|materiais|materialeingenior|materialteknolog|materialow|materialov|anyagmernok|materialelor|materijal"
     },
     {
       "id": "environmental",
@@ -144,7 +144,7 @@
       "de": "Umwelttechnik",
       "it": "Ambientale",
       "pl": "Inżynieria środowiska",
-      "stems": "environmental|ambiental|environnement|umwelt|milieu|miljo"
+      "stems": "environmental|ambiental|engenharia do ambiente|environnement|umwelt|milieu|miljo|ymparisto|srodowisk|zivotni prostredi|zivotne prostredie|kornyezetmernok|ingineria mediului|okolis"
     },
     {
       "id": "energy",
@@ -156,7 +156,7 @@
       "de": "Energietechnik",
       "it": "Energetica",
       "pl": "Energetyka",
-      "stems": "energy|energetic|energie|energi|fluides energies|bts fed"
+      "stems": "energy|energetic|energie|energi|fluides energies|bts fed|energetik|energetyk|energetiq"
     },
     {
       "id": "automation-mechatronics",
@@ -168,7 +168,7 @@
       "de": "Automatisierung / Mechatronik",
       "it": "Automazione / meccatronica",
       "pl": "Automatyka / mechatronika",
-      "stems": "automation|automatiz|automatitz|mechatronic|mecatronic|regelungstechnik|automatisering|automatique|mecatroniq|mechatroni|automatyk|automazione|automatik|automatisier|[a-z]*automatisierung|[a-z]*mechatroni|crsa|cira"
+      "stems": "automation|automatiz|automatitz|automatica|mechatronic|mecatronic|meccatronic|robotic|robotiq|robotik|regelungstechnik|automatisering|automatique|automaticien|mecatroniq|mechatroni|automatyk|automazione|automatik|automatisier|automaatiotekni|[a-z]*automatisierung|[a-z]*mechatroni|crsa|cira|mekatronik|mehatronik"
     },
     {
       "id": "computer-science",
@@ -180,7 +180,7 @@
       "de": "Informatik",
       "it": "Informatica",
       "pl": "Informatyka",
-      "stems": "computer science|informatic|informatique|informatik|software|datateknik|datavetenskap|informatyk|data science|fachinformatik|bts sio|(?:dut|but) info"
+      "stems": "computer science|informatic|informatique|informatik|[a-z]+informati(?:k|ca)|software|desarrollo de aplicaciones|desenvolupament d.?aplicacions|(?:cfgs|ciclo|fp) (?:en |de )?(?:dam|daw|asir)|ciencia de datos|ciencias de datos|ciencia de dades|datateknik|datavetenskap|tietotekni|tietojenkasittely|informatyk|data science|fachinformatik|bts sio|(?:dut|but) info|datalog|informatyczn|racunarstv"
     },
     {
       "id": "physics-maths",
@@ -192,7 +192,7 @@
       "de": "Physik / Mathematik",
       "it": "Fisica / matematica",
       "pl": "Fizyka / matematyka",
-      "stems": "physics|fisica|physique|physik|fysik|fysikk|mathematic|matematic|mathematik|wiskunde|matematyk|fizyk|mathematiq"
+      "stems": "physics|fisica|physique|physik|fysik|fysikk|mathematic|matematic|mathematik|wiskunde|matematyk|fizyk|mathematiq|natuurkunde|fysiik|fyzik|fizik(?!ai)|matematik|matematiik"
     },
     {
       "id": "architecture",
@@ -204,7 +204,7 @@
       "de": "Architektur",
       "it": "Architettura",
       "pl": "Architektura",
-      "stems": "(?<!naval )architect|arquitect(?:o|a|ura)?(?! naval)|architektur|arkitekt"
+      "stems": "(?<!naval )architect|arquitect(?:o|a|ura)?(?! naval)|architektur|arkitekt|architett|arquitetur|arkkiteh|architekton|epitesz|arhitect|arhitekt"
     },
     {
       "id": "geomatics",
@@ -216,7 +216,7 @@
       "de": "Vermessungswesen",
       "it": "Topografia",
       "pl": "Geodezja",
-      "stems": "geomatic|topograf|geodes|geodas|vermessung|surveying|lantmat|landmal|cartograf"
+      "stems": "geomatic|topograf|geodes|geodas|vermessung|surveying|lantmat|landmal|cartograf|topograph|geometre|engenharia geografica|landinspektor|geomatik|maanmittau|geodez|foldmero"
     },
     {
       "id": "business",
@@ -228,7 +228,7 @@
       "de": "Betriebswirtschaft",
       "it": "Economia",
       "pl": "Ekonomia i zarządzanie",
-      "stems": "business|administracion de empresas|betriebswirtschaft|economics|econom|bedrijfskunde|ekonomi"
+      "stems": "business|administracion de empresas|direccion de empresas|ade(?![a-z])|direccio d.?empreses|administracio d.?empreses|betriebswirtschaft|wirtschaftswissenschaft|economics|econom|bedrijfskunde|ekonomi|bwl|accounting|financ|comptab|contabil|rechnungswesen|boekhoud|ecole de commerce|gestao de empresas|foretagsekonomi|cand\\.? ?merc|okonomi|kauppatiet|kozgazdas|ekonomsk"
     },
     {
       "id": "engineering-any",
@@ -240,7 +240,7 @@
       "de": "Beliebiges Ingenieurstudium",
       "it": "Qualsiasi ingegneria",
       "pl": "Dowolny kierunek inżynierski",
-      "stems": "engineering|ingenier|ingenieur|enginyer|ingenjor|ingenior|technische universit|technik|inzynier|ingegner"
+      "stems": "engineering|ingenier|mernok|inginer|ingenieur|enginyer|ingenjor|ingenior|technische universit|technik|engenhar|engenheir|insinoor|technick[a-z]* (?:smer|zamer)|tehnick[a-z]* smjer|superioare tehnice|inzynier|ingegner"
     }
   ]
 }

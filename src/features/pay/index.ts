@@ -2,10 +2,14 @@
 import type { Rates } from "../../shared/rates/ecb.js";
 import { type AdvertPay, advertPay, type PayInput } from "./advert-pay.js";
 
-export { AdvertPay, type PayInput } from "./advert-pay.js";
-export type { PayPeriod } from "./periods.js";
+export {
+  AdvertPay,
+  PAY_PERIODS,
+  type PayInput,
+  type PayPeriod,
+} from "./advert-pay.js";
 // The pay a text writes, for the scrapper's readers of a page's labelled fields (job portals T003).
-export { payOfText } from "./text/pay-of-text.js";
+export { payOfText } from "./text-pay.js";
 
 export interface PaySources {
   // The ECB's rates the crawl kept (`readKeptRates`), units for one euro.

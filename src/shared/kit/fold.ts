@@ -26,8 +26,8 @@ const LATIN: Readonly<Record<string, string>> = {
 
 // Folded, with those letters spelt out too, everything else as it was. As the legacy web's
 // name-key.ts takes accents off: every combining mark (\p{M}), not only Argus's range.
-export const foldLetters = (text: string): string =>
-  text
+export const foldLetters = (text: unknown): string =>
+  String(text || "")
     .normalize("NFD")
     .replace(/\p{M}/gu, "")
     .toLowerCase()

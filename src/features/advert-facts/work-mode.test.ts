@@ -2,7 +2,8 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { FIXTURES_DIRECTORY } from "../../../test/contract/adapter-contract.js";
-import { labelledMode, placeMode, workModeOf } from "./work-mode.js";
+import { workModeOfAdvert as workModeOf } from "./codes.js";
+import { labelledMode, placeMode } from "./work-mode.js";
 
 const advert = (fields: {
   title?: string;

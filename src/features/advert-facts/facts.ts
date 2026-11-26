@@ -1,14 +1,13 @@
 import { z } from "@hono/zod-openapi";
 import type { StoredAdvert } from "../../shared/schemas/advert.js";
 import { titleCalmer } from "../../shared/kit/calm-titles.js";
-import { contractOf } from "./contract.js";
+import { statedContract, workModeOfAdvert } from "./codes.js";
 import {
   compileScreens,
   requiredDegrees,
   requiredLanguages,
-  type ScreenCatalogues,
+  type Catalogues,
 } from "./screens.js";
-import { workModeOf } from "./work-mode.js";
 import { yearsRange } from "./years.js";
 
 export const AdvertFacts = z.strictObject({
@@ -46,7 +45,7 @@ export const AdvertFacts = z.strictObject({
 });
 export type AdvertFacts = z.infer<typeof AdvertFacts>;
 
-export interface FactSources extends ScreenCatalogues {
+export interface FactSources extends Catalogues {
   // Every title of the build: how they write each word says how a title in capitals is written.
   readonly titles: Iterable<string>;
   // The sources whose terms forbid altering their content (config/untranslated.yml).
@@ -83,8 +82,8 @@ export function createFactReader(sources: FactSources) {
   return {
     facts(advert: FactInput): AdvertFacts {
       return {
-        workMode: workModeOf(advert),
-        ...contractOf(advert),
+        workMode: workModeOfAdvert(advert),
+        ...statedContract(advert),
         years: yearsOf(advert),
         degrees: requiredDegrees(advert.description, screens),
         languages: requiredLanguages(advert.description, screens),

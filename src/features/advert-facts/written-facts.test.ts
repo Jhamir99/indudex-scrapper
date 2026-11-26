@@ -1,12 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { contractKind, workingTime } from "./contract.js";
-import {
-  agencyWorkCode,
-  contractAndTime,
-  contractInTitle,
-  inSentences,
-  writtenFacts,
-} from "./written-facts.js";
+import { contractInTitle, inSentences, writtenFacts } from "./labels.js";
+import { agencyWorkCode, contractAndTime } from "./written-facts.js";
 
 // The legacy's examples (test/labels.test.mjs, test/builder.test.mjs).
 const lines = (...parts: string[]) => parts.join("\n");

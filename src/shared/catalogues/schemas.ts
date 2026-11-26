@@ -140,9 +140,6 @@ const Language = z
 
 export const Languages = catalogueFile({
   languages: positional(Language, (language) => language.code),
-  // Words that make a language asked for, and words that make it only welcome.
-  required: Words,
-  softened: Words,
 }).openapi("Languages");
 export type Languages = z.output<typeof Languages>;
 
