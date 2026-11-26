@@ -207,6 +207,7 @@ portals:
     match: /vacature/
   - name: careerplus
     host: www.careerplus.ch
+    off: "its sitemap answers our crawler 406 (live pass of 2026-11-26)"
     country: ch
     sitemap: https://www.careerplus.ch/sitemap.xml
     match: /stelle/
@@ -300,6 +301,7 @@ portals:
     match: /jobs/
   - name: Jonathan Lee
     host: www.jonlee.co.uk
+    off: "its sitemap did not answer in time, twice at different hours (live pass of 2026-11-26)"
     country: gb
     sitemap: https://www.jonlee.co.uk/job_listing-sitemap.xml
     match: /job/\d+
@@ -376,6 +378,7 @@ portals:
     match: "/vacatures/[^/]+/a0w[A-Za-z0-9]+$"
   - name: "What's On"
     host: whats-on.nl
+    off: "its sitemap names no vacancy (live pass of 2026-11-26)"
     country: nl
     sitemap: https://whats-on.nl/sitemap_index.xml
     children: wo_vacancy-sitemap
@@ -455,16 +458,19 @@ portals:
   # reading; its vacancies name Germany, Austria and Switzerland, so no country is set.
   - name: Stellen im öffentlichen Dienst
     host: stellen-im-oeffentlichen-dienst.de
+    off: "its vacancy pages are drawn by JavaScript and carry no JobPosting block (live pass of 2026-11-26)"
     country: de
     sitemap: https://stellen-im-oeffentlichen-dienst.de/sitemap-job-postings.xml
     match: /job-postings/.+
   - name: Karriere Innovationsregion
     host: karriere-innovationsregion.de
+    off: "its vacancy pages are drawn by JavaScript and carry no JobPosting block (live pass of 2026-11-26)"
     country: de
     sitemap: https://karriere-innovationsregion.de/sitemap-job-postings.xml
     match: /job-postings/.+
   - name: Stellen im Gesundheitswesen
     host: stellen-im-gesundheitswesen.de
+    off: "its vacancy pages are drawn by JavaScript and carry no JobPosting block (live pass of 2026-11-26)"
     country: de
     sitemap: https://stellen-im-gesundheitswesen.de/sitemap-job-postings.xml
     match: /job-postings/.+
@@ -508,6 +514,7 @@ portals:
     match: /job/[0-9]+-
   - name: der-stellenmarkt.de
     host: www.der-stellenmarkt.de
+    off: "its sitemap answers our crawler 403 (live pass of 2026-11-26)"
     country: de
     sitemap: https://www.der-stellenmarkt.de/sitemap/sitemap_jcd.xml
     match: /stellenangebot/
@@ -524,6 +531,7 @@ portals:
     match: /fuer-bewerber/stellenangebot/
   - name: activenow
     host: activenow-jobs.de
+    off: "its sitemap names no vacancy (live pass of 2026-11-26)"
     country: de
     sitemap: https://activenow-jobs.de/sitemaps/activenow-jobs/sitemap.xml
     match: /fuer-bewerber/stellenangebot/
@@ -1000,6 +1008,7 @@ portals:
     match: /job-details/
   - name: Thornbaker
     host: www.thornbaker.co.uk
+    off: "a bot wall: its vacancy pages answer our crawler 202 with an empty page (live pass of 2026-11-26)"
     sitemap: https://www.thornbaker.co.uk/sitemap.xml
     children: sitemap
     match: /job/
@@ -1014,6 +1023,7 @@ portals:
     readAll: true
   - name: Vanrath
     host: www.vanrath.com
+    off: "a bot wall: its vacancy pages answer our crawler 202 with an empty page (live pass of 2026-11-26)"
     sitemap: https://www.vanrath.com/sitemap.xml
     children: sitemap
     match: /job/
@@ -1036,6 +1046,7 @@ portals:
     sitemap: https://www.masonalexander.ie/sitemap.xml
   - name: Matrixrecruitment
     host: www.matrixrecruitment.ie
+    off: "a bot wall: its vacancy pages answer our crawler 202 with an empty page (live pass of 2026-11-26)"
     sitemap: https://www.matrixrecruitment.ie/sitemap.xml
     children: sitemap
     match: /job/
@@ -1197,6 +1208,7 @@ portals:
     match: /vacatures/
   - name: Tecson
     host: www.tecson.nl
+    off: "its sitemap names no vacancy (live pass of 2026-11-26)"
     country: nl
     sitemap: https://www.tecson.nl/sitemap.xml
     match: /vacature/
@@ -1653,6 +1665,7 @@ portals:
     match: /jobs/
   - name: Cocuma
     host: www.cocuma.cz
+    off: "its vacancy pages carry no JobPosting block (live pass of 2026-11-26)"
     country: cz
     sitemap: "https://www.cocuma.cz/sitemap-jobs.xml"
     match: /job/
@@ -2560,6 +2573,7 @@ portals:
     layout: true
   - name: "werkenvoorcultuur.nl"
     host: werkenvoorcultuur.nl
+    off: "its vacancy pages carry no JobPosting block (live pass of 2026-11-26)"
     country: nl
     sitemap: "https://werkenvoorcultuur.nl/sitemap_index.xml"
     children: vacancy-sitemap
@@ -3441,6 +3455,7 @@ portals:
   # advert names the network, not the dealer, as its employer: the town goes after it.
   - name: Recrutement Réseau Renault
     host: www.recrutement-reseau.renault.fr
+    off: "its sitemap answers 502, twice at different hours (live pass of 2026-11-26)"
     agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: fr
     sitemap: https://www.recrutement-reseau.renault.fr/sitemap.xml
@@ -4299,6 +4314,7 @@ portals:
   # October, every one ending 16 December 2026: those posted over a year ago are left out.
   - name: devjobs.at
     host: devjobs.at
+    off: "its sitemap answers our crawler 403 (live pass of 2026-11-26)"
     country: at
     sitemap: https://devjobs.at/sitemap.xml
     children: 'sitemap-job\.xml'

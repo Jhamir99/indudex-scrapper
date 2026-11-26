@@ -14,8 +14,8 @@ import { gateCatalogues } from "../gate/catalogues.ts";
 
 const { eq, done } = harness("portal reading");
 const isOurs = createTitleReader(await gateCatalogues());
-const loadPortals = ({ all = false } = {}) =>
-  readPortalList().filter((p) => all || !p.off);
+// Every entry, as the legacy's list had them on: some were switched off by our live pass (devjobs.at, 2026-11-26).
+const loadPortals = () => readPortalList();
 const portalPage = (portal, html, url) =>
   page(portal, html, url, readPageFacts);
 const http = {
