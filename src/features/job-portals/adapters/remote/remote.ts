@@ -2,8 +2,9 @@ import { publicFeed } from "../../../crawl-core/feed-family.js";
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import {
   countryNames,
-  countryOfPlace,
   type CountryNames,
+  NOT_STATED,
+  placeCountry,
 } from "../../../../shared/catalogues/country-names.js";
 import { decodeEntities } from "../../../../shared/kit/entities.js";
 import { pageText } from "../../../../shared/kit/text.js";
@@ -14,10 +15,9 @@ import { pageText } from "../../../../shared/kit/text.js";
 // applicant-tracking systems, mostly Germany; "a link back to Arbeitnow.com"). None carries occupation codes: the title
 // decides.
 //
-// The store needs a country where the legacy left it to its processor: a board's place is read as a country's name, or
-// (Arbeitnow) as a big town the countries catalogue lists, Germany otherwise; an advert whose place is a region ("Europe",
-// "EMEA", "Worldwide") is left out and counted, where the legacy filed it under "Remote" (a departure until the processor
-// has such a place; features/015-job-portals/tasks.md, T008).
+// The store needs a country where the legacy left it to its processor: a board's place is read as the legacy read it
+// (`placeCountry`): a country's name or a big town, else a remote job in Europe (xx) for «Europe», «EMEA» or remote, else
+// a country not stated (zz); Arbeitnow's unread places are in Germany.
 
 const DAY_MS = 86_400_000;
 const dayOf = (value: string | number | undefined): string | undefined => {
@@ -84,11 +84,9 @@ export function parseJobicy(
   let unplaced = 0;
   for (const job of (answer as { jobs?: Jobicy[] } | null)?.jobs ?? []) {
     const location = job.jobGeo ?? "";
-    const country = countryOfPlace(location, names);
-    if (!country) {
-      unplaced++;
-      continue;
-    }
+    // A board of remote jobs: a region («Europe», «EMEA») is a remote job in Europe (xx), as the legacy read it.
+    const country = placeCountry(location, names);
+    if (country === NOT_STATED) unplaced++;
     const posted = dayOf(job.pubDate);
     drafts.push(
       remoteDraft("jobicy", {
@@ -116,11 +114,9 @@ export function parseRemotive(
   let unplaced = 0;
   for (const job of (answer as { jobs?: Remotive[] } | null)?.jobs ?? []) {
     const location = job.candidate_required_location ?? "";
-    const country = countryOfPlace(location, names);
-    if (!country) {
-      unplaced++;
-      continue;
-    }
+    // A board of remote jobs: a region («Europe», «EMEA») is a remote job in Europe (xx), as the legacy read it.
+    const country = placeCountry(location, names);
+    if (country === NOT_STATED) unplaced++;
     const posted = dayOf(job.publication_date);
     drafts.push(
       remoteDraft("remotive", {
@@ -153,7 +149,10 @@ export function parseArbeitnow(
       title: (job.title ?? "").trim(),
       company: (job.company_name ?? "").trim(),
       location,
-      country: countryOfPlace(location, names, true) ?? "de",
+      // Arbeitnow is a German board: a place we cannot read is in Germany, a remote one is remote.
+      country: ((code) => (code === NOT_STATED ? "de" : code))(
+        placeCountry(location, names),
+      ),
       remote: Boolean(job.remote),
       url: job.url ?? "",
       description: pageText(decodeEntities(job.description ?? "")),
@@ -189,7 +188,7 @@ export const jobicy = publicFeed({
       ),
       await countryNames(),
     );
-    if (unplaced) context.log(`left out: ${unplaced} placed in no country`);
+    if (unplaced) context.log(`${unplaced} with no country stated`);
     yield* drafts;
   },
 });
@@ -218,7 +217,7 @@ export const remotive = publicFeed({
       await json(context, "https://remotive.com/api/remote-jobs"),
       await countryNames(),
     );
-    if (unplaced) context.log(`left out: ${unplaced} placed in no country`);
+    if (unplaced) context.log(`${unplaced} with no country stated`);
     // Remotive never says when an advert closes: one older than 45 days is taken as closed (the legacy's FUE-17).
     const oldest = daysBefore(context.today, 45);
     yield* drafts.filter((draft) => (draft.posted ?? "") >= oldest);

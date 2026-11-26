@@ -7,8 +7,8 @@ import type {
 import { withPageFacts } from "../crawl-core/page-facts.js";
 import {
   countryNames,
-  countryOfPlace,
   type CountryNames,
+  placeCountry,
 } from "../../shared/catalogues/country-names.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
 import { addressWords } from "../../shared/kit/address-words.js";
@@ -211,13 +211,13 @@ export function toDraft(
   const town = portal.townInEmployer
     ? (location.split(",")[0]?.trim() ?? "")
     : "";
-  // A block that writes its country by name («City of London, London, UK»): read through the countries catalogue, where
-  // the legacy left the country empty for its processor (the store needs one).
+  // A block that writes its country by name («City of London, London, UK»), or none: the place is read as the legacy's
+  // processor read places, with `placeCountry` (a name or a big town, else remote xx, else not stated zz), since the
+  // store needs a country.
   const country =
     job.country ||
     countryOf(portal, url) ||
-    (names ? countryOfPlace(location, names, true) : undefined) ||
-    "";
+    (names ? placeCountry(location, names) : "");
   if (!/^[a-z]{2}$/.test(country)) return undefined;
   const posted = job.posted || listedDay || undefined;
   return {

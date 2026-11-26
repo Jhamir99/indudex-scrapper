@@ -300,8 +300,17 @@ describe("a portal's advert (the legacy's portalRaw cases)", () => {
         "https://www.burnssheehan.co.uk/job/engineer",
         "",
         names,
-      ),
-    ).toBeUndefined();
+      )?.country,
+    ).toBe("zz");
+    expect(
+      toDraft(
+        { title: "Engineer", location: "Remote - Europe" },
+        agency,
+        "https://www.burnssheehan.co.uk/job/engineer-2",
+        "",
+        names,
+      )?.country,
+    ).toBe("xx");
   });
 
   it("cuts the town a portal ends its titles with, and only that portal's", () => {

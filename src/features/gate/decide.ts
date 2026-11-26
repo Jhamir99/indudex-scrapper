@@ -54,7 +54,12 @@ export function decider(
     const why = hygieneReason(advert);
     if (why) return { kept: false, reason: `${HYGIENE}: ${why}` };
     if (saysClosed(advert)) return { kept: false, reason: CLOSED };
-    if (!europe.has(advert.country))
+    // A remote job (xx) or a country not stated (zz) is not outside Europe (the legacy's builder/work-out.ts).
+    if (
+      advert.country !== "xx" &&
+      advert.country !== "zz" &&
+      !europe.has(advert.country)
+    )
       return { kept: false, reason: OUTSIDE_EUROPE };
     return { kept: true, families, occupations, trade };
   };

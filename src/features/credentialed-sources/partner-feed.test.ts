@@ -109,7 +109,7 @@ describe("the partner programmes' feeds (credentialed sources FR-5)", () => {
     ]);
   });
 
-  it("read a country written as a name, and leave out a job with no country read or no https address", async () => {
+  it("read a country written as a name, keep a job with none as not stated (zz), and leave out one with no https address", async () => {
     const { drafts, logged } = await read(
       jobtome,
       "JOBTOME_FEED_URL",
@@ -117,9 +117,12 @@ describe("the partner programmes' feeds (credentialed sources FR-5)", () => {
     );
     expect(
       drafts.map((draft) => [draft.sourceId, draft.country, draft.language]),
-    ).toEqual([["jt-7", "es", "es"]]);
+    ).toEqual([
+      ["jt-7", "es", "es"],
+      ["jt-9", "zz", "en"],
+    ]);
     expect(logged).toContain(
-      "left out: 1 with no country read, 1 with no https address",
+      "1 with no country stated, 1 left out with no https address",
     );
   });
 

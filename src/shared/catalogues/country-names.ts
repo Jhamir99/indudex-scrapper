@@ -60,3 +60,30 @@ export function countryOfPlace(
   return undefined;
 }
 
+
+// The legacy's places for a job in no one country (builder/normalise.ts, its gate's leave in builder/work-out.ts):
+// "xx", a remote job (the place says remote, or Europe as a whole: «Europe», «EU», and «EMEA», the operator's call of
+// 2026-11-26); "zz", a country not stated (the place says Europe but the job is on site or hybrid, or it says nothing
+// we can read). Both pass the gate, which leaves out only a country it knows outside Europe.
+export const REMOTE = "xx";
+export const NOT_STATED = "zz";
+const EUROPE_WIDE =
+  /^(?:europe|european union|eu|europa|pan european|europe wide|emea)$/;
+const REMOTE_WORDS =
+  /(?:^|[^a-z])remote(?![a-z])|home ?office|teletrabajo|teletravail|homeoffice|thuiswerk|distans/;
+
+// The country of a written place: a country's name or a big town of one, else remote or not stated, as the legacy read
+// it. `onsite`: the source says the job is on site or hybrid (then Europe as a whole is no remote job).
+export function placeCountry(
+  place: string,
+  names: CountryNames,
+  onsite = false,
+): string {
+  const named = countryOfPlace(place, names, true);
+  if (named) return named;
+  const folded = fold(place);
+  const words = folded.replace(/[^a-z]+/g, " ").trim();
+  if (EUROPE_WIDE.test(words)) return onsite ? NOT_STATED : REMOTE;
+  if (REMOTE_WORDS.test(folded)) return REMOTE;
+  return NOT_STATED;
+}

@@ -72,6 +72,17 @@ describe("a closed advert (closed adverts FR-3)", () => {
   });
 });
 
+describe("a job in no one country (the legacy's xx and zz)", () => {
+  it("lets a remote job (xx) and a country not stated (zz) through, and keeps one outside Europe out", () => {
+    expect(gate.decide(advert({ country: "xx" })).kept).toBe(true);
+    expect(gate.decide(advert({ country: "zz" })).kept).toBe(true);
+    expect(gate.decide(advert({ country: "us" }))).toEqual({
+      kept: false,
+      reason: "outside Europe",
+    });
+  });
+});
+
 describe("the gate's decision (gate FR-7 to FR-10)", () => {
   it("keeps an advert of the vertical with its families and occupations", () => {
     const decision = gate.decide(advert({}));

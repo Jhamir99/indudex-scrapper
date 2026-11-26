@@ -7,6 +7,8 @@ import type {
 import {
   countryCode,
   countryNames,
+  NOT_STATED,
+  placeCountry,
 } from "../../shared/catalogues/country-names.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
 import { decodeEntities } from "../../shared/kit/entities.js";
@@ -143,15 +145,15 @@ export function partnerFeed(programme: Programme): SourceAdapter {
         { cause: error },
       );
     }
-    const { byName } = await countryNames();
+    const names = await countryNames();
     let unplaced = 0;
     let insecure = 0;
     for (const job of parseJobFeed(xml)) {
-      const country = countryCode(job.country, byName);
-      if (!country) {
-        unplaced++;
-        continue;
-      }
+      // A feed's country as a code or a name, else as the legacy's processor read the place (xx remote, zz not stated).
+      const country =
+        countryCode(job.country, names.byName) ??
+        placeCountry(job.location, names);
+      if (country === NOT_STATED) unplaced++;
       // The store keeps https addresses only.
       if (!job.url.startsWith("https://")) {
         insecure++;
@@ -161,7 +163,7 @@ export function partnerFeed(programme: Programme): SourceAdapter {
     }
     if (unplaced || insecure)
       context.log(
-        `left out: ${unplaced} with no country read, ${insecure} with no https address`,
+        `${unplaced} with no country stated, ${insecure} left out with no https address`,
       );
   }
 

@@ -11,6 +11,7 @@ import {
 import {
   countryNames,
   countryOfPlace,
+  placeCountry,
 } from "../../../../shared/catalogues/country-names.js";
 import {
   arbeitnow,
@@ -83,8 +84,11 @@ describe("the remote boards (job portals FR-6)", () => {
       },
       names,
     );
-    // The legacy kept it with "Europe" as its place, under "Remote"; the store needs a country (tasks.md, T008).
-    expect([drafts, unplaced]).toEqual([[], 1]);
+    // «Europe» is a remote job in Europe (xx), as the legacy read it.
+    expect([
+      drafts.map((draft) => [draft.location, draft.country]),
+      unplaced,
+    ]).toEqual([[["Europe", "xx"]], 0]);
     const [ab] = parseArbeitnow(
       {
         data: [
@@ -122,7 +126,13 @@ describe("the remote boards (job portals FR-6)", () => {
     ]);
   });
 
-  it("read a country's name, a big town where a board writes towns, and leave a region without one", () => {
+  it("read a country's name, a big town where a board writes towns, and a region as remote", () => {
+    expect([
+      placeCountry("EMEA", names),
+      placeCountry("Europe", names, true),
+      placeCountry("Worldwide", names),
+      placeCountry("Remote", names),
+    ]).toEqual(["xx", "zz", "zz", "xx"]);
     expect([
       countryOfPlace("Spain, Portugal", names),
       countryOfPlace("UK", names),
