@@ -1,12 +1,11 @@
 import { publicFeed } from "../../../crawl-core/feed-family.js";
 import type { AdapterContext, AdvertDraft } from "../../../crawl-core/ports.js";
 import {
-  countryCode,
   countryNames,
+  countryOfPlace,
   type CountryNames,
 } from "../../../../shared/catalogues/country-names.js";
 import { decodeEntities } from "../../../../shared/kit/entities.js";
-import { fold } from "../../../../shared/kit/fold.js";
 import { pageText } from "../../../../shared/kit/text.js";
 
 // Three job boards with a public API and written leave to share their adverts (job portals FR-6), the legacy's
@@ -32,23 +31,6 @@ const daysBefore = (today: string, days: number) =>
   new Date(Date.parse(`${today}T00:00:00Z`) - days * DAY_MS)
     .toISOString()
     .slice(0, 10);
-
-// The first part of a place that names a country ("Spain, Portugal": Spain), or a big town of one.
-export function countryOfPlace(
-  place: string,
-  names: CountryNames,
-  townsToo = false,
-): string | undefined {
-  for (const part of place.split(/[,;/|]| - | or | and /)) {
-    const code = countryCode(part, names.byName);
-    if (code) return code;
-    if (townsToo) {
-      const town = names.byCity.get(fold(part.trim()));
-      if (town) return town;
-    }
-  }
-  return undefined;
-}
 
 interface Jobicy {
   readonly id?: number;

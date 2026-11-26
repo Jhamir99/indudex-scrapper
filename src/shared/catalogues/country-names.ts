@@ -10,9 +10,9 @@ export interface CountryNames {
   readonly byCity: ReadonlyMap<string, string>;
 }
 
-let names: Promise<CountryNames> | undefined;
+let loaded: Promise<CountryNames> | undefined;
 export function countryNames(): Promise<CountryNames> {
-  names ??= readCatalogue("countries").then(({ countries }) => ({
+  loaded ??= readCatalogue("countries").then(({ countries }) => ({
     byName: new Map(
       countries.flatMap((country) =>
         [country.name, ...country.aliases].map(
@@ -26,7 +26,7 @@ export function countryNames(): Promise<CountryNames> {
       ),
     ),
   }));
-  return names;
+  return loaded;
 }
 
 // A country's name, or the two letters a source gives: a name first, since a source may write "UK" (the catalogue's
@@ -41,3 +41,22 @@ export function countryCode(
     ? written.trim().toLowerCase()
     : undefined;
 }
+
+// The first part of a place that names a country ("Spain, Portugal": Spain; "City of London, London, UK": gb), or
+// (`townsToo`) a big town of one.
+export function countryOfPlace(
+  place: string,
+  names: CountryNames,
+  townsToo = false,
+): string | undefined {
+  for (const part of place.split(/[,;/|]| - | or | and /)) {
+    const code = countryCode(part, names.byName);
+    if (code) return code;
+    if (townsToo) {
+      const town = names.byCity.get(fold(part.trim()));
+      if (town) return town;
+    }
+  }
+  return undefined;
+}
+

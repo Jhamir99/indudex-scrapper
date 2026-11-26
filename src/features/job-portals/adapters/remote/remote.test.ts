@@ -8,10 +8,12 @@ import {
   fakeContext,
   readDrafts,
 } from "../../../../../test/fakes/source-adapter.js";
-import { countryNames } from "../../../../shared/catalogues/country-names.js";
+import {
+  countryNames,
+  countryOfPlace,
+} from "../../../../shared/catalogues/country-names.js";
 import {
   arbeitnow,
-  countryOfPlace,
   jobicy,
   parseArbeitnow,
   parseJobicy,

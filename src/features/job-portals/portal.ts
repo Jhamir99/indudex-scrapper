@@ -5,6 +5,11 @@ import type {
   HttpRequestOptions,
 } from "../crawl-core/ports.js";
 import { withPageFacts } from "../crawl-core/page-facts.js";
+import {
+  countryNames,
+  countryOfPlace,
+  type CountryNames,
+} from "../../shared/catalogues/country-names.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
 import { addressWords } from "../../shared/kit/address-words.js";
 import { decodeEntities } from "../../shared/kit/entities.js";
@@ -188,6 +193,7 @@ export function toDraft(
   portal: Portal,
   url: string,
   listedDay: string,
+  names?: CountryNames,
 ): AdvertDraft | undefined {
   // Some agencies end every title with a call to apply ("– Jetzt bewerben!"): it goes.
   const title = (job.title ?? "").replace(
@@ -205,7 +211,13 @@ export function toDraft(
   const town = portal.townInEmployer
     ? (location.split(",")[0]?.trim() ?? "")
     : "";
-  const country = job.country || countryOf(portal, url);
+  // A block that writes its country by name («City of London, London, UK»): read through the countries catalogue, where
+  // the legacy left the country empty for its processor (the store needs one).
+  const country =
+    job.country ||
+    countryOf(portal, url) ||
+    (names ? countryOfPlace(location, names, true) : undefined) ||
+    "";
   if (!/^[a-z]{2}$/.test(country)) return undefined;
   const posted = job.posted || listedDay || undefined;
   return {
@@ -362,6 +374,7 @@ export async function* readPortal(
 ): AsyncIterable<AdvertDraft> {
   const parsed = PortalMemory.safeParse(context.memory);
   const memory: PortalMemory = parsed.success ? parsed.data : { pages: {} };
+  const names = await countryNames();
   const pages = memory.pages;
 
   // Search pages (hundreds of them) are walked once a day; the passes between read what that walk listed.
@@ -433,7 +446,7 @@ export async function* readPortal(
     try {
       const html = await textOf(context, url);
       const job = portalPage(portal, html, url, context.pageFacts);
-      const draft = job ? toDraft(job, portal, url, lastmod) : undefined;
+      const draft = job ? toDraft(job, portal, url, lastmod, names) : undefined;
       pages[url] = { lastmod, ...(draft ? {} : { none: true }) };
       if (draft) known.set(url, draft);
       else known.delete(url);

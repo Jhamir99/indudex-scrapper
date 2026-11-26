@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { fakeContext, readDrafts } from "../../../test/fakes/source-adapter.js";
+import { countryNames } from "../../shared/catalogues/country-names.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
 import type {
   AdvertDraft,
@@ -275,6 +276,32 @@ describe("a portal's advert (the legacy's portalRaw cases)", () => {
         "",
       )?.company,
     ).toBe("Brunel");
+  });
+
+  it("reads a country a block writes by name, where the legacy left it to its processor", async () => {
+    const names = await countryNames();
+    const agency: Portal = {
+      name: "Burns Sheehan",
+      host: "www.burnssheehan.co.uk",
+    };
+    expect(
+      toDraft(
+        { title: "Principal Engineer", location: "City of London, London, UK" },
+        agency,
+        "https://www.burnssheehan.co.uk/job/principal-engineer",
+        "",
+        names,
+      )?.country,
+    ).toBe("gb");
+    expect(
+      toDraft(
+        { title: "Engineer", location: "Somewhere" },
+        agency,
+        "https://www.burnssheehan.co.uk/job/engineer",
+        "",
+        names,
+      ),
+    ).toBeUndefined();
   });
 
   it("cuts the town a portal ends its titles with, and only that portal's", () => {
