@@ -10,6 +10,7 @@ describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
       defaultHours: 24,
       unchangedMaxHours: 168,
       backlogHours: 1,
+      byKind: { portal: 6 },
     });
     expect(config.backoff).toEqual({
       hours: [24, 72, 168],
@@ -55,6 +56,10 @@ describe("scheduleRules (FR-6)", () => {
       backlogHours: 1,
     });
     expect(scheduleRules(config, "other").cadenceHours).toBe(24);
+    expect(scheduleRules(config, "free-work.com", "portal").cadenceHours).toBe(
+      6,
+    );
+    expect(scheduleRules(config, "brz", "portal").cadenceHours).toBe(12);
   });
 });
 

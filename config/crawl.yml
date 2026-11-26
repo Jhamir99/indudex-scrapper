@@ -13,6 +13,9 @@ cadence:
   unchangedMaxHours: 168
   # A source that left pages of ours to read (a job portal) is back in the next hourly run.
   backlogHours: 1
+  byKind:
+    # A job portal: four passes a day, and every hour while it has pages of ours left to read.
+    portal: 6
 
 backoff:
   # A failing source waits a day, three, then a week; after 6 failures it is parked for a month.

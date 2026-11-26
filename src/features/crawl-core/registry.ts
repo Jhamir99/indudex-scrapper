@@ -48,6 +48,7 @@ import { jooble } from "../credentialed-sources/adapters/jooble/jooble.js";
 import { nav } from "../credentialed-sources/adapters/nav/nav.js";
 import { talentcom } from "../credentialed-sources/adapters/talentcom/talentcom.js";
 import { whatjobs } from "../credentialed-sources/adapters/whatjobs/whatjobs.js";
+import { portalAdapters } from "../job-portals/index.js";
 import type { SourceAdapter } from "./ports.js";
 
 // Every source the scrapper runs, in no particular order (the runner decides when each runs).
@@ -104,4 +105,6 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   valtiolle,
   vdab,
   whatjobs,
+  // The job portals of config/portals.yml, one source each (job portals FR-2).
+  ...portalAdapters(),
 ];

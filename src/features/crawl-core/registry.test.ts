@@ -1,7 +1,10 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import {
   checkAdapterContract,
+  FIXTURES_DIRECTORY,
   loadFixtureRoutes,
 } from "../../../test/contract/adapter-contract.js";
 import {
@@ -32,7 +35,12 @@ describe("registered adapters (FR-1, FR-2, FR-12)", () => {
     ).toEqual([]);
   });
 
-  for (const adapter of registeredAdapters) {
+  // A job portal without saved answers is covered by the portal family's tests and the live pass (job portals FR-9).
+  for (const adapter of registeredAdapters.filter(
+    (one) =>
+      one.definition.kind !== "portal" ||
+      existsSync(join(FIXTURES_DIRECTORY, one.definition.id)),
+  )) {
     it(`${adapter.definition.id} meets the adapter contract with its fixture`, async () => {
       const routes = await loadFixtureRoutes(adapter.definition.id);
       expect(await checkAdapterContract(adapter, routes)).toEqual([]);

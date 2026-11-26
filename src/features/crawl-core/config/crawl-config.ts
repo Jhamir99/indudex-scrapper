@@ -18,6 +18,8 @@ export const CrawlConfig = z.strictObject({
     unchangedMaxHours: Hours,
     // A source that left pages of ours to read is due again after this (job portals FR-5).
     backlogHours: Hours.default(1),
+    // A kind's own cadence, below a source's and above the default (job portals: a portal every six hours).
+    byKind: z.record(z.string(), Hours).default({}),
   }),
   backoff: z.strictObject({
     hours: z.array(Hours).min(1),
@@ -77,10 +79,13 @@ export type CrawlConfig = z.infer<typeof CrawlConfig>;
 export function scheduleRules(
   config: CrawlConfig,
   source: string,
+  kind?: string,
 ): ScheduleRules {
   return {
     cadenceHours:
-      config.sources[source]?.cadenceHours ?? config.cadence.defaultHours,
+      config.sources[source]?.cadenceHours ??
+      (kind === undefined ? undefined : config.cadence.byKind[kind]) ??
+      config.cadence.defaultHours,
     unchangedMaxHours: config.cadence.unchangedMaxHours,
     backoffHours: config.backoff.hours,
     parkAfterFailures: config.backoff.parkAfterFailures,

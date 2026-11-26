@@ -121,11 +121,13 @@ portals:
     layout: true # employers post there; no JobPosting block (builder/adapters/portals.ts PAGE_LAYOUTS)
   - name: Brunel
     host: www.brunel.net
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     sitemap: https://www.brunel.net/sitemap.xml
     children: /(en|nl-nl|nl-be|de-de|de-at|de-ch|cs-cz)/sitemap-jobs
     match: /jobs/
   - name: Hays
     host: www.hays.de
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: de
     sitemap: https://www.hays.de/o/sitemaps/de/job-sitemap.xml
     match: /jobsuche/stellenangebote-jobs-detail-
@@ -137,12 +139,14 @@ portals:
     match: /de/job/
   - name: Accent Jobs
     host: accentjobs.be
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: be
     sitemap: https://accentjobs.be/sitemap.xml
     children: /(nl|fr)/vacancy/
     match: /(vacature|offredemploi)/
   - name: Amadeus Fire
     host: www.amadeus-fire.de
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: de
     sitemap: https://www.amadeus-fire.de/wp-sitemap-posts-job-1.xml
     match: /jobs/
@@ -329,6 +333,7 @@ portals:
     match: /job/[^/]+/
   - name: Sigmar Recruitment
     host: www.sigmarrecruitment.com
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: ie
     sitemap: https://www.sigmarrecruitment.com/api/sitemap.xml
     match: /job/[^/]+-\d+/
@@ -508,6 +513,7 @@ portals:
     match: /stellenangebot/
   - name: Dornseifer Personal
     host: www.dornseifer-personal.de
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: de
     sitemap: https://www.dornseifer-personal.de/sitemap.xml
     match: /stellenmarkt/.+
@@ -1351,6 +1357,7 @@ portals:
   # non-commercial, no-copying or database clauses only (docs/research/coverage.md).
   - name: Randstad
     host: www.randstad.de
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: de
     sitemap: https://www.randstad.de/sitemaps/sitemap.xml
     children: jobdetails
@@ -1379,6 +1386,7 @@ portals:
     layout: true
   - name: Randstad
     host: www.randstad.pl
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: pl
     sitemap: https://www.randstad.pl/sitemaps/sitemap.xml
     children: jobdetails
@@ -1392,12 +1400,14 @@ portals:
   # and of Switzerland's: the others list the same vacancies.
   - name: Randstad
     host: www.randstad.be
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: be
     sitemap: https://www.randstad.be/sitemap.xml
     children: jobs/nl/sitemap-jobdetails
     match: /jobs/
   - name: Randstad
     host: www.randstad.nl
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: nl
     sitemap: https://www.randstad.nl/job-sitemap.xml
     match: /vacatures/
@@ -1406,16 +1416,19 @@ portals:
   # een eigen vacaturesite te tonen ..."; read 11 October 2026). yacht.nl now points to its sitemaps.
   - name: Randstad Professional
     host: www.randstadprofessional.nl
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: nl
     sitemap: https://www.randstadprofessional.nl/job-sitemap.xml
     match: /vacatures/
   - name: Tempo-Team
     host: www.tempo-team.nl
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: nl
     sitemap: https://www.tempo-team.nl/job-sitemap.xml
     match: /vacatures/
   - name: Randstad
     host: www.randstad.ch
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: ch
     sitemap: https://www.randstad.ch/sitemap.xml
     children: jobs/de/sitemap-jobdetails
@@ -1423,6 +1436,7 @@ portals:
   # Austria's terms only rule the candidate's account: nothing on bots, copying or leave.
   - name: Randstad
     host: www.randstad.at
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: at
     sitemap: https://www.randstad.at/sitemaps/jobs/sitemap-jobdetails.xml
     match: /jobs/
@@ -1431,11 +1445,13 @@ portals:
   # (read 10 October 2026).
   - name: Manpower
     host: www.manpower.de
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: de
     sitemap: https://www.manpower.de/sitemap.xml
     match: /de/jobs/
   - name: Experis
     host: www.experis.de
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: de
     sitemap: https://www.experis.de/sitemap.xml
     match: /de/job/
@@ -2421,6 +2437,7 @@ portals:
   # sozjobs.ch and spitexjobs.ch ask a hundred seconds between pages, which the reader keeps.
   - name: "plattform-zeitarbeit.de"
     host: www.plattform-zeitarbeit.de
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: de
     sitemap: "https://www.plattform-zeitarbeit.de/sitemap.xml?sitemap=jobs&cHash=293d9d6144d484b6e4dabfaa056f7a5a"
     match: "/jobs/"
@@ -3046,6 +3063,7 @@ portals:
     match: "/jobs/[a-z0-9-]+$"
   - name: "kalyso-recrutement.fr"
     host: kalyso-recrutement.fr
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: fr
     sitemap: "https://kalyso-recrutement.fr/wp-sitemap-posts-noo_job-1.xml"
     match: "/jobs/[^/]+/$"
@@ -3423,6 +3441,7 @@ portals:
   # advert names the network, not the dealer, as its employer: the town goes after it.
   - name: Recrutement Réseau Renault
     host: www.recrutement-reseau.renault.fr
+    agency: true # its name is an agency's (the legacy's isAgency, made data on 2026-11-26)
     country: fr
     sitemap: https://www.recrutement-reseau.renault.fr/sitemap.xml
     match: /fr/annonce/

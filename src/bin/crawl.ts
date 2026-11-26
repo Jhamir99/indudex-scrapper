@@ -11,6 +11,7 @@ import type { Clock } from "../features/crawl-core/ports.js";
 import { pageBudget } from "../features/crawl-core/page-budget.js";
 import { registeredAdapters } from "../features/crawl-core/registry.js";
 import { createTitleReader } from "../features/gate/index.js";
+import { portalHostGaps } from "../features/job-portals/index.js";
 import { readCatalogue } from "../shared/catalogues/read-catalogue.js";
 import {
   crawl,
@@ -37,14 +38,28 @@ try {
   const argumentsGiven = parseCrawlArguments(process.argv.slice(2));
   const environment = environmentWithDotEnv();
   const directory = storeDirectory(environment);
-  const config = await loadConfig("crawl.yml", CrawlConfig);
+  const loaded = await loadConfig("crawl.yml", CrawlConfig);
+  // Each portal's host gets its gap (job portals FR-5); one written in crawl.yml wins.
+  const config = {
+    ...loaded,
+    pace: {
+      ...loaded.pace,
+      hosts: { ...portalHostGaps(), ...loaded.pace.hosts },
+    },
+  };
+  const kinds = new Map(
+    registeredAdapters.map((adapter) => [
+      adapter.definition.id,
+      adapter.definition.kind,
+    ]),
+  );
   const { http, close } = politeHttpClient(config, clock);
   try {
     const result = await crawl(argumentsGiven, registeredAdapters, {
       http,
       store: new FileAdvertStore(directory, clock),
       clock,
-      rulesFor: (source) => scheduleRules(config, source),
+      rulesFor: (source) => scheduleRules(config, source, kinds.get(source)),
       takedowns: await loadTakedowns(),
       stopSwitch: new FileStopSwitch(directory),
       environment,

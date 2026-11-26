@@ -35,12 +35,17 @@
       }
     },
     {
-      "files": ["src/shared/kit/layout.ts", "src/shared/kit/vacancy-page.ts"],
+      "files": [
+        "src/shared/kit/layout.ts",
+        "src/shared/kit/vacancy-page.ts",
+        "src/features/job-portals/page-layouts.ts"
+      ],
       "rules": {
         "unicorn/consistent-function-scoping": "off",
         "no-shadow": "off",
         "unicorn/no-array-sort": "off",
-        "unicorn/prefer-string-starts-ends-with": "off"
+        "unicorn/prefer-string-starts-ends-with": "off",
+        "unicorn/no-useless-fallback-in-spread": "off"
       }
     }
   ]
