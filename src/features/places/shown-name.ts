@@ -27,6 +27,25 @@ function spelling(said: string, town: Town): string {
   );
 }
 
+// A town the map does not know, written in capitals throughout («L'ALDEA», «SCOTLAND»), in a name's letters: each word
+// with its capital, its particles small («Seu d'Urgell», «Bad Soden am Taunus»), a code of two letters as written (the
+// legacy's 21dd1a49).
+const SMALL_WORD =
+  /^(?:de|del|dels|della|di|da|do|dos|das|du|des|la|las|los|les|el|els|lo|le|y|i|e|et|en|sur|sous|am|an|der|den|im|bei|ob|upon|on|of|the|and|van|von|op|aan|ter|ten|het|nad|pod)$/u;
+const capital = (word: string) =>
+  word.replace(/^\p{Ll}/u, (letter) => letter.toUpperCase());
+const nameWord = (word: string, first: boolean): string => {
+  const low = word.toLowerCase();
+  if (word.length <= 2 && !SMALL_WORD.test(low)) return word;
+  if (!first && SMALL_WORD.test(low)) return low;
+  const [, elided = "", rest = ""] = /^(\p{L}{1,2}['’])?(.*)$/u.exec(low) ?? [];
+  return (first ? capital(elided) : elided) + capital(rest);
+};
+export const inNameLetters = (town: string): string =>
+  inCapitals(town)
+    ? town.replace(/[^\s-]+/gu, (word, at: number) => nameWord(word, at === 0))
+    : town;
+
 // How the town is shown (FR-7): as the advert wrote it, in GeoNames' letters when it wrote the same
 // name in capitals or without its accents, with a capital at the start, as a label begins (the map
 // writes a Catalan or Balearic town's article small, «la Garriga», «sa Pobla»: 102 towns, NOB-17).

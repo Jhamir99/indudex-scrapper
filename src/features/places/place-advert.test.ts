@@ -3,7 +3,12 @@ import { readPlaces } from "../../shared/catalogues/places.js";
 import { readCatalogue } from "../../shared/catalogues/read-catalogue.js";
 import { smallGazetteer } from "../../../test/places/gazetteer.js";
 import { createPlacer, Placement } from "./index.js";
-import { atMost, placeAdvert, type PlaceInput } from "./place-advert.js";
+import {
+  atMost,
+  namedTown,
+  placeAdvert,
+  type PlaceInput,
+} from "./place-advert.js";
 
 const advert = (country: string, location: string, city = ""): PlaceInput => ({
   country,
@@ -97,6 +102,26 @@ describe("placing an advert (FR-1, FR-5, FR-7)", () => {
     expect(atMost("Terrassaaaaaaaaa", 12)).toBe("Terrassaaaaa");
     const long = `Terrassa, ${"x ".repeat(5000)}`;
     expect(placeAdvert(spain, advert("es", long)).town?.name).toBe("Terrassa");
+  });
+});
+
+describe("the town a place names (the legacy's 077eb06c and 21dd1a49)", () => {
+  it("puts the article back before its town, an elided one always", () => {
+    expect(placeAdvert(spain, advert("es", "Garriga, La")).town?.name).toBe(
+      "La Garriga",
+    );
+    expect(namedTown(spain, advert("es", "ALDEA, L'"))).toBe("L'Aldea");
+    expect(namedTown(spain, advert("es", "Asturias, AS"))).toBe("Asturias");
+  });
+
+  it("writes a town the map lacks, in capitals, in a name's letters", () => {
+    expect(
+      [
+        advert("es", "SEU D'URGELL"),
+        advert("de", "BAD SODEN AM TAUNUS"),
+        advert("gb", "LONDON UK"),
+      ].map((place) => namedTown(smallGazetteer([]), place)),
+    ).toEqual(["Seu d'Urgell", "Bad Soden am Taunus", "London UK"]);
   });
 });
 

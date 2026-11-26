@@ -111,8 +111,9 @@ export function byPlace(piece: string): ByPlace | undefined {
 }
 
 // Spain's register writes a town's article after it, as its lists sort («ALDEA, L'», «Garriga,
-// La», «Coruña, A»): the town whole, where the map knows it so («L'Aldea», «La Garriga»). 89
-// published offers, 7 November 2026. «Asturias, AS» is a code, and stays.
+// La», «Coruña, A»): the town whole, where the map knows it so («La Garriga»), or where the
+// article is an elided one, which is never a code («L'Aldea», a town too small for the map). 89
+// published offers, 7 November 2026. «Asturias, AS» is a code, and stays (the legacy's 077eb06c).
 const ARTICLE_AFTER =
   /^([^,]+?),\s*(l['’]|el|la|els|les|los|las|lo|o|a|os|as)\s*(?=,|$)/iu;
 
@@ -124,8 +125,9 @@ export function withArticle(
   if (!match) return location;
   const article = (match[2] ?? "").replace("’", "'");
   const name = (match[1] ?? "").trim();
-  const town = article.endsWith("'") ? article + name : `${article} ${name}`;
-  return knows(fold(town)) || knows(loose(town))
+  const elided = article.endsWith("'");
+  const town = elided ? article + name : `${article} ${name}`;
+  return elided || knows(fold(town)) || knows(loose(town))
     ? town + location.slice(match[0].length)
     : location;
 }

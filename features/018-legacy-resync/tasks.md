@@ -20,7 +20,7 @@ pnpm test:run && pnpm build` green; "carried" means the legacy's tests at the ta
 - [x] **T005 — Gate and catalogues** · FR-2, FR-3 · Depends: T002
       Done when: the title rules, routes, hygiene and gate match the target, the catalogues brought up to it; tests
       carried; golden sets made again.
-- [ ] **T006 — Places** · FR-2, FR-3 · Depends: T005
+- [x] **T006 — Places** · FR-2, FR-3 · Depends: T005
 - [ ] **T007 — Companies and dedupe** · FR-2, FR-3 · Depends: T006
 - [ ] **T008 — Publication** · FR-2, FR-3 · Depends: T003 to T007
 - [ ] **T009 — Title translation** · FR-2, FR-3 · Depends: T008
@@ -49,3 +49,10 @@ reads the same through ours. The catalogues that changed were brought to the tar
 families, occupations (Catalan names), seniority, `codes/titles.json` (its last pass for 2511 and 7412) and
 `codes/nuts.json` (the areas NRW, IDF and PACA, read by places in T006); positions unchanged. The legacy's «too slow»
 advert (a worker held past a minute, e79e7e23) is the publication's run: T008.
+
+Notes on T006 (2026-11-26). The legacy's place changes since the snapshot are ported: the article put back before its
+town in any advert's place, an elided one always (077eb06c), and a town the map lacks written in a name's letters,
+not in capitals (21dd1a49); the areas NRW, IDF and PACA came with `codes/nuts.json` in T005. «Ihrer» as a sentence's
+word (dbdfe934) belongs to the legacy's `withoutFalseTown`, which our places never ported (a gap older than the
+snapshot: a postcode, a label, a work mode, a list of countries or a sentence read as the town): owed, for T011's
+comparison to measure.

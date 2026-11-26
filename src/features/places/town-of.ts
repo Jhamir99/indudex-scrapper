@@ -91,8 +91,8 @@ export function townOf(
   const byName = gazetteer.towns.get(country);
   if (!byName) return null;
   const knows = (key: string) => byName.has(key);
-  const location =
-    country === "es" ? withArticle(place.location, knows) : place.location;
+  // The article back before its town in any advert's place («Garriga, La» is La Garriga).
+  const location = withArticle(place.location, knows);
   const whole = [...pieces(location), place.city]
     .filter(Boolean)
     .filter((piece) => !saysArea(piece));

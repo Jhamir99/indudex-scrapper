@@ -2,8 +2,8 @@ import { z } from "@hono/zod-openapi";
 import { fold } from "../../shared/kit/fold.js";
 import { areaCode, areaOf, type PlaceText } from "./areas.js";
 import type { Gazetteer } from "./gazetteer.js";
-import { pieces } from "./pieces.js";
-import { shownName } from "./shown-name.js";
+import { pieces, withArticle } from "./pieces.js";
+import { inNameLetters, shownName } from "./shown-name.js";
 import {
   FOR_A_CLIENT,
   labelledTowns,
@@ -61,10 +61,15 @@ const round = (degrees: number) => Math.round(degrees * 100) / 100;
 // its country.
 export function namedTown(gazetteer: Gazetteer, place: PlaceText): string {
   const own = gazetteer.countryNames.get(place.country);
-  return (
-    [place.city, ...pieces(place.location)].find(
+  const known = gazetteer.towns.get(place.country);
+  const location = withArticle(place.location, (key) =>
+    Boolean(known?.has(key)),
+  );
+  // A town the map lacks, written in capitals, is shown in a name's letters.
+  return inNameLetters(
+    [place.city, ...pieces(location)].find(
       (piece) => piece && !own?.has(fold(piece)),
-    ) ?? ""
+    ) ?? "",
   );
 }
 
