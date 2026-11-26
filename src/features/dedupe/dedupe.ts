@@ -1,6 +1,6 @@
 import { advertAddress } from "../../shared/kit/advert-address.js";
 import type { SourceKind } from "../../shared/schemas/source.js";
-import { jobKey } from "./role.js";
+import { familyRoles } from "./role.js";
 
 // One copy of each advert across sources (legacy builder/dedupe.mjs): first by address, then by
 // the role (company and title) in the same place. An aggregator's copy has another address but the
@@ -18,6 +18,8 @@ export interface DedupeAdvert {
   readonly title: string;
   readonly language?: string | undefined;
   readonly country: string;
+  // The town the offer shows, whose words name no other employer after a name («Actief Construct Waregem»).
+  readonly city?: string | undefined;
   readonly place: string;
   readonly posted: string;
   readonly workMode?: string | undefined;
@@ -135,8 +137,11 @@ export function dedupe<T extends DedupeAdvert>(
   const roles = new Map<Copy<T>, string>();
   const towns = new Map<string, Set<string>>();
   const remoteAt = new Map<string, Set<string>>();
+  const family = familyRoles(
+    [...byAddress.values()].map((copy) => copy.advert),
+  );
   for (const copy of byAddress.values()) {
-    const role = jobKey(copy.advert);
+    const role = family.get(copy.advert) ?? "";
     roles.set(copy, role);
     if (!role) continue;
     add(towns, role, copy.advert.place);

@@ -105,3 +105,41 @@ const RULE = new RegExp(
 
 export const isAgency = (name: string | null | undefined): boolean =>
   Boolean(name) && RULE.test(fold(String(name)));
+
+// An employer whose adverts place staff with a client often enough is an agency whatever its name says (Morson,
+// TEKsystems, Tecdata Engineering's «para proyecto en cliente»): every advert of one with at least `CLIENT_SHARE.least`
+// adverts, `CLIENT_SHARE.share` of them or more marked so (places' `FOR_A_CLIENT`), is flagged. `keyOf`: an employer's
+// key. Returns how many adverts it flagged (the legacy's 7c2bf8df `agenciesByShare`).
+export const CLIENT_SHARE = { least: 5, share: 0.2 };
+export function agenciesByShare(
+  adverts: readonly {
+    readonly company: string;
+    readonly agency: boolean;
+    readonly forClient: boolean;
+  }[],
+  keyOf: (name: string) => string,
+): Set<number> {
+  const employers = new Map<string, { n: number; forClient: number }>();
+  for (const advert of adverts) {
+    if (!advert.company) continue;
+    const key = keyOf(advert.company);
+    const employer = employers.get(key) ?? { n: 0, forClient: 0 };
+    employer.n++;
+    if (advert.forClient) employer.forClient++;
+    employers.set(key, employer);
+  }
+  const flagged = new Set<number>();
+  adverts.forEach((advert, at) => {
+    const employer =
+      advert.company && !advert.agency
+        ? employers.get(keyOf(advert.company))
+        : undefined;
+    if (
+      employer &&
+      employer.n >= CLIENT_SHARE.least &&
+      employer.forClient / employer.n >= CLIENT_SHARE.share
+    )
+      flagged.add(at);
+  });
+  return flagged;
+}

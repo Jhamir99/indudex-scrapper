@@ -21,7 +21,7 @@ pnpm test:run && pnpm build` green; "carried" means the legacy's tests at the ta
       Done when: the title rules, routes, hygiene and gate match the target, the catalogues brought up to it; tests
       carried; golden sets made again.
 - [x] **T006 — Places** · FR-2, FR-3 · Depends: T005
-- [ ] **T007 — Companies and dedupe** · FR-2, FR-3 · Depends: T006
+- [x] **T007 — Companies and dedupe** · FR-2, FR-3 · Depends: T006
 - [ ] **T008 — Publication** · FR-2, FR-3 · Depends: T003 to T007
 - [ ] **T009 — Title translation** · FR-2, FR-3 · Depends: T008
 - [ ] **T010 — Crawl-core, public feeds, text helpers** · FR-2 · Depends: T001
@@ -56,3 +56,9 @@ not in capitals (21dd1a49); the areas NRW, IDF and PACA came with `codes/nuts.js
 word (dbdfe934) belongs to the legacy's `withoutFalseTown`, which our places never ported (a gap older than the
 snapshot: a postcode, a label, a work mode, a list of countries or a sentence read as the town): owed, for T011's
 comparison to measure.
+
+Notes on T007 (2026-11-26). Dedupe reads an employer by the shortest name its copies of a title in a place go by
+(3c5b128e: «Vivaldis» and «Vivaldis Interim»), the offer's town given to it as the legacy's `ci`. The publication flags
+as an agency every advert of an employer with five or more adverts, a fifth of them for a client (7c2bf8df:
+companies' `agenciesByShare`), its text read by places' `FOR_A_CLIENT`, now the legacy's from the word tables. The
+layout reader's list headings (the same 3c5b128e) were already in our copy of `layout.ts` (015).

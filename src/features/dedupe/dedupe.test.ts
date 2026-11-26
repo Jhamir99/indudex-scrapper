@@ -319,3 +319,41 @@ describe("campaigns and remote jobs (dedupe FR-4)", () => {
     ).toEqual([1, 1, 1, 2]);
   });
 });
+
+// One automation engineer's advert in a Belgian town, under an employer's name.
+const copy = (url: string, company: string, town = "Roeselare") =>
+  advert(url, {
+    kind: "careers",
+    company,
+    title: "Automation Engineer",
+    country: "be",
+    city: town,
+    town,
+  });
+
+describe("one employer under two names (the legacy's 3c5b128e)", () => {
+  it("keeps one advert posted under a name and that name with its trade, country or town, by whole words", () => {
+    expect(
+      urls(
+        dedupe([
+          copy("https://v/1", "Vivaldis"),
+          copy("https://v/2", "Vivaldis Interim"),
+          copy("https://v/3", "Vivaldis Interim", "Gent"),
+          copy("https://m/1", "Match"),
+          copy("https://m/2", "Matcha Interim"),
+          copy("https://a/1", "Actief Construct"),
+          copy("https://a/2", "Actief Construct Roeselare"),
+          copy("https://s/1", "Sopra Steria"),
+          copy("https://s/2", "Sopra Steria Belgique"),
+        ]).kept,
+      ),
+    ).toEqual([
+      "https://v/1",
+      "https://v/3",
+      "https://m/1",
+      "https://m/2",
+      "https://a/1",
+      "https://s/1",
+    ]);
+  });
+});

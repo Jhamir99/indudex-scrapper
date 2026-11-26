@@ -1,3 +1,4 @@
+import { anyOf, words as conceptWords } from "../../shared/words/index.js";
 // Towns an advert's text gives, for a place that names no town (FR-6). Each is only a candidate:
 // placing tries it against the map in the advert's country, so a word that is no town of the
 // country counts for nothing.
@@ -110,11 +111,17 @@ export function labelledTowns(text: string, agency: boolean): string[] {
   return out;
 }
 
-// A text that places staff with a client («unser Kunde», "our client"): its address is the
-// agency's own office (Personal Sigma's Muotathal for a job anywhere in German-speaking
-// Switzerland, 6 November 2026), so it is read as an agency's.
-export const FOR_A_CLIENT =
-  /\b(?:unser(?:e[mnrs]?)? kunden?|unseres kunden|our client|our customer|notre client|nos clients|nuestro cliente|onze (?:klant|opdrachtgever)|il nostro cliente|naszego klienta|nasz klient|personaldienstleist\w*|personalvermittl\w*|arbeitnehmer(?:ü|ue)berlassung|zeitarbeit|uitzendbureau|interim)\b/i;
+// A text that places staff with a client («unser Kunde», "our client», «para proyecto en cliente») or names agency work:
+// its address is the agency's own office (Personal Sigma's Muotathal for a job anywhere in German-speaking Switzerland,
+// 6 November 2026), so it is read as an agency's. The legacy's normalise `FOR_A_CLIENT`, from the word tables.
+const CLIENT_WORDS = [
+  ...conceptWords("forAClient", { bare: true }),
+  ...conceptWords("agencyWork", { bare: true }),
+];
+export const FOR_A_CLIENT = new RegExp(
+  `(?<![\\p{L}])${anyOf(CLIENT_WORDS)}(?![\\p{L}])`,
+  "iu",
+);
 
 // The town a phrase gives where no line labels one. German: the title's «… in Oppenheim», «… –
 // Salem», «Region Mannheim»; the text's «für unseren Standort Wittlich», «Niederlassung in

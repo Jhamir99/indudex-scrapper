@@ -17,6 +17,8 @@ import { ambiguousNames, type NamedOffer } from "./ambiguous-names.js";
 import { regionsInUse, townsInUse, type TownInUse } from "./in-use.js";
 
 export { Placement, type PlaceInput } from "./place-advert.js";
+// Whether a text places staff with a client (an agency's advert, whatever its name: companies' share).
+export { FOR_A_CLIENT } from "./text-towns.js";
 export type { AreaInUse, RegionsInUse, TownInUse } from "./in-use.js";
 export type { NamedOffer } from "./ambiguous-names.js";
 

@@ -5,7 +5,11 @@ import type { SourceKind } from "../../shared/schemas/source.js";
 import type { AdvertFacts } from "../advert-facts/index.js";
 import { calmTitle, spellingsOf } from "../../shared/kit/calm-titles.js";
 import type { DirectoryOffer } from "../companies/index.js";
-import { createEmployerReader } from "../companies/index.js";
+import {
+  agenciesByShare,
+  companyKey,
+  createEmployerReader,
+} from "../companies/index.js";
 import {
   type DedupeAdvert,
   dedupe,
@@ -20,7 +24,11 @@ import {
   type GateInput,
 } from "../gate/index.js";
 import type { AdvertPay, PayInput } from "../pay/index.js";
-import type { PlaceInput, Placement } from "../places/index.js";
+import {
+  FOR_A_CLIENT,
+  type PlaceInput,
+  type Placement,
+} from "../places/index.js";
 import { advertDays } from "./labels/days.js";
 import {
   applyTitles,
@@ -114,6 +122,8 @@ interface Read {
   placement: Placement;
   place: string;
   kind: SourceKind;
+  // Its text places staff with a client (the legacy's `fc`, for the build alone).
+  forClient: boolean;
 }
 
 // The legacy's dedupe placed an advert by the town its location names (placeKey's GeoNames town),
@@ -235,6 +245,7 @@ export function build(input: BuildInput): Built {
         placement,
         place: dedupePlace(offer, placement),
         kind,
+        forClient: FOR_A_CLIENT.test(advert.description),
       });
     }
   }
@@ -270,6 +281,7 @@ export function build(input: BuildInput): Built {
       title: item.offer.t,
       language: item.offer.tl,
       country: item.offer.cc,
+      city: item.offer.ci,
       place: item.place,
       posted: item.offer.d,
       workMode: item.offer.w ? MODE_NAME[item.offer.w] : undefined,
@@ -310,6 +322,19 @@ export function build(input: BuildInput): Built {
     placements.set(offer.id, advert.read.placement);
     return offer;
   });
+
+  // The employers that place staff with clients, by the share of their adverts that say so (the legacy's agencies.ts).
+  const byShare = agenciesByShare(
+    offers.map((offer, at) => ({
+      company: offer.c,
+      agency: offer.ag === 1,
+      forClient: deduped.kept[at]?.advert.read.forClient ?? false,
+    })),
+    companyKey,
+  );
+  offers = offers.map((offer, at) =>
+    byShare.has(at) ? { ...offer, ag: 1 } : offer,
+  );
 
   // Each title in the site's languages from the caches (a copy of each offer, which applyTitles
   // fills), then what one reading left escaped written out, then the titles in capitals brought

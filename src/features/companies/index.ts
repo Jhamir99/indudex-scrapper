@@ -17,3 +17,5 @@ export {
   withRegisters,
 } from "./register-join.js";
 export { cardKey, type CompanyCard, companyCards } from "./cards.js";
+export { agenciesByShare, CLIENT_SHARE } from "./agencies.js";
+export { companyKey } from "./company-key.js";
