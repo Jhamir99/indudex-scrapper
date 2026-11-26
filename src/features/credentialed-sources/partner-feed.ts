@@ -4,10 +4,12 @@ import type {
   AdvertDraft,
   SourceAdapter,
 } from "../crawl-core/ports.js";
-import { readCatalogue } from "../../shared/catalogues/read-catalogue.js";
+import {
+  countryCode,
+  countryNames,
+} from "../../shared/catalogues/country-names.js";
 import { HttpFailure } from "../../shared/http/http-failure.js";
 import { decodeEntities } from "../../shared/kit/entities.js";
-import { fold } from "../../shared/kit/fold.js";
 import { pageText } from "../../shared/kit/text.js";
 import { languagesOfCountry } from "../../shared/words/country-languages.js";
 
@@ -90,32 +92,6 @@ export function parseJobFeed(xml: string): FeedJob[] {
   return jobs;
 }
 
-// Country names and their other names, folded, to their ISO codes.
-let countryCodes: Promise<Map<string, string>> | undefined;
-async function codesByName(): Promise<Map<string, string>> {
-  countryCodes ??= readCatalogue("countries").then(
-    ({ countries }) =>
-      new Map(
-        countries.flatMap((country) =>
-          [country.name, ...country.aliases].map(
-            (name) => [fold(name), country.iso] as const,
-          ),
-        ),
-      ),
-  );
-  return countryCodes;
-}
-
-// The job's country as a code: the two letters the feed gives, or its name through the countries catalogue. The legacy
-// left a country it could not read empty; the store needs one, so such a job is left out (and counted).
-export function countryCode(
-  written: string,
-  byName: ReadonlyMap<string, string>,
-): string | undefined {
-  if (/^[A-Za-z]{2}$/.test(written)) return written.toLowerCase();
-  return byName.get(fold(written.trim()));
-}
-
 export function toDraft(
   job: FeedJob,
   source: string,
@@ -167,7 +143,7 @@ export function partnerFeed(programme: Programme): SourceAdapter {
         { cause: error },
       );
     }
-    const byName = await codesByName();
+    const { byName } = await countryNames();
     let unplaced = 0;
     let insecure = 0;
     for (const job of parseJobFeed(xml)) {

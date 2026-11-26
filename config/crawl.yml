@@ -89,6 +89,8 @@ pace:
     jooble.org: 1200
     # Adzuna's API (credentialed, flagged off): the legacy stayed under 25 calls a minute.
     api.adzuna.com: 2500
+    # Arbeitnow's job board API: pages of 250, the legacy's gap.
+    www.arbeitnow.com: 600
 
 run:
   # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.

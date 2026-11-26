@@ -11,7 +11,8 @@ import { InMemoryAdvertStore } from "../../../test/fakes/advert-store.js";
 import { jobtome } from "./adapters/jobtome/jobtome.js";
 import { talentcom } from "./adapters/talentcom/talentcom.js";
 import { whatjobs } from "./adapters/whatjobs/whatjobs.js";
-import { countryCode, parseJobFeed } from "./partner-feed.js";
+import { countryCode } from "../../shared/catalogues/country-names.js";
+import { parseJobFeed } from "./partner-feed.js";
 
 const read = async (
   adapter: typeof talentcom,

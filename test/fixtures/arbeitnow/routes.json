@@ -1,0 +1,4 @@
+{
+  "https://www.arbeitnow.com/api/job-board-api?page=1": "page-1.json",
+  "https://www.arbeitnow.com/api/job-board-api?page=2": "page-2.json"
+}

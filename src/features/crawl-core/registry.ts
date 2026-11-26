@@ -48,7 +48,12 @@ import { jooble } from "../credentialed-sources/adapters/jooble/jooble.js";
 import { nav } from "../credentialed-sources/adapters/nav/nav.js";
 import { talentcom } from "../credentialed-sources/adapters/talentcom/talentcom.js";
 import { whatjobs } from "../credentialed-sources/adapters/whatjobs/whatjobs.js";
-import { portalAdapters } from "../job-portals/index.js";
+import {
+  arbeitnow,
+  jobicy,
+  portalAdapters,
+  remotive,
+} from "../job-portals/index.js";
 import type { SourceAdapter } from "./ports.js";
 
 // Every source the scrapper runs, in no particular order (the runner decides when each runs).
@@ -58,6 +63,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   actiris,
   adzuna,
   anofm,
+  arbeitnow,
   bolzano,
   brandenburg,
   brescia,
@@ -78,6 +84,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   infopraca,
   island,
   jcyl,
+  jobicy,
   jobindex,
   jobtech,
   jobtome,
@@ -92,6 +99,7 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   netempregos,
   nva,
   ooe,
+  remotive,
   sae,
   sef,
   sne,

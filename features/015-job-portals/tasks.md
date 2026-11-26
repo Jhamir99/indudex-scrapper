@@ -38,8 +38,9 @@ Generated from `spec.md` and `plan.md`. Tasks are ordered by dependency and have
 
 ## Part D — The keyless boards
 
-- [ ] **T008 — remote: jobicy, remotive, arbeitnow** · FR: FR-6, FR-9 · Depends: T001
+- [x] **T008 — remote: jobicy, remotive, arbeitnow** · FR: FR-6, FR-9 · Depends: T001
       Done when: the standard adapter check passes for each on saved answers, with the legacy tests.
+      2026-11-26: done. `adapters/remote/remote.ts`: `jobicy`, `arbeitnow`, `remotive` (`parseJobicy`, `parseRemotive`, `parseArbeitnow`, `countryOfPlace`) on the feed family. **Remotive switched off**: its robots.txt closes `/api/*` (2026-11-26), which the legacy read with robots.txt off; jobicy.com and arbeitnow.com leave their APIs open. **A departure:** the store needs a country where the legacy left it to its processor; a board's place is read as a country's name (the countries catalogue, through `shared/catalogues/country-names.ts`, moved now from credentialed sources' partner feeds) or, for Arbeitnow, a big town the catalogue lists, else Germany (its board, its texts read as German by the legacy); an advert placed only in a region («Europe», «EMEA», «Worldwide») is left out and counted, where the legacy filed it under «Remote». Our gate leaves out any country outside the catalogue, so a remote place needs both a stored marker and the gate's leave: a later change, noted in `MEMORY.md`. `countryCode` now looks a name up before taking two letters as a code (Jobicy's «UK» is gb). Saved answers: Jobicy's and Arbeitnow's fetched once through our polite client, cut to five jobs, e-mail addresses and phones scrubbed; Remotive's made up in its documented shape. The legacy's three cases pass (Remotive's «Europe» advert now left out, as said). Registered; `crawl.yml`: `www.arbeitnow.com` 600 ms; default cadence.
 - [ ] **T009 — francetravail** · FR: FR-7, FR-9 · Depends: T001
       Done when: the standard adapter check passes on saved listings and offers' data, with the legacy tests; cadence 1 h and a seventh of the listings an hour.
 

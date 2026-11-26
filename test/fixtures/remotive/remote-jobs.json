@@ -1,0 +1,30 @@
+{
+  "00-warning": "Made up for indudex-scrapper's tests in the API's documented shape (remotive.com/api-documentation); robots.txt closes the API, so no real answer was saved.",
+  "job-count": 2,
+  "jobs": [
+    {
+      "id": 9,
+      "url": "https://remotive.com/remote-jobs/software-dev/backend-engineer-9",
+      "title": "Backend Engineer",
+      "company_name": "Acme Remote GmbH",
+      "category": "Software Development",
+      "job_type": "full_time",
+      "publication_date": "2026-11-10T10:00:00",
+      "candidate_required_location": "Germany",
+      "salary": "",
+      "description": "<p>Build and run our APIs.</p>"
+    },
+    {
+      "id": 10,
+      "url": "https://remotive.com/remote-jobs/devops/devops-engineer-10",
+      "title": "DevOps Engineer",
+      "company_name": "Nordic Cloud Oy",
+      "category": "DevOps / Sysadmin",
+      "job_type": "full_time",
+      "publication_date": "2026-11-12T10:00:00",
+      "candidate_required_location": "Europe",
+      "salary": "",
+      "description": "<p>Kubernetes and Terraform.</p>"
+    }
+  ]
+}
