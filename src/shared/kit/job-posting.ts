@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 import { DESCRIPTION_LIMIT, type SourcePay } from "../schemas/advert.js";
 import { fold } from "./fold.js";
-import { parseDay } from "./dates.js";
+import { writtenDay } from "./dates.js";
 import { statedPay } from "./stated-pay.js";
 import { pageText, plainText } from "./text.js";
 
@@ -181,8 +181,8 @@ export function jobPostings(html: string, pageUrl: string): JobPosting[] {
           typeof description === "string" ? pageText(description) : "",
           node,
         ),
-        posted: parseDay(textOf(field(node, "datePosted"))),
-        validThrough: parseDay(textOf(field(node, "validThrough"))),
+        posted: dayOf(textOf(field(node, "datePosted"))),
+        validThrough: dayOf(textOf(field(node, "validThrough"))),
         employmentType: many(field(node, "employmentType"))
           .map(textOf)
           .filter(Boolean)
@@ -283,8 +283,8 @@ function microdataPostings(html: string, pageUrl: string): JobPosting[] {
       location,
       url: pageUrl,
       description: prop("description"),
-      posted: parseDay(prop("datePosted")),
-      validThrough: parseDay(prop("validThrough")),
+      posted: dayOf(prop("datePosted")),
+      validThrough: dayOf(prop("validThrough")),
       employmentType: [],
       remote: /remote/i.test(location),
       pay: undefined,
@@ -365,4 +365,9 @@ export function wholeAdvert<J extends { description: string; title: string }>(
   )
     return job;
   return { ...job, description: page.slice(0, DESCRIPTION_LIMIT) };
+}
+
+// A block's day as the legacy read it (its `day`: month names in the sites' languages, "27 augustus 2026"), or none.
+function dayOf(value: string): string | undefined {
+  return writtenDay(value) || undefined;
 }

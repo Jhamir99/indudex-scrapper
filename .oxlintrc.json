@@ -33,6 +33,15 @@
         "no-useless-escape": "off",
         "vitest/no-commented-out-tests": "off"
       }
+    },
+    {
+      "files": ["src/shared/kit/layout.ts", "src/shared/kit/vacancy-page.ts"],
+      "rules": {
+        "unicorn/consistent-function-scoping": "off",
+        "no-shadow": "off",
+        "unicorn/no-array-sort": "off",
+        "unicorn/prefer-string-starts-ends-with": "off"
+      }
     }
   ]
 }

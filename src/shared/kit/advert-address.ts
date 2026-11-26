@@ -18,3 +18,10 @@ export function advertAddress(address: string): string {
   if (!url.hash.startsWith("#/")) url.hash = "";
   return url.toString().replace(/\?$/, "").replace(/\/$/, "");
 }
+
+// What also tells nothing apart when a crawler compares two addresses of one site (the legacy's `sameAddress`, after
+// Firecrawl's generateURLPermutations): http or https, a leading «www.», a final «index.html».
+export const sameAddress = (address: string): string =>
+  advertAddress(address)
+    .replace(/^https?:\/\/(?:www\.)?/i, "")
+    .replace(/\/index\.(?:html?|php)(?=$|[?#])/i, "");
