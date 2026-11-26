@@ -10,7 +10,7 @@
     ],
     "builtAt": "2026-11-15",
     "builtBy": "by hand (legacy)",
-    "importedFrom": "JustJans/indudex@b0cd182"
+    "importedFrom": "JustJans/indudex@ec79858"
   },
   "levels": [
     {
@@ -28,7 +28,7 @@
     {
       "id": "junior",
       "label": "Junior",
-      "es": "Junior",
+      "es": "Júnior",
       "ca": "Júnior",
       "fr": "Junior",
       "nl": "Junior",
@@ -105,7 +105,7 @@
     {
       "id": "senior",
       "label": "Senior",
-      "es": "Senior",
+      "es": "Sénior",
       "ca": "Sènior",
       "fr": "Senior",
       "nl": "Senior",

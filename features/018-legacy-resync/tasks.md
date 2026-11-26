@@ -17,7 +17,7 @@ pnpm test:run && pnpm build` green; "carried" means the legacy's tests at the ta
       its tests carried (the two cases skipped in `page-labels.test.mjs` back on); the golden sets made again.
 - [x] **T004 — Pay** · FR-2, FR-3 · Depends: T002
       Done when: the text pay, currencies and periods match the target; its tests carried; golden sets made again.
-- [ ] **T005 — Gate and catalogues** · FR-2, FR-3 · Depends: T002
+- [x] **T005 — Gate and catalogues** · FR-2, FR-3 · Depends: T002
       Done when: the title rules, routes, hygiene and gate match the target, the catalogues brought up to it; tests
       carried; golden sets made again.
 - [ ] **T006 — Places** · FR-2, FR-3 · Depends: T005
@@ -42,3 +42,10 @@ readers-languages, contract (without the site's cases), labels (its `withLabels`
 years, screens, text-pay and text-pay-currencies; `page-labels.test.mjs` gave way to the whole labels test, its two
 skipped cases now passing. The legacy's work-mode and pay tests call its adapters and normalise: their calls are in
 the golden sets.
+
+Notes on T005 (2026-11-26). The gate's code had changed only in its move to TypeScript: the golden set, remade from the
+target and grown by the 180 new strings of its gate tests (builder, occupation-coding, catalan-twins, titles, ttvic),
+reads the same through ours. The catalogues that changed were brought to the target, body only, our headers kept:
+families, occupations (Catalan names), seniority, `codes/titles.json` (its last pass for 2511 and 7412) and
+`codes/nuts.json` (the areas NRW, IDF and PACA, read by places in T006); positions unchanged. The legacy's «too slow»
+advert (a worker held past a minute, e79e7e23) is the publication's run: T008.
