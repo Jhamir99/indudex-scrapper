@@ -23,6 +23,10 @@ export interface HttpRequestOptions {
   // The time an answer may take, its body included, when not the client's: a whole list in one answer (a feed, a
   // board's list) grows with the list (the legacy's LIST_WAIT_MS, two minutes).
   readonly timeoutMs?: number;
+  // The gap the reader asks between two requests to this host from now on (a careers site with a long queue: a page a
+  // second; a platform serving thousands of sites), read by the paced client. A host the settings pace on their own
+  // keeps its gap, and robots.txt's Crawl-delay still wins.
+  readonly gapMs?: number;
 }
 
 // Redirects a request follows at most, as fetch does.

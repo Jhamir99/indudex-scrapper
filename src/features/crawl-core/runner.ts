@@ -16,6 +16,7 @@ import { NO_PAGE_FACTS, type PageFacts } from "./page-facts.js";
 import {
   afterDisallowed,
   afterFailure,
+  afterPostponed,
   afterSuccess,
   holdsDrop,
   disabled,
@@ -46,8 +47,16 @@ export interface RejectedAdvert {
 // disallowed: robots.txt closed an address the source needed. In those two the stored set is
 // left as it was (FR-4). disabled: the source may not run, and made no request (FR-8, FR-9).
 // stopped: the stop switch cut the read; nothing was stored and the state is untouched (FR-7).
+// postponed: its server was held, or the run had no page left for it: not a pass, it keeps its adverts and its
+// failures and is due again after the hold or in the next run (the legacy's postponed).
 export type SourceOutcome =
-  "stored" | "empty" | "failed" | "disallowed" | "disabled" | "stopped";
+  | "stored"
+  | "empty"
+  | "failed"
+  | "disallowed"
+  | "disabled"
+  | "stopped"
+  | "postponed";
 
 export interface SourceRunResult {
   readonly source: string;
@@ -65,8 +74,12 @@ export interface SourceRunResult {
   readonly heldDrop?: true;
   // Pages of ours the pass left to read (job portals FR-5).
   readonly backlog?: number;
+  // The vacancy pages that answered so far (a careers site).
+  readonly answered?: number;
   // The pass said its pages give no advert.
   readonly barren?: boolean;
+  // When postponed: how long until it is due again.
+  readonly retryAfterMs?: number;
 }
 
 export interface SourceRunDependencies {
@@ -91,7 +104,13 @@ export interface SourceRunDependencies {
   readonly pageBudget?: PageBudget;
   readonly pageBudgetFor?: (group: string) => PageBudget | undefined;
   readonly pageFacts?: (html: string) => PageFacts;
+  // The pass's time, and the long queues' pages and gap when it runs in their lane (career sites FR-6).
+  readonly deadlineMs?: number;
+  readonly longQueue?: { readonly pagesASite: number; readonly gapMs: number };
 }
+
+const MINUTE_MS = 60_000;
+const HOUR_MS = 60 * MINUTE_MS;
 
 class RunStopped extends Error {
   override name = "RunStopped";
@@ -152,9 +171,25 @@ export async function runSource(
     log(`${source}: stopped by the stop switch, nothing stored`);
     return result("stopped", { reason: "stopped by the stop switch" });
   };
+  const postponed = (reason: string, retryAfterMs: number) => {
+    log(`${source}: postponed: ${reason}`);
+    return { ...result("postponed", { reason }), retryAfterMs };
+  };
   const failed = (error: unknown): SourceRunResult => {
     if (http.stopped) return stopped();
     const reason = withoutValues(messageOf(error), credentials);
+    // A server left alone (its errors, a 429) is not the source failing: it comes back once the hold is over, spread
+    // over ten minutes so the sources it held do not all return at once.
+    if (
+      error instanceof HttpFailure &&
+      (error.kind === "held" ||
+        (error.kind === "rate-limited" && error.retryAfterMs !== undefined))
+    )
+      return postponed(
+        reason,
+        (error.retryAfterMs ?? HOUR_MS) +
+          Math.round(Math.random() * 10 * MINUTE_MS),
+      );
     const outcome =
       error instanceof HttpFailure && error.kind === "disallowed"
         ? "disallowed"
@@ -167,7 +202,9 @@ export async function runSource(
     const previous = await store.readAdverts(source);
     let remembered: { readonly memory: SourceMemory } | undefined;
     let backlog = 0;
+    let answered = 0;
     let barren = false;
+    let noPages = false;
     const context: AdapterContext = {
       http,
       credentials,
@@ -179,18 +216,23 @@ export async function runSource(
         remembered = { memory };
       },
       isOurs: dependencies.isOurs ?? (() => true),
-      pageBudget:
-        dependencies.pageBudgetFor?.(groupOf(adapter)) ??
-        dependencies.pageBudget ??
-        UNLIMITED,
+      pageBudget: dependencies.pageBudget ?? UNLIMITED,
       pageFacts: dependencies.pageFacts ?? NO_PAGE_FACTS,
       shown: dependencies.shown?.ids ?? null,
-      backlog: (pages) => {
+      backlog: (pages, pagesAnswered = 0) => {
         backlog = Math.max(0, Math.round(pages));
+        answered = Math.max(0, Math.round(pagesAnswered));
       },
       barren: () => {
         barren = true;
       },
+      postpone: () => {
+        noPages = true;
+      },
+      ...(dependencies.deadlineMs
+        ? { deadlineMs: dependencies.deadlineMs }
+        : {}),
+      ...(dependencies.longQueue ? { longQueue: dependencies.longQueue } : {}),
     };
     // Only a pass that stored or found nothing to store is the source's word for next time.
     const keepMemory = async () => {
@@ -212,6 +254,8 @@ export async function runSource(
       }
     }
     if (http.stopped) return stopped();
+    // The run had no page left for it: a source never read is not one that was read.
+    if (noPages) return postponed("the run's pages are spent", MINUTE_MS);
     for (const { sourceId, reason } of rejected) {
       log(`${source}: rejected ${sourceId}: ${reason}`);
     }
@@ -231,7 +275,12 @@ export async function runSource(
     if (valid.size === 0) {
       log(`${source}: read no adverts`);
       await keepMemory();
-      return { ...result("empty"), ...(barren ? { barren } : {}) };
+      return {
+        ...result("empty"),
+        ...(backlog > 0 ? { backlog } : {}),
+        ...(answered > 0 ? { answered } : {}),
+        ...(barren ? { barren } : {}),
+      };
     }
 
     await store.replaceAdverts(source, [...valid.values()]);
@@ -246,6 +295,7 @@ export async function runSource(
     return {
       ...result("stored", { stored: valid.size, changed }),
       ...(backlog > 0 ? { backlog } : {}),
+      ...(answered > 0 ? { answered } : {}),
       ...(barren ? { barren } : {}),
     };
   } catch (error) {
@@ -286,11 +336,51 @@ export interface RunDependencies {
   // The queue's order (career sites FR-6): a source's worth, the never-read sources a run, the place for those that
   // show nothing. Without it every source is worth the same and every never-read one is taken.
   readonly queue?: Pick<QueueRules, "worth" | "newARun" | "noneEvery">;
+  // Sources a group may start in a run, for a platform that allows only so many calls an hour (HR-Manager: 8).
+  readonly sourcesARun?: Readonly<Record<string, number>>;
+  // When the run ends: no source starts whose time would outlast it (a board of 2,000 vacancies started late would
+  // hold the store past the hour).
+  readonly runEndsAt?: Date;
+  // The careers sites with long queues, read in a lane of their own (career sites FR-6).
+  readonly longQueues?: LongQueueRules;
+}
+
+// A careers site with this many vacancy pages left is read as a portal is (the legacy's longQueue): in the `queues`
+// lane, a page a second, a pass of up to 25 minutes, back in the next run while pages are left; only while a share of
+// the pages it read show an offer, or before it has read enough of them to judge.
+export interface LongQueueRules {
+  readonly atLeast: number;
+  readonly shownAtLeast: number;
+  readonly pagesASite: number;
+  readonly gapMs: number;
+  readonly deadlineMs: number;
+}
+export const LONG_QUEUES = "queues";
+// Pages answered before a site's share of shown offers is judged.
+const QUEUE_JUDGED = 50;
+
+const isSite = (adapter: SourceAdapter) =>
+  adapter.definition.kind === "careers" &&
+  adapter.definition.id.startsWith("careers.");
+
+export function isLongQueue(
+  adapter: SourceAdapter,
+  read: { readonly backlog?: number; readonly answered?: number },
+  rules: LongQueueRules | undefined,
+  shown: ShownOffers | null | undefined,
+): boolean {
+  if (!rules || !isSite(adapter) || (read.backlog ?? 0) < rules.atLeast)
+    return false;
+  const answered = read.answered ?? 0;
+  if (!shown || answered < QUEUE_JUDGED) return true;
+  const offers = shown.bySource.get(adapter.definition.id)?.[0] ?? 0;
+  return offers / answered >= rules.shownAtLeast;
 }
 
 // A source's group, as the legacy's queue and lanes knew them: an employer's careers site, a board's platform, the
-// portals, the intermediaries, the feeds.
+// portals, the intermediaries, the feeds; or the one the source names (JOIN's companies).
 export function groupOf(adapter: SourceAdapter): string {
+  if (adapter.group) return adapter.group;
   const { id, kind } = adapter.definition;
   if (kind === "portal") return "portals";
   if (kind === "via") return "via";
@@ -373,7 +463,11 @@ export async function runDue(
     },
   ).map((entry) => entry.adapter);
   log(`${due.length} of ${adapters.length} sources due`);
-  return runSources([...unreadable, ...notAllowed, ...due], dependencies);
+  return runSources(
+    [...unreadable, ...notAllowed, ...due],
+    dependencies,
+    states,
+  );
 }
 
 // Runs one source now, due or not, for debugging (FR-6). The stop switch, takedowns and
@@ -387,7 +481,14 @@ export async function runOnly(
     return { sources: [], stopped: true };
   }
   await sweepTakedowns([adapter], dependencies);
-  return runSources([adapter], dependencies);
+  const states = new Map<string, SourceState>();
+  try {
+    const state = await dependencies.store.readState(adapter.definition.id);
+    if (state) states.set(adapter.definition.id, state);
+  } catch {
+    // `runSources` reports why its state cannot be read.
+  }
+  return runSources([adapter], dependencies, states);
 }
 
 // Runs the given sources, due or not, `concurrency` at a time (one after another by default),
@@ -395,22 +496,56 @@ export async function runOnly(
 // is recorded with its reason and the others still run (FR-3, FR-4). The stop switch is read
 // before each source starts (FR-7): once it is set, or a source was cut by it, no further source
 // starts and those already reading finish on their own (their requests stop at the switch).
-// Results come back in the order the sources were given.
+// Results come back in the order the sources were given. A source waits while its lane is full, and is left for the next
+// run when its lane has spent its pages or its sources a run, or its time would outlast the run (career sites FR-6,
+// FR-7); `states` are the sources' states at the start, which choose a careers site's lane and size a pass's time.
 export async function runSources(
   adapters: readonly SourceAdapter[],
   dependencies: RunDependencies,
+  states: ReadonlyMap<string, SourceState> = new Map(),
 ): Promise<RunResult> {
   const { stopSwitch, log, clock } = dependencies;
   const workers = Math.max(1, dependencies.concurrency ?? 1);
   const results: (SourceRunResult | undefined)[] = adapters.map(
     () => undefined,
   );
-  const groups = adapters.map(groupOf);
+  const passes = adapters.map((adapter) => {
+    const state = states.get(adapter.definition.id);
+    const longQueue = isLongQueue(
+      adapter,
+      state ?? {},
+      dependencies.longQueues,
+      dependencies.shown,
+    );
+    const deadlineMs =
+      longQueue && dependencies.longQueues
+        ? dependencies.longQueues.deadlineMs
+        : adapter.deadlineMs?.({ adverts: state?.advertCount ?? 0 });
+    return {
+      lane: longQueue ? LONG_QUEUES : groupOf(adapter),
+      longQueue,
+      ...(deadlineMs ? { deadlineMs } : {}),
+    };
+  });
+  const groups = passes.map((pass) => pass.lane);
   const limitOf = (group: string) =>
     dependencies.inFlight?.[group] ??
     dependencies.inFlight?.["default"] ??
     Infinity;
   const running = new Map<string, number>();
+  const begun = new Map<string, number>();
+  const spent = (lane: string) =>
+    (begun.get(lane) ?? 0) >= (dependencies.sourcesARun?.[lane] ?? Infinity) ||
+    (dependencies.pageBudgetFor?.(lane)?.left ?? 1) <= 0;
+  const fits = (index: number) => {
+    const { deadlineMs } = passes[index]!;
+    return (
+      !dependencies.runEndsAt ||
+      !deadlineMs ||
+      clock.now().getTime() + deadlineMs <= dependencies.runEndsAt.getTime()
+    );
+  };
+  const anyRunning = () => [...running.values()].some((n) => n > 0);
   // The sources not started yet, in the order given: each worker takes the first whose group has room.
   const waiting = adapters.map((_, index) => index);
   let stopped = false;
@@ -443,9 +578,14 @@ export async function runSources(
       // The switch is read asynchronously: another worker may have taken the turn meanwhile.
       if (stopped || waiting.length === 0) return;
       const at = waiting.findIndex(
-        (index) => (running.get(groups[index]!) ?? 0) < limitOf(groups[index]!),
+        (index) =>
+          (running.get(groups[index]!) ?? 0) < limitOf(groups[index]!) &&
+          !spent(groups[index]!) &&
+          fits(index),
       );
       if (at < 0) {
+        // What is left waits for the next run once nothing is reading.
+        if (!anyRunning()) return;
         await finish.promise;
         continue;
       }
@@ -454,9 +594,10 @@ export async function runSources(
       const group = groups[index]!;
       const source = adapter.definition.id;
       running.set(group, (running.get(group) ?? 0) + 1);
+      begun.set(group, (begun.get(group) ?? 0) + 1);
       let result: SourceRunResult;
       try {
-        result = await runAndRecord(adapter, dependencies);
+        result = await runAndRecord(adapter, dependencies, passes[index]!);
       } catch (error) {
         // The store could not read or write this source's state. The state is never reset, so
         // the source keeps what it had and is reported until the store is repaired.
@@ -490,6 +631,11 @@ export async function runSources(
 async function runAndRecord(
   adapter: SourceAdapter,
   dependencies: RunDependencies,
+  pass: {
+    readonly lane: string;
+    readonly longQueue: boolean;
+    readonly deadlineMs?: number;
+  },
 ): Promise<SourceRunResult> {
   const { store, clock, rulesFor, log } = dependencies;
   const source = adapter.definition.id;
@@ -512,8 +658,17 @@ async function runAndRecord(
   }
 
   const at = clock.now();
+  const queues = pass.longQueue ? dependencies.longQueues : undefined;
   const result = await runSource(adapter, {
     ...dependencies,
+    pageBudget:
+      dependencies.pageBudgetFor?.(pass.lane) ??
+      dependencies.pageBudget ??
+      UNLIMITED,
+    ...(pass.deadlineMs ? { deadlineMs: pass.deadlineMs } : {}),
+    ...(queues
+      ? { longQueue: { pagesASite: queues.pagesASite, gapMs: queues.gapMs } }
+      : {}),
     credentials: access.credentials,
     heldDropsBefore: previous?.heldDrops ?? 0,
     today: at.toISOString().slice(0, 10),
@@ -531,10 +686,22 @@ async function runAndRecord(
       );
     }
   }
-  if (result.outcome !== "stopped") {
+  if (result.outcome === "postponed") {
     await store.writeState(
       source,
-      nextState(previous, result, at, rulesFor(source)),
+      afterPostponed(
+        previous,
+        new Date(clock.now().getTime() + (result.retryAfterMs ?? MINUTE_MS)),
+      ),
+    );
+  } else if (result.outcome !== "stopped") {
+    // A careers site is back sooner for its pages left only with a long queue worth its lane, judged on this pass.
+    const readOn =
+      !isSite(adapter) ||
+      isLongQueue(adapter, result, dependencies.longQueues, dependencies.shown);
+    await store.writeState(
+      source,
+      nextState(previous, result, at, rulesFor(source), readOn),
     );
   }
   return result;
@@ -545,6 +712,7 @@ function nextState(
   result: SourceRunResult,
   at: Date,
   rules: ScheduleRules,
+  readOn: boolean,
 ): SourceState {
   const reason = result.reason ?? result.outcome;
   if (result.outcome === "disallowed") {
@@ -564,7 +732,9 @@ function nextState(
       advertCount: result.stored,
       changed: result.changed,
       ...(result.backlog ? { backlog: result.backlog } : {}),
+      ...(result.answered ? { answered: result.answered } : {}),
       ...(result.barren ? { barren: true } : {}),
+      readOn,
     },
     rules,
   );

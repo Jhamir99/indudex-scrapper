@@ -110,6 +110,8 @@ run:
   pageBudgets:
     portals: 30000
     careers: 40000
+    # The careers sites with long queues: their own pages, apart from the employers' sites'.
+    queues: 60000
   # The hourly run's minutes: no source starts in its last five.
   minutes: 55
   # At most so many sources of a group at once (the legacy's in_flight): an ATS serves every board from one host, and
@@ -122,10 +124,26 @@ run:
     portals: 8
     join: 2
     manatal: 1
+    # The careers sites with long queues, each on its own host, a page a second (eight until 25 November 2026, when
+    # the legacy's owner asked them drained sooner).
+    queues: 16
   # Never-read sources a run (a first read knocks on dead sites, whose error answers firewalls report), and one place
   # in five of the queue for the sources that show no offer.
   newARun: 300
   noneEvery: 5
+  # Sources a group may start in a run, for a platform that allows only so many calls an hour.
+  sourcesARun:
+    # HR-Manager's API usage notice: at most eight calls an hour and 200 a day.
+    hrmanager: 8
+  # A careers site with 500 vacancy pages or more left is read as a portal is, while a fifth of the pages it read show
+  # an offer (or before it has read fifty): 1,500 pages a pass, a page a second (its robots.txt's Crawl-delay first), a
+  # pass of up to 25 minutes. The legacy's 1,810 such sites held 6.0 M pages at 200 a pass (24 November 2026).
+  longQueues:
+    atLeast: 500
+    shownAtLeast: 0.2
+    pagesASite: 1500
+    gapMs: 1000
+    minutes: 25
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.

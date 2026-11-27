@@ -169,6 +169,30 @@ describe("PacedClient (FR-5)", () => {
     expect(startsOf(server.calls, "b.example.com")).toEqual([0, 300_000]);
   });
 
+  it("paces a host at the gap a request asks, Crawl-delay and the settings' own gaps first", async () => {
+    const clock = new FakeClock();
+    const server = fakeServer(clock);
+    const client = paced(clock, server, {
+      hostGaps: { "b.example.com": 10_000 },
+    });
+    client.slowHost("shared-1.example.com", 2);
+    const ask = (url: string) => client.request(url, { gapMs: 1000 });
+
+    await Promise.all([
+      ask("https://a.example.com/1"),
+      ask("https://a.example.com/2"),
+      ask("https://a.example.com/3"),
+      ask("https://b.example.com/1"),
+      ask("https://b.example.com/2"),
+      ask("https://shared-1.example.com/1"),
+      ask("https://shared-1.example.com/2"),
+    ]);
+
+    expect(startsOf(server.calls, "a.example.com")).toEqual([0, 1000, 2000]);
+    expect(startsOf(server.calls, "b.example.com")).toEqual([0, 10_000]);
+    expect(startsOf(server.calls, "shared-1.example.com")).toEqual([0, 2000]);
+  });
+
   it("frees the lanes when a request fails", async () => {
     const clock = new FakeClock();
     let calls = 0;

@@ -59,6 +59,19 @@ export const CrawlConfig = z.strictObject({
       // Never-read sources a run, and one place in so many of the queue for the sources that show nothing.
       newARun: z.int().positive().optional(),
       noneEvery: z.int().positive().default(5),
+      // Sources a group may start in a run (a platform's calls an hour).
+      sourcesARun: z.record(z.string(), z.int().positive()).default({}),
+      // The careers sites with long queues, read in a lane of their own (career sites FR-6): from so many pages left,
+      // while so many of the pages read show an offer; so many pages a pass, so long a gap between two, so many minutes.
+      longQueues: z
+        .strictObject({
+          atLeast: z.int().positive(),
+          shownAtLeast: z.number().min(0).max(1),
+          pagesASite: z.int().positive(),
+          gapMs: z.int().positive(),
+          minutes: z.int().positive(),
+        })
+        .optional(),
     })
     .default({
       concurrency: 4,
@@ -66,6 +79,7 @@ export const CrawlConfig = z.strictObject({
       pageBudgets: {},
       inFlight: {},
       noneEvery: 5,
+      sourcesARun: {},
     }),
   // 4xx answers a server may give within the window before it is asked nothing more.
   errorBudget: z.strictObject({

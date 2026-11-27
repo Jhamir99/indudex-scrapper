@@ -40,6 +40,8 @@ const MOST_CRAWL_DELAY_MS = 300_000;
 class Lane {
   private active = 0;
   private nextStartAt = 0;
+  // The gap robots.txt asks (Crawl-delay): no gap set later goes below it.
+  private leastGapMs = 0;
   private readonly waiting: (() => void)[] = [];
 
   constructor(
@@ -49,7 +51,12 @@ class Lane {
   ) {}
 
   widenGap(gapMs: number): void {
+    this.leastGapMs = Math.max(this.leastGapMs, gapMs);
     this.gapMs = Math.max(this.gapMs, gapMs);
+  }
+
+  setGap(gapMs: number): void {
+    this.gapMs = Math.max(this.leastGapMs, gapMs);
   }
 
   async acquire(): Promise<void> {
@@ -126,6 +133,11 @@ export class PacedClient {
     // A host that does not resolve is its own server.
     const server = (await this.addressOf(host)) ?? host;
     this.holds.check(server, url, this.now());
+    if (
+      options?.gapMs !== undefined &&
+      this.options.hostGaps?.[host] === undefined
+    )
+      this.hostLane(host).setGap(options.gapMs);
     const lanes = await this.lanesFor(host);
     const held: Lane[] = [];
     try {

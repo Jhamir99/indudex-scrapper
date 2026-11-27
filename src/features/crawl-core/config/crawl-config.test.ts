@@ -27,7 +27,7 @@ describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
     expect(config.run).toEqual({
       concurrency: 32,
       pageBudget: 30_000,
-      pageBudgets: { portals: 30_000, careers: 40_000 },
+      pageBudgets: { portals: 30_000, careers: 40_000, queues: 60_000 },
       minutes: 55,
       inFlight: {
         default: 2,
@@ -37,9 +37,18 @@ describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
         portals: 8,
         join: 2,
         manatal: 1,
+        queues: 16,
       },
       newARun: 300,
       noneEvery: 5,
+      sourcesARun: { hrmanager: 8 },
+      longQueues: {
+        atLeast: 500,
+        shownAtLeast: 0.2,
+        pagesASite: 1500,
+        gapMs: 1000,
+        minutes: 25,
+      },
     });
   });
 

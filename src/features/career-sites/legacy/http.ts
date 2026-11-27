@@ -5,8 +5,8 @@ import { decodeEntities } from "../../../shared/kit/entities.js";
 
 // The legacy's builder/http.ts as its readers call it (`get`, `getJson`, `getText`, `getItems`), on the polite client of
 // the source being read: the pace, robots.txt, the server holds and the retries are crawl-core's. Bound for the length
-// of one source's pass (`withHttp`). What the legacy's options asked of its own pace (`gapMs`, `tries`, `robots`) is our
-// client's to decide; a request's time limit (`timeoutMs`) is passed on. A bot check answered as a page fails as the
+// of one source's pass (`withHttp`). What the legacy's options asked of its own pace (`tries`, `robots`) is our client's to
+// decide; a request's time limit (`timeoutMs`) and the gap it asks for its host (`gapMs`) are passed on. A bot check answered as a page fails as the
 // legacy's did.
 
 export type GetOptions = {
@@ -62,6 +62,7 @@ async function request(url: string, options: GetOptions = {}) {
       ...(options.headers ? { headers: options.headers } : {}),
       ...(options.body === undefined ? {} : { body: options.body }),
       ...(options.timeoutMs ? { timeoutMs: options.timeoutMs } : {}),
+      ...(options.gapMs ? { gapMs: options.gapMs } : {}),
     });
   } catch (error) {
     throw asFailure(error, url);

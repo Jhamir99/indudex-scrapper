@@ -189,6 +189,31 @@ const MINUTE_MS = 60_000;
 const until = (deadlineMs: number) =>
   Date.now() + deadlineMs - Math.min(MINUTE_MS, deadlineMs / 4);
 
+// A board's deadline, as the legacy's sources.ts and `sizedDeadline` gave it: its platform's own, else two minutes for
+// one the scout found (five on the platforms whose boards may list thousands), else five; grown with the vacancies it
+// held at its last read, about 0.35 s each at the paced crawl and the texts of 200 new ones a second apart, up to 25
+// minutes (five minutes left the boards of 2,000 vacancies failing every pass, 5 to 9 November 2026).
+const SOURCE_DEADLINE_MS = 5 * MINUTE_MS;
+const BIG_BOARDS = new Set(["workday", "smartrecruiters"]);
+export const SECONDS_A_VACANCY = 0.35;
+export function boardDeadline(
+  platform: string,
+  found: boolean,
+  adverts: number,
+): number {
+  const own =
+    ATS[platform]?.deadlineMs ||
+    (found && !BIG_BOARDS.has(platform) ? 120_000 : SOURCE_DEADLINE_MS);
+  if (!adverts) return own;
+  return Math.min(
+    25 * MINUTE_MS,
+    Math.max(
+      own,
+      90_000 + Math.round(adverts * SECONDS_A_VACANCY * 1000) + 200_000,
+    ),
+  );
+}
+
 // What a careers site remembers between passes: the way in it worked out and the pages it read.
 export type SiteMemory = Pick<
   SiteStore,
@@ -203,6 +228,9 @@ export function siteSource(
   const id = siteSourceId(site);
   const deadlineMs = entry.found ? 400_000 : 900_000;
   return {
+    // JOIN's companies share one host: a group of their own, as the legacy's.
+    ...(entry.platform === "join" ? { group: "join" } : {}),
+    deadlineMs: () => deadlineMs,
     definition: {
       id,
       kind: KIND,
@@ -218,6 +246,7 @@ export function siteSource(
       const store: SiteStore = { ...memory, adverts: [...context.previous] };
       // The run's pages, as the legacy's reader spends them (`budget.left`, one taken a page).
       const run = context.pageBudget;
+      // A long queue reads its own pages, a page a second (`gapMs`, asked of the polite client).
       const budget = {
         get left() {
           return run.left;
@@ -225,12 +254,22 @@ export function siteSource(
         set left(value: number) {
           while (run.left > value && run.take());
         },
+        ...(context.longQueue
+          ? {
+              pagesASite: context.longQueue.pagesASite,
+              gapMs: context.longQueue.gapMs,
+            }
+          : {}),
       };
       const read = await withPass(toolsOf(context), () =>
         readSite(site, store, budget, context.log, {
-          until: until(deadlineMs),
+          until: until(context.deadlineMs ?? deadlineMs),
         }),
       );
+      if (read.postponed) {
+        context.postpone();
+        return;
+      }
       context.remember(
         asJson({
           resolved: store.resolved,
@@ -240,7 +279,7 @@ export function siteSource(
           ...(store.collapsed ? { collapsed: store.collapsed } : {}),
         }),
       );
-      if (read.backlog) context.backlog(read.backlog);
+      if (read.backlog) context.backlog(read.backlog, read.answered);
       if (read.barren) context.barren();
       const known = await theNames();
       yield* uniquely(
@@ -262,8 +301,9 @@ export function boardSource(
   const slug = String(company[platform]);
   const id = boardSourceId(platform, slug);
   const board = ATS[platform];
-  const deadlineMs = 25 * MINUTE_MS;
   return {
+    deadlineMs: ({ adverts }) =>
+      boardDeadline(platform, Boolean(company.found), adverts),
     definition: {
       id,
       kind: KIND,
@@ -300,7 +340,10 @@ export function boardSource(
       }));
       const adverts = await withPass(tools, () =>
         withDetails(platform, wrapped, previous, {
-          until: until(deadlineMs),
+          until: until(
+            context.deadlineMs ??
+              boardDeadline(platform, Boolean(company.found), 0),
+          ),
         }),
       );
       if (board?.detail)

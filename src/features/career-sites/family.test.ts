@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { countryNames } from "../../shared/catalogues/country-names.js";
+import { boardDeadline } from "./family.js";
 import {
   boardSourceId,
   careerAdapters,
@@ -37,6 +38,32 @@ describe("one source per entry (career sites FR-1, FR-12)", () => {
           .map((reason) => reason!.split(" ")[0]),
       ),
     ).toEqual(new Set(["smartrecruiters", "join", "paused", "a"]));
+  });
+});
+
+describe("a pass's time and group (career sites FR-6, FR-7)", () => {
+  it("sizes a board's time by the vacancies it held, as the legacy's sizedDeadline, up to 25 minutes", () => {
+    expect([
+      boardDeadline("greenhouse", false, 0),
+      boardDeadline("greenhouse", true, 0),
+      boardDeadline("workday", true, 0),
+      boardDeadline("manatal", true, 0),
+      boardDeadline("workday", false, 599),
+      boardDeadline("workday", false, 10),
+      boardDeadline("workday", false, 5000),
+    ]).toEqual([
+      300_000, 120_000, 300_000, 400_000, 499_650, 300_000, 1_500_000,
+    ]);
+  });
+
+  it("puts JOIN's companies in a group of their own, and gives a site the legacy's time", () => {
+    const all = careerAdapters();
+    const join = all.find((one) => one.group === "join");
+    expect(join?.definition.id).toMatch(/^careers\./);
+    const site = all.find(
+      (one) => one.definition.id.startsWith("careers.") && !one.group,
+    );
+    expect([400_000, 900_000]).toContain(site?.deadlineMs?.({ adverts: 0 }));
   });
 });
 

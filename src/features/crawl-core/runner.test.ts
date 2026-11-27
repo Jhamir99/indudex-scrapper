@@ -15,7 +15,7 @@ import { TakedownList } from "../../shared/config/takedowns.js";
 import type { SourceState } from "../../shared/schemas/source.js";
 import type { Environment } from "./credentials.js";
 import { pageBudget } from "./page-budget.js";
-import { runDue, runSource, runSources } from "./runner.js";
+import { isLongQueue, runDue, runSource, runSources } from "./runner.js";
 
 function setup() {
   const store = new InMemoryAdvertStore();
@@ -1244,5 +1244,209 @@ describe("runSources: per-source memory (public-feeds FR-4)", () => {
     await runSources([adapter], dependencies);
 
     expect(await store.readMemory("quiet")).toEqual({ turn: 2 });
+  });
+});
+
+const QUEUES = {
+  atLeast: 500,
+  shownAtLeast: 0.2,
+  pagesASite: 1500,
+  gapMs: 1000,
+  deadlineMs: 25 * 60_000,
+};
+const state = (fields: Partial<SourceState> = {}): SourceState =>
+  ({
+    status: "enabled",
+    lastRunAt: "2026-11-15T08:00:00.000Z",
+    advertCount: 1,
+    consecutiveFailures: 0,
+    unchangedPasses: 0,
+    heldDrops: 0,
+    nextDueAt: "2026-11-16T07:00:00.000Z",
+    ...fields,
+  }) as SourceState;
+// A careers site that notes what the runner gave it and leaves the pages it is told.
+const site = (id: string, seen: Record<string, unknown>, left = 0) =>
+  ({
+    definition: fakeDefinition(id, { kind: "careers" }),
+    async *fetchAdverts(context: AdapterContext) {
+      seen[id] = {
+        longQueue: context.longQueue,
+        deadlineMs: context.deadlineMs,
+        pages: context.pageBudget.left,
+      };
+      if (left) context.backlog(left, 60);
+      yield fakeDraft(id, "1");
+    },
+  }) satisfies SourceAdapter;
+
+const shownOffers = (offers: number) => ({
+  ids: new Set<string>(),
+  bySource: new Map([["careers.x", [offers, 0, 0] as const]]),
+});
+
+describe("runSources: long queues and platform limits (career sites FR-6, FR-7)", () => {
+  it("reads a careers site with a long queue in its own lane, pages and time; a short one as the others", async () => {
+    const { dependencies } = runSetup();
+    const seen: Record<string, unknown> = {};
+    const budgets = new Map([
+      ["careers", pageBudget(40)],
+      ["queues", pageBudget(60)],
+    ]);
+    const states = new Map([
+      ["careers.long", state({ backlog: 600, answered: 10 })],
+      ["careers.short", state({ backlog: 100, answered: 10 })],
+    ]);
+    await runSources(
+      [site("careers.long", seen), site("careers.short", seen)],
+      {
+        ...dependencies,
+        longQueues: QUEUES,
+        pageBudgetFor: (group) => budgets.get(group),
+      },
+      states,
+    );
+    expect(seen).toEqual({
+      "careers.long": {
+        longQueue: { pagesASite: 1500, gapMs: 1000 },
+        deadlineMs: 25 * 60_000,
+        pages: 60,
+      },
+      "careers.short": {
+        longQueue: undefined,
+        deadlineMs: undefined,
+        pages: 40,
+      },
+    });
+  });
+
+  it("judges a long queue by the share of its pages the site shows, once fifty answered", async () => {
+    const adapter = site("careers.x", {});
+    const read = { backlog: 900, answered: 100 };
+    expect(isLongQueue(adapter, read, QUEUES, shownOffers(10))).toBe(false);
+    expect(isLongQueue(adapter, read, QUEUES, shownOffers(20))).toBe(true);
+    expect(
+      isLongQueue(adapter, { ...read, answered: 49 }, QUEUES, shownOffers(0)),
+    ).toBe(true);
+    expect(isLongQueue(adapter, read, QUEUES, null)).toBe(true);
+    expect(isLongQueue(adapter, { ...read, backlog: 499 }, QUEUES, null)).toBe(
+      false,
+    );
+    const board = {
+      ...adapter,
+      definition: fakeDefinition("workday.x", { kind: "careers" }),
+    };
+    expect(isLongQueue(board, read, QUEUES, null)).toBe(false);
+  });
+
+  it("brings a careers site back for its pages left only with a long queue", async () => {
+    const { store, dependencies } = runSetup();
+    const deps = {
+      ...dependencies,
+      rulesFor: () => ({ ...rules, backlogHours: 1 }),
+      longQueues: QUEUES,
+    };
+    await runSources(
+      [site("careers.short", {}, 100), site("careers.long", {}, 600)],
+      deps,
+    );
+    expect(await store.readState("careers.short")).toMatchObject({
+      backlog: 100,
+      answered: 60,
+      nextDueAt: "2026-11-17T08:00:00.000Z",
+    });
+    expect(await store.readState("careers.long")).toMatchObject({
+      backlog: 600,
+      nextDueAt: "2026-11-16T09:00:00.000Z",
+    });
+  });
+
+  it("starts no more of a group's sources a run than it allows, nor any once its pages are spent", async () => {
+    const { store, http, dependencies } = runSetup();
+    const boards = Array.from({ length: 10 }, (_, i) => {
+      http.route(`https://b${i}.example/feed`, "<rss/>");
+      return Object.assign(feedSource(`b${i}`), { group: "hrmanager" });
+    });
+    const spent = pageBudget(1);
+    spent.take();
+    const result = await runSources([...boards, site("careers.a", {})], {
+      ...dependencies,
+      concurrency: 4,
+      sourcesARun: { hrmanager: 8 },
+      pageBudgetFor: (group) => (group === "careers" ? spent : undefined),
+    });
+    expect(result.sources.map((one) => one.outcome)).toEqual(
+      Array(8).fill("stored"),
+    );
+    expect(await store.readState("b9")).toBeUndefined();
+    expect(await store.readState("careers.a")).toBeUndefined();
+  });
+
+  it("starts no source whose time would outlast the run, and gives a source its time", async () => {
+    const { clock, dependencies } = runSetup();
+    const seen: Record<string, unknown> = {};
+    const timed = (id: string, minutes: number): SourceAdapter => ({
+      ...site(id, seen),
+      deadlineMs: ({ adverts }) => minutes * 60_000 + adverts,
+    });
+    const result = await runSources(
+      [timed("careers.long", 20), timed("careers.short", 5)],
+      {
+        ...dependencies,
+        runEndsAt: new Date(clock.now().getTime() + 10 * 60_000),
+      },
+      new Map([["careers.short", state({ advertCount: 7 })]]),
+    );
+    expect(result.sources.map((one) => one.source)).toEqual(["careers.short"]);
+    expect(seen["careers.short"]).toMatchObject({ deadlineMs: 5 * 60_000 + 7 });
+  });
+
+  it("postpones a source its server's hold cut short: no failure counted, its adverts kept, back after the hold", async () => {
+    const { clock, store, dependencies } = runSetup();
+    await store.replaceAdverts("held", []);
+    await store.writeState(
+      "held",
+      state({ consecutiveFailures: 2, advertCount: 3 }),
+    );
+    const adapter: SourceAdapter = {
+      definition: fakeDefinition("held"),
+      // oxlint-disable-next-line require-yield
+      async *fetchAdverts() {
+        throw new HttpFailure(
+          "held",
+          "https://wd3.example/x",
+          0,
+          undefined,
+          30 * 60_000,
+        );
+      },
+    };
+    const result = await runSources([adapter], dependencies);
+    expect(result.sources[0]).toMatchObject({ outcome: "postponed" });
+    const after = await store.readState("held");
+    expect(after).toMatchObject({ consecutiveFailures: 2, advertCount: 3 });
+    const due = Date.parse(after!.nextDueAt!) - clock.now().getTime();
+    expect(due).toBeGreaterThanOrEqual(30 * 60_000);
+    expect(due).toBeLessThanOrEqual(40 * 60_000);
+  });
+
+  it("postpones a source the run had no pages left for to the next run, its adverts and memory kept", async () => {
+    const { store, dependencies } = runSetup();
+    await store.replaceAdverts("careers.a", []);
+    const adapter: SourceAdapter = {
+      definition: fakeDefinition("careers.a", { kind: "careers" }),
+      async *fetchAdverts(context) {
+        context.remember({ turn: 9 });
+        context.postpone();
+        yield fakeDraft("careers.a", "1");
+      },
+    };
+    const result = await runSources([adapter], dependencies);
+    expect(result.sources[0]?.outcome).toBe("postponed");
+    expect(await store.readAdverts("careers.a")).toEqual([]);
+    expect(await store.readMemory("careers.a")).toBeUndefined();
+    expect((await store.readState("careers.a"))?.nextDueAt).toBe(
+      "2026-11-16T08:01:00.000Z",
+    );
   });
 });

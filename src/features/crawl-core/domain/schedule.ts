@@ -76,8 +76,11 @@ export function afterSuccess(
     readonly at: Date;
     readonly advertCount: number;
     readonly changed: boolean;
-    // Pages of ours left to read.
+    // Pages of ours left to read, the pages that answered so far, and whether the source is back sooner for them (a
+    // careers site only with a long queue worth it).
     readonly backlog?: number;
+    readonly answered?: number;
+    readonly readOn?: boolean;
     // Its pages gave no advert.
     readonly barren?: boolean;
   },
@@ -99,12 +102,36 @@ export function afterSuccess(
     unchangedPasses,
     heldDrops: 0,
     ...(backlog > 0 ? { backlog } : {}),
+    ...(run.answered ? { answered: run.answered } : {}),
     nextDueAt: later(
       run.at,
-      backlog > 0 && rules.backlogHours !== undefined
+      // A barren site waits its week first: a long queue of pages without an advert is no reason to come back sooner.
+      backlog > 0 &&
+        run.readOn !== false &&
+        !run.barren &&
+        rules.backlogHours !== undefined
         ? Math.min(wait, rules.backlogHours)
         : wait,
     ),
+  };
+}
+
+// A pass its server's hold or the run's spent pages cut short is not a pass (the legacy's postponed): the source keeps
+// its adverts and its count of failures, and is due again when given (after the hold, or in the next run).
+export function afterPostponed(
+  previous: SourceState | undefined,
+  until: Date,
+): SourceState {
+  return {
+    ...(previous ?? {
+      status: "enabled",
+      lastRunAt: null,
+      advertCount: 0,
+      consecutiveFailures: 0,
+      unchangedPasses: 0,
+      heldDrops: 0,
+    }),
+    nextDueAt: until.toISOString(),
   };
 }
 

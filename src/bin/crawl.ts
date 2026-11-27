@@ -98,13 +98,27 @@ try {
         confirmedTitles: await readCatalogue("confirmedTitles"),
       }),
       pageBudget: pageBudget(config.run.pageBudget),
-      pageBudgetFor: (group: string) => budgets.get(group),
+      // JOIN's companies draw on the employers' sites' pages, as in the legacy.
+      pageBudgetFor: (group: string) =>
+        budgets.get(group === "join" ? "careers" : group),
       inFlight: config.run.inFlight,
       ...(config.run.minutes
         ? {
             startUntil: new Date(
               clock.now().getTime() + (config.run.minutes - 5) * 60_000,
             ),
+            runEndsAt: new Date(
+              clock.now().getTime() + config.run.minutes * 60_000,
+            ),
+          }
+        : {}),
+      sourcesARun: config.run.sourcesARun,
+      ...(config.run.longQueues
+        ? {
+            longQueues: {
+              ...config.run.longQueues,
+              deadlineMs: config.run.longQueues.minutes * 60_000,
+            },
           }
         : {}),
       queue: {

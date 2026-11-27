@@ -73,6 +73,9 @@ const StateFields = {
   heldDrops: z.int().nonnegative().default(0),
   // Pages of ours the last pass left to read (job portals FR-5); absent when none.
   backlog: z.int().positive().optional(),
+  // Vacancy pages of a careers site that answered, read so far (career sites FR-6): with what the site shows of it,
+  // whether a long queue is worth its own lane.
+  answered: z.int().positive().optional(),
   nextDueAt: Timestamp.nullable(),
 };
 

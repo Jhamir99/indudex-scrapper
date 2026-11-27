@@ -35,8 +35,17 @@ export interface AdapterContext {
   isOurs(title: string, country: string, language?: string): boolean;
   // The pages the run may still read across its sources (job portals FR-5).
   readonly pageBudget: PageBudget;
-  // Pages of ours the pass left to read: the source is due again sooner (job portals FR-5).
-  backlog(pages: number): void;
+  // Pages of ours the pass left to read: the source is due again sooner (job portals FR-5); a careers site also says
+  // how many of its vacancy pages answered so far, and only a long queue worth its lane is back sooner (career sites
+  // FR-6).
+  backlog(pages: number, answered?: number): void;
+  // The run had no page left for this source: it read nothing, keeps what it had and is due in the next run.
+  postpone(): void;
+  // How long the pass may read (the runner's, sized by the source's adverts), when the source says.
+  readonly deadlineMs?: number;
+  // Set when the source runs in the long queues' lane (career sites FR-6): the pages it may read in the pass and the gap
+  // it may ask between two of its pages.
+  readonly longQueue?: { readonly pagesASite: number; readonly gapMs: number };
   // The source's pages gave no advert (a careers site whose vacancy pages carry none): it is read at the barren cadence
   // (career sites FR-5).
   barren(): void;
@@ -56,6 +65,11 @@ export type { SourceMemory };
 // A source describes only what is specific to it; when and how fast it runs is the runner's job.
 export interface SourceAdapter {
   readonly definition: SourceDefinition;
+  // The source's group for the queue and the lanes when not its kind's (JOIN's companies share one host).
+  readonly group?: string;
+  // How long a pass may read, from the adverts it held at its last read (a board's grows with them); the runner starts
+  // no source whose time would outlast the run.
+  deadlineMs?(read: { readonly adverts: number }): number;
   fetchAdverts(context: AdapterContext): AsyncIterable<AdvertDraft>;
 }
 

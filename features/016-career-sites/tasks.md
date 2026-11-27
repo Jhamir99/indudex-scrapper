@@ -28,7 +28,7 @@ Generated from `spec.md` and `plan.md` (2026-11-27). Each task ends with the CI'
       Done when: selection follows the legacy's `due` (worth, one in five for sources that show nothing, never-read
       sources capped a run by group in turn, reading-on last), compared with the legacy's function on the same inputs;
       the run's lanes, minutes and page budgets at the legacy's values in `crawl.yml`.
-- [ ] **T007 — Long queues and platform limits** · FR-6, FR-7 · Depends: T006
+- [x] **T007 — Long queues and platform limits** · FR-6, FR-7 · Depends: T006
       Done when: a site with a long queue runs in the queues' lanes at a page a second within its ceilings; a group's
       in-flight limit and sources a run (hrmanager 8 an hour) hold on fakes; a source's deadline is sized by its
       adverts.
@@ -108,3 +108,16 @@ sources 300 a run (`run.newARun`). A source's group: an employer's site `careers
 `via`, `feeds`. A live run of 90 s on an empty store: 300 due, 96 stored, 5 empty, 17 failed; every Workday board on
 `wd3` failed at once because one robots.txt answered 429 and our hold refused the others, each counted a failure,
 where the legacy postpones a source a held server cuts short (no failure, back after the hold): T007.
+
+T007 (2026-11-27). A careers site with 500 vacancy pages or more left, while a fifth of the pages it read show an offer
+(or before fifty answered), runs in the `queues` lane (`run.longQueues`, `inFlight.queues` 16, `pageBudgets.queues`
+60,000): 1,500 pages a pass, a page a second (the reader asks its host's gap of the polite client, `gapMs`; a host the
+settings pace and robots.txt's Crawl-delay still win), 25 minutes; only such a site is back in the next run for its pages
+left (the legacy's `nextPass`; before, every site with pages left was), and a barren one waits its week first. A group
+starts no more sources a run than `run.sourcesARun` gives (HR-Manager 8) and none once its pages are spent; no source
+starts whose time would outlast the run. A board's time grows with the vacancies it held (the legacy's
+`sizedDeadline`: its platform's own, two minutes for a found one, five for Workday's and SmartRecruiters', 0.35 s a
+vacancy on top, at most 25 minutes). JOIN's companies are a group of their own and draw on the employers' sites' pages.
+A source cut short by its server's hold (or a 429 that says when) is postponed, as the legacy did: no failure counted,
+its adverts and memory kept, back after the hold and up to ten minutes more; one the run had no pages left for, in the
+next run.
