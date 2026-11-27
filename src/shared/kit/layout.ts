@@ -28,7 +28,14 @@ export interface Posting {
   remote: boolean;
   mode?: string;
   modeTag?: string;
-  pay?: unknown;
+  // A pay as a page writes it (the legacy's `Salary` of builder/lib/crawl.ts).
+  pay?: {
+    min: unknown;
+    max: unknown;
+    currency: string;
+    period: string;
+    partTime: boolean;
+  } | null;
   employmentType?: string[];
   hours?: string;
   years?: number;

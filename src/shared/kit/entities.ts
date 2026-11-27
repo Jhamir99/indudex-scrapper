@@ -10,8 +10,10 @@ import { decodeHTMLStrict } from "entities";
 export const INVISIBLE =
   /[\u00ad\u200b\u200c\u2060\ufeff]|\u200d(?!\p{Extended_Pictographic})/gu;
 
+// «&nbsp;» is a plain space, as the legacy's table wrote it: the readers' rules on spaces (a space before a colon goes)
+// read the text as the legacy's did. A no-break space written as a character or a number stays one.
 export const decodeEntities = (s: unknown): string =>
-  decodeHTMLStrict(String(s || ""));
+  decodeHTMLStrict(String(s || "").replace(/&nbsp;/g, " "));
 
 // Text a source escaped twice over ("&amp;#038;", which one reading leaves as "&#038;"), read
 // until nothing changes, three times at most.

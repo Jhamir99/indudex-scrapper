@@ -1,6 +1,7 @@
 // Copied from Argus (https://github.com/JustJans/argus), server-bot/scan.mjs at v1.11.0, MIT licence, © JustJans: only
 // the board parsers the legacy's builder/adapters/boards.ts calls (career sites T002). Its own comments keep their marks.
 // Typed loosely: JavaScript as Argus wrote it, its answers as each platform sends them.
+import { pageText as stripHtml } from "../../../shared/kit/text.js";
 
 // ➤ Each portal answers in its own format; these "translators" turn each response into one
 // ➤ common shape: title, link, company, location — and the advert text.
@@ -109,4 +110,56 @@ export function parseSmartRecruiters(json: any, name?: any): any[] {
       _sr: { slug, id: j.id },
     };
   });
+}
+
+// Argus's stripHtml (server-bot/requirements.mjs) runs html-to-text, not a dependency here: our pageText stands in for it.
+
+// ➤ The XML entities a job feed really contains, numeric ones included: "&#39;" is how
+// ➤ most feeds write an apostrophe, and a title full of those matches nothing.
+function decodeFeedEntities(s: unknown): string {
+  return String(s || "")
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) =>
+      String.fromCharCode(parseInt(n, 16)),
+    )
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&"); // last, or "&amp;lt;" would become "<"
+}
+
+// ➤ SuccessFactors career sites (SAP's site builder, still answering to its old name of
+// ➤ jobs2web) publish the WHOLE board as RSS at <site>/jobs.xml — no key, advert included.
+export function parseSuccessFactors(xml: unknown, name?: any): any[] {
+  const tag = (block: string, t: string) => {
+    const m = block.match(new RegExp(`<${t}[^<>]*>([\\s\\S]*?)</${t}>`, "i"));
+    return m ? decodeFeedEntities(m[1]).trim() : "";
+  };
+  return [...String(xml || "").matchAll(/<item>([\s\S]*?)<\/item>/gi)]
+    .map(([, block]) => {
+      const location = tag(block, "g:location");
+      let title = tag(block, "title");
+      // ➤ These titles repeat the location in brackets at the end ("E3D System Administrator
+      // ➤ (Kuala Lumpur, MY, 50470)"). Dropped ONLY when it equals the location field —
+      // ➤ plenty of real titles end in brackets that mean something ("Automation Engineer (HMI)").
+      if (location) {
+        const tail = title.match(/\s*\(([^)]+)\)\s*$/);
+        if (
+          tail &&
+          tail[1].trim().toLowerCase() === location.trim().toLowerCase()
+        )
+          title = title.slice(0, tail.index).trim();
+      }
+      return {
+        title,
+        url: tag(block, "link"),
+        company: name,
+        location,
+        _jd: stripHtml(tag(block, "description")),
+      };
+    })
+    .filter((o) => o.title && o.url);
 }

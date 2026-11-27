@@ -14,7 +14,7 @@ Generated from `spec.md` and `plan.md` (2026-11-27). Each task ends with the CI'
       Done when: `boards.ts` and Argus's parsers are copied, each platform's saved answer gives the legacy's adverts,
       SmartRecruiters and JOIN listed and switched off with their reason, the vendors' switches read from
       `vendors.yml`.
-- [ ] **T003 — The careers reader** · FR-2, FR-4, FR-5, FR-9 · Depends: T001
+- [x] **T003 — The careers reader** · FR-2, FR-4, FR-5, FR-9 · Depends: T001
       Done when: `careers.ts` and the streamed feed items are copied; saved sitemaps, listings, feeds and pages of each
       shape give the legacy's adverts; a barren site's cadence is a week; a vacancy is read again by the reader's
       version rules.
@@ -63,3 +63,15 @@ the legacy read from a file. A request may set its own time limit (a whole list 
 `mostFlexible` and `tagMode` are copied into `shared/kit/mode-words.ts` for the scrapper's readers. Carried: the legacy's
 ats-fields, teamtailor-pages, workday-countries, workday-refs and cornerstone tests (the scout's case left to 017), through
 `test/legacy/boards-shim.mjs`. One saved answer per platform comes with T004's contract test.
+
+T003 (2026-11-27). The legacy's `careers.ts` is copied into `career-sites/legacy/`, only its imports and paths changed,
+with `hunterMemo` and SuccessFactors' feed parser (Argus's text stripper stood in by our `pageText`). The readers'
+helpers are bound per pass (`legacy/pass.ts`: the polite client, the gate's `isOurs`, crawl-core's `pageFacts`):
+`ours.ts` asks the gate (crawl-core's `isOurs` now reads a title in a given language too, for `advertIsOurs`),
+`labels.ts` is crawl-core's page facts, `normalise.ts` gives the publication's offer id, `robots.ts` reads the real
+robots.txt through the client (the reader skips a closed address and finds robots.txt's sitemaps), `sitemap-text.ts`
+unpacks a gzipped sitemap. A failure with a status says «404 for <address>», as the legacy's readers read it. Our
+`layout.ts` copy types a page's pay as the legacy's `Salary`. Found on the way: since `entities`, «&nbsp;» decoded to a
+no-break space where the legacy wrote a plain space, which kept the space before a colon (`decodeEntities` writes it as
+the legacy did again). Carried: site-reader, site-lists, readers-audit (the legacy client's own robots case left to
+crawl-core) and hunt-platforms, through `test/legacy/careers-shim.mjs`. The barren cadence comes with the family (T004).

@@ -43,3 +43,12 @@ export type RawOffer = {
   detailed?: number;
   detail?: number;
 };
+
+// The legacy's builder/text-pay.ts TextPay: a pay read from a text.
+export type TextPay = {
+  min: number;
+  max: number;
+  currency: string;
+  period: string;
+  cents?: boolean;
+};

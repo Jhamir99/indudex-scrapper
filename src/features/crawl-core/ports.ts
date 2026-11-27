@@ -32,7 +32,7 @@ export interface AdapterContext {
   // Whether a title (or the words of a vacancy's address) names a job of ours, read in a country's languages: the gate's
   // own reading, handed in by the entry point, so a reader asks before reading a page (job portals FR-4). Every title
   // is ours when none is given.
-  isOurs(title: string, country: string): boolean;
+  isOurs(title: string, country: string, language?: string): boolean;
   // The pages the run may still read across its sources (job portals FR-5).
   readonly pageBudget: PageBudget;
   // Pages of ours the pass left to read: the source is due again sooner (job portals FR-5).

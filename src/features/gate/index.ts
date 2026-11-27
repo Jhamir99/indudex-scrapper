@@ -30,11 +30,15 @@ export interface GateSources extends GateCatalogues {
 // `titleIsOurs`). The crawl's entry point builds it and hands it to the sources through crawl-core.
 export function createTitleReader(
   sources: GateCatalogues,
-): (title: string, country: string) => boolean {
+): (title: string, country: string, language?: string) => boolean {
   const classify = classifier(compileGate(sources));
-  return (title, country) =>
-    classify({ title, lang: "", hintLangs: languagesOfCountry(country) })
-      .families.length > 0;
+  // In the advert's own language when it says one (the legacy's `advertIsOurs`), else in its country's languages.
+  return (title, country, language = "") =>
+    classify(
+      language
+        ? { title, lang: language }
+        : { title, lang: "", hintLangs: languagesOfCountry(country) },
+    ).families.length > 0;
 }
 
 // The gate compiled once from the catalogues; each advert is decided from its own fields alone

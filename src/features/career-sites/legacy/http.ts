@@ -1,5 +1,5 @@
-import { AsyncLocalStorage } from "node:async_hooks";
 import type { HttpClient } from "../../crawl-core/ports.js";
+import { passTools, withPass } from "./pass.js";
 import { HttpFailure } from "../../../shared/http/http-failure.js";
 import { decodeEntities } from "../../../shared/kit/entities.js";
 
@@ -35,19 +35,17 @@ export type Failure = Error & {
 // A whole list in one answer (a feed, a sitemap, a board's list): two minutes, as the legacy waits.
 export const LIST_WAIT_MS = 120_000;
 
-const current = new AsyncLocalStorage<HttpClient>();
+// The client alone, for a reader that needs nothing else of the pass (the board readers' tests).
 export const withHttp = <T>(
   http: HttpClient,
   run: () => Promise<T>,
-): Promise<T> => current.run(http, run);
-const client = (): HttpClient => {
-  const http = current.getStore();
-  if (!http) throw new Error("no polite client bound for this pass (withHttp)");
-  return http;
-};
+): Promise<T> => withPass({ http }, run);
+const client = (): HttpClient => passTools().http;
 
-const asFailure = (error: unknown): unknown => {
+// A failure as the legacy's readers read it: an error answer says «404 for <address>», as its http.ts wrote it.
+const asFailure = (error: unknown, url: string): unknown => {
   if (!(error instanceof HttpFailure)) return error;
+  if (error.status) error.message = `${error.status} for ${forLog(url)}`;
   return Object.assign(error, {
     ...(error.status === undefined ? {} : { status: error.status }),
     ...(error.kind === "held" || error.kind === "rate-limited"
@@ -66,7 +64,7 @@ async function request(url: string, options: GetOptions = {}) {
       ...(options.timeoutMs ? { timeoutMs: options.timeoutMs } : {}),
     });
   } catch (error) {
-    throw asFailure(error);
+    throw asFailure(error, url);
   }
 }
 
