@@ -6,6 +6,7 @@ import {
 } from "./gazetteer.js";
 import {
   atMost,
+  falseTownMap,
   FIELD_LIMITS,
   namedPlace,
   type NamedInput,
@@ -15,9 +16,16 @@ import {
 } from "./place-advert.js";
 
 import { ambiguousNames, type NamedOffer } from "./ambiguous-names.js";
+import {
+  type CountryEntry,
+  type CountryInput,
+  type CountryRead,
+  countryReader,
+} from "./country-of-advert.js";
 import { regionsInUse, townsInUse, type TownInUse } from "./in-use.js";
 
 export { Placement, type PlaceInput } from "./place-advert.js";
+export type { CountryInput, CountryRead } from "./country-of-advert.js";
 // Whether a text places staff with a client (an agency's advert, whatever its name: companies' share).
 export { FOR_A_CLIENT } from "./text-towns.js";
 export type { AreaInUse, RegionsInUse, TownInUse } from "./in-use.js";
@@ -29,7 +37,9 @@ export interface PlaceCatalogues {
   // The `nuts` catalogue.
   readonly nuts: NutsTables;
   // The `countries` catalogue's list.
-  readonly countries: readonly CountryNames[];
+  readonly countries: readonly (CountryNames & CountryEntry)[];
+  // The `elsewhere` catalogue: the biggest town outside our countries of each name our towns go by.
+  readonly elsewhere?: Readonly<Record<string, readonly [string, number]>>;
 }
 
 // Places' public entry for the processor: the gazetteer is compiled once, then each advert is
@@ -40,8 +50,18 @@ export function createPlacer(catalogues: PlaceCatalogues) {
     catalogues.nuts,
     catalogues.countries,
   );
+  let countryOf: ((advert: CountryInput) => CountryRead) | undefined;
   return {
     place: (input: PlaceInput): Placement => placeAdvert(gazetteer, input),
+    // The country an advert's place, title and address name, the world over, as the legacy's processor read it, and
+    // its town ("" when nothing can be read): for the sources that state no country (career sites FR-10).
+    countryOf: (advert: CountryInput): CountryRead =>
+      (countryOf ??= countryReader(
+        gazetteer,
+        falseTownMap(gazetteer),
+        catalogues.countries,
+        catalogues.elsewhere ?? {},
+      ))(advert),
     // The town the place names, known or not ("" when it names only its country): what an offer shows when no town of
     // the gazetteer was found; and the country it names, another European one when the town is that country's name.
     namedPlace: (input: NamedInput) =>

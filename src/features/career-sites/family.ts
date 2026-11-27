@@ -80,24 +80,51 @@ const words = (value: unknown): string | undefined => {
   return text || undefined;
 };
 
+// The country of a reader's advert: what its place, title and address name, the world over, its stated country
+// weighed in ("" when nothing can be read).
+export type CountryOfRaw = (raw: RawOffer) => string;
+
+// The legacy processor's reading of the country, handed in by the entry point (places' `countryOf`); without it (a
+// test's), a country's name or a big town of its place (`placeCountry`), else its stated one.
+export const countryOfRaw = (
+  context: Pick<AdapterContext, "countryOf">,
+  names: CountryNames | undefined,
+): CountryOfRaw =>
+  context.countryOf
+    ? (raw) =>
+        context.countryOf!({
+          url: String(raw.url || ""),
+          title: String(raw.title || ""),
+          company: String(raw.company || ""),
+          location: String(raw.location || ""),
+          city: String(raw.city || ""),
+          ...(raw.country ? { country: raw.country } : {}),
+          ...(raw.lang ? { lang: String(raw.lang) } : {}),
+          ...(modeWord(raw.mode) ? { mode: modeWord(raw.mode) } : {}),
+        }).country
+    : (raw) =>
+        raw.country ||
+        (names ? placeCountry(String(raw.location || ""), names) : "");
+
 // A legacy reader's advert as crawl-core's draft, or nothing where the store could not keep it (no https address, no
-// title). The country is the advert's, else what its place names, read as the legacy's processor read places
-// (`placeCountry`: a country's name or a big town, else a remote job, else not stated), since the store needs one.
+// title). The country is read as the legacy's processor read it (`countryOf`): its place, its title, its address and
+// the country it states, the world over; "zz" when nothing can be read (the processor leaves out such a board's advert
+// unless its title is marked for a market: FR-10), since the store needs one.
 export function careerDraft(
   raw: RawOffer,
   source: string,
-  names: CountryNames | undefined,
+  countryOf: CountryOfRaw,
 ): AdvertDraft | undefined {
   const url = String(raw.url || "");
   const title = String(raw.title || "").trim();
   if (!/^https:\/\//i.test(url) || !title) return undefined;
   const location = String(raw.location || "");
   const stated = String(raw.country || "").toLowerCase();
-  const country = /^[a-z]{2}$/.test(stated)
-    ? stated
-    : names
-      ? placeCountry(location, names)
-      : "zz";
+  const read = countryOf({
+    ...raw,
+    country: /^[a-z]{2}$/.test(stated) ? stated : "",
+  });
+  const country = /^[a-z]{2}$/.test(read) ? read : "zz";
   const mode = modeWord(raw.mode);
   const language = /^[a-z]{2}$/.test(String(raw.lang || ""))
     ? String(raw.lang)
@@ -281,9 +308,9 @@ export function siteSource(
       );
       if (read.backlog) context.backlog(read.backlog, read.answered);
       if (read.barren) context.barren();
-      const known = await theNames();
+      const countryOf = countryOfRaw(context, await theNames());
       yield* uniquely(
-        read.adverts.map((raw) => careerDraft(raw as RawOffer, id, known)),
+        read.adverts.map((raw) => careerDraft(raw as RawOffer, id, countryOf)),
       );
     },
   };
@@ -356,8 +383,8 @@ export function boardSource(
             ),
           }),
         );
-      const known = await theNames();
-      yield* uniquely(adverts.map((raw) => careerDraft(raw, id, known)));
+      const countryOf = countryOfRaw(context, await theNames());
+      yield* uniquely(adverts.map((raw) => careerDraft(raw, id, countryOf)));
     },
   };
 }

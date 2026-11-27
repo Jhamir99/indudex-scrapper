@@ -32,7 +32,7 @@ Generated from `spec.md` and `plan.md` (2026-11-27). Each task ends with the CI'
       Done when: a site with a long queue runs in the queues' lanes at a page a second within its ceilings; a group's
       in-flight limit and sources a run (hrmanager 8 an hour) hold on fakes; a source's deadline is sized by its
       adverts.
-- [ ] **T008 — A board's advert with no place** · FR-10 · Depends: T004
+- [x] **T008 — A board's advert with no place** · FR-10 · Depends: T004
       Done when: the processor leaves out a board's advert with no readable place unless its title is marked «(m/w/d)»
       or «(H/F)», with the legacy's cases.
 - [ ] **T009 — End to end on fixtures** · FR-11, FR-12 · Depends: T007, T008
@@ -121,3 +121,15 @@ vacancy on top, at most 25 minutes). JOIN's companies are a group of their own a
 A source cut short by its server's hold (or a 429 that says when) is postponed, as the legacy did: no failure counted,
 its adverts and memory kept, back after the hold and up to ten minutes more; one the run had no pages left for, in the
 next run.
+
+T008 (2026-11-27). The rule needs the legacy processor's reading of a country, which 004 left to this feature: on a
+first live read, 14,064 of 33,513 boards' adverts had no country our scrape-time reader could name (most of them in
+the United States) and 5,574 were taken for remote jobs while naming India or Canada. The legacy's `placeOfAdvert`
+(builder/normalise.ts: the far countries' names and big towns, the US's states, Canada's provinces, Italy's provinces,
+a site's domain, a country in the title) is copied into `places/legacy/`, with the two readers of builder/towns.ts it
+asks, only their imports changed; `countryOf` reads with our gazetteer and the `elsewhere` catalogue and gives the
+legacy's answer to each of those 33,513 adverts. The crawl hands it to the career sources (`AdapterContext.countryOf`,
+built by `src/bin/crawl.ts`: about 0.7 s and 280 MB); `careerDraft` stores its country, the stated one weighed in, and
+"zz" when it reads none. The gate then leaves out a company board's advert (`isCompanyBoard`: a careers source that is
+not `careers.<key>`) whose country is not stated and whose place is not Europe as a whole, unless its title is marked
+«(m/w/d)» or «(H/F)» (`place unknown`, counted with those outside Europe, as the legacy's `PLACE UNKNOWN`).

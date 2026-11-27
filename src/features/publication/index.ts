@@ -7,7 +7,10 @@ import type { KeptRegisterCompany } from "../../shared/storage/registers-file.js
 import type { PublishedDataset } from "../../shared/storage/published-dataset.js";
 import { versionOf } from "../../shared/storage/published-dataset.js";
 import type { Rates } from "../../shared/rates/ecb.js";
-import type { SourceDefinition } from "../../shared/schemas/source.js";
+import {
+  isCompanyBoard,
+  type SourceDefinition,
+} from "../../shared/schemas/source.js";
 import type { StoredAdvert } from "../../shared/schemas/advert.js";
 import {
   PublishedCompanies,
@@ -342,7 +345,12 @@ export async function runPublication(
       await writer.write(`catalogues/${name}.json`, JSON.stringify(catalogue));
     if (deps.explain)
       await writeExplainReport(
-        reading.passes.flatMap((pass) => pass.adverts as StoredAdvert[]),
+        reading.passes.flatMap((pass) =>
+          (pass.adverts as StoredAdvert[]).map((advert) => ({
+            ...advert,
+            board: isCompanyBoard(pass.source, kinds.get(pass.source)),
+          })),
+        ),
         gate.decide,
         writer.folder,
       );

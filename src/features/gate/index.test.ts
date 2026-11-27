@@ -83,6 +83,37 @@ describe("a job in no one country (the legacy's xx and zz)", () => {
   });
 });
 
+const unplaced = (fields: Partial<GateInput>) =>
+  gate.decide(advert({ country: "zz", location: "", board: true, ...fields }));
+
+describe("a company board's advert with no place (career sites FR-10)", () => {
+  it("is left out, its place unknown, unless its title is marked for the German- or French-speaking market", () => {
+    expect(unplaced({ location: "Remote-friendly campus" })).toEqual({
+      kept: false,
+      reason: "place unknown",
+    });
+    expect(unplaced({}).kept).toBe(false);
+    expect(
+      unplaced({
+        title: "Industriemechaniker (m/w/d)",
+        language: "de",
+      }).kept,
+    ).toBe(true);
+    expect(
+      unplaced({
+        title: "Technicien de maintenance (H/F)",
+        language: "fr",
+      }).kept,
+    ).toBe(true);
+  });
+
+  it("keeps one in an office of Europe whose country is not stated, and every other source's", () => {
+    expect(unplaced({ location: "Europe" }).kept).toBe(true);
+    expect(unplaced({ board: false }).kept).toBe(true);
+    expect(unplaced({ country: "xx" }).kept).toBe(true);
+  });
+});
+
 describe("the gate's decision (gate FR-7 to FR-10)", () => {
   it("keeps an advert of the vertical with its families and occupations", () => {
     const decision = gate.decide(advert({}));

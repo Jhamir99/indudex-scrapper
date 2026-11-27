@@ -11,6 +11,8 @@ import type { Clock } from "../features/crawl-core/ports.js";
 import { pageBudget } from "../features/crawl-core/page-budget.js";
 import { registeredAdapters } from "../features/crawl-core/registry.js";
 import { createTitleReader } from "../features/gate/index.js";
+import { createPlacer } from "../features/places/index.js";
+import { readPlaces } from "../shared/catalogues/places.js";
 import { portalHostGaps } from "../features/job-portals/index.js";
 import { readCatalogue } from "../shared/catalogues/read-catalogue.js";
 import {
@@ -127,6 +129,14 @@ try {
         noneEvery: config.run.noneEvery,
       },
       pageFacts: readPageFacts,
+      // The legacy processor's reading of a country, the world over, for the sources that state none: the employers'
+      // sites and the boards (career sites FR-10). Our towns and NUTS's areas: about 0.7 s and 280 MB.
+      countryOf: createPlacer({
+        places: await readPlaces(),
+        nuts: await readCatalogue("nuts"),
+        countries: (await readCatalogue("countries")).countries,
+        elsewhere: (await readCatalogue("elsewhere")).elsewhere,
+      }).countryOf,
       shown,
       rates: new FileRatesKeeper(directory, clock),
     });

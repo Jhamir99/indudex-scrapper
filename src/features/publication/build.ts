@@ -2,7 +2,10 @@ import { fold } from "../../shared/kit/fold.js";
 import { shownTitle } from "../../shared/kit/shown-title.js";
 import type { StoredAdvert } from "../../shared/schemas/advert.js";
 import type { Offer } from "../../shared/schemas/published/offer.js";
-import type { SourceKind } from "../../shared/schemas/source.js";
+import {
+  isCompanyBoard,
+  type SourceKind,
+} from "../../shared/schemas/source.js";
 import type { AdvertFacts } from "../advert-facts/index.js";
 import { calmTitle, spellingsOf } from "../../shared/kit/calm-titles.js";
 import type { DirectoryOffer } from "../companies/index.js";
@@ -21,6 +24,7 @@ import {
   CLOSED,
   HYGIENE,
   OUTSIDE_EUROPE,
+  PLACE_UNKNOWN,
   type GateDecision,
   type GateInput,
 } from "../gate/index.js";
@@ -219,11 +223,18 @@ export function build(input: BuildInput): Built {
     const kind = input.kinds.get(pass.source) ?? "feed";
     const employerOf = employerReader(pass.source);
     for (const advert of pass.adverts) {
-      const decision = steps.gate.decide(advert);
+      const decision = steps.gate.decide({
+        ...advert,
+        board: isCompanyBoard(pass.source, input.kinds.get(pass.source)),
+      });
       if (!decision.kept) {
         if (decision.reason.startsWith(HYGIENE)) counts.hygiene++;
         else if (decision.reason === CLOSED) counts.closed++;
-        else if (decision.reason === OUTSIDE_EUROPE) counts.outsideEurope++;
+        else if (
+          decision.reason === OUTSIDE_EUROPE ||
+          decision.reason === PLACE_UNKNOWN
+        )
+          counts.outsideEurope++;
         else counts.outsideVertical++;
         continue;
       }

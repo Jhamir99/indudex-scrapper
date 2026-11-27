@@ -82,6 +82,8 @@ const everywhereOf = (gazetteer: Gazetteer): Everywhere => ({
   },
 });
 const everywhereFor = new WeakMap<Gazetteer, Everywhere>();
+export const falseTownMap = (gazetteer: Gazetteer): Everywhere =>
+  everywhere(gazetteer);
 const everywhere = (gazetteer: Gazetteer): Everywhere => {
   let known = everywhereFor.get(gazetteer);
   if (!known) {

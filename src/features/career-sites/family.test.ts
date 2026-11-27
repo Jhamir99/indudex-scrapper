@@ -7,6 +7,7 @@ import {
   careerDraft,
   siteSourceId,
 } from "./index.js";
+import { countryOfRaw } from "./family.js";
 
 describe("one source per entry (career sites FR-1, FR-12)", () => {
   it("names a site by its legacy key and a board by its platform and slug, as a source id may be written", () => {
@@ -82,7 +83,7 @@ describe("a reader's advert as the store keeps it", () => {
         employmentType: ["FULL_TIME"],
       },
       "careers.jobs.example.de",
-      names,
+      countryOfRaw({}, names),
     );
     expect(draft).toMatchObject({
       source: "careers.jobs.example.de",
@@ -98,17 +99,58 @@ describe("a reader's advert as the store keeps it", () => {
     });
   });
 
+  it("reads the country as the legacy's processor did, its stated one weighed in, and marks one it cannot read", () => {
+    const asked: unknown[] = [];
+    const countryOf = countryOfRaw(
+      {
+        countryOf: (advert) => {
+          asked.push(advert);
+          return {
+            country: /San Francisco/.test(advert.location ?? "")
+              ? "us"
+              : (advert.country ?? ""),
+            town: "",
+          };
+        },
+      },
+      undefined,
+    );
+    const draft = (location: string, country?: string) =>
+      careerDraft(
+        {
+          source: "x",
+          url: "https://boards.example.com/1",
+          title: "Field Engineer",
+          location,
+          mode: "On-site",
+          ...(country ? { country } : {}),
+        },
+        "greenhouse.x",
+        countryOf,
+      );
+    expect(
+      [draft("San Francisco"), draft("Somewhere"), draft("Lyon", "FR")].map(
+        (one) => [one?.country, one?.language],
+      ),
+    ).toEqual([
+      ["us", "en"],
+      ["zz", "en"],
+      ["fr", "fr"],
+    ]);
+    expect(asked[2]).toMatchObject({ country: "fr", mode: "onsite" });
+  });
+
   it("leaves out an advert with no https address or no title", () => {
     expect([
       careerDraft(
         { source: "x", url: "http://jobs.example.de/1", title: "Elektriker" },
         "careers.x",
-        undefined,
+        () => "",
       ),
       careerDraft(
         { source: "x", url: "https://jobs.example.de/1", title: " " },
         "careers.x",
-        undefined,
+        () => "",
       ),
     ]).toEqual([undefined, undefined]);
   });

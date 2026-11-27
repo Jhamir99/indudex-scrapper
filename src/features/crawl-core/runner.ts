@@ -104,6 +104,7 @@ export interface SourceRunDependencies {
   readonly pageBudget?: PageBudget;
   readonly pageBudgetFor?: (group: string) => PageBudget | undefined;
   readonly pageFacts?: (html: string) => PageFacts;
+  readonly countryOf?: AdapterContext["countryOf"];
   // The pass's time, and the long queues' pages and gap when it runs in their lane (career sites FR-6).
   readonly deadlineMs?: number;
   readonly longQueue?: { readonly pagesASite: number; readonly gapMs: number };
@@ -218,6 +219,7 @@ export async function runSource(
       isOurs: dependencies.isOurs ?? (() => true),
       pageBudget: dependencies.pageBudget ?? UNLIMITED,
       pageFacts: dependencies.pageFacts ?? NO_PAGE_FACTS,
+      ...(dependencies.countryOf ? { countryOf: dependencies.countryOf } : {}),
       shown: dependencies.shown?.ids ?? null,
       backlog: (pages, pagesAnswered = 0) => {
         backlog = Math.max(0, Math.round(pages));
@@ -323,6 +325,8 @@ export interface RunDependencies {
   readonly shown?: ShownOffers | null;
   readonly pageBudget?: PageBudget;
   readonly pageFacts?: (html: string) => PageFacts;
+  // The country an advert's place names, the world over (career sites FR-10).
+  readonly countryOf?: AdapterContext["countryOf"];
   // Sources read at once (default 1; the legacy's lanes, 32). The polite client behind `http` is shared, so the pace of
   // each host, server and provider and the connection caps hold however many run.
   readonly concurrency?: number;

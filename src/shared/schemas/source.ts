@@ -23,6 +23,11 @@ export type Licence = z.infer<typeof Licence>;
 // The kinds ported from the legacy adapters: public and partner feeds, ATS or careers pages,
 // job portals that allow republishing, and portals read through an intermediary's partner programme.
 export const SourceKind = z.enum(["feed", "careers", "portal", "via"]);
+
+// A careers source that is a company's board on an ATS platform (career sites' `<platform>.<slug>`), not an employer's
+// own site (`careers.<key>`): boards are read the world over (career sites FR-10).
+export const isCompanyBoard = (id: string, kind: SourceKind | undefined) =>
+  kind === "careers" && !id.startsWith("careers.");
 export type SourceKind = z.infer<typeof SourceKind>;
 
 const EnvironmentVariableName = z

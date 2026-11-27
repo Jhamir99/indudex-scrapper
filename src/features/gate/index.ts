@@ -11,6 +11,7 @@ export {
   GateDecision,
   HYGIENE,
   OUTSIDE_EUROPE,
+  PLACE_UNKNOWN,
   type GateInput,
 } from "./decide.js";
 export {

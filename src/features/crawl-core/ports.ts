@@ -54,6 +54,24 @@ export interface AdapterContext {
   readonly shown: ReadonlySet<string> | null;
   // What a vacancy's page says in labelled fields beside its block (job portals FR-3); nothing when none is given.
   pageFacts(html: string): PageFacts;
+  // The country an advert's place, title and address name, the world over, and its town ("" when nothing can be read):
+  // places' reading, handed in by the entry point, for the sources that state no country (career sites FR-10).
+  readonly countryOf?: (advert: CountryInput) => {
+    readonly country: string;
+    readonly town: string;
+  };
+}
+
+// An advert as the country reader reads it.
+export interface CountryInput {
+  readonly title?: string;
+  readonly url: string;
+  readonly company?: string;
+  readonly location?: string;
+  readonly city?: string;
+  readonly country?: string;
+  readonly lang?: string;
+  readonly mode?: string;
 }
 
 export type { PageFacts };

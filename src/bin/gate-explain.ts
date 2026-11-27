@@ -11,7 +11,9 @@ import {
   writeExplainReport,
 } from "../features/gate/index.js";
 import { readCatalogue } from "../shared/catalogues/read-catalogue.js";
+import { registeredAdapters } from "../features/crawl-core/registry.js";
 import type { StoredAdvert } from "../shared/schemas/advert.js";
+import { isCompanyBoard } from "../shared/schemas/source.js";
 import { FileAdvertStore } from "../shared/storage/file-advert-store.js";
 import { storeDirectory } from "./store-directory.js";
 
@@ -36,9 +38,20 @@ try {
     confirmedTitles: await readCatalogue("confirmedTitles"),
     countries: await readCatalogue("countries"),
   });
-  const adverts: StoredAdvert[] = [];
+  // A company board's advert with no readable place is left out (career sites FR-10): the registry knows each kind.
+  const kinds = new Map(
+    registeredAdapters.map((adapter) => [
+      adapter.definition.id,
+      adapter.definition.kind,
+    ]),
+  );
+  const adverts: (StoredAdvert & { board: boolean })[] = [];
   for (const source of [...(await store.readStates()).keys()].toSorted())
-    adverts.push(...(await store.readAdverts(source)));
+    for (const advert of await store.readAdverts(source))
+      adverts.push({
+        ...advert,
+        board: isCompanyBoard(source, kinds.get(source)),
+      });
   const summary = await writeExplainReport(adverts, gate.decide, out);
   process.stdout.write(formatSummary(summary));
 } catch (error) {

@@ -69,6 +69,13 @@ export const REMOTE = "xx";
 export const NOT_STATED = "zz";
 const EUROPE_WIDE =
   /^(?:europe|european union|eu|europa|pan european|europe wide|emea)$/;
+// A place that says only Europe as a whole («Europe», «EU», «EMEA»).
+export const saysEuropeOnly = (place: string): boolean =>
+  EUROPE_WIDE.test(
+    fold(place)
+      .replace(/[^a-z]+/g, " ")
+      .trim(),
+  );
 const REMOTE_WORDS =
   /(?:^|[^a-z])remote(?![a-z])|home ?office|teletrabajo|teletravail|homeoffice|thuiswerk|distans/;
 
