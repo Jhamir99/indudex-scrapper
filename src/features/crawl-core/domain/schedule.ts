@@ -13,6 +13,8 @@ export interface ScheduleRules {
   readonly withAdvertsHours?: number;
   // The wait of a source that left pages of ours to read (job portals FR-5).
   readonly backlogHours?: number;
+  // The wait of a source whose pages give no advert (a barren careers site: a week, as the legacy).
+  readonly barrenHours?: number;
 }
 
 const HOUR = 3_600_000;
@@ -76,13 +78,18 @@ export function afterSuccess(
     readonly changed: boolean;
     // Pages of ours left to read.
     readonly backlog?: number;
+    // Its pages gave no advert.
+    readonly barren?: boolean;
   },
   rules: ScheduleRules,
 ): SourceState {
   const unchangedPasses = run.changed
     ? 0
     : (previous?.unchangedPasses ?? 0) + 1;
-  const wait = waitAfterSuccessHours(rules, unchangedPasses);
+  const wait =
+    run.barren && rules.barrenHours !== undefined
+      ? rules.barrenHours
+      : waitAfterSuccessHours(rules, unchangedPasses);
   const backlog = run.backlog ?? 0;
   return {
     status: "enabled",

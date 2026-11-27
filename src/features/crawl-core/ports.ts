@@ -37,6 +37,9 @@ export interface AdapterContext {
   readonly pageBudget: PageBudget;
   // Pages of ours the pass left to read: the source is due again sooner (job portals FR-5).
   backlog(pages: number): void;
+  // The source's pages gave no advert (a careers site whose vacancy pages carry none): it is read at the barren cadence
+  // (career sites FR-5).
+  barren(): void;
   // What a vacancy's page says in labelled fields beside its block (job portals FR-3); nothing when none is given.
   pageFacts(html: string): PageFacts;
 }

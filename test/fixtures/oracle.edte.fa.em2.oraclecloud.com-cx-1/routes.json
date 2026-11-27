@@ -1,0 +1,7 @@
+{
+  "https://edte.fa.em2.oraclecloud.com/hcmRestApi/resources/latest/recruitingCEJobRequisitions?onlyData=true&expand=requisitionList&finder=findReqs;siteNumber=CX_1,limit=50,offset=0,sortBy=POSTING_DATES_DESC": "1.json",
+  "https://edte.fa.em2.oraclecloud.com/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails?expand=all&onlyData=true&finder=ById;Id=%22669%22,siteNumber=CX_1": "2.json",
+  "https://edte.fa.em2.oraclecloud.com/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails?expand=all&onlyData=true&finder=ById;Id=%22651%22,siteNumber=CX_1": "3.json",
+  "https://edte.fa.em2.oraclecloud.com/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails?expand=all&onlyData=true&finder=ById;Id=%22625%22,siteNumber=CX_1": "4.json",
+  "https://edte.fa.em2.oraclecloud.com/robots.txt": "5.txt"
+}

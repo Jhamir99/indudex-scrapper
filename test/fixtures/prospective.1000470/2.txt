@@ -1,0 +1,73 @@
+User-agent: *
+Disallow:
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1001412000/assets/images/share-inselspital.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1001412000/assets/images/share-inselspital.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1000213001/assets/images/six-social.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1000213001/assets/images/six-social.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003812001/assets/images/share-innosuisse.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003812001/assets/images/share-innosuisse.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/82002/assets/images/share-amavita.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/82002/assets/images/share-amavita.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/82004/assets/images/share-coopvitality.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/82004/assets/images/share-coopvitality.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/82005/assets/images/share-amavita.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/82005/assets/images/share-amavita.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/82008/assets/images/share-sunstore.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/82008/assets/images/share-sunstore.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003360001/assets/images/socials/rsi-social.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003360001/assets/images/socials/rsi-social.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003360002/assets/images/socials/rtr-social.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003360002/assets/images/socials/rtr-social.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003360001/assets/images/socials/rts-social.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003360001/assets/images/socials/rts-social.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003609001/assets/images/share-sensirion.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003609001/assets/images/share-sensirion.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003782001/assets/images/share-schmidgruppe.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003782001/assets/images/share-schmidgruppe.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1001318002/assets/images/logo-swisscom-social.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1001318002/assets/images/logo-swisscom-social.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1001318003/assets/images/logo-swisscom-social.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1001318003/assets/images/logo-swisscom-social.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003360001/assets/images/socials/srf-social.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003360001/assets/images/socials/srf-social.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003360001/assets/images/socials/srg-social.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003360001/assets/images/socials/srg-social.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003360001/assets/images/socials/swi-social.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003360001/assets/images/socials/swi-social.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/343002/assets/images/share-trivadis.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/343002/assets/images/share-trivadis.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/265001/assets/images/bekb-social.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/265001/assets/images/bekb-social.png
+
+Allow: http://jobs.trivadis.com/directlink/343002/assets/images/share-trivadis.png
+Allow: https://jobs.trivadis.com/directlink/343002/assets/images/share-trivadis.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003927001/assets/images/share-usz.png
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1003927001/assets/images/share-usz.png
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1002017003/assets/images/header/share-valiant-twitter.jpg
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1002017003/assets/images/header/share-valiant-twitter.jpg
+
+Allow: http://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1002017003/assets/images/header/share-valiant-twitter.jpg
+Allow: https://prod-pms-onlinehosting.s3-eu-west-1.amazonaws.com/directlink/1002017003/assets/images/header/share-valiant-twitter.jpg
+
+SITEMAP: http://jobs.raiffeisen.ch/sitemap.xml

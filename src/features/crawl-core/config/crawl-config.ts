@@ -18,6 +18,8 @@ export const CrawlConfig = z.strictObject({
     unchangedMaxHours: Hours,
     // A source that left pages of ours to read is due again after this (job portals FR-5).
     backlogHours: Hours.default(1),
+    // A careers site whose vacancy pages give no advert (career sites FR-5).
+    barrenHours: Hours.default(168),
     // A kind's own cadence, below a source's and above the default (job portals: a portal every six hours).
     byKind: z.record(z.string(), Hours).default({}),
   }),
@@ -96,5 +98,6 @@ export function scheduleRules(
       ? { withAdvertsHours: config.backoff.withAdvertsHours }
       : {}),
     backlogHours: config.cadence.backlogHours,
+    barrenHours: config.cadence.barrenHours,
   };
 }

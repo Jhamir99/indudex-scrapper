@@ -1,0 +1,90 @@
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: Baiduspider-render
+Disallow: /
+
+User-agent: mj12bot
+Disallow: /
+
+User-agent: dotbot
+Disallow: /
+
+User-agent: rogerbot
+Disallow: /
+
+User-agent: Hadrian
+Disallow: /
+
+# Groups do not inherit from "User-agent: *", so each group repeats the rules.
+# Add new crawlers to a group below; a Crawl-delay-only group exempts them.
+
+User-agent: bingbot
+User-agent: Magnet.me-web
+User-agent: GPTBot
+User-agent: IndeedJobBot
+User-agent: Meta-ExternalAgent
+Crawl-delay: 1
+Disallow: *?t=
+Disallow: *&t=
+Disallow: *&n=
+Disallow: *&hh=
+Disallow: *&hl=
+Disallow: *&o=
+Disallow: *&of=
+Disallow: *&f=
+Disallow: *&fo=
+Disallow: *&ln=
+Disallow: *&lc=
+Disallow: *&lp=
+Disallow: *&lct=
+Disallow: *&s=
+Disallow: *&location=
+Disallow: *&keywords=
+Disallow: *&spotlight=
+Disallow: */job-alert?email=
+
+User-agent: SemrushBot
+User-agent: AhrefsBot
+User-agent: ImagesiftBot
+User-agent: OpenindexSpider
+Crawl-delay: 3
+Disallow: *?t=
+Disallow: *&t=
+Disallow: *&n=
+Disallow: *&hh=
+Disallow: *&hl=
+Disallow: *&o=
+Disallow: *&of=
+Disallow: *&f=
+Disallow: *&fo=
+Disallow: *&ln=
+Disallow: *&lc=
+Disallow: *&lp=
+Disallow: *&lct=
+Disallow: *&s=
+Disallow: *&location=
+Disallow: *&keywords=
+Disallow: *&spotlight=
+Disallow: */job-alert?email=
+
+User-agent: *
+Sitemap: https://careers.vanoord.com/sitemap.xml
+Disallow: *?t=
+Disallow: *&t=
+Disallow: *&n=
+Disallow: *&hh=
+Disallow: *&hl=
+Disallow: *&o=
+Disallow: *&of=
+Disallow: *&f=
+Disallow: *&fo=
+Disallow: *&ln=
+Disallow: *&lc=
+Disallow: *&lp=
+Disallow: *&lct=
+Disallow: *&s=
+Disallow: *&location=
+Disallow: *&keywords=
+Disallow: *&spotlight=
+Disallow: */job-alert?email=

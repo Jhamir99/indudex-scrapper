@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.sourceforge.net/" lang="de" class="no-js no-ie">
+    <head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="author" content="softgarden e-recruiting GmbH"/>
+     	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+		<link rel="icon" href="https://static.softgarden.de/favicon/favicon-32x32.png"><!--[if IE]><link rel="shortcut icon" href="https://static.softgarden.de/favicon/favicon.ico"><![endif]--><style type="text/css" id="jobSearchCss">
+#jobsContainer .matchContainer .date { width: 12% } #jobsContainer .matchContainer .title { width: 29.47% } #jobsContainer .matchContainer .jobcategory { width: 16.84% } #jobsContainer .matchContainer .ProjectGeoLocationCity { width: 16.84% } #jobsContainer .matchContainer .audience { width: 16.84% } </style>
+<script type="text/javascript" src="../wicket/resource/com.softgarden.staffit.webclient.webfrontend.core.WebFrontendApplication/core-ver-46480A77CA2574AB851CD35B365719CA.js"></script>
+<script type="text/javascript" id="jobsearchjs">
+/*<![CDATA[*/
+
+var criterions = [
+    {
+        "id": "audience",
+        "name": "Zielgruppe",
+        "options": {
+            "00001": "Auszubildende",
+            "3a3ab7987f000002010ad4925ffa0cf4": "Schüler/in",
+            "3a3af3667f000002010ad49215c3a5f4": "Berufseinsteiger",
+            "3a3b1f6e7f000002010ad492e7837dd6": "Berufserfahrene",
+            "6179d1a00a0b0cce01ed3de8643a0e39": "Student/in"
+        }
+    },
+    {
+        "id": "jobcategory",
+        "name": "Jobkategorie",
+        "options": {
+            "701d6c09-b160-4af6-a385-b2d906ba06fc": "Elektrotechnik, Konstruktion & Montage",
+            "02e5e732-1a91-40ee-bafc-3b016e386601": "Kaufmännische Berufe",
+            "01c6c0c4-0490-4179-9b8c-749465e477c8": "Robotik & SPS Programmierung",
+            "76975d35-e494-498f-9d0c-0b8de8853742": "Softwareentwicklung und IT",
+            "d093ca14-1fa5-4831-801d-feb2a68c66f9": "Verfahrenstechnik & Prozessleittechnik, Life-Science",
+            "3b0af8a3-c20f-4de6-9a26-9dc50b197117": "Wasser und Abwasser"
+        }
+    },
+    {
+        "id": "sg_company_id",
+        "name": "Unternehmen",
+        "options": {
+            "f2b3c54d-62ea-476c-980a-84da4d99d48f": "4am Robotics GmbH",
+            "81d1153b-acf2-496a-b4c0-78b8e2c1abec": "Elektro Eggers GmbH",
+            "689130b8-d7fd-4ac4-a52c-200bb556cbc4": "Fabmatics GmbH",
+            "7b7db600-3392-4237-96c0-2641a672dfc2": "PrintoLUX",
+            "fdfbd1c7-c83f-4006-bc4e-9f50c25cf489": "SC-PDS Ilmenau",
+            "a8fa5e2e-e9e4-4a7d-84a5-cafe487bc410": "SCI GmbH",
+            "58b15ea0-69ee-4d1e-b0f8-bc7232fb6c0a": "SCIO Automation Austria GmbH",
+            "80b03386-7d5e-4513-9eee-0893569b7485": "SCIO Automation Duisburg GmbH",
+            "7c8b660e-fbf1-4a91-8f85-60c3dca5f857": "SCIO Automation Intrasolutions GmbH",
+            "42bf1fd2-8f55-4681-9106-2e3d0b567588": "SCIO Automation Ladenburg GmbH",
+            "94971c43-b9ba-411d-9fff-c19c55cf5210": "SCIO Automation Production Solutions GmbH",
+            "468372c3-9567-4202-af9a-dbe9a88f9d83": "VESCON AQUA",
+            "53ca4f50-6a10-45cc-93c6-42995ffebd20": "VESCON Energy",
+            "11df7407-9759-441d-b3c9-5c5955e8a83b": "VESCON Process",
+            "8aef63af-8c18-4251-8179-52b5bfb95b12": "VESCON Software & IT",
+            "d0b08d57-a286-4e88-9c1b-287f8550e8de": "VESCON Verwaltung"
+        }
+    }
+];
+var sg_jobsearch_hide_inactive = true;
+var jobs_selected = Array();
+var current_page = 1;
+var order_by = 0;
+var jobs_per_page = 10;
+var paging_window = -1;
+var JobResultAnimationOff = false;
+var showInfoBoxSeeEndOfPage = true;
+var jobs_selected_per_list = Array();
+var preselected_location = '';
+var preselected_location_radius = '';
+var preselected_values = {};
+var geocodingOverride = {"OSM":{"62782":{"boundingBox":"[\"53.3951118\", \"53.7393983\", \"9.7275419\", \"10.3252805\"]"}},"GOOGLE":{}};
+jQuery(document).ready(function() {
+    jQuery('#selector_0').change(function () {
+    	jQuery('#jobsContainer').show();
+    	updateLists(0, order_by);
+	 	jQuery('.resetForm').show();
+	});
+    jQuery('#selector_1').change(function () {
+    	jQuery('#jobsContainer').show();
+    	updateLists(1, order_by);
+	 	jQuery('.resetForm').show();
+	});
+    jQuery('#selector_2').change(function () {
+    	jQuery('#jobsContainer').show();
+    	updateLists(2, order_by);
+	 	jQuery('.resetForm').show();
+	});
+jQuery('.matchHeadline').show();
+initialize(order_by);
+});jobs_selected_per_list[0] = Array();
+jobs_selected_per_list[1] = Array();
+jobs_selected_per_list[2] = Array();
+var job_id_list_ordered = new Array ();
+job_id_list_ordered[0] = [65684426, 37315201, 63604324, 66094813, 65902994, 37485544, 35856091, 37315381];
+job_id_list_ordered[1] = [65684426, 37315201, 63604324, 66094813, 65902994, 37485544, 35856091, 37315381];
+job_id_list_ordered[2] = [37315201, 37315381, 37485544, 63604324, 66094813, 65902994, 35856091, 65684426];
+job_id_list_ordered[3] = [63604324, 37315201, 37315381, 35856091, 37485544, 66094813, 65684426, 65902994];
+job_id_list_ordered[4] = [37485544, 37315381, 35856091, 65902994, 66094813, 63604324, 37315201, 65684426];
+job_id_list_ordered[5] = [37485544, 35856091, 65902994, 66094813, 63604324, 65684426, 37315381, 37315201];
+
+var complete_job_id_list = jobs_selected = [35856091, 37315201, 37315381, 37485544, 63604324, 65684426, 65902994, 66094813];
+var jobs_keyword_search = complete_job_id_list;
+var jobs_geoLocation_search = complete_job_id_list;
+var search_criteria = new Array();
+search_criteria[0] = new Object();
+search_criteria[0]["3a3b1f6e7f000002010ad492e7837dd6"] = [35856091, 63604324, 65684426, 65902994, 66094813];
+search_criteria[0]["6179d1a00a0b0cce01ed3de8643a0e39"] = [37315201, 37315381];
+search_criteria[0]["3a3af3667f000002010ad49215c3a5f4"] = [37485544];
+
+search_criteria[1] = new Object();
+search_criteria[1]["76975d35-e494-498f-9d0c-0b8de8853742"] = [65902994];
+search_criteria[1]["01c6c0c4-0490-4179-9b8c-749465e477c8"] = [35856091, 37315381, 37485544, 65684426, 66094813];
+search_criteria[1]["02e5e732-1a91-40ee-bafc-3b016e386601"] = [37315201, 63604324];
+
+search_criteria[2] = new Object();
+search_criteria[2]["f2b3c54d-62ea-476c-980a-84da4d99d48f"] = [35856091, 37315201, 37315381, 37485544, 63604324, 65684426, 65902994, 66094813];
+
+
+/*]]>*/
+</script>
+<link rel="alternate" hreflang="en" href="https://4am-robotics.softgarden.io/en/vacancies" />
+<title>Karriere Board | 4am Robotics GmbH</title><meta name="description" content="career board | © softgarden" />
+<meta name="robots" content="index, follow" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Karriere Board | 4am Robotics GmbH" />
+<meta name="twitter:site" content="@softgarden" />
+<meta name="twitter:description" content="career board | © softgarden" />
+<meta name="twitter:image" content="https://app.softgarden.io/assets/public/media/get/f44c1e49-a7a2-4e46-90c0-675e4af14403/1695109306750/1100x0/BlueprintHeader.jpg" />
+<meta property="og:title" content="Karriere Board | 4am Robotics GmbH" />
+<meta property="og:description" content="career board | © softgarden" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://app.softgarden.io/assets/public/media/get/f44c1e49-a7a2-4e46-90c0-675e4af14403/1695109306750/1100x576P/BlueprintHeader.jpg" />
+<meta property="og:image:width" content="1100" />
+<meta property="og:image:height" content="576" />
+<script type="text/javascript" src="../wicket/resource/com.softgarden.staffit.webclient.webfrontend.pages.main.js.JavaScriptReference/modernizr-ver-BBD564F40D2D602049100DC76FE17C37.js"></script>
+<script type="text/javascript" id="sg_config">
+/*<![CDATA[*/
+var SG = SG || {};
+/*]]>*/
+</script>
+<link rel="stylesheet" type="text/css" href="//static.softgarden.de/thirdparty/fonts/css/dosis.css" />
+<link rel="stylesheet" type="text/css" href="//static.softgarden.de/thirdparty/fonts/css/dosis-vietnamese_latin-ext_latin.css" />
+<link rel="stylesheet" type="text/css" href="../wicket/resource/com.softgarden.staffit.webclient.webfrontend.pages.main.css.CssReference/webfrontend-v2-ver-591897EFF2EA75250FF42C429E89BE70.css" />
+<style type="text/css" id="companyCss">
+body { background:  #fff no-repeat 0% 0%; } 
+.content-wrapper, .narrow-page, header.image-header { background-color: #FFFFFF; } 
+.content-box { background: #F2F2F2; } 
+a, label i, label em { color: #00676B; } 
+a:visited { color: #00676B; } 
+a:hover, .btn-link:hover, .btn-link:focus, .btn-link:active { color: #8FAAAE; } 
+body, h1, h2, h3 { color: #2e2e2e; } 
+.secondary-color, label, .control-group.error .control-label { color: #2e2e2e; } 
+textarea:focus, select:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus, .chosen-container-active .chosen-single, .chosen-container-active .chosen-choices, .chosen-container .chosen-drop { border-color: #00676B; } 
+.btn, .btn:visited, .btn-primary, .btn-primary:visited, .upload-item { background-color: #00676B; color: #FFFFFF; background-image: none; } 
+.btn-link, .btn-link:visited { color: #00676B; } 
+.upload-item a, .upload-item a:visited { color: #FFFFFF; } 
+.thirdparty-btn.thirdparty-btn--cv-upload > * { color: #FFFFFF !important; } 
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active { background-color: #8FAAAE; color: #FFFFFF; } 
+.thirdparty-btn.thirdparty-btn--cv-upload:hover > *, .thirdparty-btn.thirdparty-btn--cv-upload:active > *, .thirdparty-btn.thirdparty-btn--cv-upload:focus > * { color: #FFFFFF !important; } 
+.navbar .btn-navbar, .navbar .btn-navbar.active, .navbar .btn-navbar:active, .navbar .btn-navbar:focus, .navbar .btn-navbar:hover { background-color: #00676B; background-image: none; } 
+.navbar .btn-navbar .icon-bar, .navbar .btn-navbar.active .icon-bar, .navbar .btn-navbar:active .icon-bar, .navbar .btn-navbar:focus .icon-bar, .navbar .btn-navbar:hover .icon-bar { background-color: #fff; } 
+.sg-rating__star-icn.is-active, .sg-rating__star.is-hover .sg-rating__star-icn { color: #00676B; } 
+.navbar .navbar-inner, .navbar .dropdown-menu { background-color: #00676B; } 
+.navbar .nav > li > .dropdown-menu:after { border-bottom-color: #00676B; } 
+.navbar .nav > li > a, .nav-collapse .dropdown-menu a, .navbar a, .navbar a:visited { color: #fff; } 
+.navbar .nav li.dropdown > .dropdown-toggle .caret { border-color: #fff; } 
+.navbar .nav > li > a.active, .navbar .nav > li > a:focus, .navbar .nav > li > a:hover, .navbar .nav li.dropdown.open > .dropdown-toggle, .nav-collapse .dropdown-menu a:focus, .nav-collapse .dropdown-menu a:hover, .nav-collapse .nav > li > a:focus, .nav-collapse .nav > li > a:hover { background-color: #00676B; color: #fff; } 
+.navbar .nav li.dropdown > a:focus .caret, .navbar .nav li.dropdown > a:hover .caret, .navbar .nav li.dropdown.open > .dropdown-toggle .caret { border-color: #fff; } 
+@font-face{
+        font-family:"DINNextW01-CondensedReg";
+        src:url("https://mediaassets.softgarden.de/customer/Vescon/Schiller/WebFonts/Fonts/692255/6fa09720-5b0e-48a5-8895-5af8af928c01.eot?#iefix");
+        src:url("https://mediaassets.softgarden.de/customer/Vescon/Schiller/WebFonts/Fonts/692255/6fa09720-5b0e-48a5-8895-5af8af928c01.eot?#iefix") format("eot"),url("https://mediaassets.softgarden.de/customer/Vescon/Schiller/WebFonts/Fonts/692255/5dd9f4c4-cfde-415c-bb51-433569311de5.woff2") format("woff2"),url("https://mediaassets.softgarden.de/customer/Vescon/Schiller/WebFonts/Fonts/692255/3b15daf5-d7fb-4099-93b9-db20fd26c2fe.woff") format("woff"),url("https://mediaassets.softgarden.de/customer/Vescon/Schiller/WebFonts/Fonts/692255/16159505-c85d-44ba-ba2b-64f94e68ddb5.ttf") format("truetype");
+    }
+    @font-face{
+        font-family:"DIN Next W01 Regular";
+        src:url("https://mediaassets.softgarden.de/customer/Vescon/Schiller/WebFonts/Fonts/692282/da088ecc-a53c-4831-a95b-6fd81b5b338a.eot?#iefix");
+        src:url("https://mediaassets.softgarden.de/customer/Vescon/Schiller/WebFonts/Fonts/692282/da088ecc-a53c-4831-a95b-6fd81b5b338a.eot?#iefix") format("eot"),url("https://mediaassets.softgarden.de/customer/Vescon/Schiller/WebFonts/Fonts/692282/44e7b0fa-6c8d-43c2-b19e-f1e3ce9ea57c.woff2") format("woff2"),url("https://mediaassets.softgarden.de/customer/Vescon/Schiller/WebFonts/Fonts/692282/c5a7f89e-15b6-49a9-8259-5ea665e72191.woff") format("woff"),url("https://mediaassets.softgarden.de/customer/Vescon/Schiller/WebFonts/Fonts/692282/868c94b5-ca49-46b7-b62b-297f8d861125.ttf") format("truetype");
+    }
+
+  body { 
+    font-family: 'DIN Next W01 Regular', sans-serif;
+font-size:14px;
+}
+
+ option { 
+ color: #878787!important;
+    font-family: 'DIN Next W01 Regular', sans-serif;
+font-size:14px;
+}
+
+h1, h2 {    font-family: 'DIN Next W01 Regular', sans-serif;
+
+    text-transform: uppercase;
+}
+
+
+
+.job-abo-criteria div:nth-child(3) {
+display:none;
+}
+
+
+/* iFrame */
+
+.widget-page .job-search .extended-search .search_criterion_box:nth-child(1), .widget-page #job-search-map{
+display:none;
+}
+.widget-page .job-search .extended-search .search_criterion_box{
+margin-right:0;
+}
+
+.widget-page .job-abo{
+    float: left;
+    width: 100%;
+}
+
+
+
+
+
+.widget-page .location-search .search_criterion_box {
+    width: 100%;
+}
+
+
+
+.widget-page  .job-search .matchContainer .matchHeadline, .widget-page  #jobsContainer .matchContainer .date, .widget-page  #jobsContainer .matchContainer .jobcategory {
+    display: none!important;
+}
+.widget-page  #jobsContainer .matchContainer .title {
+    width: 100%;
+}
+
+
+ .widget-page .job-search .matchElement {
+    padding: 15px 0;
+}
+    
+.widget-page .job-search .search_criterion_box:first-child, .widget-page .job-search .search_criterion_box {
+    width: 100%;
+}
+.widget-page #jobsContainer .matchContainer .sg_company_id {
+    width: 40%;
+}
+.widget-page #jobsContainer .matchContainer .ProjectGeoLocationCity {
+    width: 50%;
+}
+/*iFrame End*/
+
+
+
+.navbar-fixed-top {
+    position: relative;
+} 
+
+.navbar .brand img {
+    display:none;
+}
+.navbar .brand {
+    margin-left: 0;
+    background: url(http://mediaassets.softgarden.de/customer/Vescon/4am/4am-logo-white.svg) no-repeat;
+    height: 50px;
+    width: 85px;
+    background-size: contain;
+}
+
+.navbar .navbar-inner {
+    height: auto;
+    min-height: auto;
+padding:15px 0;
+    box-shadow: none;
+}
+.navbar .nav li a {
+    padding: 0 15px;
+    font-weight: 600;
+font-size:16px;
+}
+.navbar .nav {
+
+    margin: 14px 10px 0 25px;}
+.container {
+    width: 100%;
+}
+.body-wrapper{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+header .img-wrap, .navbar .nav li a.link-register  {
+    display: none;
+}
+
+.page-wrapper {
+    margin-top: 0;
+}
+
+.job-search .searchBoxTop {
+    float: left;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border-right: none;
+}
+
+.job-search #jobsContainer {
+    width: 100%;
+    padding: 0;
+    margin: 50px 0 0;
+}
+
+#jobsContainer .matchContainer .date {
+    float: right;
+}
+
+/** Filter **/
+.job-search .search_criterion_box {
+    margin: 0;
+    width: 32%;
+    float: left;
+    margin:20px 0;
+}
+.location-search .search_criterion_box{
+    width: 100%;
+}
+.job-search .search_criterion_box:nth-child(2){
+ margin: 20px 2%;
+}
+
+.job-search .matchHeadline .matchValue a{
+color:#111;
+}
+
+#footer {
+    padding: 2em 35px 3em;
+    margin: 0;
+    background: #485B63;
+    color: #fff;
+}
+
+ ul.inline{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+#footer a {
+    color:#fff;
+}
+
+.sgn-teaser__hd:before{
+content:'Optional:';
+    font-family: Dosis,sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+:lang(de) .js-cv-upload-lbl:after {
+content:"PDF hochladen";
+color:#fff;
+margin-left:-3rem;
+}
+
+:lang(en) .js-cv-upload-lbl:after {
+content:"Upload PDF";
+color:#fff;
+margin-left:-3rem;
+}
+
+.js-cv-upload-lbl:hover:after{
+color:#fff;}
+
+.js-cv-upload-lbl, .thirdparty-btn.thirdparty-btn--cv-upload  *{
+color:#00676B!important;
+}
+
+.js-cv-upload-lbl, .thirdparty-btn.thirdparty-btn--cv-upload *:hover{
+color: #8faaae!important;
+}
+
+.fake-cv-button .thirdparty-btn__icn{
+color:#fff!important;}
+
+@media (max-width: 979px){
+
+
+.image-header{
+    height: 450px;
+    background-size: contain;
+}
+}
+
+@media (max-width: 676px){
+
+.image-header{
+    height: 270px;
+    background-size: contain;}
+}
+
+@media (max-width: 767px) and (min-width: 480px){
+
+
+.widget-page .job-search  .extended-search .search_criterion_box:first-child, .widget-page .job-search .extended-search .search_criterion_box{    margin-left: 4%;
+    width: 46%;
+}
+
+
+}
+
+.table.table-hover .application-status {
+width: 15%;
+padding: 8px;
+display: none; 
+}</style>
+<meta name="wicket.header.items"/>
+    </head>
+    <body>
+		<a href="#content" class="visually-hidden">Skip to main content</a>
+		
+		<div id="navbar" class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse" aria-label="main menu">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					
+					<a class="brand" href="./vacancies">
+						
+						<img src="https://app.softgarden.io/assets/public/media/get/857239f8-6060-40a3-9731-e68e447976b4/1695109533608/0x45/4am-logo.png" alt="4am Robotics GmbH"/>
+					</a>
+					
+					<div class="nav-public-collapse nav-collapse collapse">
+						<ul class="nav-public nav">
+					    	<li><a href="./vacancies" class="link-jobs external navlink active">Stellenangebote</a></li><li></li><li><a href="../get-connected?l=de" class="link-getconnected external navlink">In Kontakt treten</a></li><li></li><li></li>
+						</ul>
+					</div>
+					
+					<div class="nav-personal-collapse nav-collapse collapse">
+						<ul class="nav-personal nav pull-right">
+							<li><a href="../sign-in?l=de" class="link-signin navlink">Login</a></li><li><a href="../sign-up?l=de" class="link-register navlink">Registrierung</a></li><li></li>
+							
+							<li class="dropdown-lang dropdown">
+								<a class="dropdown-toggle current-lang" data-toggle="dropdown" href="#"><i class="icon-flag small de" title="Deutsch"></i> <b class="caret"></b></a>
+								<ul class="dropdown-menu pull-left" data-role="menu">
+									<li class="lang">
+										<a href="./vacancies?-1.-navigationPanel-languageContainer-langNavRepeater-1-langNavLink">
+											<i class="icon-flag small en" title="Englisch"></i>
+											English (Englisch)
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+
+		<div id="content" class="page-wrapper">
+			<div class="container">
+
+					
+		
+			<header class="image-header">
+				<div class="img-wrap">
+					<img src="https://app.softgarden.io/assets/public/media/get/f44c1e49-a7a2-4e46-90c0-675e4af14403/1695109306750/1100x0/BlueprintHeader.jpg" alt="">
+				</div>
+			</header>
+		
+
+		
+		
+
+		
+		
+	
+					<div class="body-wrapper">
+						
+		
+		<div class="jobs-page narrow-page">
+			<div>
+		<div class="job-search-panel">
+		
+			
+		
+			<div class="job-search">
+		<div class="internal-account-hint span3">
+			<a href="./vacancies?-1.-jobSearch-jobSearchContainer-internalLink" class="btn btn-primary">Bereits Mitarbeiter?</a>
+		</div>
+
+		<div class="searchBoxComplete">
+			<div class="searchBoxTop">
+				<section class="job-search-config searchBoxTopSmall">
+					<form class="search-form">
+						<section class="keyword-search">
+							<div class="keywordSearch">
+								<label for="keyword_search">Stichwortsuche</label>
+								<div class="loading-spinner" id="performing_keyword_search">
+									<img src="../img/jobsearch/taloom_loader_small.gif" alt="searching"/>
+								</div>
+								<input id="keyword_search" type="text" class="input-xlarge" value="" name="jobSearch:jobSearchContainer:keyword_search"/>
+							</div>
+						</section>
+						<section class="location-search">
+							<div class="locationSearch search_criterion_box search_criterion_box_location">
+								<div class="resetLink selectAllLinkContainer">
+									<a href="#" onclick="resetLocationSearch();jQuery('.locationSearch .resetLink').hide(); return false;">Zurücksetzen</a>
+								</div>
+								<label for="geoLocation_search">Standortsuche</label>
+
+								<div class="loading-spinner" id="performing_location_search">
+									<img src="../img/jobsearch/taloom_loader_small.gif" alt="searching"/>
+								</div>
+								<div>
+									<input id="geoLocation_search" type="text" class="input-xlarge" value="" name="jobSearch:jobSearchContainer:geoLocation_search_wrapper:geoLocation_search"/>
+									<div id="geoLocation_info">
+
+										<small>
+											Arbeit in
+											<a href="#" onclick="centerMapToSearch();" id="geoLocation_result"> </a>
+											<span class="search-result-no-map"></span>
+											im Umkreis von
+										</small>
+										<div id="geoLocation_radius">
+											<select name="jobSearch:jobSearchContainer:geoLocation_search_wrapper:geoLocationRadius" id="id1">
+<option value="1">1 km</option>
+<option value="5">5 km</option>
+<option value="10">10 km</option>
+<option selected="selected" value="25">25 km</option>
+<option value="50">50 km</option>
+<option value="75">75 km</option>
+<option value="100">100 km</option>
+</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+
+						
+	
+	<section class="extended-search">
+		<div class="search-criteria-container">
+			
+				<div class="search_criterion_box">
+	<div class="searchFieldLabel">
+		<div class="selectAllLinkContainer"><a href="javascript:;" id="id2" data-select="#selector_0" class="js-toggle-all-select-options">Zurücksetzen</a></div>
+		<label for="searchFieldId" class="searchCriterionBoxHeader">Zielgruppe</label>
+	</div>
+	<select id="selector_0" multiple="multiple" size="5" class="SearchMultiSelectBox filter-options-select search_criterion_box_audience" aria-label="Zielgruppe oder Jobkategorie auswählen" name="audience[]" data-reset-link="#id2">
+<option  title = "Auszubildende" value="00001">Auszubildende</option>
+<option  title = "Schüler/in" value="3a3ab7987f000002010ad4925ffa0cf4">Schüler/in</option>
+<option  title = "Berufseinsteiger" value="3a3af3667f000002010ad49215c3a5f4">Berufseinsteiger</option>
+<option  title = "Berufserfahrene" value="3a3b1f6e7f000002010ad492e7837dd6">Berufserfahrene</option>
+<option  title = "Student/in" value="6179d1a00a0b0cce01ed3de8643a0e39">Student/in</option>
+</select>
+</div>
+			
+				<div class="search_criterion_box">
+	<div class="searchFieldLabel">
+		<div class="selectAllLinkContainer"><a href="javascript:;" id="id3" data-select="#selector_1" class="js-toggle-all-select-options">Zurücksetzen</a></div>
+		<label for="searchFieldId" class="searchCriterionBoxHeader">Jobkategorie</label>
+	</div>
+	<select id="selector_1" multiple="multiple" size="5" class="SearchMultiSelectBox filter-options-select search_criterion_box_jobcategory" aria-label="Zielgruppe oder Jobkategorie auswählen" name="jobcategory[]" data-reset-link="#id3">
+<option  title = "Elektrotechnik, Konstruktion &amp; Montage" value="701d6c09-b160-4af6-a385-b2d906ba06fc">Elektrotechnik, Konstruktion &amp; Montage</option>
+<option  title = "Kaufmännische Berufe" value="02e5e732-1a91-40ee-bafc-3b016e386601">Kaufmännische Berufe</option>
+<option  title = "Robotik &amp; SPS Programmierung" value="01c6c0c4-0490-4179-9b8c-749465e477c8">Robotik &amp; SPS Programmierung</option>
+<option  title = "Softwareentwicklung und IT" value="76975d35-e494-498f-9d0c-0b8de8853742">Softwareentwicklung und IT</option>
+<option  title = "Verfahrenstechnik &amp; Prozessleittechnik, Life-Science" value="d093ca14-1fa5-4831-801d-feb2a68c66f9">Verfahrenstechnik &amp; Prozessleittechnik, Life-Science</option>
+<option  title = "Wasser und Abwasser" value="3b0af8a3-c20f-4de6-9a26-9dc50b197117">Wasser und Abwasser</option>
+</select>
+</div>
+			
+				<div class="search_criterion_box">
+	<div class="searchFieldLabel">
+		<div class="selectAllLinkContainer"><a href="javascript:;" id="id4" data-select="#selector_2" class="js-toggle-all-select-options">Zurücksetzen</a></div>
+		<label for="searchFieldId" class="searchCriterionBoxHeader">Unternehmen</label>
+	</div>
+	<select id="selector_2" multiple="multiple" size="5" class="SearchMultiSelectBox filter-options-select search_criterion_box_sg_company_id" aria-label="Zielgruppe oder Jobkategorie auswählen" name="sg_company_id[]" data-reset-link="#id4">
+<option  title = "4am Robotics GmbH" value="f2b3c54d-62ea-476c-980a-84da4d99d48f">4am Robotics GmbH</option>
+<option  title = "Elektro Eggers GmbH" value="81d1153b-acf2-496a-b4c0-78b8e2c1abec">Elektro Eggers GmbH</option>
+<option  title = "Fabmatics GmbH" value="689130b8-d7fd-4ac4-a52c-200bb556cbc4">Fabmatics GmbH</option>
+<option  title = "PrintoLUX" value="7b7db600-3392-4237-96c0-2641a672dfc2">PrintoLUX</option>
+<option  title = "SC-PDS Ilmenau" value="fdfbd1c7-c83f-4006-bc4e-9f50c25cf489">SC-PDS Ilmenau</option>
+<option  title = "SCI GmbH" value="a8fa5e2e-e9e4-4a7d-84a5-cafe487bc410">SCI GmbH</option>
+<option  title = "SCIO Automation Austria GmbH" value="58b15ea0-69ee-4d1e-b0f8-bc7232fb6c0a">SCIO Automation Austria GmbH</option>
+<option  title = "SCIO Automation Duisburg GmbH" value="80b03386-7d5e-4513-9eee-0893569b7485">SCIO Automation Duisburg GmbH</option>
+<option  title = "SCIO Automation Intrasolutions GmbH" value="7c8b660e-fbf1-4a91-8f85-60c3dca5f857">SCIO Automation Intrasolutions GmbH</option>
+<option  title = "SCIO Automation Ladenburg GmbH" value="42bf1fd2-8f55-4681-9106-2e3d0b567588">SCIO Automation Ladenburg GmbH</option>
+<option  title = "SCIO Automation Production Solutions GmbH" value="94971c43-b9ba-411d-9fff-c19c55cf5210">SCIO Automation Production Solutions GmbH</option>
+<option  title = "VESCON AQUA" value="468372c3-9567-4202-af9a-dbe9a88f9d83">VESCON AQUA</option>
+<option  title = "VESCON Energy" value="53ca4f50-6a10-45cc-93c6-42995ffebd20">VESCON Energy</option>
+<option  title = "VESCON Process" value="11df7407-9759-441d-b3c9-5c5955e8a83b">VESCON Process</option>
+<option  title = "VESCON Software &amp; IT" value="8aef63af-8c18-4251-8179-52b5bfb95b12">VESCON Software &amp; IT</option>
+<option  title = "VESCON Verwaltung" value="d0b08d57-a286-4e88-9c1b-287f8550e8de">VESCON Verwaltung</option>
+</select>
+</div>
+			
+		</div>
+		<div class="hide" id="mobile_placeholder">Bitte wählen</div>
+	</section>
+	
+
+					</form>
+				</section>
+				<section class="job-abo">
+
+					<a href="./vacancies?-1.-jobSearch-jobSearchContainer-jobAboLink" rel="nofollow" class="btn btn-primary">Stellenangebote abonnieren</a>
+
+				</section>
+
+				
+			</div>
+
+			<div id="jobsContainer" class="job-search-results">
+				<div>
+		<div class="job-search-result-panel">
+			<section id="job-search-map" class="jobMapContainer">
+				<div id="map_canvas"></div>
+			</section>
+
+			<section class="results">
+				<form>
+					<div class="result_count_div" id="job-search-result-count-label">
+						<p id="result_count_one" style="display: none;">Zu Ihrer Suchanfrage wurde eine Stellenanzeige gefunden:</p>
+						<p id="result_count_more" style="display: none;">Zu Ihrer Suchanfrage wurden <span id='jobs_result_count'>{0}</span> Stellenanzeigen gefunden:</p>
+						<p id="result_count_none" style="display: none;">Keine Stellenanzeigen gefunden.</p>
+					</div>
+					<div class="matchContainer">
+						<div class="matchElement matchHeadline">
+							<div id="matchValueHeadline1" class="matchValue date" onclick="reorderList(1); return false;">
+								<a href="#" onclick="return false;"><span>Datum</span><b class="caret"></b></a>
+							</div><div id="matchValueHeadline2" class="matchValue title" onclick="reorderList(2); return false;">
+								<a href="#" onclick="return false;"><span>Stellenangebot</span><b class="caret"></b></a>
+							</div><div id="matchValueHeadline3" class="matchValue jobcategory" onclick="reorderList(3); return false;">
+								<a href="#" onclick="return false;"><span>Jobkategorie</span><b class="caret"></b></a>
+							</div><div id="matchValueHeadline4" class="matchValue ProjectGeoLocationCity" onclick="reorderList(4); return false;">
+								<a href="#" onclick="return false;"><span>Standort</span><b class="caret"></b></a>
+							</div><div id="matchValueHeadline5" class="matchValue audience" onclick="reorderList(5); return false;">
+								<a href="#" onclick="return false;"><span>Zielgruppe</span><b class="caret"></b></a>
+							</div>
+						</div>
+						<div class="outputContainer">
+							<div class="matchElement" id="job_id_37315381">
+								<div class="matchValue date">05.11.26</div><div target="_blank" class="matchValue title">
+			<a href="../job/37315381/-Pflicht-Praktikum-Softwareentwicklung-Mobile-Robotics?jobDbPVId=289823432&amp;l=de" target="_blank">(Pflicht-)Praktikum Softwareentwicklung Mobile Robotics</a>
+		</div><div class="matchValue jobcategory">Robotik &amp; SPS Programmierung</div><div class="matchValue ProjectGeoLocationCity">
+			<div>
+				<div class="location-container">
+					<span class="location-view-item">Plattling</span>
+
+					
+
+					
+				</div>
+
+			</div>
+
+		</div><div class="matchValue audience">Student/in</div>
+							</div><div class="matchElement" id="job_id_35856091">
+								<div class="matchValue date">05.11.26</div><div target="_blank" class="matchValue title">
+			<a href="../job/35856091/SPS-Programmierer-Mobile-Robotics-m-w-d-?jobDbPVId=289823412&amp;l=de" target="_blank">SPS-Programmierer Mobile Robotics (m/w/d) </a>
+		</div><div class="matchValue jobcategory">Robotik &amp; SPS Programmierung</div><div class="matchValue ProjectGeoLocationCity">
+			<div>
+				<div class="location-container">
+					<span class="location-view-item">Plattling</span>
+
+					
+
+					
+				</div>
+
+			</div>
+
+		</div><div class="matchValue audience">Berufserfahrene</div>
+							</div><div class="matchElement" id="job_id_37485544">
+								<div class="matchValue date">05.11.26</div><div target="_blank" class="matchValue title">
+			<a href="../job/37485544/Initiativbewerbung-m-w-d-?jobDbPVId=289823387&amp;l=de" target="_blank">Initiativbewerbung (m/w/d)</a>
+		</div><div class="matchValue jobcategory">Robotik &amp; SPS Programmierung</div><div class="matchValue ProjectGeoLocationCity">
+			<div>
+				<div class="location-container">
+					<span class="location-view-item">Leinfelden-Echterdingen,</span>
+
+					
+
+					
+				</div>
+
+			</div><div>
+				<div class="location-container">
+					<span class="location-view-item">Plattling</span>
+
+					
+
+					
+				</div>
+
+			</div>
+
+		</div><div class="matchValue audience">Berufseinsteiger</div>
+							</div><div class="matchElement" id="job_id_65902994">
+								<div class="matchValue date">05.11.26</div><div target="_blank" class="matchValue title">
+			<a href="../job/65902994/Senior-Softwareentwickler-ROS-Mobile-Robotics-m-w-d-?jobDbPVId=289823357&amp;l=de" target="_blank">Senior Softwareentwickler ROS Mobile Robotics (m/w/d) </a>
+		</div><div class="matchValue jobcategory">Softwareentwicklung und IT</div><div class="matchValue ProjectGeoLocationCity">
+			<div>
+				<div class="location-container">
+					<span class="location-view-item">Plattling,</span>
+
+					
+
+					
+				</div>
+
+			</div><div>
+				<div class="location-container">
+					<span class="location-view-item">Leinfelden-Echterdingen</span>
+
+					
+
+					
+				</div>
+
+			</div>
+
+		</div><div class="matchValue audience">Berufserfahrene</div>
+							</div><div class="matchElement" id="job_id_66094813">
+								<div class="matchValue date">05.11.26</div><div target="_blank" class="matchValue title">
+			<a href="../job/66094813/Senior-Entwicklungsingenieur-Autonome-Mobile-Roboter-m-w-d-Schwerpunkt-Safety?jobDbPVId=289823342&amp;l=de" target="_blank">Senior Entwicklungsingenieur Autonome Mobile Roboter (m/w/d) Schwerpunkt Safety</a>
+		</div><div class="matchValue jobcategory">Robotik &amp; SPS Programmierung</div><div class="matchValue ProjectGeoLocationCity">
+			<div>
+				<div class="location-container">
+					<span class="location-view-item">Plattling</span>
+
+					
+
+					
+				</div>
+
+			</div>
+
+		</div><div class="matchValue audience">Berufserfahrene</div>
+							</div><div class="matchElement" id="job_id_63604324">
+								<div class="matchValue date">05.11.26</div><div target="_blank" class="matchValue title">
+			<a href="../job/63604324/Sales-Manager-m-w-d-?jobDbPVId=289823322&amp;l=de" target="_blank">Sales Manager (m/w/d)</a>
+		</div><div class="matchValue jobcategory">Kaufmännische Berufe</div><div class="matchValue ProjectGeoLocationCity">
+			<div>
+				<div class="location-container">
+					<span class="location-view-item">Plattling</span>
+
+					
+
+					
+				</div>
+
+			</div>
+
+		</div><div class="matchValue audience">Berufserfahrene</div>
+							</div><div class="matchElement" id="job_id_37315201">
+								<div class="matchValue date">05.11.26</div><div target="_blank" class="matchValue title">
+			<a href="../job/37315201/-Pflicht-Praktikum-im-Bereich-Projektmanagement?jobDbPVId=289823292&amp;l=de" target="_blank">(Pflicht-)Praktikum im Bereich Projektmanagement</a>
+		</div><div class="matchValue jobcategory">Kaufmännische Berufe</div><div class="matchValue ProjectGeoLocationCity">
+			<div>
+				<div class="location-container">
+					<span class="location-view-item">Plattling</span>
+
+					
+
+					
+				</div>
+
+			</div>
+
+		</div><div class="matchValue audience">Student/in</div>
+							</div><div class="matchElement" id="job_id_65684426">
+								<div class="matchValue date">05.11.26</div><div target="_blank" class="matchValue title">
+			<a href="../job/65684426/Technischer-Redakteur-m-w-d-?jobDbPVId=289823252&amp;l=de" target="_blank">Technischer Redakteur (m/w/d)</a>
+		</div><div class="matchValue jobcategory">Robotik &amp; SPS Programmierung</div><div class="matchValue ProjectGeoLocationCity">
+			<div>
+				<div class="location-container">
+					<span class="location-view-item">Plattling</span>
+
+					
+
+					
+				</div>
+
+			</div>
+
+		</div><div class="matchValue audience">Berufserfahrene</div>
+							</div>
+						</div>
+						<div class="pagination pagination-centered"><ul id="job-search-pagination" class="taloom-pager"></ul></div>
+					</div>
+				</form>
+			</section>
+		</div>
+	</div>
+				
+		<div class="job-search-get-connected" id="job-search-get-connected">
+			<a href="../get-connected?l=de" class="job-search-get-connected-btn btn btn-primary" id="job-search-get-connected-btn">In Kontakt treten</a>
+			<p class="job-search-get-connected-label" id="job-search-get-connected-label">Keinen passenden Job gefunden? Sie sind daran interessiert bei uns zu arbeiten? Treten Sie mit uns in Kontakt, damit wir Sie bei zukünftigen Stellenvergaben berücksichtigen können.</p>
+		</div>
+	
+			</div>
+		</div>
+
+		<div id="sg_modal" hidden="" data-wicket-placeholder=""></div>
+	</div>
+
+		</div>
+	</div>
+		</div>
+	
+	
+					</div>
+
+
+				
+		<footer id="footer">
+			<ul class="inline">
+				<li><a href="./imprint" target="_blank" class="sg_imprint_link">Impressum</a></li>
+				<li><a href="./data-security" target="_blank" class="sg_data_privacy_link">Datenschutzhinweise</a></li>
+				<li class="powered-by-taloom">
+	<span>
+		powered by 
+		<a href="https://softgarden.com" target="_blank">softgarden</a>
+		
+	</span>
+</li>
+			</ul>
+		</footer>
+	
+			</div>
+		</div>
+
+		
+
+		<div id="sg_modal" hidden="" data-wicket-placeholder=""></div>
+
+		
+		<script type="text/javascript" id="wicket-ajax-base-url">
+/*<![CDATA[*/
+Wicket.Ajax.baseUrl="de/vacancies";
+/*]]>*/
+</script>
+<script type="text/javascript" src="//static.softgarden.de/thirdparty/chosen/1.8.7/chosen.jquery.min.js"></script>
+<script type="text/javascript" id="id2">
+/*<![CDATA[*/
+$('#id2').hide();
+/*]]>*/
+</script>
+<script type="text/javascript" id="id3">
+/*<![CDATA[*/
+$('#id3').hide();
+/*]]>*/
+</script>
+<script type="text/javascript" id="id4">
+/*<![CDATA[*/
+$('#id4').hide();
+/*]]>*/
+</script>
+<script type="text/javascript" id="allJobLocations">
+/*<![CDATA[*/
+SG.allJobLocations = [];SG.allJobLocations.push({markerName: '(Pflicht\x2d)Praktikum\x20Softwareentwicklung\x20Mobile\x20Robotic\x73', latitude: 48.7949756, longitude: 12.8682324, postingId: 37315381, geoName: 'Nicolausstraße\x2010,\x2094447\x20Plattling,\x20Deutschland'});SG.allJobLocations.push({markerName: 'SPS\x2dProgrammierer\x20Mobile\x20Robotics\x20(m\/w\/d)\x20', latitude: 48.7949756, longitude: 12.8682324, postingId: 35856091, geoName: 'Nicolausstraße\x2010,\x2094447\x20Plattling,\x20Deutschland'});SG.allJobLocations.push({markerName: 'Initiativbewerbung\x20(m\/w\/d)', latitude: 48.7002134, longitude: 9.1435459, postingId: 37485544, geoName: 'Max\x2dLang\x2dStraße\x2056\/1,\x2070771\x20Leinfelden\x2dEchterdingen,\x20Deutschland'});SG.allJobLocations.push({markerName: 'Initiativbewerbung\x20(m\/w\/d)', latitude: 48.7949756, longitude: 12.8682324, postingId: 37485544, geoName: 'Nicolausstraße\x2010'});SG.allJobLocations.push({markerName: 'Senior\x20Softwareentwickler\x20ROS\x20Mobile\x20Robotics\x20(m\/w\/d)\x20', latitude: 48.7949756, longitude: 12.8682324, postingId: 65902994, geoName: 'Nicolausstraße\x2010,\x2094447\x20Plattling,\x20Deutschland'});SG.allJobLocations.push({markerName: 'Senior\x20Softwareentwickler\x20ROS\x20Mobile\x20Robotics\x20(m\/w\/d)\x20', latitude: 48.7002134, longitude: 9.1435459, postingId: 65902994, geoName: 'Max\x2dLang\x2dStraße\x2056\/1'});SG.allJobLocations.push({markerName: 'Senior\x20Entwicklungsingenieur\x20Autonome\x20Mobile\x20Roboter\x20(m\/w\/d)\x20Schwerpunkt\x20Safety', latitude: 48.7949756, longitude: 12.8682324, postingId: 66094813, geoName: 'Nicolausstraße\x2010,\x2094447\x20Plattling,\x20Deutschland'});SG.allJobLocations.push({markerName: 'Sales\x20Manager\x20(m\/w\/d)', latitude: 48.7949756, longitude: 12.8682324, postingId: 63604324, geoName: 'Nicolausstraße\x2010,\x2094447\x20Plattling,\x20Deutschland'});SG.allJobLocations.push({markerName: '(Pflicht\x2d)Praktikum\x20im\x20Bereich\x20Projektmanagemen\x74', latitude: 48.7949916, longitude: 12.8682886, postingId: 37315201, geoName: 'Nicolausstraße\x2010\/9,\x2094447\x20Plattling,\x20Deutschland'});SG.allJobLocations.push({markerName: 'Technischer\x20Redakteur\x20(m\/w\/d)', latitude: 48.7949756, longitude: 12.8682324, postingId: 65684426, geoName: 'Nicolausstraße\x2010,\x2094447\x20Plattling,\x20Deutschland'});
+/*]]>*/
+</script>
+<script type="text/javascript" id="jobMapInit">
+/*<![CDATA[*/
+window.jQuery('#job-search-map').hide();
+/*]]>*/
+</script>
+<script type="text/javascript" src="https://static.softgarden.de/thirdparty/leaflet/1.9.4/leaflet.js"></script>
+<script type="text/javascript" src="/thirdparty/jquery/query/jquery.query-2.2.3.js"></script>
+<script type="text/javascript" src="../wicket/resource/com.softgarden.staffit.webclient.webfrontend.pages.main.js.JavaScriptReference/jobSearchLive-ver-DF58093895DAE1EA109A34586D3118B6.js"></script>
+<script type="text/javascript" id="frontend-font">
+/*<![CDATA[*/
+WebFont.load({custom:{families:['Open Sans']}});
+/*]]>*/
+</script>
+<script type="text/javascript">
+/*<![CDATA[*/
+Wicket.Event.add(window, "domready", function(event) { 
+Wicket.Ajax.ajax({"u":"./vacancies?-1.0-jobSearch-jobSearchContainer-keyword_search","m":"POST","c":"keyword_search","e":"input change","ch":"keyword_search|d","tr":{"id":"keyword_search","d":10,"p":true}});;
+$('#id1').chosen({width: "100%",disable_search: true,no_results_text: "Kein Eintrag gefunden",placeholder_text_single: "Bitte wählen",placeholder_text_multiple: "Bitte wählen"});requestAnimationFrame(function() {  var $input = $('#id1_chosen .chosen-search input');  if ($input.length && !$input.attr('aria-label')) {    $input.attr('aria-label', 'Search options');  }});;
+Wicket.Event.publish(Wicket.Event.Topic.AJAX_HANDLERS_BOUND);
+;});
+/*]]>*/
+</script>
+
+    </body>
+</html>

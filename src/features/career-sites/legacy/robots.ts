@@ -10,6 +10,7 @@ import {
   robotsPath as pathOf,
   type Robots as Parsed,
 } from "../../../shared/http/robots-rules.js";
+import type { HttpClient } from "../../crawl-core/ports.js";
 import { passTools } from "./pass.js";
 
 export { parseRobots };
@@ -26,11 +27,19 @@ export type Robots = {
 
 const read = new Map<string, Promise<Rules>>();
 
+// crawl-core's robots client reads each host's file once a run and keeps it: asked here, the host is asked once (Workday
+// answered 429 to a second ask of its robots.txt in the same second). A client without it (a test's) is asked the file.
+type WithRobots = { robotsFor?: (url: string) => Promise<Parsed> };
+
 async function fetchRules(origin: string): Promise<Rules> {
   let parsed: Parsed;
+  const http = passTools().http as HttpClient & WithRobots;
   try {
-    const answer = await passTools().http.request(`${origin}/robots.txt`);
-    parsed = parseRobots(answer.body.slice(0, 500 * 1024));
+    if (http.robotsFor) parsed = await http.robotsFor(`${origin}/`);
+    else {
+      const answer = await http.request(`${origin}/robots.txt`);
+      parsed = parseRobots(answer.body.slice(0, 500 * 1024));
+    }
   } catch (error) {
     // No robots.txt (a 4xx) closes nothing; one that does not answer is a failed read.
     if (error instanceof HttpFailure && error.kind === "client-error")

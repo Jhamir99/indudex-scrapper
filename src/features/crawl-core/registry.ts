@@ -55,6 +55,7 @@ import {
   portalAdapters,
   remotive,
 } from "../job-portals/index.js";
+import { careerAdapters } from "../career-sites/index.js";
 import type { SourceAdapter } from "./ports.js";
 
 // Every source the scrapper runs, in no particular order (the runner decides when each runs).
@@ -117,4 +118,6 @@ export const registeredAdapters: readonly SourceAdapter[] = [
   whatjobs,
   // The job portals of config/portals.yml, one source each (job portals FR-2).
   ...portalAdapters(),
+  // The careers sites and company boards of the career lists, one source each (career sites FR-1).
+  ...careerAdapters(),
 ];

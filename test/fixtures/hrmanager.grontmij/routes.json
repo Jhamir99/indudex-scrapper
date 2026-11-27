@@ -1,0 +1,4 @@
+{
+  "https://api.hr-manager.net/JobPortal.svc/grontmij/PositionList/json/?incads=true&take=500&skip=0": "1.json",
+  "https://api.hr-manager.net/robots.txt": "2.txt"
+}

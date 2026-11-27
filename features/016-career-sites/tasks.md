@@ -18,7 +18,7 @@ Generated from `spec.md` and `plan.md` (2026-11-27). Each task ends with the CI'
       Done when: `careers.ts` and the streamed feed items are copied; saved sitemaps, listings, feeds and pages of each
       shape give the legacy's adverts; a barren site's cadence is a week; a vacancy is read again by the reader's
       version rules.
-- [ ] **T004 — One source per entry** · FR-1, FR-12 · Depends: T002, T003
+- [x] **T004 — One source per entry** · FR-1, FR-12 · Depends: T002, T003
       Done when: the registry holds a source for every enabled entry with its kind, group, licence and credit; the
       shared contract test passes for a site, a platform site, a board of each platform and a vendor.
 - [ ] **T005 — What the site shows** · FR-8 · Depends: T004
@@ -75,3 +75,18 @@ unpacks a gzipped sitemap. A failure with a status says «404 for <address>», a
 no-break space where the legacy wrote a plain space, which kept the space before a colon (`decodeEntities` writes it as
 the legacy did again). Carried: site-reader, site-lists, readers-audit (the legacy client's own robots case left to
 crawl-core) and hunt-platforms, through `test/legacy/careers-shim.mjs`. The barren cadence comes with the family (T004).
+
+T004 (2026-11-27). `careerAdapters()` makes the legacy's sources as its builder/sources.ts does: 10,867 sites and
+10,682 boards read, its counts; 4,545 more listed off with their reason (JOIN's 3,937 sites and SmartRecruiters' 573
+boards switched off in vendors.yml, 33 paused, 2 job boards' hosts); a site the job portals' list names is read there.
+`switched-off.ts` and the legacy's `withDetails` are copied, the portals read from config/portals.yml. Ids: a site
+`careers.<its legacy key>`, a board `<platform>.<slug>`, as a source id may be written. A site's resolved way in and its
+pages, and a board's vacancies asked for their page, live in the source's memory; the run's page budget is the
+legacy's `budget.left`; a pass stops reading a minute before the legacy's deadline. crawl-core gains the barren
+signal and cadence (`cadence.barrenHours`, a week) and `isOurs` in a language. The careers robots shim asks the robots
+client's own copy (`robotsFor`): asked twice in one second, Workday's robots.txt answered 429. A board that lists one
+vacancy once per place under one id (Workable) keeps each copy by its address. Saved answers for the contract test:
+one board of each of the 12 platforms with boards in the lists (Manatal's only one is paused: its terms forbid robots),
+and five sites of each shape (sitemap, SuccessFactors feed trimmed to 20 items, listing, host alone, softgarden), read
+once through the polite client, e-mail addresses replaced. Twins (two entries sharing one address's pages) are not
+ported: they only spare a page asked twice.

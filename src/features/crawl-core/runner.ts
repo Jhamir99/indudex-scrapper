@@ -64,6 +64,8 @@ export interface SourceRunResult {
   readonly heldDrop?: true;
   // Pages of ours the pass left to read (job portals FR-5).
   readonly backlog?: number;
+  // The pass said its pages give no advert.
+  readonly barren?: boolean;
 }
 
 export interface SourceRunDependencies {
@@ -157,6 +159,7 @@ export async function runSource(
     const previous = await store.readAdverts(source);
     let remembered: { readonly memory: SourceMemory } | undefined;
     let backlog = 0;
+    let barren = false;
     const context: AdapterContext = {
       http,
       credentials,
@@ -172,6 +175,9 @@ export async function runSource(
       pageFacts: dependencies.pageFacts ?? NO_PAGE_FACTS,
       backlog: (pages) => {
         backlog = Math.max(0, Math.round(pages));
+      },
+      barren: () => {
+        barren = true;
       },
     };
     // Only a pass that stored or found nothing to store is the source's word for next time.
@@ -213,7 +219,7 @@ export async function runSource(
     if (valid.size === 0) {
       log(`${source}: read no adverts`);
       await keepMemory();
-      return result("empty");
+      return { ...result("empty"), ...(barren ? { barren } : {}) };
     }
 
     await store.replaceAdverts(source, [...valid.values()]);
@@ -228,6 +234,7 @@ export async function runSource(
     return {
       ...result("stored", { stored: valid.size, changed }),
       ...(backlog > 0 ? { backlog } : {}),
+      ...(barren ? { barren } : {}),
     };
   } catch (error) {
     return failed(error);
@@ -471,6 +478,7 @@ function nextState(
       advertCount: result.stored,
       changed: result.changed,
       ...(result.backlog ? { backlog: result.backlog } : {}),
+      ...(result.barren ? { barren: true } : {}),
     },
     rules,
   );

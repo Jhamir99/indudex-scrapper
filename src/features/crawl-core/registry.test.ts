@@ -35,10 +35,11 @@ describe("registered adapters (FR-1, FR-2, FR-12)", () => {
     ).toEqual([]);
   });
 
-  // A job portal without saved answers is covered by the portal family's tests and the live pass (job portals FR-9).
+  // A job portal or a careers source without saved answers is covered by its family's tests and the live pass (job
+  // portals FR-9, career sites FR-13).
   for (const adapter of registeredAdapters.filter(
     (one) =>
-      one.definition.kind !== "portal" ||
+      (one.definition.kind !== "portal" && one.definition.kind !== "careers") ||
       existsSync(join(FIXTURES_DIRECTORY, one.definition.id)),
   )) {
     it(`${adapter.definition.id} meets the adapter contract with its fixture`, async () => {

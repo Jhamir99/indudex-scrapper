@@ -13,6 +13,8 @@ cadence:
   unchangedMaxHours: 168
   # A source that left pages of ours to read (a job portal) is back in the next hourly run.
   backlogHours: 1
+  # A careers site whose vacancy pages never give an advert: a week (the legacy's cadence_h.barren).
+  barrenHours: 168
   byKind:
     # A job portal: four passes a day, and every hour while it has pages of ours left to read.
     portal: 6
