@@ -35,7 +35,7 @@ Generated from `spec.md` and `plan.md` (2026-11-27). Each task ends with the CI'
 - [x] **T008 — A board's advert with no place** · FR-10 · Depends: T004
       Done when: the processor leaves out a board's advert with no readable place unless its title is marked «(m/w/d)»
       or «(H/F)», with the legacy's cases.
-- [ ] **T009 — End to end on fixtures** · FR-11, FR-12 · Depends: T007, T008
+- [x] **T009 — End to end on fixtures** · FR-11, FR-12 · Depends: T007, T008
       Done when: one run on fakes with a careers site, a platform site, a board of each platform, a vendor, a barren
       site, a failing source, a takedown and the stop switch ends with the expected states and adverts.
 - [ ] **T010 — Live pass** · FR-13 · Depends: T009
@@ -133,3 +133,10 @@ built by `src/bin/crawl.ts`: about 0.7 s and 280 MB); `careerDraft` stores its c
 "zz" when it reads none. The gate then leaves out a company board's advert (`isCompanyBoard`: a careers source that is
 not `careers.<key>`) whose country is not stated and whose place is not Europe as a whole, unless its title is marked
 «(m/w/d)» or «(H/F)» (`place unknown`, counted with those outside Europe, as the legacy's `PLACE UNKNOWN`).
+
+T009 (2026-11-27). `career-sites/end-to-end.test.ts` runs the career sources through `runDue` with the crawl's own
+settings and the country reader: every source with saved answers (a board of each of the 12 platforms, four careers
+sites of each shape and softgarden's vendor site) is stored with a country, due again by its cadence; a site whose 60
+vacancy pages carry no advert is read empty and back in a week; a board that does not answer fails and is back in a
+day; nothing is due an hour later; a source taken down is disabled with its adverts gone, an advert taken down leaves
+its source's set; with the stop switch set nothing runs and no state changes.
