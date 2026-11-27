@@ -29,6 +29,9 @@ COPY --from=build --chown=node:node /app/config ./config
 COPY --from=build --chown=node:node /app/catalogues ./catalogues
 # Read by the title translator: Firefox's engine loader and Aina's worker (the models are fetched into MT_DIR).
 COPY --from=build --chown=node:node /app/vendor ./vendor
+# The store, the published dataset and the processor's state are mounted, never kept in the image (/app is not
+# writable by its user): STORE_DIR, PUBLISHED_DIR and PROCESSOR_STATE_DIR name the mounted folders. Checked on
+# 27 November 2026: `node dist/bin/process.js` over a store copy published 70,084 offers, as on the host.
 USER node
 EXPOSE 4000
 CMD ["node", "dist/index.js"]
