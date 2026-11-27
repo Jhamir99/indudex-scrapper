@@ -26,6 +26,31 @@ Linux with cron, util-linux (`flock`, `findmnt`, `lsblk`), GNU tar, Node (the ve
 4. `sh ops/deploy.sh`: installs, builds and writes the crontab's lines.
 5. `node dist/bin/translate-fetch.js` (or `pnpm translate:fetch`) once: the engine and models into `MT_DIR`. Aina is optional (`AINA_DIR`).
 
+## The first deploy, step by step
+
+Ready on 27 November 2026: the build, the crontab's lines, the locks, the logs and the Docker image were checked on the
+operator's Mac; nothing below was run on the server yet.
+
+1. On the server, as the user that will run the jobs: `node -v` (the version in `.nvmrc`), `pnpm -v`, `gh --version`,
+   `flock -V`, `smartctl -V`. Install what is missing.
+2. `git clone https://github.com/Jhamir99/indudex-scrapper.git && cd indudex-scrapper`.
+3. Create the backup repository: `gh repo create <owner>/indudex-backups --private --add-readme` (one commit).
+4. `cp .env.example .env` and fill in `NTFY_TOPIC` (a long random name: `openssl rand -hex 16`) and `BACKUP_REPO`
+   (`<owner>/indudex-backups`). Leave the credentialed sources empty: they stay off.
+5. In the ntfy app, subscribe to `NTFY_TOPIC`.
+6. `gh auth login`.
+7. The sudoers line for smartctl (step 3 of "Setting the server up").
+8. The legacy's translations, once: copy `builder/state/titles-*.json` from the legacy server into `state/` (the
+   publication applies them; without them every title waits for the translator).
+9. `sh ops/deploy.sh`.
+10. `node dist/bin/translate-fetch.js`: the engine and models into `MT_DIR`. Aina only if wanted (`AINA_DIR`).
+11. Check: `crontab -l | grep indudex-scrapper` shows five lines; `node dist/bin/ops.js watch` ends without error and a
+    test notice reaches the phone (`curl -d test ntfy.sh/$NTFY_TOPIC`).
+12. After the first hours: `var/logs/crawl.log` (`jq -r .msg var/logs/crawl.log | tail`), `node dist/bin/crawl-status.js`,
+    and after 03:00 `published/current.json`. After the first midnight, the release `server-backup` of `BACKUP_REPO`.
+
+Then one day of the schedule is recorded in `features/012-operations/tasks.md` (T011) and 012 is closed.
+
 ## Deploying new code
 
 `sh ops/deploy.sh`. It waits for every job's lock (no run on half the code), pulls a fast-forward of the branch checked out, installs the exact dependencies, builds into `dist.next` and only then puts it in place of `dist/` (a failed build leaves the running code as it was), and writes the crontab's lines again. It never touches the store, the state or the published dataset.
