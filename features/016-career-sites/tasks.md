@@ -6,7 +6,7 @@ Generated from `spec.md` and `plan.md` (2026-11-27). Each task ends with the CI'
 
 ## Tasks
 
-- [ ] **T001 — The lists as data** · FR-1 · Depends: —
+- [x] **T001 — The lists as data** · FR-1 · Depends: —
       Done when: the six legacy lists are in `config/` with a header crediting the legacy, loaded and validated
       synchronously; the counts per list match the legacy's, entries in two lists read once (the hand-kept first),
       paused entries shown paused; a test checks the counts.
@@ -43,3 +43,12 @@ Generated from `spec.md` and `plan.md` (2026-11-27). Each task ends with the CI'
       result per platform and list recorded below.
 - [ ] **T011 — Close** · FR-1 to FR-13 · Depends: T010
       Done when: the completion criteria hold; `CLAUDE.md`, `MEMORY.md` and `features/README.md` updated.
+
+## Notes
+
+T001 (2026-11-27). The seven lists the legacy reads (careers.yml, hunted.yml, careers-found.yml, platform-sites.yml,
+companies.yml, companies-found.yml, vendors.yml) are in `config/` byte for byte under a credit header, left out of
+Prettier. `readCareerLists` gathers them as the legacy's `loadSites` and `loadCompanies` do: 14,961 sites (504 by hand),
+11,006 read; 11,273 boards (84 by hand), 10,700 read; 17 sites and 18 boards paused. The legacy's job-board filter
+(`isBoardHost`, two more sites out: 11,004) is a parameter until T003 brings the careers reader's helpers. The legacy
+also reads lists its server writes on its own (`state/found`, `triaged.yml`): not in its repository, not here.

@@ -1,0 +1,15 @@
+# Taken from builder/config/vendors.yml of the legacy Indudex project (https://github.com/JustJans/indudex, © 2026 JustJans), as
+# of 27 November 2026 (JustJans/indudex@ec79858), byte for byte below this header: read by
+# src/features/career-sites/lists.ts (features/016-career-sites). Its keys are the legacy's, as its careers and
+# board readers (copied into that feature) read them.
+#
+# ➤ Careers sites drawn by JavaScript (Workday, Oracle): the reader asks the address the page
+# ➤ itself asks for its list, exactly as a browser does. It is not a documented API, so each
+# ➤ vendor stays off until the owner turns it on here. What is off is skipped by the builder,
+# ➤ the hunter and the scout alike.
+workday: true
+oracle: true
+softy: false     # ➤ French employers' careers sites: their terms ask for Altagile's leave, off until given (docs/research/permission-list.md)
+smartrecruiters: false   # ➤ its robots.txt closes its API to us (docs/CERRADAS.md): its 573 boards stay listed, off (LEC-23)
+join: false   # ➤ JOIN's company pages: its sitemap of vacancies answers 403 behind Cloudflare's wall, and the company pages were another door to it (the owner, 15 November 2026; docs/CERRADAS.md). Its 3,938 sites stay listed in platform-sites.yml, off (LEC-01)
+cornerstone: true   # ➤ STRABAG's and ÖBB's career sites: the list call takes the token the page gives every visitor; the owner keeps it read (15 November 2026, the audit's PEA-08). false switches it off

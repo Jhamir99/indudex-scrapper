@@ -1,0 +1,279 @@
+# Taken from builder/config/companies.yml of the legacy Indudex project (https://github.com/JustJans/indudex, © 2026 JustJans), as
+# of 27 November 2026 (JustJans/indudex@ec79858), byte for byte below this header: read by
+# src/features/career-sites/lists.ts (features/016-career-sites). Its keys are the legacy's, as its careers and
+# board readers (copied into that feature) read them.
+#
+# Company boards read directly through their applicant-tracking system's public API.
+# One entry per company: its name as shown to visitors, ONE key naming the ATS with the
+# company's slug on it (lever, greenhouse, ashby, smartrecruiters, recruitee, personio), and
+# optionally the country the board's adverts are in when the board does not say (iso code),
+# the language its adverts are written in (so the gate reads ESCO's titles in it too), and
+# enabled: false to pause it.
+#
+# Every entry here has answered its API at least once. Add companies with
+#   node builder/tools/discover.ts "Company name" [...]
+# which probes the six ATS patterns and prints what answers with adverts, with how many of
+# them the gate would keep and where; the list below is what that gave on 2026-09-06 among
+# some 230 European engineering employers, kept when the adverts are engineering and in
+# Europe.
+companies:
+  # Marine, offshore, logistics
+  - name: Boskalis
+    smartrecruiters: boskalis
+  - name: GEODIS
+    recruitee: geodis
+  # Energy, batteries, climate
+  - name: Vattenfall
+    smartrecruiters: vattenfall
+    lang: sv
+  - name: Verkor
+    lever: verkor
+    country: fr
+    lang: fr
+  - name: Fastned
+    recruitee: fastned
+  - name: Climeworks
+    recruitee: climeworks
+  - name: Marvel Fusion
+    greenhouse: marvelfusion
+    country: de
+  - name: Proxima Fusion
+    ashby: proxima-fusion
+  # Aerospace, defence
+  - name: Vertical Aerospace
+    ashby: vertical-aerospace
+    country: gb
+  - name: Isar Aerospace
+    greenhouse: isaraerospace
+    lang: de
+  - name: The Exploration Company
+    ashby: the-exploration-company
+  - name: Helsing
+    greenhouse: helsing
+  - name: Wingcopter
+    personio: wingcopter
+    country: de
+  # Industry
+  - name: Continental
+    smartrecruiters: continental
+  - name: Konecranes
+    smartrecruiters: konecranes
+  # Engineering consultancies, construction
+  - name: AFRY
+    smartrecruiters: afry
+    lang: sv
+  - name: Artelia
+    smartrecruiters: artelia
+    lang: fr
+  - name: Besix
+    smartrecruiters: besix
+    lang: fr
+  - name: NCC
+    smartrecruiters: ncc
+    lang: sv
+  - name: Antea Group
+    recruitee: anteagroup
+    lang: nl
+  - name: Movares
+    recruitee: movares
+    lang: nl
+  - name: Dura Vermeer
+    recruitee: duravermeer
+    lang: nl
+  - name: Ballast Nedam
+    recruitee: ballastnedam
+    lang: nl
+  # ➤ Sweco Denmark's vacancies, on HR-Manager under its old Grontmij account (found behind its
+  # ➤ careers page, 9 October 2026).
+  - name: Sweco
+    hrmanager: grontmij
+    country: dk
+    lang: da
+  # ➤ prospective.ch career centres (Switzerland): the public JSON list each embedded career centre
+  # ➤ loads; their ids from Common Crawl's index of ohws.prospective.ch (10 October 2026). Not the
+  # ➤ apprenticeship centres (fenaco's 1006840) nor the federal administration's French and Italian
+  # ➤ copies (1641, 1642) or its Agroscope subset (1007547).
+  - name: Stadler Rail
+    prospective: '1000470'
+    lang: de
+  - name: Universitäre Psychiatrische Dienste Bern
+    prospective: '1000842'
+    lang: de
+  - name: Universitätsspital Zürich
+    prospective: '1001134'
+    lang: de
+  - name: fenaco
+    prospective: '1001859'
+    lang: de
+  - name: CH Media
+    prospective: '1001956'
+    lang: de
+  - name: Universität Zürich
+    prospective: '1002007'
+    lang: de
+  - name: Blumen Risse
+    prospective: '1002334'
+    lang: de
+  - name: Helvetia Versicherungen
+    prospective: '1002532'
+    lang: de
+  - name: ZHAW
+    prospective: '1002929'
+    lang: de
+  - name: EKZ
+    prospective: '1003036'
+    lang: de
+  - name: Emmi
+    prospective: '1003228'
+    lang: de
+  - name: EKZ Eltop
+    prospective: '1003567'
+    lang: de
+  - name: arrivar
+    prospective: '1003709'
+    lang: de
+  - name: VZ VermögensZentrum
+    prospective: '1003884'
+    lang: de
+  - name: Equans Switzerland
+    prospective: '1004089'
+    lang: de
+  - name: Grand Resort Bad Ragaz
+    prospective: '1004484'
+    lang: de
+  - name: blue Entertainment
+    prospective: '1004814'
+    lang: de
+  - name: Lindt Chocolate Competence Foundation
+    prospective: '1004870'
+    lang: de
+  - name: Kliniken Valens
+    prospective: '1005103'
+    lang: de
+  - name: Universitätsspital Basel
+    prospective: '1005524'
+    lang: de
+  - name: Swiss Life
+    prospective: '1005584'
+    lang: de
+  - name: EMS-CHEMIE
+    prospective: '1005722'
+    lang: de
+  - name: Helvetia Versicherungen
+    prospective: '1005736'
+    lang: de
+  - name: Compass Group Schweiz
+    prospective: '1005890'
+    lang: de
+  - name: Rapport Guest Services
+    prospective: '1005891'
+    lang: de
+  - name: HOLINGER
+    prospective: '1006336'
+    lang: de
+  - name: IWB Industrielle Werke Basel
+    prospective: '1006457'
+    lang: de
+  - name: KPT Krankenkasse
+    prospective: '1007102'
+    lang: de
+  - name: Menétrey
+    prospective: '1008586'
+    lang: de
+  - name: Schweizerische Bundesverwaltung
+    prospective: '1613'
+    lang: de
+  - name: Luzerner Kantonalbank
+    prospective: '660'
+    lang: de
+  # ➤ Catalonia (11 October 2026): Almirall's and Applus+'s own Workday boards; neither names terms that
+  # ➤ forbid robots or reuse. careers.almirall.com no longer lists vacancies.
+  - name: Almirall
+    workday: almirall.wd3/External
+  - name: Applus+
+    workday: applus.wd3/applus_careers
+  # ➤ Switched off on 15 October 2026: this hand list wins over hunted.yml and companies-found.yml, so
+  # ➤ these boards are not read (docs/research/permission-list.md, docs/CERRADAS.md).
+  # ➤ NTT DATA's: its Europe & LATAM company's US branch, under NTT DATA Spain's notice, and Singapore's, under NTT
+  # ➤ DATA, Inc.'s terms; both forbid robots (decision 10 of the audit, 15 November 2026; docs/CERRADAS.md).
+  - name: NTT DATA Europe & LATAM (USA branch)
+    greenhouse: nttdatausa
+    enabled: false        # ➤ its terms forbid robots (docs/CERRADAS.md)
+  - name: NTT DATA Singapore
+    manatal: ntt-data-singapore
+    enabled: false        # ➤ its terms forbid robots (docs/CERRADAS.md)
+  - name: Sorigué
+    teamtailor: https://careers.sorigue.com
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Ferrovial
+    workday: ferrovial.wd3/ferrovial_career_site
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Temporing ETT
+    teamtailor: temporing
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Nortempo Recruitment
+    teamtailor: https://recruitment.nortempo.com
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Behum
+    teamtailor: https://empleo.behum.es
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Peopleing
+    teamtailor: https://talento.peopleing.es
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Reclut
+    teamtailor: https://jobs.reclut.es
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Grupo Clave
+    teamtailor: https://jobs.grupoclave.es
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Grupo Clave
+    teamtailor: grupoclave
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Servitalent
+    teamtailor: https://empleo.servitalent.com
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: BlueLeaders
+    teamtailor: https://jobs.blueleaders.es
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: BlueLeaders
+    teamtailor: blueleaders
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Rebel Rebel Music Jobs
+    teamtailor: https://musicjobs.rebelrebel.es
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  # ➤ STRABAG's Cornerstone careers site (Germany 1,100 of its 1,370 vacancies): the hunter named it after
+  # ➤ Repass, one of its firms, and a board's adverts take the list's name (17 October 2026).
+  - name: STRABAG
+    cornerstone: strabag/2
+  # ➤ Siemens Healthineers' Workday boards, which the scout found: its terms ask written leave for any use
+  # ➤ of its content (PENDIENTE #268), as for its careers site (17 October 2026).
+  - name: Siemens Healthineers
+    workday: onehealthineers.wd3/shsjb
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Siemens Healthineers
+    workday: onehealthineers.wd3/ijmhrms
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  # ➤ Boards the scouts named after their Workday or Cornerstone site, not the employer (17 October 2026): in the
+  # ➤ pile of 19:29 UTC, 41 of Fronius's offers in Austria showed "Board", 50 of ÖBB's "Oebb", A1's "Karriere At".
+  - name: Fronius
+    workday: fronius.wd3/Job_Board
+  - name: A1 Telekom Austria
+    workday: a1group.wd3/karriere_at
+  - name: ÖBB
+    cornerstone: oebb/4
+  - name: NXP Semiconductors
+    workday: nxp.wd3/careers
+  - name: mySugr (Roche)
+    workday: roche.wd3/mysugr-ext
+  - name: Novartis
+    workday: novartis.wd3/Internal_Careers_for_Acquired_Entities
+  - name: PwC
+    workday: pwc.wd3/Global_Campus_Careers
+  # ➤ Philips's Workday boards, which the scout found: the public one came named "And", and the list of
+  # ➤ internal postings for its contingent workers repeats 146 of its 193 vacancies from the public one
+  # ➤ and keeps the rest for those already working there (17 October 2026).
+  - name: Philips
+    workday: philips.wd3/jobs-and-careers
+  - name: Philips (internal postings for contingent workers)
+    workday: philips.wd3/internal-job-postings-list-for-philips-contingent-workers
+    enabled: false        # ➤ internal postings, not public vacancies

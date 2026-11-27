@@ -9,3 +9,12 @@ catalogues/
 
 # Vendored files, kept byte for byte as their authors wrote them.
 vendor/
+
+# The career sites' lists, kept byte for byte as the legacy wrote them (features/016-career-sites).
+config/careers.yml
+config/hunted.yml
+config/careers-found.yml
+config/platform-sites.yml
+config/companies.yml
+config/companies-found.yml
+config/vendors.yml

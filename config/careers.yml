@@ -1,0 +1,3062 @@
+# Taken from builder/config/careers.yml of the legacy Indudex project (https://github.com/JustJans/indudex, © 2026 JustJans), as
+# of 27 November 2026 (JustJans/indudex@ec79858), byte for byte below this header: read by
+# src/features/career-sites/lists.ts (features/016-career-sites). Its keys are the legacy's, as its careers and
+# board readers (copied into that feature) read them.
+#
+# Employers' careers sites read without an API: the sitemap lists the vacancy pages and each
+# page carries a schema.org JobPosting block (what search engines read). One entry per site:
+# its name as shown to visitors, the sitemap address, `match` (a piece of the address every
+# vacancy page shares; without it, addresses that look like vacancies are taken), and
+# optionally the country (iso) and the language of the adverts, and enabled: false to pause.
+# The careers scout (builder/tools/scout-careers.ts) writes careers-found.yml the same way.
+sites:
+  - name: Van Oord
+    sitemap: https://careers.vanoord.com/sitemap.xml
+    match: /vacancies/
+    country: nl
+  - name: Boskalis
+    sitemap: https://careers.boskalis.com/sitemap.vacancy.xml
+    match: /vacancy/
+    country: nl
+  - name: Approach People
+    host: www.approachpeople.com
+  # ➤ The Land of Berlin's careers portal (its administrations and districts): a list of twenty a page
+  # ➤ followed through its "next" link, each vacancy with its JobPosting block; robots.txt closes it only
+  # ➤ to generic HTTP libraries, and its imprint asks only that use stay within the law (read 10 October 2026).
+  - name: Land Berlin
+    host: www.karriereportal-stellen.berlin.de
+    listing: https://www.karriereportal-stellen.berlin.de/stellenangebote.html
+    match: -de-j
+    pages: 40
+    country: de
+    lang: de
+  # ➤ Mecklenburg-Vorpommern's careers portal (the Land's administrations): every vacancy on one page,
+  # ➤ each with its JobPosting block; robots.txt sets no rule and its imprint holds only a disclaimer.
+  - name: Land Mecklenburg-Vorpommern
+    host: karriere-in-mv.de
+    listing: https://karriere-in-mv.de/uebersicht/stelle
+    match: /stelle/
+    country: de
+    lang: de
+  # ➤ The Lufthansa Group's applicant system (Lufthansa Technik, the airlines, Lufthansa Systems and the
+  # ➤ rest): a sitemap of its vacancies, each page with its JobPosting block. Its robots.txt names only
+  # ➤ the sitemap; its terms ask consent only to copy texts and pictures (read 10 October 2026).
+  - name: Lufthansa Group
+    host: apply.lufthansagroup.careers
+    sitemap: https://apply.lufthansagroup.careers/sitemap.xml
+    match: ac=jobad
+  # ➤ The savings banks on Perbility's CHECK-IN: sparkasse.de's job board names each bank's list,
+  # ➤ sparkasse.mein-check-in.de/<bank>, whose vacancy pages carry the JobPosting block; robots.txt sets
+  # ➤ no rule (10 October 2026). The board itself asks consent before anyone links it.
+  - name: Bezirkssparkasse Reichenau
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-reichenau
+    match: /position-
+    country: de
+    lang: de
+  - name: Erzgebirgssparkasse
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/erzgebirgssparkasse
+    match: /position-
+    country: de
+    lang: de
+  - name: GSD Gesellschaft für Sparkassendienstleistungen mbH
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/g-sd
+    match: /position-
+    country: de
+    lang: de
+  - name: Hamburger Sparkasse
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/haspa
+    match: /position-
+    country: de
+    lang: de
+  - name: Hohenzollerische Landesbank Kreissparkasse Sigmaringen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-sigmaringen
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreis-Sparkasse Northeim
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksn-northeim
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Ahrweiler
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/kreissparkasse-ahrweiler
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Biberach
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-bc
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Birkenfeld 
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-birkenfeld
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Döbeln
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-doebeln
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Eichsfeld
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/kreissparkasse-eichsfeld
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Gelnhausen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-gelnhausen
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Heidenheim
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-heidenheim
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Herzogtum Lauenburg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-ratzeburg
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Kusel
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/kskkusel
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Ludwigsburg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksklb
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Melle
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-melle
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Nordhausen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/kreissparkasse-nordhausen
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Ravensburg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-ravensburg
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Saalfeld-Rudolstadt
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-saalfeld-rudolstadt
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Tuttlingen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-tut
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Vulkaneifel
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-vulkaneifel
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Weilburg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-weilburg
+    match: /position-
+    country: de
+    lang: de
+  - name: Kyffhäusersparkasse Artern-Sondershausen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/kyffhaeusersparkasse
+    match: /position-
+    country: de
+    lang: de
+  - name: LBS Landesbausparkasse NordOst AG
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/lbs-nordost
+    match: /position-
+    country: de
+    lang: de
+  - name: LBS NordWest
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/lbs-nord
+    match: /position-
+    country: de
+    lang: de
+  - name: LBS Süd
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/lbs-sued
+    match: /position-
+    country: de
+    lang: de
+  - name: Nassauische Sparkasse
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/naspa
+    match: /position-
+    country: de
+    lang: de
+  - name: Niederrheinische Sparkasse RheinLippe
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/nispa
+    match: /position-
+    country: de
+    lang: de
+  - name: Ostdeutscher Sparkassenverband
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/osv-online
+    match: /position-
+    country: de
+    lang: de
+  - name: Rheinhessen Sparkasse
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/rheinhessen-sparkasse
+    match: /position-
+    country: de
+    lang: de
+  - name: S-International Südwest 
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sisw
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Aachen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-aachen
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Altbayern
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-aic-sob
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Aschaffenburg Miltenberg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/s-abmil
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Attendorn-Lennestadt-Kirchhundem
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-alk
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Aurich-Norden
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-aurich-norden
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Bad Kissingen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-kg
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Bad Neustadt a.d. Saale
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-badneustadt
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Bochum
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-bochum
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Bonndorf-Stühlingen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-bonndorf-stuehlingen
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Bottrop
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-bottrop
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Burbach-Neunkirchen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-burbach-neunkirchen
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Bühl
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-buehl
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Duderstadt
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-duderstadt
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Einbeck
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-einbeck
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Emden
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-emden
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Freising Moosburg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-freising
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Gelsenkirchen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-gelsenkirchen
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Grünberg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-gruenberg
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Gummersbach
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-gm
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Hameln-Weserbergland
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spkhw
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Hamm
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-hamm
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Hanau
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-hanau
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Hanauerland
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-kehl
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Hellweg-Lippe
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-hellweg-lippe
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Herford
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-herford
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Hochfranken
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-hochfranken
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Hochschwarzwald
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-hochschwarzwald
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse im Landkreis Cham
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-cham
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Iserlohn
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-iserlohn
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Karlsruhe
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-ka
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Leverkusen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-lev
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Mansfeld-Südharz
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-msh
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Minden-Lübbecke
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-minden-luebbecke
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Neckartal-Odenwald
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-neckartal-odenwald
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Neuss
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-neuss
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Neuwied
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-neuwied
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Niederbayern-Mitte
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-niederbayern-mitte
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Nordschwaben
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-nordschwaben
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Nördliche Oberpfalz
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-oberpfalz-nord
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Oberlausitz-Niederschlesien
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-oberlausitz-niederschlesien
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Odenwaldkreis
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-odenwaldkreis
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Osterode am Harz
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-osterode
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Paderborn-Detmold-Höxter
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-paderborn-detmold-hoexter
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Pfaffenhofen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-paf
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Rastatt-Gernsbach
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-rastatt-gernsbach
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Regen-Viechtach
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-regen-viechtach
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Regensburg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-regensburg
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Rhein-Maas
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-rhein-maas
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Rhein-Nahe
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-rhein-nahe
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Rotenburg Osterholz
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spkrb
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Scheeßel
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-scheessel
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Starkenburg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-starkenburg
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Staufen-Breisach
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/68052328
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Tauberfranken
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-tauberfranken
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Wetzlar
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-wetzlar
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Wiesental
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-wiesental
+    match: /position-
+    country: de
+    lang: de
+  - name: Stadt- und Kreissparkasse Leipzig
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-leipzig
+    match: /position-
+    country: de
+    lang: de
+  - name: Stadtsparkasse Mönchengladbach
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-moenchengladbach
+    match: /position-
+    country: de
+    lang: de
+  - name: Stadtsparkasse Oberhausen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/stadtsparkasse-oberhausen
+    match: /position-
+    country: de
+    lang: de
+  - name: Stadtsparkasse Remscheid
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/stadtsparkasse-remscheid
+    match: /position-
+    country: de
+    lang: de
+  - name: Stadtsparkasse Wedel
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-wedel
+    match: /position-
+    country: de
+    lang: de
+  - name: Stadtsparkasse Wuppertal
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-wuppertal
+    match: /position-
+    country: de
+    lang: de
+  - name: Städtische Sparkasse Offenbach am Main
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-offenbach
+    match: /position-
+    country: de
+    lang: de
+  - name: Taunus Sparkasse
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/taunussparkasse
+    match: /position-
+    country: de
+    lang: de
+  - name: Test-Sparkasse
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-musterstadt-test
+    match: /position-
+    country: de
+    lang: de
+  - name: Vereinigte Sparkasse im Märkischen Kreis
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-mk
+    match: /position-
+    country: de
+    lang: de
+  # ➤ The savings banks and their associations on GuideCom: sparkasse.de's job board names each one's portal;
+  # ➤ robots.txt opens its sitemap and vacancy pages, which carry no JobPosting block (read by layout).
+  - name: Deutscher Sparkassen- und Giroverband e.V.
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/dsgv/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Die Sparkasse Bremen AG
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-bremen/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Kreissparkasse Diepholz
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/syke/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Kreissparkasse Düsseldorf
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/kreissparkasse-duesseldorf/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Kreissparkasse Euskirchen
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/euskirchen/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Kreissparkasse Heilbronn
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/heilbronn/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Kreissparkasse Limburg
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/ksk-limburg/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Kreissparkasse Mayen
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/ksk-mayen/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Kreissparkasse Soltau
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/ksk-soltau/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Kreissparkasse Steinfurt
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/ksk-steinfurt/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: OstseeSparkasse Rostock
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/ospa/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Donnersberg
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-sdonne/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Dortmund
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-dortmund/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Emsland
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-emsland/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Fulda
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-fulda/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Göttingen
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sk-goettingen/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Gütersloh-Rietberg-Versmold
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-grv/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Kraichgau
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-kraichgau/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Krefeld
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-krefeld/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Märkisches Sauerland Hemer-Menden
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/smshm/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Oberhessen
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-oberhessen/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Offenburg/Ortenau
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-offenburg-ortenau/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Salem-Heiligenberg
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/salem/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Schwaben-Bodensee
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/spk-schwaben-bodensee/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Schwäbisch Hall-Crailsheim
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-schwa/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Stade - Altes Land
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-stade-altes-land/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Uelzen Lüchow-Dannenberg
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-uelzen/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Vest Recklinghausen
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/vestrecklinghausen/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Waldeck-Frankenberg
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/waldeckFrankenberg/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Westholstein
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/westholstein/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Westmünsterland
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-westmuensterland/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Wilhelmshaven
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-wilhelmshaven/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse zu Lübeck AG
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-luebeck/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkassenakademie Nordrhein-Westfalen
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/svwl_akademie/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkassenverband Niedersachsen
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/svn/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkassenverband Westfalen-Lippe
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/svwl/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Weser-Elbe Sparkasse
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/wespa/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  # ➤ More GuideCom portals, from Common Crawl's columnar index of jobs.guidecom.de (10 October 2026):
+  # ➤ firms (Elevion, Wolff & Müller, VEGA, Hatz, swb...), public bodies and more savings banks. Not
+  # ➤ Siemens Healthineers' portal: it asks leave (PENDIENTE, 268).
+  - name: Aicher Ambulanz Union
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/aicher-ambulanz/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: aquatherm
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/aquatherm/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: AWB Abfallwirtschaftsbetriebe Köln
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/awbkoeln/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Baugruppe
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/baugruppe/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: BAUKING
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/bauking/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: BERESA
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/beresa/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: BMI
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/bmi-eg/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Bundesanzeiger Verlag
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/bundesanzeiger-verlag/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Condor Flugdienst
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/condor/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: CRAISS Logistik
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/craiss/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: das h-team
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/das-h-team/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: DRK
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/drk-bos/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: DV Immobilien
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/dvimmo/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Elevion Group
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/elevion/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: FOM Hochschule
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/fom/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Fristo
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/fristo/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: GuideCom
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/guidecom/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: H+W Tiefbau
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/h-w-tiefbau/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Hauck Aufhäuser Lampe
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/hal-administration/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Hauck Aufhäuser Lampe Privatbank
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/hal-privatbank/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: 'Heitkamp & Hülscher'
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/heitkamp-huelscher/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: IHK Berlin
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/ihk-berlin/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: IHK Osnabrück
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/ihkosna/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: INTER Versicherungsgruppe
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/inter/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Kratzer
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/kratzer/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Luther Rechtsanwälte
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/luther/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Mikrolab
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/mikrolab/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: MMV Leasing
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/mmv/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Motorenfabrik Hatz
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/hatz/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: neuwoges
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/neuwoges/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: rhenag
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/rhenag/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: S-Servicepartner
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/s-servicepartner/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: SC Preußen Münster
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/scpreussen-muenster/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: SCANLAB
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/scanlab/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: SCHOCK
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/schock/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Seier
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/seier/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse an Ennepe und Ruhr
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-en/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Chemnitz
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/chemnitz/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Gifhorn-Wolfsburg
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/spk-gifhorn-wolfsburg/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Mittelmosel
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-mittelmosel/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Mitten im Sauerland
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-mitten-im-sauerland/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Münsterland Ost
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-muensterland-ost/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Tauberfranken
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-tauberfranken/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkasse Ulm
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/sparkasse-ulm/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Sparkassenverband Rheinland-Pfalz
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/svrp/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Staatsanzeiger
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/staatsanzeiger/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Stadtwerke Meerbusch Willich
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/stadtwerke-meerbusch-willich/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Stadtwerke Pforzheim
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/stadtwerke-pforzheim/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: swb
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/swb/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Trianel
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/trianel/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: VBG
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/vbg/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: VEGA Grieshaber
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/vega/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: Westfalen Weser
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/westfalenweser/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: 'Wolff & Müller'
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/wolff-und-mueller/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  - name: ZF
+    host: jobs.guidecom.de
+    sitemap: https://jobs.guidecom.de/jobportal/zf/sitemap.xml
+    match: /viewAusschreibung/
+    layout: true
+    country: de
+    lang: de
+  # ➤ More lists on Perbility's CHECK-IN, from Common Crawl's columnar index of mein-check-in.de (10 October
+  # ➤ 2026): the cooperative banks (vr.mein-check-in.de/<bank>), more of the savings banks' group (its
+  # ➤ insurers among them) and the firms' own portals; lists with no vacancy today are kept for tomorrow's.
+  - name: Atruvia AG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/atruvia
+    match: /position-
+    country: de
+    lang: de
+  - name: Bank 1 Saar eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/bank1saar
+    match: /position-
+    country: de
+    lang: de
+  - name: Bensberger Bank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/37062124
+    match: /position-
+    country: de
+    lang: de
+  - name: Berliner Sparkasse
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/berliner-sparkasse
+    match: /position-
+    country: de
+    lang: de
+  - name: Dithmarscher Volks- und Raiffeisenbank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/dvrb
+    match: /position-
+    country: de
+    lang: de
+  - name: DSGF Deutsche Servicegesellschaft für Finanzdienstleister mbH
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/dsgf
+    match: /position-
+    country: de
+    lang: de
+  - name: DZ HYP
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/dzhyp
+    match: /position-
+    country: de
+    lang: de
+  - name: EB – Sustainable Investment Management GmbH
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/eb-sim
+    match: /position-
+    country: de
+    lang: de
+  - name: Eckernförder Bank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/eckernfoerder-bank
+    match: /position-
+    country: de
+    lang: de
+  - name: EDEKABANK AG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/edekabank
+    match: /position-
+    country: de
+    lang: de
+  - name: Evangelische Bank
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/eb
+    match: /position-
+    country: de
+    lang: de
+  - name: Frankfurter Volksbank Rhein/Main eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/frankfurter-volksbank
+    match: /position-
+    country: de
+    lang: de
+  - name: Förde Sparkasse
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/foerde-sparkasse
+    match: /position-
+    country: de
+    lang: de
+  - name: GenoPersonalConsult GmbH
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/gpconsult
+    match: /position-
+    country: de
+    lang: de
+  - name: Hamburger Feuerkasse Versicherungs-AG
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/hamburger-feuerkasse
+    match: /position-
+    country: de
+    lang: de
+  - name: Herner Sparkasse
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/herner-sparkasse
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreis- und Stadtsparkasse Erding - Dorfen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spked
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Bitburg-Prüm
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/kskbitburg-pruem
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Böblingen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/kskbb
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Esslingen-Nürtingen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-es
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Grafschaft Bentheim zu Nordhorn
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-nordhorn
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Göppingen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-gp
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Halle-Wiedenbrück
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/kskwd
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Heinsberg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/kreissparkasse-heinsberg
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Kusel
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/54051550
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Köln
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-koeln
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Ravensburg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/zsphlhh93ltzfk
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Reutlingen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-reutlingen
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Rottweil
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-rottweil
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Schwalm-Eder
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/kreissparkasse-schwalm-eder
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Tübingen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ksk-tuebingen
+    match: /position-
+    country: de
+    lang: de
+  - name: Kreissparkasse Vulkaneifel
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/58651240
+    match: /position-
+    country: de
+    lang: de
+  - name: Landessparkasse zu Oldenburg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/lzo
+    match: /position-
+    country: de
+    lang: de
+  - name: levoBank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/59393000
+    match: /position-
+    country: de
+    lang: de
+  - name: LIGA Bank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/ligabank
+    match: /position-
+    country: de
+    lang: de
+  - name: Nord-Ostsee Sparkasse
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/nospa
+    match: /position-
+    country: de
+    lang: de
+  - name: Ostsächsische Sparkasse Dresden
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/ostsaechsische-sparkasse-dresden
+    match: /position-
+    country: de
+    lang: de
+  - name: parcIT GmbH
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/parcit
+    match: /position-
+    country: de
+    lang: de
+  - name: Pax-Bank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/37060193
+    match: /position-
+    country: de
+    lang: de
+  - name: Pax-Bank für Kirche und Caritas eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/pax-bkc
+    match: /position-
+    country: de
+    lang: de
+  - name: Peras GmbH
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/peras
+    match: /position-
+    country: de
+    lang: de
+  - name: 'PROSERV!CE Dienstleistungsgesellschaft mbH'
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/proservice
+    match: /position-
+    country: de
+    lang: de
+  - name: Provinzial Nord Brandkasse AG
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/provinzial-nord-brandkasse
+    match: /position-
+    country: de
+    lang: de
+  - name: Provinzial Versicherung AG
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/provinzial-online
+    match: /position-
+    country: de
+    lang: de
+  - name: PSD Bank Karlsruhe-Neustadt eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/66090900
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisen-Volksbank Fresena eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/28361592
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Aichhalden-Hardt-Sulgen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/60069553
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Aresing-Gerolsbach eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/72169080
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Burgebrach-Stegaurach eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/77062014
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank DreiFranken eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/seebachgrund
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank eG Deggendorf - Plattling - Sonnenwald
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/74160025
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/rbsum
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/20069177
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank eG Rannungen
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/79069213
+    match: /position-
+    country: de
+    lang: de
+  - name: 'Raiffeisenbank eG, Lauenburg/Elbe'
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/raibalauenburg
+    match: /position-
+    country: de
+    lang: de
+  - name: 'Raiffeisenbank eG, Leezen'
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/23061220
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Flachsmeer eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/28562716
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Geislingen-Rosenfeld eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/65362499
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Goldener Steig - Dreisessel eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/rb-ags
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Griesstätt-Halfing eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/70169132
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Grimma eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/raiba-grimma
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Haag-Gars-Maitenbeth eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/70169388
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank HessenNord eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/rb-wolfhagen
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank HessenNord eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/52063550
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank im Donautal eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/raiba-gaimbux
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank im Fuldaer Land eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/53062035
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank im Nürnberger Land eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/76061482
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank in Rheinhessen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/55060611
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Knoblauchsland-Bibertgrund eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/rb-knobi
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Kreis Kelheim eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/rbkk
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Landshuter Land eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/rb-lala
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Main-Spessart eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/79069150
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank München-Süd eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/70169466
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank München-Süd eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/raiba-muc-sued
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Neumarkt i.d. OPf. eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/76069553
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Neumarkt i.d. OPf. eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/raiba-neumarkt-opf
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Neustadt eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/57069238
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Neustadt eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/raiba-neustadt
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Oberpfalz Süd eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/75062026
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Oberpfalz Süd eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/rb-os
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Ostprignitz-Ruppin eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/16061938
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Rehling eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/72069193
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Rupertiwinkel eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/70169191
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Schwaben Mitte eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/rb-irg
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Straubing eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/74260110
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Strücklingen-Idafehn eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/raiba-idafehn
+    match: /position-
+    country: de
+    lang: de
+  - name: Raiffeisenbank Südliches Ostallgäu eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/73369933
+    match: /position-
+    country: de
+    lang: de
+  - name: Reisebank
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/reisebank
+    match: /position-
+    country: de
+    lang: de
+  - name: Rheingauer Volksbank
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/51091500
+    match: /position-
+    country: de
+    lang: de
+  - name: Rheingauer Volksbank
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/rheingauer-volksbank
+    match: /position-
+    country: de
+    lang: de
+  - name: Rhön-Rennsteig Sparkasse
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/rhoen-rennsteig-sparkasse
+    match: /position-
+    country: de
+    lang: de
+  - name: 'S-Markt & Mehrwert GmbH & Co. KG'
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/s-markt-mehrwert
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Arnstadt-Ilmenau
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-arnstadt-ilmenau
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Aurich-Norden
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/28350000
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Barnim
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-barnim
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Bayreuth
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-bayreuth
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Bielefeld
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-bielefeld
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Bodensee
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/69050001
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Dillenburg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-dillenburg
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Duisburg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-duisburg
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Elbe-Elster
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-elbe-elster
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Freiburg-Nördlicher Breisgau
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/68050101
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Fürth
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-fuerth
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Gladbeck
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-gladbeck
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Hamm
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/41050095
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Heidelberg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-heidelberg
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Hochrhein
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-hochrhein
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Koblenz
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-koblenz
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse KölnBonn
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-koelnbonn
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Lörrach-Rheinfelden
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-loerrach
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Mecklenburg-Schwerin
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/14052000
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Mecklenburg-Schwerin
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-mecklenburg-schwerin
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Meißen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-meissen
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Merzig-Wadern
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkassemerzig-wadern
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Neunkirchen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-neunkirchen
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Niederlausitz
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-niederlausitz
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Nienburg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-nienburg
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Oberhessen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-oberhessen
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Olpe-Drolshagen-Wenden
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-olpe
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Ostprignitz-Ruppin
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/16050202
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Pforzheim Calw
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-pforzheim-calw
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Rhein Neckar Nord
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-rhein-neckar-nord
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Rosenheim-Bad Aibling
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-ro-aib
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Rottal-Inn
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-rottal-inn
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Saarbrücken
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-saarbruecken
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Schweinfurt-Haßberge
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-sw
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Schwäbisch Hall-Crailsheim
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-sha
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse St. Blasien
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-st-blasien
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Staufen-Breisach
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-staufen-breisach
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Südholstein
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/spk-suedholstein
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Trier
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-trier
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Ulm
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-ulm
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Unstrut-Hainich
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-unstrut-hainich
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Westerwald-Sieg
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sk-westerwald-sieg
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Wilhelmshaven
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-wilhelmshaven
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkasse Wittgenstein
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/46053480
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkassen-Versicherung Sachsen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sv-sachsen
+    match: /position-
+    country: de
+    lang: de
+  - name: Sparkassenverband Bayern
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkassenverband-bayern
+    match: /position-
+    country: de
+    lang: de
+  - name: Spreewaldbank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/18092684
+    match: /position-
+    country: de
+    lang: de
+  - name: Stadtsparkasse Düsseldorf
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sskduesseldorf
+    match: /position-
+    country: de
+    lang: de
+  - name: Stadtsparkasse Rheine
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-rheine
+    match: /position-
+    country: de
+    lang: de
+  - name: Stadtsparkasse Wedel
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/22151730
+    match: /position-
+    country: de
+    lang: de
+  - name: Stadtsparkasse Wermelskirchen
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkasse-wermelskirchen
+    match: /position-
+    country: de
+    lang: de
+  - name: Stiftung Jugendhilfe aktiv
+    host: jugendhilfe-aktiv-karriereportal.mein-check-in.de
+    listing: https://jugendhilfe-aktiv-karriereportal.mein-check-in.de/
+    match: /detail/
+    country: de
+    lang: de
+  - name: Bezirk Niederbayern
+    host: bezirk-niederbayern-karriereportal.mein-check-in.de
+    listing: https://bezirk-niederbayern-karriereportal.mein-check-in.de/
+    match: /detail/
+    country: de
+    lang: de
+  - name: GWS Gesellschaft für Warenwirtschafts-Systeme mbH
+    host: gws-karriereportal.mein-check-in.de
+    listing: https://gws-karriereportal.mein-check-in.de/
+    match: /detail/
+    country: de
+    lang: de
+  - name: LBS Süd
+    host: lbs-sued-karriereportal.mein-check-in.de
+    listing: https://lbs-sued-karriereportal.mein-check-in.de/
+    match: /detail/
+    country: de
+    lang: de
+  - name: Sparkassenversicherung Perbility
+    host: sparkassenversicherung-karriereportal.mein-check-in.de
+    listing: https://sparkassenversicherung-karriereportal.mein-check-in.de/
+    match: /detail/
+    country: de
+    lang: de
+  - name: Volksbanken Raiffeisenbanken in Schleswig-Holstein und Mecklenburg-Vorpommern
+    host: pvr-karriereportal.mein-check-in.de
+    listing: https://pvr-karriereportal.mein-check-in.de/
+    match: /detail/
+    country: de
+    lang: de
+  - name: Provinzial Konzerns
+    host: provinzial-karriereportal.mein-check-in.de
+    listing: https://provinzial-karriereportal.mein-check-in.de/
+    match: /detail/
+    country: de
+    lang: de
+  - name: LGL
+    host: lgl-bayern-karriereportal.mein-check-in.de
+    listing: https://lgl-bayern-karriereportal.mein-check-in.de/
+    match: /detail/
+    country: de
+    lang: de
+  - name: SV Informatik GmbH
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sv-informatik
+    match: /position-
+    country: de
+    lang: de
+  - name: SV SparkassenVersicherung
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/sparkassenversicherung
+    match: /position-
+    country: de
+    lang: de
+  - name: Sylter Bank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/21791805
+    match: /position-
+    country: de
+    lang: de
+  - name: 'TEBA Kreditbank GmbH & Co. KG'
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/teba-kreditbank
+    match: /position-
+    country: de
+    lang: de
+  - name: Vereinigte Sparkassen Eschenbach i.d.OPf. Neustadt a.d.Waldnaab Vohenstrauß
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/vspk-neustadt
+    match: /position-
+    country: de
+    lang: de
+  - name: Vereinigte Volksbank eG Ganderkesee - Hude - Bookholzberg - Lemwerder
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/28062249
+    match: /position-
+    country: de
+    lang: de
+  - name: Vereinigte Volksbank eG Saarlouis - Losheim am See - Sulzbach/Saar
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/meine-vvb
+    match: /position-
+    country: de
+    lang: de
+  - name: Vereinigte Volksbank Raiffeisenbank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vvr-bank
+    match: /position-
+    country: de
+    lang: de
+  - name: Vereinigte Volksbank Raiffeisenbank
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vvrb
+    match: /position-
+    country: de
+    lang: de
+  - name: 'Vereinigte Volksbanken eG, Böblingen'
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/diebank
+    match: /position-
+    country: de
+    lang: de
+  - name: Vereinigte VR Bank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/21791906
+    match: /position-
+    country: de
+    lang: de
+  - name: Vereinigte VR Bank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/foehr-amrumer-bank
+    match: /position-
+    country: de
+    lang: de
+  - name: Versicherungskammer Bayern
+    host: sparkasse.mein-check-in.de
+    listing: https://sparkasse.mein-check-in.de/vkb
+    match: /position-
+    country: de
+    lang: de
+  - name: 'Volksbank Alb eG mit den Hauptstandorten in Langenau, Laichingen und Deggingen'
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vb-laichinger-alb
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Alzey-Worms eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/55091200
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Anröchte eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/volksbank-anroechte
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Breisgau Nord eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/68092000
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Darmstadt Mainz eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/mvb
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Dreiländereck eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/68390000
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Düsseldorf Neuss eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/deine-volksbank
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank eG Emstek Essen Cappeln
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/28063526
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank eG Fredenbeck-Oldendorf-Ahlerstedt
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/20069812
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank eG Gera • Jena • Rudolstadt
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/volksbank-vor-ort
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank eG Hildesheim-Lehrte-Pattensen
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/25193331
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank eG Hildesheim-Lehrte-Pattensen
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vbhildesheim
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank eG Lohne-Dinklage-Steinfeld-Mühlen
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/28062560
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank eG Oldenburg-Land Delmenhorst
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/28066214
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank eG Oldenburg-Land Delmenhorst
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vrbank-oldenburgland
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/28066620
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank eG Südheide - Isenhagener Land - Altmark
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/25791635
+    match: /position-
+    country: de
+    lang: de
+  - name: 'Volksbank eG, Löningen'
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/28065061
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Emmerich-Rees eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/35860245
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Erft eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/37069252
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Ettlingen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/volksbank-ettlingen
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Ettlingen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/66091200
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Franken eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/volksbank-franken
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Freiburg eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/68090000
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Freiburg eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/volksbank-freiburg
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Halle (Saale) eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vbhalle
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Heiden eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/42861608
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Heinsberg eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/37069412
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Heuchelheim eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/voba-heuchelheim
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank im Elbe-Weser-Dreieck eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/volksbankeg
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank im Harz eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/26891484
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank im Harz eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vbimharz
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank im Hochsauerland eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/40069266
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank im Münsterland eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/40361906
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank in der Hohen Mark eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/42861239
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank in Südwestfalen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/44761534
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Klettgau-Wutöschingen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/68462427
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Kleverland eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/32460422
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Kleverland eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/volksbank-kleverland
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Kurpfalz eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/volksbank-kurpfalz
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Lindenberg eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/73369826
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Lüneburger Heide eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vblh
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Magdeburg eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/81093274
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Mittelhessen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/51390000
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Mittlerer Neckar eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/61290120
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Mittlerer Neckar eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/v-mn
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Mittlerer Schwarzwald eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/66492700
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Neckartal eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/67291700
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Niedersachsen-Mitte eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/25691633
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Nordharz eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vbnh
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Nordschwarzwald eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/64291010
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Nordschwarzwald eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vobahf
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Olpe-Wenden-Drolshagen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/voba-owd
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Raiffeisenbank AmmerGäu eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/64161397
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Raiffeisenbank Fürstenfeldbruck eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vrbank-ffb
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Raiffeisenbank Fürstenfeldbruck eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/70163370
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Raiffeisenbank Nordoberpfalz eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/75390000
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Remseck eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/volksbank-remseck
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Rhede eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/42861814
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Rhein-Nahe-Hunsrück eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/56090000
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Rhein-Nahe-Hunsrück eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/voba-rnh
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Rheingau-Lahn Limburg eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/57092800
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Sauerland eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/46062817
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Stendal eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/81093054
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Trossingen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/volksbank-trossingen
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Vechta eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/28064179
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Vorpommern eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vbvorpommern
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Weschnitztal eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/50961592
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Wilhelmshaven eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/voba-whv
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Zollernalb eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/65390120
+    match: /position-
+    country: de
+    lang: de
+  - name: Volksbank Zuffenhausen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/voba-zuff
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank Alb-Blau-Donau eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/60069346
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank Augsburg-Ostallgäu eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/72090000
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank Donau-Oberschwaben eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vb-bad-saulgau
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank eG Bergisch Gladbach-Leverkusen
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/37062600
+    match: /position-
+    country: de
+    lang: de
+  - name: 'VR Bank eG, Monheim am Rhein'
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/30560548
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank Ihre Heimatbank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/82064088
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank in Thüringen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vrb-westthueringen
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank Kitzingen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/79190000
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank Kitzingen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vrkt
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank Mecklenburg
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/14061308
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank Mecklenburg
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vrbankmecklenburg
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank Mittelhaardt eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vrbank-mittelhaardt
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank München Land eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/70166486
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank Neuburg-Rain eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/72169756
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank Weimar eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vrbank-weimar
+    match: /position-
+    country: de
+    lang: de
+  - name: VR Bank zwischen den Meeren eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/meine-vrbank
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-Bank Bonn Rhein-Sieg eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/37069520
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-Bank Ismaning Hallbergmoos Neufahrn eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/70093400
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-Bank Ismaning Hallbergmoos Neufahrn eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vrbank-ihn
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-Bank Landau-Mengkofen eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/74191000
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-Bank Landsberg-Ammersee eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vr-ll
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-Bank Main-Rhön eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/79069165
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-Bank Neu-Ulm eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vr-bank-nuw
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-Bank Ostalb eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vrbank-ostalb
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-Bank Rottal-Inn eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vrbk
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-Bank Südwestpfalz eG Pirmasens - Zweibrücken
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vrbank-suedwestpfalz
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-Bank Vilshofen-Pocking eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/74062490
+    match: /position-
+    country: de
+    lang: de
+  - name: 'VR-Bankverein Bad Hersfeld-Rotenburg Zweigniederlassung der Volksbank Mittelhessen eG *deaktiviert'
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/53290000
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-MainBank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/79362081
+    match: /position-
+    country: de
+    lang: de
+  - name: VR-NetWorld GmbH
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/vr-networld
+    match: /position-
+    country: de
+    lang: de
+  - name: Wiesbadener Volksbank eG
+    host: vr.mein-check-in.de
+    listing: https://vr.mein-check-in.de/wvb
+    match: /position-
+    country: de
+    lang: de
+  # ➤ Avature careers sites (10 October 2026): Common Crawl's columnar index names 184 hosts on
+  # ➤ avature.net; their robots.txt opens /careers and names each site's sitemap. These were read by
+  # ➤ no list yet; the rest of the European ones are read already or show no careers page.
+  - name: McLaren
+    host: mclarencareers.mclaren.com
+    sitemap: https://mclarencareers.mclaren.com/careers/sitemap_index.xml
+    match: /JobDetail/
+    country: gb
+  - name: Virgin Media O2
+    host: jobs.virginmediao2.co.uk
+    sitemap: https://jobs.virginmediao2.co.uk/careersmarketplace/sitemap_index.xml
+    match: /JobDetail/
+    country: gb
+  - name: Baloise
+    host: careers.baloise.com
+    sitemap: https://careers.baloise.com/careers/sitemap_index.xml
+    match: /JobDetail/
+  - name: Deloitte Central Europe
+    host: apply.deloittece.com
+    sitemap: https://apply.deloittece.com/careers/sitemap_index.xml
+    match: /JobDetail/
+    layout: true
+  - name: Transcom
+    host: apply.careers.transcom.com
+    sitemap: https://apply.careers.transcom.com/careers/sitemap_index.xml
+    match: /JobDetail/
+  - name: Cicor
+    host: cicor.avature.net
+    sitemap: https://cicor.avature.net/careers/sitemap_index.xml
+    match: /JobDetail/
+    layout: true
+  - name: HARMAN
+    host: jobsearch.harman.com
+    listing: https://jobsearch.harman.com/en_US/careers
+    match: /JobDetail/
+    layout: true
+  # ➤ Two German IT employers the hunter now reads and no list held (10 October 2026).
+  - name: msg
+    host: jobs.msg.group
+    sitemap: https://jobs.msg.group/sitemap.xml
+    country: de
+    lang: de
+  - name: AKDB
+    host: karriere.akdb.de
+    sitemap: https://karriere.akdb.de/sitemap.xml
+    country: de
+    lang: de
+  # ➤ Roche (Phenom): its robots.txt names the Chinese sitemap first, which lists every vacancy under
+  # ➤ /cn/zh/; the same vacancy opens in English under /global/en/ with the same number, so that is the
+  # ➤ address shown (15 October 2026).
+  - name: Roche
+    host: careers.roche.com
+    match: /cn/zh/job/
+    rewrite: [/cn/zh/job/, /global/en/job/]
+  # ➤ Three Spanish employers on Bizneo with their own domain (no JobPosting block; platformPosting reads
+  # ➤ the page's "Ubicación" box): Experience IS lists 165 vacancies on 17 pages, more than the ten a
+  # ➤ "next" link is followed through; the hunter named them "Experienceis" and "Uax" (17 October 2026).
+  # ➤ Their job sites link no terms, but each is part of its company's web, whose notice asks leave to
+  # ➤ copy its content: the owner (28 October 2026) puts a job site that comes from the main web under
+  # ➤ its notice. JCarrión's was the hunter's (state/found/hunted.yml): listed here to switch it off.
+  - name: Experience IS
+    listing: https://jobs.experienceis.com/jobs
+    paged: https://jobs.experienceis.com/jobs?page={n}
+    match: /jobs/
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Universidad Alfonso X el Sabio
+    listing: https://jobs.uax.com/jobs
+    paged: https://jobs.uax.com/jobs?page={n}
+    match: /jobs/
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: JCarrión
+    listing: https://ofertas.jcarrion.es/jobs
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  # ➤ German employers' SuccessFactors feeds the hunters found under a page's words, not the employer:
+  # ➤ a feed's adverts take the site's name (17 October 2026).
+  - name: Deutsches Zentrum für Luft- und Raumfahrt (DLR)
+    feed: https://jobs.dlr.de/jobs.xml
+    country: de
+  - name: Würth-Gruppe
+    feed: https://career.witglobal.net/jobs.xml
+  - name: Bertelsmann
+    feed: https://jobsearch.createyourowncareer.com/jobs.xml
+  - name: Vonovia
+    feed: https://jobs.vonovia.de/jobs.xml
+  - name: KNDS Deutschland
+    feed: https://jobs.knds.de/jobs.xml
+  - name: MAN Truck & Bus
+    feed: https://jobs.man.eu/jobs.xml
+  - name: Bertrandt
+    feed: https://bertrandt.jobs.hr.cloud.sap/jobs.xml
+  - name: Volkswagen Group
+    feed: https://jobs.volkswagen-group.com/jobs.xml
+  # ➤ Austrian employers on eRecruiter (17 October 2026): the list page carries every vacancy in the array its
+  # ➤ script draws, read as the adverts (erecruiterJobs); the hunters had read one or two of each. Their
+  # ➤ imprints name no bots and ask no leave (PSA's and Raiffeisen Salzburg's ask it: not read); ENGEL's legal
+  # ➤ notice, Pankl's disclaimer and Felbermayr's imprint do (18 October 2026). KAGes' list shows its newest 15
+  # ➤ of 99, the rest behind a form.
+  - name: KTM
+    page: https://jobs.ktm.com/Jobs
+  - name: ENGEL Austria
+    page: https://jobs.engelglobal.com/Jobs
+    country: at
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: Land Vorarlberg
+    page: https://stellenangebote.vorarlberg.at/Jobs
+    country: at
+    lang: de
+  - name: Felbermayr
+    page: https://jobs.felbermayr.cc/Jobs
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: BEKO Engineering & Informatik
+    page: https://jobs.beko.at/Jobs
+  - name: SGB
+    page: https://sgb.bewerberportal.at/Jobs
+  - name: Besi Austria
+    page: https://besi.kandidatenportal.eu/Jobs
+  - name: Swarovski Optik
+    page: https://swarovskioptik.bewerberportal.at/Jobs
+  - name: Pankl Racing Systems
+    page: https://pankl-racing-systems.bewerberportal.at/Jobs
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  - name: KAGes
+    page: https://kages.bewerberportal.at/Jobs
+    country: at
+  - name: Humanomed
+    page: https://humanomed.bewerberportal.at/Jobs
+  # ➤ KTM's apprenticeship page tells its former apprentices' careers ("Teamleiter/in Software Development"):
+  # ➤ the hunter read its 76 stories as vacancies.
+  - name: KTM (apprenticeship stories)
+    page: https://career.ktm.com/lehre/
+    enabled: false
+    alone: true           # ➤ off for its stories, not for KTM: jobs.ktm.com stays read
+  # ➤ The Dutch central government's SuccessFactors feed (Defensie, its agencies, the ministries) names itself
+  # ➤ "WenS"; its 5,241 vacancies are the Rijksoverheid's (17 October 2026).
+  - name: Rijksoverheid
+    feed: https://jobs.werkenvoornederland.nl/jobs.xml
+    country: nl
+  # ➤ Booking.com's Jibe careers site draws its list from /api/jobs, open to robots (Crawl-delay 5); each
+  # ➤ vacancy page carries its JobPosting block.
+  - name: Booking.com
+    host: jobs.booking.com
+    listing: https://jobs.booking.com/api/jobs?limit=100&page=1
+    paged: https://jobs.booking.com/api/jobs?limit=100&page={n}
+    match: /booking/jobs/
+  # ➤ NTT DATA's group sites, each under its company's own notice (the owner's rule of 28 October 2026; decision 10
+  # ➤ of the audit, read on 15 November 2026: docs/CERRADAS.md, docs/research/permission-list.md). NTT DATA, Inc.'s
+  # ➤ terms forbid «spiders, crawlers, bots» without leave: its UK, US, German and Singapore companies, and its
+  # ➤ global careers site, now careers.nttdata.com itself. NTT DATA Business Solutions asks leave to copy. On
+  # ➤ nttdata.com each is off alone: NTT DATA Italia's site there has its own notice and stays read, as do NTT DATA
+  # ➤ Romania's (no terms) and Tangity's (none).
+  - name: NTT DATA UK
+    host: nttdata.jobs
+    enabled: false        # ➤ its terms forbid robots (docs/CERRADAS.md)
+  - name: NTT DATA, Inc. (careers.services.global.ntt)
+    host: careers.services.global.ntt
+    enabled: false        # ➤ its terms forbid robots, and it leads to careers.nttdata.com (docs/CERRADAS.md)
+  - name: NTT DATA Services (careers-inc.nttdata.com)
+    host: careers-inc.nttdata.com
+    enabled: false        # ➤ its terms forbid robots (docs/CERRADAS.md)
+    alone: true
+  - name: NTT DATA Deutschland (de.nttdata.com)
+    sitemap: https://de.nttdata.com/sitemap.xml
+    enabled: false        # ➤ its terms forbid robots (docs/CERRADAS.md)
+    alone: true
+  - name: NTT DATA Business Solutions
+    host: careers.nttdata-solutions.com
+    enabled: false        # ➤ asks leave: off until given (docs/research/permission-list.md)
+  # ➤ bess pro and bess medizintechnik (medical devices, Germany and Austria): their imprints forbid any use or copy
+  # ➤ of their content "ohne unsere ausdrückliche schriftliche Genehmigung" (read 24 November 2026): off until the
+  # ➤ owner has it (docs/research/permission-list.md).
+  - name: bess pro gmbh
+    host: besspro.eu
+    enabled: false
+  - name: bess medizintechnik gmbh
+    host: bess.eu
+    enabled: false
