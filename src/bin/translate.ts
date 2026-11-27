@@ -10,9 +10,12 @@ import { FileStopSwitch } from "../shared/storage/file-stop-switch.js";
 import { processorStateDirectory } from "../shared/storage/processor-state.js";
 import { storeDirectory } from "./store-directory.js";
 import { processLog } from "../shared/kit/logger.js";
+import { FolderLocked, lockFolder } from "../shared/storage/folder-lock.js";
 
 const number = (value: string | undefined, fallback: number) =>
   value ? Number(value) : fallback;
+// A run that finds its folder held by another exits with 75, which the cron's jobs read as a run skipped (012).
+const SKIPPED = 75;
 const logged = processLog("translate");
 const log = (message: string) => logged.info(message);
 
@@ -38,17 +41,24 @@ try {
   });
   // STOP in the store stops the translator between chunks, as it stops the crawl (012).
   const stopSwitch = new FileStopSwitch(storeDirectory());
-  const result = await runTranslator({
-    stateDirectory: processorStateDirectory(),
-    mtDirectory: mtDir(),
-    minutes: number(values.minutes, 45),
-    workers: number(values.workers, 2),
-    group: number(values.group, 400),
-    log,
-    stopped: () => stopSwitch.isActive(),
-  });
+  // The publication and the translator never run at once, a hand's run or the cron's (the cron's `heavy` lock).
+  const release = await lockFolder(processorStateDirectory(), "heavy");
+  let result;
+  try {
+    result = await runTranslator({
+      stateDirectory: processorStateDirectory(),
+      mtDirectory: mtDir(),
+      minutes: number(values.minutes, 45),
+      workers: number(values.workers, 2),
+      group: number(values.group, 400),
+      log,
+      stopped: () => stopSwitch.isActive(),
+    });
+  } finally {
+    await release();
+  }
   if (result.failed) process.exitCode = 1;
 } catch (error) {
   logged.error(error instanceof Error ? error.message : String(error));
-  process.exitCode = 1;
+  process.exitCode = error instanceof FolderLocked ? SKIPPED : 1;
 }

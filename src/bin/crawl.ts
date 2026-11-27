@@ -27,12 +27,15 @@ import { environmentWithDotEnv } from "./dot-env.js";
 import { readPageFacts } from "./page-facts.js";
 import { storeDirectory } from "./store-directory.js";
 import { processLog } from "../shared/kit/logger.js";
+import { FolderLocked, lockFolder } from "../shared/storage/folder-lock.js";
 
 const clock: Clock = {
   now: () => new Date(),
   sleep: (milliseconds) =>
     new Promise((wake) => setTimeout(wake, Math.max(0, milliseconds))),
 };
+// A run that finds its folder held by another exits with 75, which the cron's jobs read as a run skipped (012).
+const SKIPPED = 75;
 const logged = processLog("crawl");
 const log = (message: string) => logged.info(message);
 
@@ -55,6 +58,8 @@ try {
       adapter.definition.kind,
     ]),
   );
+  // A crawl started by hand and the cron's never run at once over one store.
+  const release = await lockFolder(directory, "crawl");
   const { http, close } = politeHttpClient(
     config,
     clock,
@@ -94,8 +99,14 @@ try {
     );
   } finally {
     close();
+    await release();
   }
 } catch (error) {
   logged.error(error instanceof Error ? error.message : String(error));
-  process.exitCode = error instanceof UsageError ? 2 : 1;
+  process.exitCode =
+    error instanceof UsageError
+      ? 2
+      : error instanceof FolderLocked
+        ? SKIPPED
+        : 1;
 }
