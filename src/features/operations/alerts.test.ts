@@ -116,6 +116,14 @@ describe("the log's last lines", () => {
     ]);
   });
 
+  it("gives a JSON line's message", async () => {
+    await writeFile(
+      logPath(),
+      '{"level":"error","time":"2026-11-27T03:00:00.000Z","process":"crawl","msg":"store unreadable"}\n',
+    );
+    expect(await lastLines(logPath())).toBe("store unreadable");
+  });
+
   it("is empty for a log that is not there", async () => {
     expect(await lastLines(join(directory, "none.log"))).toBe("");
   });

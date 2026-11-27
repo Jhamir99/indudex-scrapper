@@ -23,10 +23,11 @@ import {
 } from "../shared/storage/published-dataset.js";
 import { readRegisters } from "../shared/storage/registers-file.js";
 import { storeDirectory } from "./store-directory.js";
+import { processLog } from "../shared/kit/logger.js";
 
 const now = () => new Date();
-const log = (line: string) =>
-  console.log(`[${new Date().toISOString().slice(11, 19)}] ${line}`);
+const logged = processLog("process");
+const log = (message: string) => logged.info(message);
 
 try {
   const { values } = parseArgs({
@@ -70,6 +71,6 @@ try {
     log(`published version ${result.version}: ${result.offers} offers`);
   else process.exitCode = 1;
 } catch (error) {
-  console.error(error instanceof Error ? error.message : String(error));
+  logged.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 }

@@ -1,3 +1,4 @@
+import { messageOfLine } from "../../shared/kit/logger.js";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { PublishedStatus } from "../../shared/schemas/published/dataset.js";
@@ -93,20 +94,30 @@ export function openProblems(told: readonly string[]): string[] {
 
 // The translator's last run that had titles to translate, from its log (title translation's run.ts, its time in
 // UTC): what it wrote, not what it tried, so a run with the engine down does not read as work done.
+// The translator's line for a run, as its JSON log writes it (`msg` and `time`), or as its plain log wrote it before
+// («[2026-11-24 03:10:00] mt: …»).
+const TRANSLATED =
+  /^mt: (\d+) titles translated \((\d+) translations written, (\d+) without an answer\)/;
+const PLAIN_TIME = /^\[(\d{4}-\d\d-\d\d) (\d\d:\d\d:\d\d)\] /;
 export function lastTranslation(log: string): LastTranslation | null {
-  const runs = [
-    ...log.matchAll(
-      /^\[(\d{4}-\d\d-\d\d) (\d\d:\d\d:\d\d)\] mt: (\d+) titles translated \((\d+) translations written, (\d+) without an answer\)/gm,
-    ),
-  ].filter((match) => Number(match[3]) > 0);
-  const last = runs.at(-1);
-  if (!last) return null;
-  return {
-    at: new Date(`${last[1]}T${last[2]}Z`),
-    titles: Number(last[3]),
-    written: Number(last[4]),
-    unanswered: Number(last[5]),
-  };
+  let last: LastTranslation | null = null;
+  for (const line of log.split("\n")) {
+    const { message, time } = messageOfLine(line);
+    const plain = PLAIN_TIME.exec(message);
+    const said = TRANSLATED.exec(
+      plain ? message.slice(plain[0].length) : message,
+    );
+    if (!said || Number(said[1]) === 0) continue;
+    const at = time ?? (plain ? `${plain[1]}T${plain[2]}Z` : "");
+    if (!at) continue;
+    last = {
+      at: new Date(at),
+      titles: Number(said[1]),
+      written: Number(said[2]),
+      unanswered: Number(said[3]),
+    };
+  }
+  return last;
 }
 
 export interface GatherSummary {

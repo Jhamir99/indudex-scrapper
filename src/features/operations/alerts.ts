@@ -1,3 +1,4 @@
+import { messageOfLine } from "../../shared/kit/logger.js";
 import type { Job } from "./jobs.js";
 import type { Notifier } from "./ntfy.js";
 import type { Outcome } from "./run-job.js";
@@ -50,6 +51,7 @@ export async function lastLines(path: string): Promise<string> {
   const text = await tailOf(path, 64 * 1024);
   return text
     .split("\n")
+    .map((line) => messageOfLine(line).message)
     .filter(
       (line) =>
         line.trim() !== "" &&

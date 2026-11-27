@@ -9,13 +9,12 @@ import { runTranslator } from "../features/title-translation/run.js";
 import { FileStopSwitch } from "../shared/storage/file-stop-switch.js";
 import { processorStateDirectory } from "../shared/storage/processor-state.js";
 import { storeDirectory } from "./store-directory.js";
+import { processLog } from "../shared/kit/logger.js";
 
 const number = (value: string | undefined, fallback: number) =>
   value ? Number(value) : fallback;
-const log = (line: string) =>
-  console.log(
-    `[${new Date().toISOString().slice(0, 19).replace("T", " ")}] ${line}`,
-  );
+const logged = processLog("translate");
+const log = (message: string) => logged.info(message);
 
 // The method keeps thousands of patterns; compiled to machine code they fill V8's code space (256 MB on arm64) and
 // a run dies within a minute (23 November 2026). Interpreted they stay in the heap, so Node must start with the flag:
@@ -50,6 +49,6 @@ try {
   });
   if (result.failed) process.exitCode = 1;
 } catch (error) {
-  console.error(error instanceof Error ? error.message : String(error));
+  logged.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 }

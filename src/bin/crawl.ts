@@ -26,14 +26,15 @@ import { FileRatesKeeper } from "../shared/storage/kept-rates.js";
 import { environmentWithDotEnv } from "./dot-env.js";
 import { readPageFacts } from "./page-facts.js";
 import { storeDirectory } from "./store-directory.js";
+import { processLog } from "../shared/kit/logger.js";
 
 const clock: Clock = {
   now: () => new Date(),
   sleep: (milliseconds) =>
     new Promise((wake) => setTimeout(wake, Math.max(0, milliseconds))),
 };
-const log = (message: string) =>
-  console.log(`${new Date().toISOString()} ${message}`);
+const logged = processLog("crawl");
+const log = (message: string) => logged.info(message);
 
 try {
   const argumentsGiven = parseCrawlArguments(process.argv.slice(2));
@@ -95,6 +96,6 @@ try {
     close();
   }
 } catch (error) {
-  console.error(error instanceof Error ? error.message : String(error));
+  logged.error(error instanceof Error ? error.message : String(error));
   process.exitCode = error instanceof UsageError ? 2 : 1;
 }

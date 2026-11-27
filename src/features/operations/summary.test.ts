@@ -118,6 +118,19 @@ describe("the translator's last run", () => {
     });
     expect(lastTranslation("")).toBeNull();
   });
+
+  it("reads the JSON lines of its log too", () => {
+    const log = [
+      '{"level":"info","time":"2026-11-27T03:10:01.000Z","process":"translate","msg":"mt: 120 titles translated (600 translations written, 0 without an answer) in 12 min; 0 left in the list"}',
+      '{"level":"info","time":"2026-11-27T04:10:01.000Z","process":"translate","msg":"mt: no list of titles yet (the next build writes it)"}',
+    ].join("\n");
+    expect(lastTranslation(log)).toEqual({
+      at: new Date("2026-11-27T03:10:01.000Z"),
+      titles: 120,
+      written: 600,
+      unanswered: 0,
+    });
+  });
 });
 
 describe("the summary's inputs", () => {

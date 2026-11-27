@@ -12,6 +12,7 @@ import { loadConfig } from "../shared/config/load-config.js";
 import { RegisterId } from "../shared/schemas/register.js";
 import { FileStopSwitch } from "../shared/storage/file-stop-switch.js";
 import { storeDirectory } from "./store-directory.js";
+import { processLog } from "../shared/kit/logger.js";
 
 const USAGE = "usage: registers <brreg|sirene|diba> [files…] --lau <lau.tsv>";
 const clock = {
@@ -19,8 +20,8 @@ const clock = {
   sleep: (milliseconds: number) =>
     new Promise<void>((wake) => setTimeout(wake, Math.max(0, milliseconds))),
 };
-const log = (message: string) =>
-  console.log(`${new Date().toISOString()} ${message}`);
+const logged = processLog("registers");
+const log = (message: string) => logged.info(message);
 
 try {
   const { values, positionals } = parseArgs({
@@ -52,6 +53,6 @@ try {
     close();
   }
 } catch (error) {
-  console.error(error instanceof Error ? error.message : String(error));
+  logged.error(error instanceof Error ? error.message : String(error));
   process.exitCode = error instanceof RegisterUsageError ? 2 : 1;
 }

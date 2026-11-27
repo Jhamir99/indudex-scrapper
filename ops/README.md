@@ -14,7 +14,7 @@ How the home server runs the scrapper, the translator and the processor (feature
 | `backup`    | every day, 00:00             | what only the server holds, to the release `server-backup` of `BACKUP_REPO` |
 | `watch`     | every quarter of an hour     | STOP, late jobs, logs, disk, SSD                                            |
 
-Each line runs `node dist/bin/ops.js job <name>`: with `STOP` in place nothing but the watch and the backup starts; each job takes its lock with `flock` (a run whose lock is held is skipped); the translator and the publication share one more lock and never run together. Each job's output goes to `var/logs/<job>.log` (`OPS_DIR`, default `var/`).
+Each line runs `node dist/bin/ops.js job <name>`: with `STOP` in place nothing but the watch and the backup starts; each job takes its lock with `flock` (a run whose lock is held is skipped); the translator and the publication share one more lock and never run together. Each job's output goes to `var/logs/<job>.log` (`OPS_DIR`, default `var/`): the crawl, the publication, the translator and the registers write one JSON line a message (pino: `time`, `level`, `process`, `msg`; read them with `jq -r .msg`), a crash's trace as plain text.
 
 ## Setting the server up
 
