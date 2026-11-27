@@ -221,3 +221,31 @@ describe("a silent robots.txt (RFC 9309 2.3.1.4, the legacy's 4fbb1c49)", () => 
     ).toBe("held");
   });
 });
+
+describe("a redirect to another host (the operator's call of 27 November 2026)", () => {
+  it("checks each hop against its own host's robots.txt", async () => {
+    const OTHER = "https://data.example.org";
+    const robots = new FakeHttpClient({
+      [`${SITE}/robots.txt`]: "User-agent: *\nAllow: /\n",
+      [`${OTHER}/robots.txt`]: "User-agent: *\nDisallow: /api/\n",
+    });
+    // An inner client whose answer redirects to the other host's API, as jcyl's dataset did.
+    const inner = {
+      request: async (
+        url: string,
+        options?: { checkHop?: (next: string) => Promise<void> },
+      ) => {
+        if (url.endsWith("/robots.txt")) return robots.request(url);
+        await options?.checkHop?.(`${OTHER}/api/export.json`);
+        return { status: 200, url, headers: {}, body: "[]" };
+      },
+    };
+    const failure = await failureOf(
+      new RobotsClient(inner).request(`${SITE}/dataset.json`),
+    );
+    expect(failure.kind).toBe("disallowed");
+    expect(failure.message).toBe(
+      `robots.txt disallows ${OTHER}/api/export.json`,
+    );
+  });
+});

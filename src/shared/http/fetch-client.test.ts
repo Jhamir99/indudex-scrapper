@@ -190,6 +190,48 @@ describe("FetchClient (FR-3)", () => {
     });
   });
 
+  it("follows each redirect after asking whether its hop may be read, and stops where it may not", async () => {
+    const hops: string[] = [];
+    const server = fakeServer(
+      new Response("", {
+        status: 301,
+        headers: { location: "https://data.example/api/jobs.json" },
+      }),
+      new Response("[]", { status: 200 }),
+    );
+    const response = await client(server.fetch).request(FEED, {
+      checkHop: async (url) => {
+        hops.push(url);
+      },
+    });
+    expect([response.body, response.url, hops]).toEqual([
+      "[]",
+      "https://data.example/api/jobs.json",
+      ["https://data.example/api/jobs.json"],
+    ]);
+    expect(server.calls.map((call) => call.init.redirect)).toEqual([
+      "manual",
+      "manual",
+    ]);
+
+    const closed = fakeServer(
+      new Response("", {
+        status: 302,
+        headers: { location: "/private/jobs.json" },
+      }),
+    );
+    expect(
+      await failureOf(
+        client(closed.fetch).request(FEED, {
+          checkHop: async (url) => {
+            throw new HttpFailure("disallowed", url, 0);
+          },
+        }),
+      ),
+    ).toMatchObject({ kind: "disallowed" });
+    expect(closed.calls).toHaveLength(1);
+  });
+
   it("reports a network error after its retries", async () => {
     const server = fakeServer("network-error");
     const failure = await failureOf(client(server.fetch).request(FEED));

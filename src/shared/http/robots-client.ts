@@ -52,10 +52,19 @@ export class RobotsClient {
     url: string,
     options?: HttpRequestOptions,
   ): Promise<HttpResponse> {
+    await this.checkAllowed(url);
+    // Each redirect is checked against its own host's robots.txt before it is followed (the operator's call of 27
+    // November 2026: jcyl's dataset redirected to a host whose /api/ is closed).
+    return this.inner.request(url, {
+      ...options,
+      checkHop: (next) => this.checkAllowed(next),
+    });
+  }
+
+  private async checkAllowed(url: string): Promise<void> {
     const robots = await this.robotsFor(url);
     if (!isAllowed(robots, robotsPath(url)))
       throw new HttpFailure("disallowed", addressForLog(url), 0);
-    return this.inner.request(url, options);
   }
 
   // The rules for an address's host, for pacing (Crawl-delay) and sitemaps too.

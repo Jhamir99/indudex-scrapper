@@ -17,7 +17,13 @@ export interface HttpRequestOptions {
   readonly body?: string;
   // The answer is a file (a PDF), not text: it comes back as `bytes`, with an empty `body`.
   readonly binary?: boolean;
+  // Asked before each redirect is followed, with the address it leads to: the robots client checks that hop's
+  // robots.txt and throws to stop there. Without it, redirects are followed as fetch follows them.
+  readonly checkHop?: (url: string) => Promise<void>;
 }
+
+// Redirects a request follows at most, as fetch does.
+const MOST_HOPS = 20;
 
 export interface HttpResponse {
   readonly status: number;
@@ -100,13 +106,7 @@ export class FetchClient {
 
     const signal = AbortSignal.timeout(timeoutMs);
     try {
-      const response = await this.fetch(url, {
-        method: options.method ?? "GET",
-        headers: { ...this.identity, ...options.headers },
-        body: options.body,
-        redirect: "follow",
-        signal,
-      });
+      const response = await this.followed(url, options, signal);
       if (!response.ok) {
         // Let the error answer go, or its connection stays taken.
         await response.body?.cancel().catch(() => {});
@@ -138,11 +138,68 @@ export class FetchClient {
           ? { body: "", bytes }
           : { body: decodeBody(bytes, response.headers.get("content-type")) }),
       };
-    } catch {
+    } catch (error) {
+      // A hop the robots client stopped fails as it said.
+      if (error instanceof HttpFailure) return error;
       return fail(signal.aborted ? "timeout" : "network");
     }
   }
+
+  // The answer, its redirects followed: by fetch, or one by one when each hop is to be checked first. A 303, and a 301
+  // or 302 to a POST, go on as a GET without the body, as fetch does.
+  private async followed(
+    url: string,
+    options: HttpRequestOptions,
+    signal: AbortSignal,
+  ): Promise<Response> {
+    const headers = { ...this.identity, ...options.headers };
+    if (!options.checkHop)
+      return this.fetch(url, {
+        method: options.method ?? "GET",
+        headers,
+        body: options.body,
+        redirect: "follow",
+        signal,
+      });
+    let at = url;
+    let method = options.method ?? "GET";
+    let body = options.body;
+    for (let hop = 0; ; hop++) {
+      const response = await this.fetch(at, {
+        method,
+        headers,
+        body,
+        redirect: "manual",
+        signal,
+      });
+      const location = response.headers.get("location");
+      if (
+        response.status < 300 ||
+        response.status > 399 ||
+        response.status === 304 ||
+        !location
+      )
+        return response.url ? response : withUrl(response, at);
+      await response.body?.cancel().catch(() => {});
+      if (hop >= MOST_HOPS) throw new Error("too many redirects");
+      const next = new URL(location, at).href;
+      await options.checkHop(next);
+      if (
+        response.status === 303 ||
+        ((response.status === 301 || response.status === 302) &&
+          method === "POST")
+      ) {
+        method = "GET";
+        body = undefined;
+      }
+      at = next;
+    }
+  }
 }
+
+// A response with the address it came from, where the fetch function gave none.
+const withUrl = (response: Response, url: string): Response =>
+  Object.defineProperty(response, "url", { value: url });
 
 // A body as text: in the charset its Content-Type names, else the one an XML declaration names
 // (feeds in ISO-8859-2 or windows-1252 often say so only there), else UTF-8. An unknown charset
