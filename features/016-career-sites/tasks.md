@@ -1,28 +1,45 @@
 # Tasks: Career sites and ATS platforms
 
-Generated from `spec.md` and `plan.md` (as tasks 001, wave 5). "Standard adapter check": see `features/002-public-feeds/plan.md` section 2.
+Generated from `spec.md` and `plan.md` (2026-11-27). Each task ends with the CI's checks green and a commit.
 
-**Depends:** `job-portals` closed (its T004).
+**Depends:** 015 job-portals and 018 legacy-resync closed.
 
 ## Tasks
 
-- [ ] **T001 — Family `career-site`: sitemap discovery honouring robots.txt** · FR: FR-2 · Depends: job-portals T004
-      Done when: tests pass on a sample sitemap: URLs are discovered, disallowed ones are skipped, and a per-site page cap per pass is respected.
-- [ ] **T002 — Career-site extraction of schema.org JobPosting** · FR: FR-3 · Depends: T001
-      Done when: fixture pages with one and several JobPosting blocks produce valid adverts; a page without one is counted as barren and the site's cadence becomes the barren one (weekly).
-- [ ] **T003 — Import employers' source lists as data** · FR: FR-1 · Depends: T002
-      Done when: `config/careers.yml` and `config/companies.yml` load and validate; headers credit the legacy project; a test covers a sample of entries; the number of loaded entries matches the legacy lists.
-- [ ] **T004 — Cap on never-read sources per run** · FR: FR-4 · Depends: T003
-      Done when: a test with many new sources shows only the configured number are first-read in one run.
-- [ ] **T005 — ATS platform groups sharing one host** · FR: FR-5 · Depends: T003
-      Done when: tests pass: sources of one platform share the in-flight limit and the per-server gap; a group limit such as eight calls an hour is respected.
-- [ ] **T006 — Port ATS platforms: hrmanager, join, manatal** · FR: FR-1, FR-5, FR-7 · Depends: T005
-      Done when: the standard adapter check passes for each adapter, and each platform's group limit from `crawl.yml` is applied.
-- [ ] **T007 — Port remaining platforms and vendors from the legacy lists** · FR: FR-1 · Depends: T005
-      Done when: every platform in the legacy platform and vendor lists has an entry, an adapter or an explicit "disabled and flagged" status, and the list is checked in a test.
-- [ ] **T008 — Flag broken legacy sources** · FR: FR-6 · Depends: T003
-      Done when: every legacy source that no longer works is registered disabled with the flag shown in `crawl:status`.
-- [ ] **T009 — End-to-end run on fixtures** · FR: FR-7 · Depends: T006, T007, T008
-      Done when: one integration test runs sources of every family on fakes with a broken source, a takedown and the stop flag, and the run finishes with the expected states and stored adverts.
-- [ ] **T010 — Close career-sites and verify the source features** · FR: FR-1 to FR-7 · Depends: T009, T004
-      Done when: each completion criterion of this spec is checked (every legacy source present, offline tests green, broken-source run keeps adverts, no credential in the repo by grep); `AGENTS.md` (adapter rule), `CLAUDE.md` (commands, layout, dependencies) and `MEMORY.md` are updated; `features/README.md` marks this feature done.
+- [ ] **T001 — The lists as data** · FR-1 · Depends: —
+      Done when: the six legacy lists are in `config/` with a header crediting the legacy, loaded and validated
+      synchronously; the counts per list match the legacy's, entries in two lists read once (the hand-kept first),
+      paused entries shown paused; a test checks the counts.
+- [ ] **T002 — The board platforms** · FR-3, FR-4 · Depends: T001
+      Done when: `boards.ts` and Argus's parsers are copied, each platform's saved answer gives the legacy's adverts,
+      SmartRecruiters and JOIN listed and switched off with their reason, the vendors' switches read from
+      `vendors.yml`.
+- [ ] **T003 — The careers reader** · FR-2, FR-4, FR-5, FR-9 · Depends: T001
+      Done when: `careers.ts` and the streamed feed items are copied; saved sitemaps, listings, feeds and pages of each
+      shape give the legacy's adverts; a barren site's cadence is a week; a vacancy is read again by the reader's
+      version rules.
+- [ ] **T004 — One source per entry** · FR-1, FR-12 · Depends: T002, T003
+      Done when: the registry holds a source for every enabled entry with its kind, group, licence and credit; the
+      shared contract test passes for a site, a platform site, a board of each platform and a vendor.
+- [ ] **T005 — What the site shows** · FR-8 · Depends: T004
+      Done when: the crawl reads the published version in place once a run; a shown vacancy is asked again and one not
+      shown is not; with no version everything is asked.
+- [ ] **T006 — The legacy's queue** · FR-6 · Depends: T005
+      Done when: selection follows the legacy's `due` (worth, one in five for sources that show nothing, never-read
+      sources capped a run by group in turn, reading-on last), compared with the legacy's function on the same inputs;
+      the run's lanes, minutes and page budgets at the legacy's values in `crawl.yml`.
+- [ ] **T007 — Long queues and platform limits** · FR-6, FR-7 · Depends: T006
+      Done when: a site with a long queue runs in the queues' lanes at a page a second within its ceilings; a group's
+      in-flight limit and sources a run (hrmanager 8 an hour) hold on fakes; a source's deadline is sized by its
+      adverts.
+- [ ] **T008 — A board's advert with no place** · FR-10 · Depends: T004
+      Done when: the processor leaves out a board's advert with no readable place unless its title is marked «(m/w/d)»
+      or «(H/F)», with the legacy's cases.
+- [ ] **T009 — End to end on fixtures** · FR-11, FR-12 · Depends: T007, T008
+      Done when: one run on fakes with a careers site, a platform site, a board of each platform, a vendor, a barren
+      site, a failing source, a takedown and the stop switch ends with the expected states and adverts.
+- [ ] **T010 — Live pass** · FR-13 · Depends: T009
+      Done when: every platform and vendor switched on and about 300 careers sites read live into a temporary store; the
+      result per platform and list recorded below.
+- [ ] **T011 — Close** · FR-1 to FR-13 · Depends: T010
+      Done when: the completion criteria hold; `CLAUDE.md`, `MEMORY.md` and `features/README.md` updated.
