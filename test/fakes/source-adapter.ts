@@ -91,6 +91,7 @@ export function fakeContext(
     pageBudget: UNLIMITED,
     backlog: () => {},
     barren: () => {},
+    shown: null,
     pageFacts: () => ({}),
     ...overrides,
   };

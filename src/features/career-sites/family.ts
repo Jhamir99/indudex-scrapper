@@ -29,6 +29,7 @@ import {
   licence as careersLicence,
   readSite,
   siteKey,
+  useShown,
   type Site,
   type SiteStore,
 } from "./legacy/careers.js";
@@ -211,6 +212,8 @@ export function siteSource(
       ...(disabledReason ? { disabledReason } : {}),
     },
     async *fetchAdverts(context) {
+      // The vacancies the site shows, as the legacy's reader reads them (`useShown`): null, all of them.
+      useShown(context.shown as Set<string> | null);
       const memory = (context.memory ?? {}) as SiteMemory;
       const store: SiteStore = { ...memory, adverts: [...context.previous] };
       // The run's pages, as the legacy's reader spends them (`budget.left`, one taken a page).

@@ -21,7 +21,7 @@ Generated from `spec.md` and `plan.md` (2026-11-27). Each task ends with the CI'
 - [x] **T004 — One source per entry** · FR-1, FR-12 · Depends: T002, T003
       Done when: the registry holds a source for every enabled entry with its kind, group, licence and credit; the
       shared contract test passes for a site, a platform site, a board of each platform and a vendor.
-- [ ] **T005 — What the site shows** · FR-8 · Depends: T004
+- [x] **T005 — What the site shows** · FR-8 · Depends: T004
       Done when: the crawl reads the published version in place once a run; a shown vacancy is asked again and one not
       shown is not; with no version everything is asked.
 - [ ] **T006 — The legacy's queue** · FR-6 · Depends: T005
@@ -90,3 +90,9 @@ one board of each of the 12 platforms with boards in the lists (Manatal's only o
 and five sites of each shape (sitemap, SuccessFactors feed trimmed to 20 items, listing, host alone, softgarden), read
 once through the polite client, e-mail addresses replaced. Twins (two entries sharing one address's pages) are not
 ported: they only spare a page asked twice.
+
+T005 (2026-11-27). `readShownOffers` (shared/storage) reads the published version in place once a run: its offers' ids
+and, per source, its offers, those in Spain and those in Catalonia (the legacy's shown-ids.txt and shown-by-source.json,
+here read from the version itself: 70,439 ids of 38 sources in 0.3 s). crawl-core hands the ids to every source
+(`context.shown`, null before the first publication) and the careers family gives them to the legacy's reader
+(`useShown`), whose own rules ask again only a vacancy the site shows; the counts per source are T006's queue's.

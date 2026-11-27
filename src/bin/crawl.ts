@@ -21,6 +21,8 @@ import {
 } from "../features/crawl-core/run.js";
 import { FileAdvertStore } from "../shared/storage/file-advert-store.js";
 import { FileRobotsMemory } from "../shared/storage/robots-memory.js";
+import { publishedDirectory } from "../shared/storage/published-dataset.js";
+import { readShownOffers } from "../shared/storage/shown-offers.js";
 import { FileStopSwitch } from "../shared/storage/file-stop-switch.js";
 import { FileRatesKeeper } from "../shared/storage/kept-rates.js";
 import { environmentWithDotEnv } from "./dot-env.js";
@@ -87,6 +89,9 @@ try {
       }),
       pageBudget: pageBudget(config.run.pageBudget),
       pageFacts: readPageFacts,
+      // What the published version in place shows: a careers site asks again only what the site shows (career sites
+      // FR-8); none before the first publication.
+      shown: await readShownOffers(publishedDirectory(environment)),
       rates: new FileRatesKeeper(directory, clock),
     });
     const counts = new Map<string, number>();

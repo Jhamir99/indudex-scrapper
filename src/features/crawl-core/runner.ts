@@ -1,3 +1,4 @@
+import type { ShownOffers } from "../../shared/storage/shown-offers.js";
 import type { z } from "@hono/zod-openapi";
 import {
   Advert,
@@ -80,7 +81,13 @@ export interface SourceRunDependencies {
   readonly today?: string;
   readonly log: (message: string) => void;
   // The gate's reading of a title, and the run's page budget (job portals FR-4, FR-5).
-  readonly isOurs?: (title: string, country: string) => boolean;
+  readonly isOurs?: (
+    title: string,
+    country: string,
+    language?: string,
+  ) => boolean;
+  // The offers the published version in place shows (career sites FR-8).
+  readonly shown?: ShownOffers | null;
   readonly pageBudget?: PageBudget;
   readonly pageFacts?: (html: string) => PageFacts;
 }
@@ -173,6 +180,7 @@ export async function runSource(
       isOurs: dependencies.isOurs ?? (() => true),
       pageBudget: dependencies.pageBudget ?? UNLIMITED,
       pageFacts: dependencies.pageFacts ?? NO_PAGE_FACTS,
+      shown: dependencies.shown?.ids ?? null,
       backlog: (pages) => {
         backlog = Math.max(0, Math.round(pages));
       },
@@ -252,7 +260,13 @@ export interface RunDependencies {
   readonly environment: Environment;
   readonly log: (message: string) => void;
   // The gate's reading of a title, and the run's page budget, shared by its sources (job portals FR-4, FR-5).
-  readonly isOurs?: (title: string, country: string) => boolean;
+  readonly isOurs?: (
+    title: string,
+    country: string,
+    language?: string,
+  ) => boolean;
+  // The offers the published version in place shows (career sites FR-8).
+  readonly shown?: ShownOffers | null;
   readonly pageBudget?: PageBudget;
   readonly pageFacts?: (html: string) => PageFacts;
   // Sources read at once (default 1). The polite client behind `http` is shared, so the pace of

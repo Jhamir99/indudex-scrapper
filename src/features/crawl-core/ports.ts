@@ -40,6 +40,9 @@ export interface AdapterContext {
   // The source's pages gave no advert (a careers site whose vacancy pages carry none): it is read at the barren cadence
   // (career sites FR-5).
   barren(): void;
+  // The ids of the offers the published version in place shows, or null before the first publication (career sites
+  // FR-8): a careers site asks again only a vacancy the site shows.
+  readonly shown: ReadonlySet<string> | null;
   // What a vacancy's page says in labelled fields beside its block (job portals FR-3); nothing when none is given.
   pageFacts(html: string): PageFacts;
 }
