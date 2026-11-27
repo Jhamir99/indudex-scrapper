@@ -1,4 +1,5 @@
 import type { ShownOffers } from "../../shared/storage/shown-offers.js";
+import { dueQueue, type QueueRules } from "./queue.js";
 import type { z } from "@hono/zod-openapi";
 import {
   Advert,
@@ -19,7 +20,6 @@ import {
   holdsDrop,
   disabled,
   type ScheduleRules,
-  selectDue,
 } from "./domain/schedule.js";
 import type { SourceMemory } from "../../shared/schemas/source.js";
 import type {
@@ -89,6 +89,7 @@ export interface SourceRunDependencies {
   // The offers the published version in place shows (career sites FR-8).
   readonly shown?: ShownOffers | null;
   readonly pageBudget?: PageBudget;
+  readonly pageBudgetFor?: (group: string) => PageBudget | undefined;
   readonly pageFacts?: (html: string) => PageFacts;
 }
 
@@ -178,7 +179,10 @@ export async function runSource(
         remembered = { memory };
       },
       isOurs: dependencies.isOurs ?? (() => true),
-      pageBudget: dependencies.pageBudget ?? UNLIMITED,
+      pageBudget:
+        dependencies.pageBudgetFor?.(groupOf(adapter)) ??
+        dependencies.pageBudget ??
+        UNLIMITED,
       pageFacts: dependencies.pageFacts ?? NO_PAGE_FACTS,
       shown: dependencies.shown?.ids ?? null,
       backlog: (pages) => {
@@ -269,9 +273,30 @@ export interface RunDependencies {
   readonly shown?: ShownOffers | null;
   readonly pageBudget?: PageBudget;
   readonly pageFacts?: (html: string) => PageFacts;
-  // Sources read at once (default 1). The polite client behind `http` is shared, so the pace of
+  // Sources read at once (default 1; the legacy's lanes, 32). The polite client behind `http` is shared, so the pace of
   // each host, server and provider and the connection caps hold however many run.
   readonly concurrency?: number;
+  // At most so many sources of a group at once (`default` for a group not named): an ATS serves every board from one
+  // host, the employers' sites are a new connection each (the legacy's in_flight, career sites FR-6, FR-7).
+  readonly inFlight?: Readonly<Record<string, number>>;
+  // No source starts after this time (the legacy's: none after minute 50 of the hour's run).
+  readonly startUntil?: Date;
+  // A group's own page budget (the portals' 30,000, the employers' sites' 40,000), else `pageBudget`.
+  readonly pageBudgetFor?: (group: string) => PageBudget | undefined;
+  // The queue's order (career sites FR-6): a source's worth, the never-read sources a run, the place for those that
+  // show nothing. Without it every source is worth the same and every never-read one is taken.
+  readonly queue?: Pick<QueueRules, "worth" | "newARun" | "noneEvery">;
+}
+
+// A source's group, as the legacy's queue and lanes knew them: an employer's careers site, a board's platform, the
+// portals, the intermediaries, the feeds.
+export function groupOf(adapter: SourceAdapter): string {
+  const { id, kind } = adapter.definition;
+  if (kind === "portal") return "portals";
+  if (kind === "via") return "via";
+  if (kind === "careers")
+    return id.startsWith("careers.") ? "careers" : (id.split(".")[0] ?? id);
+  return "feeds";
 }
 
 export interface RunResult {
@@ -331,11 +356,21 @@ export async function runDue(
   const withAdvertsHours = dependencies.rulesFor(
     allowed[0]?.definition.id ?? "",
   ).withAdvertsHours;
-  const due = selectDue(
-    allowed.map((adapter) => ({ id: adapter.definition.id, adapter })),
+  const due = dueQueue(
+    allowed.map((adapter) => ({
+      id: adapter.definition.id,
+      group: groupOf(adapter),
+      cadenceHours: dependencies.rulesFor(adapter.definition.id).cadenceHours,
+      adapter,
+    })),
     states,
-    clock.now(),
-    withAdvertsHours,
+    {
+      now: clock.now(),
+      worth: dependencies.queue?.worth ?? (() => 1),
+      newARun: dependencies.queue?.newARun ?? Infinity,
+      noneEvery: dependencies.queue?.noneEvery ?? 5,
+      ...(withAdvertsHours ? { withAdvertsHours } : {}),
+    },
   ).map((entry) => entry.adapter);
   log(`${due.length} of ${adapters.length} sources due`);
   return runSources([...unreadable, ...notAllowed, ...due], dependencies);
@@ -365,26 +400,60 @@ export async function runSources(
   adapters: readonly SourceAdapter[],
   dependencies: RunDependencies,
 ): Promise<RunResult> {
-  const { stopSwitch, log } = dependencies;
+  const { stopSwitch, log, clock } = dependencies;
   const workers = Math.max(1, dependencies.concurrency ?? 1);
   const results: (SourceRunResult | undefined)[] = adapters.map(
     () => undefined,
   );
-  let next = 0;
+  const groups = adapters.map(groupOf);
+  const limitOf = (group: string) =>
+    dependencies.inFlight?.[group] ??
+    dependencies.inFlight?.["default"] ??
+    Infinity;
+  const running = new Map<string, number>();
+  // The sources not started yet, in the order given: each worker takes the first whose group has room.
+  const waiting = adapters.map((_, index) => index);
   let stopped = false;
+  let overtime = false;
+  // A worker that finds every waiting source's group full waits for one to finish.
+  let finish = Promise.withResolvers<void>();
+  const oneFinished = () => {
+    finish.resolve();
+    finish = Promise.withResolvers<void>();
+  };
 
   async function work(): Promise<void> {
-    while (!stopped && next < adapters.length) {
+    while (!stopped && waiting.length > 0) {
       if (await stopSwitch.isActive()) {
         if (!stopped) log("the stop switch is active: no further source runs");
         stopped = true;
         return;
       }
+      if (
+        dependencies.startUntil &&
+        clock.now().getTime() >= dependencies.startUntil.getTime()
+      ) {
+        if (!overtime)
+          log(
+            `the run's minutes are over: ${waiting.length} sources left for the next run`,
+          );
+        overtime = true;
+        return;
+      }
       // The switch is read asynchronously: another worker may have taken the turn meanwhile.
-      if (stopped || next >= adapters.length) return;
-      const index = next++;
+      if (stopped || waiting.length === 0) return;
+      const at = waiting.findIndex(
+        (index) => (running.get(groups[index]!) ?? 0) < limitOf(groups[index]!),
+      );
+      if (at < 0) {
+        await finish.promise;
+        continue;
+      }
+      const index = waiting.splice(at, 1)[0]!;
       const adapter = adapters[index]!;
+      const group = groups[index]!;
       const source = adapter.definition.id;
+      running.set(group, (running.get(group) ?? 0) + 1);
       let result: SourceRunResult;
       try {
         result = await runAndRecord(adapter, dependencies);
@@ -402,6 +471,9 @@ export async function runSources(
           changed: false,
           reason,
         };
+      } finally {
+        running.set(group, (running.get(group) ?? 1) - 1);
+        oneFinished();
       }
       results[index] = result;
       if (result.outcome === "stopped") stopped = true;

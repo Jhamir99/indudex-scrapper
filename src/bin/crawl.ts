@@ -23,6 +23,7 @@ import { FileAdvertStore } from "../shared/storage/file-advert-store.js";
 import { FileRobotsMemory } from "../shared/storage/robots-memory.js";
 import { publishedDirectory } from "../shared/storage/published-dataset.js";
 import { readShownOffers } from "../shared/storage/shown-offers.js";
+import { worthOf } from "../features/crawl-core/queue.js";
 import { FileStopSwitch } from "../shared/storage/file-stop-switch.js";
 import { FileRatesKeeper } from "../shared/storage/kept-rates.js";
 import { environmentWithDotEnv } from "./dot-env.js";
@@ -62,6 +63,15 @@ try {
   );
   // A crawl started by hand and the cron's never run at once over one store.
   const release = await lockFolder(directory, "crawl");
+  // What the published version in place shows: a careers site asks again only what the site shows (career sites FR-8),
+  // and the queue reads first the sources that show offers (FR-6); none before the first publication.
+  const shown = await readShownOffers(publishedDirectory(environment));
+  const budgets = new Map(
+    Object.entries(config.run.pageBudgets).map(([group, pages]) => [
+      group,
+      pageBudget(pages),
+    ]),
+  );
   const { http, close } = politeHttpClient(
     config,
     clock,
@@ -88,10 +98,22 @@ try {
         confirmedTitles: await readCatalogue("confirmedTitles"),
       }),
       pageBudget: pageBudget(config.run.pageBudget),
+      pageBudgetFor: (group: string) => budgets.get(group),
+      inFlight: config.run.inFlight,
+      ...(config.run.minutes
+        ? {
+            startUntil: new Date(
+              clock.now().getTime() + (config.run.minutes - 5) * 60_000,
+            ),
+          }
+        : {}),
+      queue: {
+        worth: (id: string) => worthOf(shown?.bySource ?? null, id),
+        newARun: config.run.newARun ?? Infinity,
+        noneEvery: config.run.noneEvery,
+      },
       pageFacts: readPageFacts,
-      // What the published version in place shows: a careers site asks again only what the site shows (career sites
-      // FR-8); none before the first publication.
-      shown: await readShownOffers(publishedDirectory(environment)),
+      shown,
       rates: new FileRatesKeeper(directory, clock),
     });
     const counts = new Map<string, number>();

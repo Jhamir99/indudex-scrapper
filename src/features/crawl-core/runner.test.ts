@@ -283,6 +283,43 @@ describe("runSources: concurrency", () => {
     expect(result.stopped).toBe(false);
   });
 
+  it("holds a group to its sources at once, the others reading beside it (career sites FR-7)", async () => {
+    const { dependencies } = runSetup();
+    const gate = { open: 0, peak: 0 };
+    const other = { open: 0, peak: 0 };
+    // Three sources of one group ("feeds", their kind) and one portal, four lanes, one feed at a time.
+    const feeds = ["a", "b", "c"].map((id) => slowAdapter(id, gate));
+    const portal = slowAdapter("portal.example", other);
+    const asPortal = {
+      ...portal.adapter,
+      definition: { ...portal.adapter.definition, kind: "portal" as const },
+    };
+    const running = runSources(
+      [...feeds.map(({ adapter }) => adapter), asPortal],
+      { ...dependencies, concurrency: 4, inFlight: { feeds: 1 } },
+    );
+    await settle();
+    expect([gate.open, other.open]).toEqual([1, 1]);
+    for (const { finish } of feeds) finish();
+    portal.finish();
+    await running;
+    expect(gate.peak).toBe(1);
+  });
+
+  it("starts no source once the run's minutes are over", async () => {
+    const { clock, dependencies, logs } = runSetup();
+    const all = ["a", "b"].map((id) => slowAdapter(id, { open: 0, peak: 0 }));
+    all.forEach(({ finish }) => finish());
+    const result = await runSources(
+      all.map(({ adapter }) => adapter),
+      { ...dependencies, startUntil: clock.now() },
+    );
+    expect(result.sources).toEqual([]);
+    expect(logs).toContain(
+      "the run's minutes are over: 2 sources left for the next run",
+    );
+  });
+
   it("reads one source at a time by default", async () => {
     const { dependencies } = runSetup();
     const gate = { open: 0, peak: 0 };
@@ -516,13 +553,14 @@ describe("runDue: scheduling (FR-3, FR-6)", () => {
 
     const result = await runDue([slow, fresh, daily], deps);
 
+    // The legacy's order: the sources already overdue, then the never-read ones (career sites FR-6).
     expect(result.sources.map((source) => source.source)).toEqual([
-      "fresh",
       "daily",
+      "fresh",
     ]);
     expect(http.requests.map((request) => request.url)).toEqual([
-      "https://fresh.example/feed",
       "https://daily.example/feed",
+      "https://fresh.example/feed",
     ]);
     expect(slow.runs).toBe(1);
     expect((await store.readState("slow"))?.lastRunAt).toBe(

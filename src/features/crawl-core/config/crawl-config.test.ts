@@ -24,7 +24,23 @@ describe("config/crawl.yml (FR-3, FR-5, FR-6)", () => {
     expect(config.pace.perHost).toEqual({ gapMs: 3000, inFlight: 1 });
     expect(config.connections).toEqual({ maxOpen: 16, newPerSecond: 2 });
     expect(config.errorBudget).toEqual({ errors: 3, windowMinutes: 10 });
-    expect(config.run).toEqual({ concurrency: 4, pageBudget: 30_000 });
+    expect(config.run).toEqual({
+      concurrency: 32,
+      pageBudget: 30_000,
+      pageBudgets: { portals: 30_000, careers: 40_000 },
+      minutes: 55,
+      inFlight: {
+        default: 2,
+        careers: 12,
+        feeds: 2,
+        via: 1,
+        portals: 8,
+        join: 2,
+        manatal: 1,
+      },
+      newARun: 300,
+      noneEvery: 5,
+    });
   });
 
   it("takes per-source cadences", () => {

@@ -101,11 +101,31 @@ pace:
     candidat.francetravail.fr: 500
 
 run:
-  # Sources read at once, so a long pass (VDAB, Infopraca, Kuntarekry) does not hold up the rest.
-  # Each site keeps its own pace whatever this is; mpsv alone peaks near 1.1 GB.
-  concurrency: 4
-  # Pages a run may read across its sources: the legacy's 30,000 portal pages.
+  # Sources read at once: the legacy's 32 lanes (what our address sends in all, which shared reputation lists judge).
+  # Each site keeps its own pace whatever this is; a group's own limit below holds it (mpsv alone peaks near 1.1 GB,
+  # and the feeds read two at a time).
+  concurrency: 32
+  # Pages a run may read across its sources: the legacy's 30,000 portal pages, and the employers' sites' 40,000.
   pageBudget: 30000
+  pageBudgets:
+    portals: 30000
+    careers: 40000
+  # The hourly run's minutes: no source starts in its last five.
+  minutes: 55
+  # At most so many sources of a group at once (the legacy's in_flight): an ATS serves every board from one host, and
+  # each employer's site is a new connection to a new server.
+  inFlight:
+    default: 2
+    careers: 12
+    feeds: 2
+    via: 1
+    portals: 8
+    join: 2
+    manatal: 1
+  # Never-read sources a run (a first read knocks on dead sites, whose error answers firewalls report), and one place
+  # in five of the queue for the sources that show no offer.
+  newARun: 300
+  noneEvery: 5
 
 connections:
   # At about 7 new connections a second the legacy's home router dropped them all.

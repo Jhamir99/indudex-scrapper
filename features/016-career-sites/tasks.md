@@ -24,7 +24,7 @@ Generated from `spec.md` and `plan.md` (2026-11-27). Each task ends with the CI'
 - [x] **T005 — What the site shows** · FR-8 · Depends: T004
       Done when: the crawl reads the published version in place once a run; a shown vacancy is asked again and one not
       shown is not; with no version everything is asked.
-- [ ] **T006 — The legacy's queue** · FR-6 · Depends: T005
+- [x] **T006 — The legacy's queue** · FR-6 · Depends: T005
       Done when: selection follows the legacy's `due` (worth, one in five for sources that show nothing, never-read
       sources capped a run by group in turn, reading-on last), compared with the legacy's function on the same inputs;
       the run's lanes, minutes and page budgets at the legacy's values in `crawl.yml`.
@@ -96,3 +96,15 @@ and, per source, its offers, those in Spain and those in Catalonia (the legacy's
 here read from the version itself: 70,439 ids of 38 sources in 0.3 s). crawl-core hands the ids to every source
 (`context.shown`, null before the first publication) and the careers family gives them to the legacy's reader
 (`useShown`), whose own rules ask again only a vacancy the site shows; the counts per source are T006's queue's.
+
+T006 (2026-11-27). crawl-core's `dueQueue` is the legacy's `due`: what the site shows first (Catalonia's, Spain's, the
+rest's, from the published version's counts), the most overdue first, one place in five for the sources that show
+nothing, never-read sources capped a run and taken a group at a time, a source reading on (well within its cadence)
+last. Compared with the legacy's function on 3,000 random sources and states: the same 2,552 due, in the same order.
+The runner takes them in lanes (`run.concurrency`, the legacy's 32) with a limit per group (`run.inFlight`: careers
+12, portals 8, feeds 2, via 1, join 2, manatal 1, default 2), starts none in the run's last five minutes
+(`run.minutes` 55), and gives a group its page budget (`run.pageBudgets`: portals 30,000, careers 40,000); never-read
+sources 300 a run (`run.newARun`). A source's group: an employer's site `careers`, a board its platform, `portals`,
+`via`, `feeds`. A live run of 90 s on an empty store: 300 due, 96 stored, 5 empty, 17 failed; every Workday board on
+`wd3` failed at once because one robots.txt answered 429 and our hold refused the others, each counted a failure,
+where the legacy postpones a source a held server cuts short (no failure, back after the hold): T007.

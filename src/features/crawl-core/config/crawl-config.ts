@@ -45,13 +45,28 @@ export const CrawlConfig = z.strictObject({
   }),
   run: z
     .strictObject({
-      // Sources read at once. Each site keeps its own pace (`pace`, `connections`) however many
+      // Sources read at once (the legacy's lanes). Each site keeps its own pace (`pace`, `connections`) however many
       // run; this only keeps one slow source (an hour's pass) from holding up the others.
       concurrency: z.int().positive(),
-      // Pages a run may read across its sources (job portals FR-5).
+      // Pages a run may read across its sources (job portals FR-5), and per group (career sites FR-6): the portals'
+      // and the employers' sites' own; a group not named draws from `pageBudget`.
       pageBudget: z.int().positive().default(30_000),
+      pageBudgets: z.record(z.string(), z.int().positive()).default({}),
+      // The run's minutes: no source starts in its last five (the legacy's 55, none after minute 50).
+      minutes: z.int().positive().optional(),
+      // At most so many sources of a group at once, `default` for the rest (the legacy's in_flight).
+      inFlight: z.record(z.string(), z.int().positive()).default({}),
+      // Never-read sources a run, and one place in so many of the queue for the sources that show nothing.
+      newARun: z.int().positive().optional(),
+      noneEvery: z.int().positive().default(5),
     })
-    .default({ concurrency: 4, pageBudget: 30_000 }),
+    .default({
+      concurrency: 4,
+      pageBudget: 30_000,
+      pageBudgets: {},
+      inFlight: {},
+      noneEvery: 5,
+    }),
   // 4xx answers a server may give within the window before it is asked nothing more.
   errorBudget: z.strictObject({
     errors: z.int().positive(),
