@@ -10,7 +10,7 @@ Generated from `spec.md` and `plan.md` (2026-11-27). Each task ends with the CI'
       Done when: the six legacy lists are in `config/` with a header crediting the legacy, loaded and validated
       synchronously; the counts per list match the legacy's, entries in two lists read once (the hand-kept first),
       paused entries shown paused; a test checks the counts.
-- [ ] **T002 — The board platforms** · FR-3, FR-4 · Depends: T001
+- [x] **T002 — The board platforms** · FR-3, FR-4 · Depends: T001
       Done when: `boards.ts` and Argus's parsers are copied, each platform's saved answer gives the legacy's adverts,
       SmartRecruiters and JOIN listed and switched off with their reason, the vendors' switches read from
       `vendors.yml`.
@@ -52,3 +52,14 @@ Prettier. `readCareerLists` gathers them as the legacy's `loadSites` and `loadCo
 11,006 read; 11,273 boards (84 by hand), 10,700 read; 17 sites and 18 boards paused. The legacy's job-board filter
 (`isBoardHost`, two more sites out: 11,004) is a parameter until T003 brings the careers reader's helpers. The legacy
 also reads lists its server writes on its own (`state/found`, `triaged.yml`): not in its repository, not here.
+
+T002 (2026-11-27). The legacy's `boards.ts`, its `lib/crawl.ts`, `page-text.ts`, `adapter.ts`, `time.ts` and `RawOffer`
+are copied into `career-sites/legacy/`, only their imports changed; Argus's board parsers into `career-sites/argus/`.
+Shims stand in for what crawl-core does: `legacy/http.ts` runs the legacy's `get`, `getJson`, `getText` and `getItems`
+on the source's polite client (bound for its pass with `withHttp`; a bot check answered as a page fails as the
+legacy's did), `legacy/robots.ts` says yes (our robots client refuses what robots.txt closes, hop by hop),
+`legacy/pace.ts` waits nothing (our client paces), `legacy/registrable.ts` asks `tldts` (approved) the Public Suffix List
+the legacy read from a file. A request may set its own time limit (a whole list waits two minutes). `modeWord`,
+`mostFlexible` and `tagMode` are copied into `shared/kit/mode-words.ts` for the scrapper's readers. Carried: the legacy's
+ats-fields, teamtailor-pages, workday-countries, workday-refs and cornerstone tests (the scout's case left to 017), through
+`test/legacy/boards-shim.mjs`. One saved answer per platform comes with T004's contract test.

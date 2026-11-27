@@ -20,6 +20,9 @@ export interface HttpRequestOptions {
   // Asked before each redirect is followed, with the address it leads to: the robots client checks that hop's
   // robots.txt and throws to stop there. Without it, redirects are followed as fetch follows them.
   readonly checkHop?: (url: string) => Promise<void>;
+  // The time an answer may take, its body included, when not the client's: a whole list in one answer (a feed, a
+  // board's list) grows with the list (the legacy's LIST_WAIT_MS, two minutes).
+  readonly timeoutMs?: number;
 }
 
 // Redirects a request follows at most, as fetch does.
@@ -97,7 +100,8 @@ export class FetchClient {
     options: HttpRequestOptions,
     attempt: number,
   ): Promise<HttpResponse | HttpFailure> {
-    const { timeoutMs, clock } = this.settings;
+    const { clock } = this.settings;
+    const timeoutMs = options.timeoutMs ?? this.settings.timeoutMs;
     const fail = (
       kind: HttpFailureKind,
       status?: number,

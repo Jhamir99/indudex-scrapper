@@ -52,7 +52,12 @@
         "src/features/pay/pay.ts",
         "src/features/pay/text-pay.ts",
         "src/features/advert-facts/tools.ts",
-        "src/features/places/false-town.ts"
+        "src/features/places/false-town.ts",
+        "src/features/career-sites/legacy/boards.ts",
+        "src/features/career-sites/legacy/crawl.ts",
+        "src/features/career-sites/legacy/page-text.ts",
+        "src/features/career-sites/argus/**",
+        "src/shared/kit/mode-words.ts"
       ],
       "rules": {
         "unicorn/consistent-function-scoping": "off",
@@ -61,7 +66,9 @@
         "unicorn/prefer-string-starts-ends-with": "off",
         "unicorn/no-useless-fallback-in-spread": "off",
         "unicorn/no-useless-spread": "off",
-        "no-control-regex": "off"
+        "no-control-regex": "off",
+        "no-unmodified-loop-condition": "off",
+        "import/no-named-as-default-member": "off"
       }
     }
   ]
