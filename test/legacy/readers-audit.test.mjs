@@ -8,7 +8,7 @@ import http from "node:http";
 import { vacanciesPath, oneLanguage, readSite } from "./careers-shim.mjs";
 import { ATS, wrapBoardAdvert, readBoard } from "./boards-shim.mjs";
 import { without, guessPosting } from "../../src/shared/kit/layout.ts";
-import { get, useLookup } from "./careers-shim.mjs";
+import { useLookup } from "./careers-shim.mjs";
 
 useLookup(() => []);
 

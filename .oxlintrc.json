@@ -18,7 +18,9 @@
         "unicorn/no-array-sort": "off",
         "no-shadow": "off",
         "unicorn/consistent-function-scoping": "off",
-        "unicorn/no-array-reverse": "off"
+        "unicorn/no-array-reverse": "off",
+        "no-underscore-dangle": "off",
+        "unicorn/prefer-string-starts-ends-with": "off"
       }
     },
     {
