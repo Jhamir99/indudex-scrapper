@@ -36,6 +36,8 @@ const ROBOTS_MAX_CHARACTERS = 500 * 1024;
 // 2.3.1.4; the legacy's 4fbb1c49). Without a memory, a silent robots.txt allows nothing.
 export class RobotsClient {
   private readonly cache = new Map<string, Promise<Robots>>();
+  // The rules already read, by origin: what a redirect's hop may wait for.
+  private readonly read = new Map<string, Robots>();
 
   constructor(
     private readonly inner: Requester,
@@ -45,6 +47,10 @@ export class RobotsClient {
       readonly onRobots?: (host: string, robots: Robots) => void;
       readonly memory?: RobotsMemory;
       readonly now?: () => number;
+      // Who asks a redirect hop's robots.txt: not the paced client, whose lanes the request being redirected still
+      // holds (a hop to another host on the same server waited for its own lane for ever: four jobs2web sites hung a
+      // run on 28 November 2026). The legacy asked a hop's robots.txt with no gap too (builder/http.ts `mayGo`).
+      readonly hopRequester?: Requester;
     } = {},
   ) {}
 
@@ -57,12 +63,12 @@ export class RobotsClient {
     // November 2026: jcyl's dataset redirected to a host whose /api/ is closed).
     return this.inner.request(url, {
       ...options,
-      checkHop: (next) => this.checkAllowed(next),
+      checkHop: (next) => this.checkAllowed(next, true),
     });
   }
 
-  private async checkAllowed(url: string): Promise<void> {
-    const robots = await this.robotsFor(url);
+  private async checkAllowed(url: string, hop = false): Promise<void> {
+    const robots = hop ? await this.hopRobots(url) : await this.robotsFor(url);
     if (!isAllowed(robots, robotsPath(url)))
       throw new HttpFailure("disallowed", addressForLog(url), 0);
   }
@@ -78,21 +84,39 @@ export class RobotsClient {
     return robots;
   }
 
-  private async fetchRobots(origin: string): Promise<Robots> {
+  // A hop's rules: those already read, else its robots.txt asked outside the paced lanes; never a read still waiting
+  // for a lane, which may wait behind the very request being redirected.
+  private async hopRobots(url: string): Promise<Robots> {
+    const { origin } = new URL(url);
+    const known = this.read.get(origin);
+    if (known) return known;
+    if (!this.options.hopRequester) return this.robotsFor(url);
+    const robots = await this.fetchRobots(origin, this.options.hopRequester);
+    if (!this.cache.has(origin))
+      this.cache.set(origin, Promise.resolve(robots));
+    return robots;
+  }
+
+  private async fetchRobots(
+    origin: string,
+    requester: Requester = this.inner,
+  ): Promise<Robots> {
     const { memory } = this.options;
     const read = (text: string) => {
       const robots = parseRobots(text, this.options.botNames ?? BOT_NAMES);
+      this.read.set(origin, robots);
       this.options.onRobots?.(new URL(origin).hostname, robots);
       return robots;
     };
     let text: string;
     try {
-      const response = await this.inner.request(`${origin}/robots.txt`);
+      const response = await requester.request(`${origin}/robots.txt`);
       text = response.body.slice(0, ROBOTS_MAX_CHARACTERS);
     } catch (error) {
       if (!(error instanceof HttpFailure)) throw error;
       if (error.kind === "client-error") {
         await memory?.heard(origin, "");
+        this.read.set(origin, ALLOW_ALL);
         return ALLOW_ALL;
       }
       if (!memory || error.kind === "held" || error.kind === "rate-limited")

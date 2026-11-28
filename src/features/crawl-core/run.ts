@@ -145,6 +145,7 @@ export function politeHttpClient(
     },
   });
   const http = new RobotsClient(paced, {
+    hopRequester: fetchClient,
     onRobots: (host, robots) => {
       if (robots.crawlDelay > 0) paced.slowHost(host, robots.crawlDelay);
     },

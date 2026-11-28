@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { HttpClient } from "../../features/crawl-core/ports.js";
 import { FakeHttpClient } from "../../../test/fakes/http-client.js";
 import { HttpFailure } from "./http-failure.js";
+import { PacedClient } from "./paced-client.js";
 import { RobotsClient, type RobotsMemory } from "./robots-client.js";
 
 const SITE = "https://jobs.example.com";
@@ -247,5 +248,53 @@ describe("a redirect to another host (the operator's call of 27 November 2026)",
     expect(failure.message).toBe(
       `robots.txt disallows ${OTHER}/api/export.json`,
     );
+  });
+
+  it("asks a hop's robots.txt outside the lanes its redirected request holds, so a hop on the same server never waits for ever", async () => {
+    const A = "https://a.jobs2web.example";
+    const B = "https://b.jobs2web.example";
+    const clock = {
+      now: () => new Date(),
+      sleep: (ms: number) => new Promise<void>((wake) => setTimeout(wake, ms)),
+    };
+    const answers: Record<string, string> = {
+      [`${A}/robots.txt`]: "User-agent: *\nAllow: /\n",
+      [`${B}/robots.txt`]: "User-agent: *\nAllow: /\n",
+    };
+    const asked: string[] = [];
+    // The network: a page of A redirects to B, both hosts on one server.
+    const network = {
+      request: async (
+        url: string,
+        options?: { checkHop?: (next: string) => Promise<void> },
+      ) => {
+        asked.push(url);
+        if (answers[url])
+          return { status: 200, url, headers: {}, body: answers[url]! };
+        await options?.checkHop?.(`${B}/job/1`);
+        return {
+          status: 200,
+          url: `${B}/job/1`,
+          headers: {},
+          body: "<html></html>",
+        };
+      },
+    };
+    const paced = new PacedClient(network, {
+      clock,
+      perHost: { gapMs: 0, inFlight: 1 },
+      perServer: { gapMs: 0, inFlight: 1 },
+      perProvider: { gapMs: 0, inFlight: 1 },
+      errorBudget: { errors: 3, windowMs: 600_000 },
+      resolve: async () => "10.0.0.7",
+    });
+    const client = new RobotsClient(paced, { hopRequester: network });
+    // B is known on the server first (its robots.txt not read yet), so A's page holds the server's lane.
+    await paced.request(`${B}/robots.txt`);
+    asked.length = 0;
+    const read = client.request(`${A}/job/1`);
+    const late = new Promise((done) => setTimeout(() => done("hung"), 2000));
+    expect(await Promise.race([read.then((r) => r.status), late])).toBe(200);
+    expect(asked).toEqual([`${A}/robots.txt`, `${A}/job/1`, `${B}/robots.txt`]);
   });
 });
