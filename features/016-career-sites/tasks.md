@@ -38,10 +38,10 @@ Generated from `spec.md` and `plan.md` (2026-11-27). Each task ends with the CI'
 - [x] **T009 — End to end on fixtures** · FR-11, FR-12 · Depends: T007, T008
       Done when: one run on fakes with a careers site, a platform site, a board of each platform, a vendor, a barren
       site, a failing source, a takedown and the stop switch ends with the expected states and adverts.
-- [ ] **T010 — Live pass** · FR-13 · Depends: T009
+- [x] **T010 — Live pass** · FR-13 · Depends: T009
       Done when: every platform and vendor switched on and about 300 careers sites read live into a temporary store; the
       result per platform and list recorded below.
-- [ ] **T011 — Close** · FR-1 to FR-13 · Depends: T010
+- [x] **T011 — Close** · FR-1 to FR-13 · Depends: T010
       Done when: the completion criteria hold; `CLAUDE.md`, `MEMORY.md` and `features/README.md` updated.
 
 ## Notes
@@ -140,3 +140,31 @@ sites of each shape and softgarden's vendor site) is stored with a country, due 
 vacancy pages carry no advert is read empty and back in a week; a board that does not answer fails and is back in a
 day; nothing is due an hour later; a source taken down is disabled with its adverts gone, an advert taken down leaves
 its source's set; with the stop switch set nothing runs and no state changes.
+
+T010 (2026-11-27 to 28). A sample read live into a store of its own (scratchpad `career-pass/`) as the hourly run
+reads it: the crawl's polite client, lanes, budgets, deadlines, gate reading and country reader; 100 sites of the
+hand-kept list, 100 the scout found, 100 on 22 vendors' platforms, five boards of each of the 12 platforms. 340
+sources read: 218 stored, 94 empty, 17 failed, 11 postponed; 7,076 adverts, 6,133 in Europe, 766 outside it, 15 remote,
+162 with no country read.
+
+| Read                          | Sources | Stored | Empty | Failed | Postponed | Adverts | Outside Europe |
+| ----------------------------- | ------- | ------ | ----- | ------ | --------- | ------- | -------------- |
+| Hand-kept sites               | 100     | 68     | 32    | 0      | 0         | 799     | 6              |
+| Sites the scout found         | 87      | 22     | 44    | 12     | 9         | 1,551   | 125            |
+| Vendors' sites (22 platforms) | 100     | 85     | 15    | 0      | 0         | 1,548   | 195            |
+| Boards, 11 platforms          | 48      | 43     | 3     | 2      | 0         | 3,178   | 440            |
+| Workday boards                | 5       | 0      | 0     | 3      | 2         | 0       | 0              |
+
+At the legacy's pace (a page every 3 s, 12 sites at once) a run reads about 70 sites that are new: the sample took
+three passes, of 53, 76 and 19 minutes. Found on the way, and fixed: Workday, behind Cloudflare, answers 429 to every
+unsigned request, where the legacy signed each one with its bot key (Web Bot Auth, now `shared/http/bot-signature.ts`,
+signed when `BOT_SIGNING_KEY` is in `.env`: the operator copies the legacy server's, whose public half indudex.com
+publishes); and a redirect to another host on the same server waited for ever for the lane its own request held (four
+jobs2web sites hung the run): a hop's robots.txt is asked outside the paced lanes. Workday is to be read again once the
+key is in `.env`. Left as the legacy reads them: gestmax's five sites empty, umantis's and talentsoft's adverts mostly
+with no country (their places name only a town or nothing, on `.com` hosts), kept as not stated since they are sites,
+not boards; the scout's sites fail most (12 of 87: no answer, 404s), as the legacy's park them.
+
+T011 (2026-11-28). Closed: `CLAUDE.md` names the feature's files and crawl-core's, places' and shared/http's
+additions, `features/README.md` marks it done, `MEMORY.md` keeps what is left: Workday read again once
+`BOT_SIGNING_KEY` is in `.env`.

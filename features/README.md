@@ -29,7 +29,7 @@ A feature starts when the ones before it are closed. The order reaches a first p
 | 013 | [closed-adverts](013-closed-adverts/)             | processor | done        | Adverts whose page or title says the job is filled                                                               |
 | 014 | [credentialed-sources](014-credentialed-sources/) | scrapper  | done        | Sources behind a key (NAV, Jooble, partner feeds; Adzuna flagged), delivered disabled                            |
 | 015 | [job-portals](015-job-portals/)                   | scrapper  | done        | Portals and agencies under the legacy's rule (211 of 865), remote boards, France Travail; a backlog between runs |
-| 016 | [career-sites](016-career-sites/)                 | scrapper  | in progress | Employers' careers sites, platform sites, 28 ATS boards and JS vendors as data (~26,000), at the legacy's pace   |
+| 016 | [career-sites](016-career-sites/)                 | scrapper  | done        | Employers' careers sites, platform sites, 28 ATS boards and JS vendors as data (~26,000), at the legacy's pace   |
 | 017 | [source-discovery](017-source-discovery/)         | scrapper  | outline     | Hunter and scouts that find new careers sites and boards                                                         |
 | 018 | [legacy-resync](018-legacy-resync/)               | both      | done        | Every ported module brought up to the legacy's current behaviour (done before 016)                               |
 | 019 | catalogue-tools                                   | processor | planned     | The legacy's tools that rebuild the catalogues (isco-esco, places, NUTS, occupations, families, title indexes)   |
