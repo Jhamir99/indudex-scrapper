@@ -3,6 +3,7 @@ import {
   ConnectionGate,
   watchFetchConnections,
 } from "../../shared/http/connection-gate.js";
+import { requestHeaders, signingKey } from "../../shared/http/bot-signature.js";
 import { FetchClient } from "../../shared/http/fetch-client.js";
 import { PacedClient } from "../../shared/http/paced-client.js";
 import {
@@ -25,6 +26,29 @@ export const USER_AGENT =
 
 // The project's contact address, sent as the `From` header (legacy CONTACT).
 export const CONTACT_ADDRESS = "contact@indudex.com";
+
+// The site that publishes the bot's key (legacy SITE_URL): `Signature-Agent` names it.
+export const SIGNATURE_AGENT = "https://indudex.com";
+
+// Each request signed with the bot's key when the environment holds one (BOT_SIGNING_KEY, legacy builder/http.ts
+// `fetchSigned`): a CDN in front of a site (Cloudflare before Workday) lets a verified bot through. Without the key,
+// nothing is signed. A key that cannot be read stops here: every request would go unsigned while the operator thinks
+// otherwise (the legacy's RAS-25).
+export function botSigner(
+  environment: Readonly<Record<string, string | undefined>>,
+): ((url: string) => Record<string, string>) | undefined {
+  let key: ReturnType<typeof signingKey>;
+  try {
+    key = signingKey(environment["BOT_SIGNING_KEY"] || undefined);
+  } catch (error) {
+    throw new UsageError(
+      `BOT_SIGNING_KEY in .env cannot be read (${error instanceof Error ? error.message : String(error)}): nothing is asked`,
+    );
+  }
+  if (!key) return undefined;
+  const agent = (environment["SITE_URL"] || SIGNATURE_AGENT).replace(/\/$/, "");
+  return (url) => requestHeaders(url, key, agent);
+}
 
 export class UsageError extends Error {
   override name = "UsageError";
@@ -95,11 +119,13 @@ export function politeHttpClient(
   config: CrawlConfig,
   clock: Clock,
   robotsMemory?: RobotsMemory,
+  sign?: (url: string) => Record<string, string>,
 ): { readonly http: HttpClient; readonly close: () => void } {
   const fetchClient = new FetchClient({
     clock,
     userAgent: USER_AGENT,
     from: CONTACT_ADDRESS,
+    ...(sign ? { sign } : {}),
   });
   const gate = new ConnectionGate(fetchClient, {
     clock,

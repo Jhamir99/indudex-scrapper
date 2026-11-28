@@ -20,7 +20,7 @@ Each line runs `node dist/bin/ops.js job <name>`: with `STOP` in place nothing b
 
 Linux with cron, util-linux (`flock`, `findmnt`, `lsblk`), GNU tar, Node (the version in `.nvmrc`), pnpm, the GitHub CLI and smartmontools.
 
-1. Clone the repo and write `.env` from `.env.example`: `NTFY_TOPIC` (a long random name; subscribe to it in the ntfy app), `BACKUP_REPO` (a private repository with at least one commit, e.g. `owner/indudex-backups`), and the paths if not the defaults.
+1. Clone the repo and write `.env` from `.env.example`: `NTFY_TOPIC` (a long random name; subscribe to it in the ntfy app), `BOT_SIGNING_KEY` (the bot's signing key, the legacy server's), `BACKUP_REPO` (a private repository with at least one commit, e.g. `owner/indudex-backups`), and the paths if not the defaults.
 2. `gh auth login` as a user that can write to `BACKUP_REPO`'s releases.
 3. Let the watch read the SSD's health without a password: `sudo visudo -f /etc/sudoers.d/smartctl` with `<user> ALL=(root) NOPASSWD: /usr/bin/env LC_ALL=C smartctl -H -A *`.
 4. `sh ops/deploy.sh`: installs, builds and writes the crontab's lines.
@@ -36,7 +36,9 @@ operator's Mac; nothing below was run on the server yet.
 2. `git clone https://github.com/Jhamir99/indudex-scrapper.git && cd indudex-scrapper`.
 3. Create the backup repository: `gh repo create <owner>/indudex-backups --private --add-readme` (one commit).
 4. `cp .env.example .env` and fill in `NTFY_TOPIC` (a long random name: `openssl rand -hex 16`) and `BACKUP_REPO`
-   (`<owner>/indudex-backups`). Leave the credentialed sources empty: they stay off.
+   (`<owner>/indudex-backups`), and copy `BOT_SIGNING_KEY` from the legacy server's `builder/.env` (the key whose
+   public half indudex.com publishes; without it Workday's boards answer 429). Leave the credentialed sources empty:
+   they stay off.
 5. In the ntfy app, subscribe to `NTFY_TOPIC`.
 6. `gh auth login`.
 7. The sudoers line for smartctl (step 3 of "Setting the server up").

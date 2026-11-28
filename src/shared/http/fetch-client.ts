@@ -55,6 +55,9 @@ export interface FetchClientOptions {
   readonly userAgent: string;
   // An address a site's operator can write to, sent as the `From` header (RFC 9110, 10.1.2).
   readonly from?: string;
+  // The headers that sign a request to an address (Web Bot Auth, bot-signature.ts), when the bot has its key: each hop of
+  // a redirect is then its own signed request, since a signature names the host it goes to.
+  readonly sign?: (url: string) => Readonly<Record<string, string>>;
   readonly timeoutMs?: number;
   readonly maxAttempts?: number;
   // The wait before the 2nd attempt; it grows by this much each time (1 s, 2 s...).
@@ -69,8 +72,10 @@ const DEFAULTS = { timeoutMs: 20_000, maxAttempts: 3, retryDelayMs: 1000 };
 // 5xx) and a typed failure for everything else. Pacing and robots.txt wrap around it.
 export class FetchClient {
   private readonly settings: Required<
-    Omit<FetchClientOptions, "fetch" | "from">
+    Omit<FetchClientOptions, "fetch" | "from" | "sign">
   >;
+  private readonly sign:
+    ((url: string) => Readonly<Record<string, string>>) | undefined;
   private readonly identity: Readonly<Record<string, string>>;
   private readonly fetch: FetchFunction;
 
@@ -81,6 +86,7 @@ export class FetchClient {
       ...(options.from ? { from: options.from } : {}),
     };
     this.fetch = options.fetch ?? ((url, init) => globalThis.fetch(url, init));
+    this.sign = options.sign;
   }
 
   async request(
@@ -160,8 +166,11 @@ export class FetchClient {
     options: HttpRequestOptions,
     signal: AbortSignal,
   ): Promise<Response> {
-    const headers = { ...this.identity, ...options.headers };
-    if (!options.checkHop)
+    let headers: Record<string, string> = {
+      ...this.identity,
+      ...options.headers,
+    };
+    if (!options.checkHop && !this.sign)
       return this.fetch(url, {
         method: options.method ?? "GET",
         headers,
@@ -175,7 +184,7 @@ export class FetchClient {
     for (let hop = 0; ; hop++) {
       const response = await this.fetch(at, {
         method,
-        headers,
+        headers: { ...headers, ...this.sign?.(at) },
         body,
         redirect: "manual",
         signal,
@@ -191,7 +200,12 @@ export class FetchClient {
       await response.body?.cancel().catch(() => {});
       if (hop >= MOST_HOPS) throw new Error("too many redirects");
       const next = new URL(location, at).href;
-      await options.checkHop(next);
+      await options.checkHop?.(next);
+      // A request's credentials stay behind on another origin, as fetch leaves them.
+      if (new URL(next).origin !== new URL(at).origin)
+        headers = Object.fromEntries(
+          Object.entries(headers).filter(([name]) => !PRIVATE.test(name)),
+        );
       if (
         response.status === 303 ||
         ((response.status === 301 || response.status === 302) &&
@@ -204,6 +218,8 @@ export class FetchClient {
     }
   }
 }
+
+const PRIVATE = /^(authorization|cookie|proxy-authorization)$/i;
 
 // A response with the address it came from, where the fetch function gave none.
 const withUrl = (response: Response, url: string): Response =>

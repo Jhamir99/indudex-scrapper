@@ -3,7 +3,7 @@
 // census is fetched through the polite client; the others are read from the files given.
 import { parseArgs } from "node:util";
 import { CrawlConfig } from "../features/crawl-core/config/crawl-config.js";
-import { politeHttpClient } from "../features/crawl-core/run.js";
+import { botSigner, politeHttpClient } from "../features/crawl-core/run.js";
 import {
   RegisterUsageError,
   runRegister,
@@ -37,6 +37,8 @@ try {
   const { http, close } = politeHttpClient(
     await loadConfig("crawl.yml", CrawlConfig),
     clock,
+    undefined,
+    botSigner(process.env),
   );
   try {
     await runRegister({

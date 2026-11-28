@@ -18,6 +18,7 @@ import { readCatalogue } from "../shared/catalogues/read-catalogue.js";
 import {
   crawl,
   parseCrawlArguments,
+  botSigner,
   politeHttpClient,
   UsageError,
 } from "../features/crawl-core/run.js";
@@ -78,6 +79,7 @@ try {
     config,
     clock,
     new FileRobotsMemory(directory),
+    botSigner(environment),
   );
   try {
     const result = await crawl(argumentsGiven, registeredAdapters, {
